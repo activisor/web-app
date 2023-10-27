@@ -1,6 +1,7 @@
 'use client'
 
 // import Image from 'next/image'
+import { useState } from 'react';
 import Button from '@mui/material/Button';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -10,26 +11,42 @@ import TextField from '@mui/material/TextField';
 import { DatePicker } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import ParticipantInput from '../components/participant-input';
+import ParticipantInput, { ParticipantInputProps, ADD_EVENT, DELETE_EVENT } from '../components/participant-input';
+import { subscribe } from '@/client-utilities/events';
 
 function handleChange(event: SelectChangeEvent) {
   console.log(event.target.value);
 }
 
 export default function Home() {
+  const initialParticipants : ParticipantInputProps[] = [];
+  const [participants, setParticipants] = useState(initialParticipants);
   const scheduleInputProps = {
     placeholder: 'Schedule Name',
     required: true,
     autoFocus: true
   };
 
-  const participantNameInputProps = {
-    placeholder: 'Participant Name'
-  };
+  const handleAddParticipant = (event : CustomEvent) => {
+    let tempParticipants : ParticipantInputProps[] = [...participants];
+    event.detail.saved = true;
+    tempParticipants.push(event.detail);
+    setParticipants(tempParticipants);
+  }
+  subscribe(ADD_EVENT, handleAddParticipant);
 
-  const participantEmailInputProps = {
-    placeholder: 'Participant Name'
-  };
+  const renderParticipants = () => {
+    return participants.map((participant, index) => {
+      return (
+        <ParticipantInput
+          key={index}
+          name={participant.name}
+          email={participant.email}
+          saved={participant.saved}
+        />
+      )
+    });
+  }
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
@@ -85,10 +102,10 @@ export default function Home() {
       <div>
         <h2>Participants</h2>
         <div id="existing-participants">
-          existing
+          {renderParticipants()}
         </div>
         <h3>Add another</h3>
-        <ParticipantInput name="Joe" email="test@test.com" saved={true}/>
+        <ParticipantInput name="" email="" saved={false}/>
       </div>
       <div>
         <Button variant="contained">Create Schedule</Button>
