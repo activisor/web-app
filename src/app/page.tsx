@@ -35,6 +35,15 @@ export default function Home() {
   }
   subscribe(ADD_EVENT, handleAddParticipant);
 
+  const handleDeleteParticipant = (event : CustomEvent) => {
+    let tempParticipants : ParticipantInputProps[] = [...participants];
+    tempParticipants = tempParticipants.filter((participant) => {
+      return participant.email !== event.detail.email;
+    });
+    setParticipants(tempParticipants);
+  }
+  subscribe(DELETE_EVENT, handleDeleteParticipant);
+
   const renderParticipants = () => {
     return participants.map((participant, index) => {
       return (

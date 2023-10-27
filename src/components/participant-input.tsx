@@ -48,7 +48,6 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
 
     const handleDeleteClick = (event: React.MouseEvent<HTMLButtonElement>) : void => {
         publish(DELETE_EVENT, props_);
-        alert('deleted');
     };
 
     return (
