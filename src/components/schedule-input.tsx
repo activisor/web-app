@@ -7,9 +7,9 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
-import { DatePicker } from '@mui/x-date-pickers';
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import ParticipantInput, { ParticipantInputProps, ADD_EVENT, CHANGE_EVENT, DELETE_EVENT } from '../components/participant-input';
 import { subscribe } from '../client-utilities/events';
 
@@ -76,14 +76,12 @@ const ScheduleInput: React.FC = () => {
         <div>
           <TextField id="schedule-name" type="text" inputProps={scheduleInputProps} />
         </div>
-{/*
         <div>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker label="Start on" />
             <DatePicker label="End by" />
           </LocalizationProvider>
         </div>
-  */}
         <div>
           <FormControl sx={{ m: 1, minWidth: 150 }}>
             <InputLabel id="size-select-label">Group Size</InputLabel>
