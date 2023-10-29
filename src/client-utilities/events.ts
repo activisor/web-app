@@ -1,6 +1,12 @@
-// pub-sub event system
+//import { useEffect } from 'react';
 
-const eventBus: Document = document;
+// pub-sub event system
+let eventBus: Document;
+
+useEffect(() => {
+    eventBus = document;
+}, []);
+
 
 function subscribe(eventName: string, listener: any) : void {
     eventBus.addEventListener(eventName, listener);

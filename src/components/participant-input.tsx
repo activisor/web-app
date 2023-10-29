@@ -5,7 +5,7 @@ import TextField from '@mui/material/TextField';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton/IconButton';
-import { publish } from '@/client-utilities/events';
+import { publish } from '../client-utilities/events';
 
 export interface ParticipantInputProps {
     name: string;
@@ -40,10 +40,12 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
 
     const handleAddClick = (event: React.MouseEvent<HTMLButtonElement>) : void => {
         publish(ADD_EVENT, props_);
-        let tempProps = { ...props_ };
-        tempProps.email = '';
-        tempProps.name = '';
-        setProps_(tempProps);
+        const initialProps : ParticipantInputProps = {
+            name: '',
+            email: '',
+            saved: false
+        };
+        setProps_(initialProps);
     };
 
     const handleDeleteClick = (event: React.MouseEvent<HTMLButtonElement>) : void => {
