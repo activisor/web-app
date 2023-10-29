@@ -13,10 +13,6 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import ParticipantInput, { ParticipantInputProps, ADD_EVENT, CHANGE_EVENT, DELETE_EVENT } from '../components/participant-input';
 import { subscribe } from '../client-utilities/events';
 
-function handleChange(event: SelectChangeEvent) {
-  console.log(event.target.value);
-}
-
 const ScheduleInput: React.FC = () => {
   const initialParticipants : ParticipantInputProps[] = [];
   const [participants, setParticipants] = useState(initialParticipants);
@@ -51,6 +47,10 @@ const ScheduleInput: React.FC = () => {
     setParticipants(tempParticipants);
   }
 
+  const handleChange = (event: SelectChangeEvent) => {
+    console.log(event.target.value);
+  }
+
   useEffect(() => {
     subscribe(ADD_EVENT, handleAddParticipant);
     subscribe(CHANGE_EVENT, handleChangeParticipant);
@@ -76,12 +76,14 @@ const ScheduleInput: React.FC = () => {
         <div>
           <TextField id="schedule-name" type="text" inputProps={scheduleInputProps} />
         </div>
+{/*
         <div>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker label="Start on" />
             <DatePicker label="End by" />
           </LocalizationProvider>
         </div>
+  */}
         <div>
           <FormControl sx={{ m: 1, minWidth: 150 }}>
             <InputLabel id="size-select-label">Group Size</InputLabel>
