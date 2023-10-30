@@ -11,7 +11,7 @@ export interface ParticipantInputProps {
     name: string;
     email: string;
     saved: boolean;
-    id: number;
+    id?: number;
 }
 
 export const ADD_EVENT = 'activisor:add-participant';
