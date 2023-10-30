@@ -11,6 +11,7 @@ export interface ParticipantInputProps {
     name: string;
     email: string;
     saved: boolean;
+    id: number;
 }
 
 export const ADD_EVENT = 'activisor:add-participant';
@@ -25,7 +26,7 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
         tempProps.email = event.target.value;
         setProps_(tempProps);
         if (props_.saved) {
-            publish(CHANGE_EVENT, props_);
+            publish(CHANGE_EVENT, tempProps);
         }
     };
 
@@ -34,7 +35,7 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
         tempProps.name = event.target.value;
         setProps_(tempProps);
         if (props_.saved) {
-            publish(CHANGE_EVENT, props_);
+            publish(CHANGE_EVENT, tempProps);
         }
     };
 

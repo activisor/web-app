@@ -16,6 +16,7 @@ import { subscribe } from '../client-utilities/events';
 const ScheduleInput: React.FC = () => {
   const initialParticipants : ParticipantInputProps[] = [];
   const [participants, setParticipants] = useState(initialParticipants);
+  const [participantKey, setParticipantKey] = useState(0);
   const scheduleInputProps = {
     placeholder: 'Schedule Name',
     required: true,
@@ -23,26 +24,28 @@ const ScheduleInput: React.FC = () => {
   };
 
   const handleAddParticipant = (event : CustomEvent) => {
-    let tempParticipants : ParticipantInputProps[] = [...participants];
     event.detail.saved = true;
-    tempParticipants.push(event.detail);
-    setParticipants(tempParticipants);
+    event.detail.id = participantKey;
+    setParticipantKey(participantKey + 1);
+
+    setParticipants([...participants, event.detail]);
   }
 
   const handleChangeParticipant = (event : CustomEvent) => {
-    let tempParticipants : ParticipantInputProps[] = [...participants];
-    const index = tempParticipants.findIndex((participant) => {
-      return (participant.name === event.detail.name) || (participant.email === event.detail.email);
+    const index = participants.findIndex((participant) => {
+      return (participant.id === event.detail.id);
     });
-    tempParticipants[index].name = event.detail.name;
-    tempParticipants[index].email = event.detail.email;
-    setParticipants(tempParticipants);
+
+    if (index >= 0) {
+        participants[index].name = event.detail.name;
+        participants[index].email = event.detail.email;
+        setParticipants(participants);
+    }
    }
 
   const handleDeleteParticipant = (event : CustomEvent) => {
-    let tempParticipants : ParticipantInputProps[] = [...participants];
-    tempParticipants = tempParticipants.filter((participant) => {
-      return participant.email !== event.detail.email;
+    let tempParticipants : ParticipantInputProps[] = participants.filter((participant) => {
+      return participant.id !== event.detail.id;
     });
     setParticipants(tempParticipants);
   }
@@ -61,10 +64,11 @@ const ScheduleInput: React.FC = () => {
     return participants.map((participant, index) => {
       return (
         <ParticipantInput
-          key={index}
-          name={participant.name}
-          email={participant.email}
-          saved={participant.saved}
+            key={participant.id}
+            id={participant.id}
+            name={participant.name}
+            email={participant.email}
+            saved={participant.saved}
         />
       )
     });
