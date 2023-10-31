@@ -17,11 +17,28 @@ const ScheduleInput: React.FC = () => {
   const initialParticipants : ParticipantInputProps[] = [];
   const [participants, setParticipants] = useState(initialParticipants);
   const [participantKey, setParticipantKey] = useState(0);
+
+  const [scheduleName, setScheduleName] = useState('');
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+
   const scheduleInputProps = {
     placeholder: 'Schedule Name',
     required: true,
     autoFocus: true
   };
+
+  const handleScheduleNameChange = (event: React.ChangeEvent<HTMLInputElement>) : void => {
+    setScheduleName(event.target.value);
+  }
+
+  const onStartDateChange = (date: Date | null) => {
+    setStartDate(date);
+  }
+
+  const onEndByChange = (date: Date | null) => {
+    setEndDate(date);
+  }
 
   const handleAddParticipant = (event : CustomEvent) => {
     event.detail.saved = true;
@@ -49,6 +66,10 @@ const ScheduleInput: React.FC = () => {
     });
     setParticipants(tempParticipants);
   }
+
+  const handleCreateClick = (event: React.MouseEvent<HTMLButtonElement>) : void => {
+    console.log('create schedule');
+  };
 
   const handleChange = (event: SelectChangeEvent) => {
     console.log(event.target.value);
@@ -78,12 +99,12 @@ const ScheduleInput: React.FC = () => {
     <div>
       <div id="container" className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm">
         <div>
-          <TextField id="schedule-name" type="text" inputProps={scheduleInputProps} />
+          <TextField id="schedule-name" type="text" inputProps={scheduleInputProps} onChange={handleScheduleNameChange} />
         </div>
         <div>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker label="Start on" />
-            <DatePicker label="End by" />
+            <DatePicker label="Start on" onChange={onStartDateChange}/>
+            <DatePicker label="End by" onChange={onEndByChange}/>
           </LocalizationProvider>
         </div>
         <div>
@@ -134,7 +155,7 @@ const ScheduleInput: React.FC = () => {
         <ParticipantInput name="" email="" saved={false}/>
       </div>
       <div>
-        <Button variant="contained">Create Schedule</Button>
+        <Button variant="contained" onClick={handleCreateClick}>Create Schedule</Button>
       </div>
     </div>
   )
