@@ -11,6 +11,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import ParticipantInput, { ParticipantInputProps, ADD_EVENT, CHANGE_EVENT, DELETE_EVENT } from '../components/participant-input';
+import Frequency from '../client-utilities/frequency';
 import { subscribe } from '../client-utilities/events';
 
 const ScheduleInput: React.FC = () => {
@@ -21,6 +22,8 @@ const ScheduleInput: React.FC = () => {
   const [scheduleName, setScheduleName] = useState('');
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
+  const [groupSize, setGroupSize] = useState(1); // [1, 2, 3, 4, 5, 6, 7, 8]
+  const [frequency, setFrequency] = useState(Frequency.Weekly);
 
   const scheduleInputProps = {
     placeholder: 'Schedule Name',
@@ -67,13 +70,20 @@ const ScheduleInput: React.FC = () => {
     setParticipants(tempParticipants);
   }
 
+  const handleGroupSizeChange = (event: SelectChangeEvent) => {
+    setGroupSize(event.target.value);
+    console.log(event.target.value);
+  }
+
+  const handleFrequencyChange = (event: SelectChangeEvent) => {
+    setFrequency(event.target.value);
+    console.log(event.target.value);
+  }
+
   const handleCreateClick = (event: React.MouseEvent<HTMLButtonElement>) : void => {
     console.log('create schedule');
   };
 
-  const handleChange = (event: SelectChangeEvent) => {
-    console.log(event.target.value);
-  }
 
   useEffect(() => {
     subscribe(ADD_EVENT, handleAddParticipant);
@@ -114,8 +124,8 @@ const ScheduleInput: React.FC = () => {
               labelId="size-select-label"
               id="size-select"
               label="Group Size"
-              value="1"
-              onChange={handleChange}
+              value={groupSize}
+              onChange={handleGroupSizeChange}
             >
               <MenuItem value="1">1 member</MenuItem>
               <MenuItem value="2">2</MenuItem>
@@ -133,8 +143,8 @@ const ScheduleInput: React.FC = () => {
               labelId="frequency-select-label"
               id="frequency-select"
               label="Frequency"
-              value="1"
-              onChange={handleChange}
+              value={frequency}
+              onChange={handleFrequencyChange}
             >
               <MenuItem value="1">daily</MenuItem>
               <MenuItem value="2">weekly</MenuItem>
