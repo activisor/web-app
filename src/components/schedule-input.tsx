@@ -82,7 +82,32 @@ const ScheduleInput: React.FC = () => {
 
   const handleCreateClick = (event: React.MouseEvent<HTMLButtonElement>) : void => {
     console.log('create schedule');
-  };
+
+    // bundle payload into state and start OAuth flow
+    fetch('YOUR_API_ENDPOINT', {
+        method: 'POST', // or 'GET' or any other HTTP method
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            participants: participants,
+            scheduleName: scheduleName,
+            startDate: startDate,
+            endDate: endDate,
+            groupSize: groupSize,
+            frequency: frequency
+        }),
+      })
+        .then(response => response.json())
+        .then(data => {
+          // Handle API response data here
+          console.log(data);
+        })
+        .catch(error => {
+          // Handle errors here
+          console.error('Error:', error);
+        });
+    };
 
 
   useEffect(() => {
