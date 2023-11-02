@@ -5,7 +5,7 @@ import TextField from '@mui/material/TextField';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton/IconButton';
-import { publish } from '../client-utilities/events';
+import { publish } from '../client-lib/events';
 
 export interface ParticipantInputProps {
     name: string;

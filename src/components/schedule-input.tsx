@@ -10,12 +10,13 @@ import TextField from '@mui/material/TextField';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { SessionProvider } from 'next-auth/react';
 import ParticipantInput, { ParticipantInputProps, ADD_EVENT, CHANGE_EVENT, DELETE_EVENT } from '../components/participant-input';
-import Frequency from '../client-utilities/frequency';
-import { subscribe } from '../client-utilities/events';
+import Frequency from '../lib/frequency';
+import { subscribe } from '../client-lib/events';
 
 const ScheduleInput: React.FC = () => {
-  const initialParticipants : ParticipantInputProps[] = [];
+  const initialParticipants: ParticipantInputProps[] = [];
   const [participants, setParticipants] = useState(initialParticipants);
   const [participantKey, setParticipantKey] = useState(0);
 
@@ -31,19 +32,23 @@ const ScheduleInput: React.FC = () => {
     autoFocus: true
   };
 
-  const handleScheduleNameChange = (event: React.ChangeEvent<HTMLInputElement>) : void => {
+  const handleScheduleNameChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setScheduleName(event.target.value);
   }
 
   const onStartDateChange = (date: Date | null) => {
-    setStartDate(date);
+    if (date) {
+      setStartDate(date);
+    }
   }
 
   const onEndByChange = (date: Date | null) => {
-    setEndDate(date);
+    if (date) {
+      setEndDate(date);
+    }
   }
 
-  const handleAddParticipant = (event : CustomEvent) => {
+  const handleAddParticipant = (event: CustomEvent) => {
     event.detail.saved = true;
     event.detail.id = participantKey;
     setParticipantKey(participantKey + 1);
@@ -51,84 +56,85 @@ const ScheduleInput: React.FC = () => {
     setParticipants([...participants, event.detail]);
   }
 
-  const handleChangeParticipant = (event : CustomEvent) => {
+  const handleChangeParticipant = (event: CustomEvent) => {
     const index = participants.findIndex((participant) => {
       return (participant.id === event.detail.id);
     });
 
     if (index >= 0) {
-        participants[index].name = event.detail.name;
-        participants[index].email = event.detail.email;
-        setParticipants(participants);
+      participants[index].name = event.detail.name;
+      participants[index].email = event.detail.email;
+      setParticipants(participants);
     }
-   }
+  }
 
-  const handleDeleteParticipant = (event : CustomEvent) => {
-    let tempParticipants : ParticipantInputProps[] = participants.filter((participant) => {
+  const handleDeleteParticipant = (event: CustomEvent) => {
+    let tempParticipants: ParticipantInputProps[] = participants.filter((participant) => {
       return participant.id !== event.detail.id;
     });
     setParticipants(tempParticipants);
   }
 
   const handleGroupSizeChange = (event: SelectChangeEvent) => {
-    setGroupSize(event.target.value);
+    setGroupSize(parseInt(event.target.value));
     console.log(event.target.value);
   }
 
   const handleFrequencyChange = (event: SelectChangeEvent) => {
-    setFrequency(event.target.value);
+    setFrequency(parseInt(event.target.value));
     console.log(event.target.value);
   }
 
-  const handleCreateClick = (event: React.MouseEvent<HTMLButtonElement>) : void => {
+  const handleCreateClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
     console.log('create schedule');
 
     // bundle payload into state and start OAuth flow
+    /*
     fetch('YOUR_API_ENDPOINT', {
-        method: 'POST', // or 'GET' or any other HTTP method
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            participants: participants,
-            scheduleName: scheduleName,
-            startDate: startDate,
-            endDate: endDate,
-            groupSize: groupSize,
-            frequency: frequency
-        }),
+      method: 'POST', // or 'GET' or any other HTTP method
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        participants: participants,
+        scheduleName: scheduleName,
+        startDate: startDate,
+        endDate: endDate,
+        groupSize: groupSize,
+        frequency: frequency
+      }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        // Handle API response data here
+        console.log(data);
       })
-        .then(response => response.json())
-        .then(data => {
-          // Handle API response data here
-          console.log(data);
-        })
-        .catch(error => {
-          // Handle errors here
-          console.error('Error:', error);
-        });
-    };
+      .catch(error => {
+        // Handle errors here
+        console.error('Error:', error);
+      });
+      */
+  };
 
+  const renderParticipants = () => {
+    return participants.map((participant, index) => {
+      return (
+        <ParticipantInput
+          key={participant.id}
+          id={participant.id}
+          name={participant.name}
+          email={participant.email}
+          saved={participant.saved}
+        />
+      )
+    });
+  }
 
   useEffect(() => {
     subscribe(ADD_EVENT, handleAddParticipant);
     subscribe(CHANGE_EVENT, handleChangeParticipant);
     subscribe(DELETE_EVENT, handleDeleteParticipant);
   });
-
-  const renderParticipants = () => {
-    return participants.map((participant, index) => {
-      return (
-        <ParticipantInput
-            key={participant.id}
-            id={participant.id}
-            name={participant.name}
-            email={participant.email}
-            saved={participant.saved}
-        />
-      )
-    });
-  }
 
   return (
     <div>
@@ -138,8 +144,8 @@ const ScheduleInput: React.FC = () => {
         </div>
         <div>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker label="Start on" onChange={onStartDateChange}/>
-            <DatePicker label="End by" onChange={onEndByChange}/>
+            <DatePicker label="Start on" onChange={onStartDateChange} />
+            <DatePicker label="End by" onChange={onEndByChange} />
           </LocalizationProvider>
         </div>
         <div>
@@ -149,7 +155,7 @@ const ScheduleInput: React.FC = () => {
               labelId="size-select-label"
               id="size-select"
               label="Group Size"
-              value={groupSize}
+              value={groupSize.toString()}
               onChange={handleGroupSizeChange}
             >
               <MenuItem value="1">1 member</MenuItem>
@@ -168,7 +174,7 @@ const ScheduleInput: React.FC = () => {
               labelId="frequency-select-label"
               id="frequency-select"
               label="Frequency"
-              value={frequency}
+              value={frequency.toString()}
               onChange={handleFrequencyChange}
             >
               <MenuItem value="1">daily</MenuItem>
@@ -187,13 +193,13 @@ const ScheduleInput: React.FC = () => {
           {renderParticipants()}
         </div>
         <h3>Add another</h3>
-        <ParticipantInput name="" email="" saved={false}/>
+        <ParticipantInput name="" email="" saved={false} />
       </div>
       <div>
         <Button variant="contained" onClick={handleCreateClick}>Create Schedule</Button>
       </div>
     </div>
-  )
+  );
 }
 
 export default ScheduleInput;
