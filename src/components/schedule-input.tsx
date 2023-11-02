@@ -10,10 +10,11 @@ import TextField from '@mui/material/TextField';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { SessionProvider } from 'next-auth/react';
+import { signIn, SessionProvider } from 'next-auth/react';
 import ParticipantInput, { ParticipantInputProps, ADD_EVENT, CHANGE_EVENT, DELETE_EVENT } from '../components/participant-input';
 import Frequency from '../lib/frequency';
 import { subscribe } from '../client-lib/events';
+import { saveItem, hasStorage, SCHEDULE_DATA } from '../client-lib/local-storage';
 
 const ScheduleInput: React.FC = () => {
   const initialParticipants: ParticipantInputProps[] = [];
@@ -87,6 +88,21 @@ const ScheduleInput: React.FC = () => {
 
   const handleCreateClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
     console.log('create schedule');
+
+    if (hasStorage()) {
+      const scheduleData = {
+        participants: participants,
+        scheduleName: scheduleName,
+        startDate: startDate,
+        endDate: endDate,
+        groupSize: groupSize,
+        frequency: frequency
+      };
+      saveItem(SCHEDULE_DATA, scheduleData);
+      signIn();
+    } else {
+      alert('You must enable Local Storage to allow Activisor to build your schedule.');
+    }
 
     // bundle payload into state and start OAuth flow
     /*
