@@ -99,7 +99,7 @@ const ScheduleInput: React.FC = () => {
         frequency: frequency
       };
       saveItem(SCHEDULE_DATA, scheduleData);
-      signIn();
+      signIn('google', { callbackUrl: process.env.AUTH_CALLBACK_URL });
     } else {
       alert('You must enable Local Storage to allow Activisor to build your schedule.');
     }
