@@ -1,6 +1,6 @@
 'use client'
 
-// import Image from 'next/image'
+import { cookies } from 'next/headers'
 import ScheduleInput from '../components/schedule-input';
 
 export default function Home() {

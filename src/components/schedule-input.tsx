@@ -10,7 +10,8 @@ import TextField from '@mui/material/TextField';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { signIn, SessionProvider } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
+// import { SheetsManager, sheetScopes } from '../lib/sheets/sheets-manager';
 import ParticipantInput, { ParticipantInputProps, ADD_EVENT, CHANGE_EVENT, DELETE_EVENT } from '../components/participant-input';
 import Frequency from '../lib/frequency';
 import { subscribe } from '../client-lib/events';
@@ -99,7 +100,14 @@ const ScheduleInput: React.FC = () => {
         frequency: frequency
       };
       saveItem(SCHEDULE_DATA, scheduleData);
+
+      // Nextauth OpenID Connect
       signIn('google', { callbackUrl: process.env.AUTH_CALLBACK_URL });
+
+      // Google OAuth2
+      // const sheetsManager: SheetsManager = new SheetsManager();
+      // const authUrl: string = sheetsManager.getAuthUrl(sheetScopes);
+      // window.open(authUrl, '_self');
     } else {
       alert('You must enable Local Storage to allow Activisor to build your schedule.');
     }

@@ -1,6 +1,15 @@
-import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server"
+import { getToken } from 'next-auth/jwt';
 
-// build schedule endpoint
-export async function GET(request: Request) {
-    return NextResponse.json({});
+export async function GET(request: NextRequest) {
+  const token = await getToken({
+    req: request,
+    secret: process.env.NEXTAUTH_SECRET as string
+  })
+  if (token) {
+    // Signed in
+    console.log("JSON Web Token", JSON.stringify(token, null, 2))
+  }
+  return new Response();
 }
+
