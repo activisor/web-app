@@ -14,8 +14,9 @@ import { signIn } from 'next-auth/react';
 // import { SheetsManager, sheetScopes } from '../lib/sheets/sheets-manager';
 import ParticipantInput, { ParticipantInputProps, ADD_EVENT, CHANGE_EVENT, DELETE_EVENT } from '../components/participant-input';
 import Frequency from '../lib/frequency';
+import ScheduleData from '../lib/schedule-data';
 import { subscribe } from '../client-lib/events';
-import { saveItem, hasStorage, SCHEDULE_DATA } from '../client-lib/local-storage';
+import { saveItem, hasStorage, GENERATION_REQUESTED, SCHEDULE_DATA } from '../client-lib/local-storage';
 
 const ScheduleInput: React.FC = () => {
   const initialParticipants: ParticipantInputProps[] = [];
@@ -91,7 +92,7 @@ const ScheduleInput: React.FC = () => {
     console.log('create schedule');
 
     if (hasStorage()) {
-      const scheduleData = {
+      const scheduleData: ScheduleData = {
         participants: participants,
         scheduleName: scheduleName,
         startDate: startDate,
@@ -100,44 +101,13 @@ const ScheduleInput: React.FC = () => {
         frequency: frequency
       };
       saveItem(SCHEDULE_DATA, scheduleData);
+      saveItem(GENERATION_REQUESTED, false);
 
       // Nextauth OpenID Connect
-      signIn('google', { callbackUrl: process.env.AUTH_CALLBACK_URL });
-
-      // Google OAuth2
-      // const sheetsManager: SheetsManager = new SheetsManager();
-      // const authUrl: string = sheetsManager.getAuthUrl(sheetScopes);
-      // window.open(authUrl, '_self');
+      signIn('google');
     } else {
       alert('You must enable Local Storage to allow Activisor to build your schedule.');
     }
-
-    // bundle payload into state and start OAuth flow
-    /*
-    fetch('YOUR_API_ENDPOINT', {
-      method: 'POST', // or 'GET' or any other HTTP method
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        participants: participants,
-        scheduleName: scheduleName,
-        startDate: startDate,
-        endDate: endDate,
-        groupSize: groupSize,
-        frequency: frequency
-      }),
-    })
-      .then(response => response.json())
-      .then(data => {
-        // Handle API response data here
-        console.log(data);
-      })
-      .catch(error => {
-        // Handle errors here
-        console.error('Error:', error);
-      });
-      */
   };
 
   const renderParticipants = () => {
