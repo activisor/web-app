@@ -28,6 +28,7 @@ export default function Home() {
         .then(data => {
           // Handle API response data here
           console.log(data);
+          window.open(data.url, '_self');
         })
         .catch(error => {
           // Handle errors here
