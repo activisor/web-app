@@ -11,7 +11,6 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { signIn } from 'next-auth/react';
-// import { SheetsManager, sheetScopes } from '../lib/sheets/sheets-manager';
 import ParticipantInput, { ParticipantInputProps, ADD_EVENT, CHANGE_EVENT, DELETE_EVENT } from '../components/participant-input';
 import Frequency from '../lib/frequency';
 import ScheduleData from '../lib/schedule-data';
