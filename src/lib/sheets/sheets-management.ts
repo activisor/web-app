@@ -19,4 +19,4 @@ interface SheetsManagement {
     createSheet: (scheduleData: ScheduleData) => Promise<string>;
 }
 
-export default SheetsManagement;
+export type { SheetsManagement };

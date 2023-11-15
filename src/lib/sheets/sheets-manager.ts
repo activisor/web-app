@@ -1,14 +1,27 @@
 /**
  * Google sheets manager
  */
+import { injectable, inject } from "inversify";
+import "reflect-metadata";
 import { Credentials, OAuth2Client } from 'google-auth-library';
 import { GoogleApis, google } from 'googleapis';
-import SheetsManagement from './sheets-management';
+import type { SheetsManagement } from './sheets-management';
 import ScheduleData from '../schedule-data';
+import type { Randomization } from './randomization';
+import "reflect-metadata";
+import { TYPES } from "../../inversify-types";
+
 
 const testSheetUrl = 'https://docs.google.com/spreadsheets/d/1fH2lu_BvphQsTrUn5HnrlTTmG-gGmjgqG-9ian1BqEg/edit?usp=sharing';
 
+@injectable()
 class SheetsManager implements SheetsManagement {
+    private _randomizer: Randomization;
+
+    public constructor(@inject(TYPES.Randomization) randomizer: Randomization) {
+        this._randomizer = randomizer;
+    }
+
     // singleton
     private oauth2Client: OAuth2Client | null = null;
 
@@ -68,4 +81,4 @@ class SheetsManager implements SheetsManagement {
     }
 }
 
-export default SheetsManager;
+export { SheetsManager };

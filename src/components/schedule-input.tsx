@@ -11,7 +11,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { signIn } from 'next-auth/react';
-import ParticipantInput, { ParticipantInputProps, ADD_EVENT, CHANGE_EVENT, DELETE_EVENT } from '../components/participant-input';
+import ParticipantInput, { ParticipantInputProps, ADD_EVENT, CHANGE_EVENT, DELETE_EVENT } from './participant-input';
 import Frequency from '../lib/frequency';
 import ScheduleData from '../lib/schedule-data';
 import { subscribe } from '../client-lib/events';
@@ -63,7 +63,7 @@ const ScheduleInput: React.FC = () => {
       return (participant.id === event.detail.id);
     });
 
-    if (index >= 0) {
+    if (index >= 0 && participants && participants[index]) {
       participants[index].name = event.detail.name;
       participants[index].email = event.detail.email;
       setParticipants(participants);

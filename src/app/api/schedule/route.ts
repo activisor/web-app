@@ -1,7 +1,9 @@
 import type { NextRequest } from "next/server"
 import { getToken } from 'next-auth/jwt';
 import ScheduleData from '../../../lib/schedule-data';
-import SheetsManager from '../../../lib/sheets/sheets-manager';
+import { SheetsManagement } from '../../../lib/sheets/sheets-management';
+import { appContainer } from '../../../inversify.config';
+import { TYPES } from "../../../inversify-types";
 
 export async function POST(request: NextRequest) {
   const token = await getToken({
@@ -11,7 +13,7 @@ export async function POST(request: NextRequest) {
   if (token) {
     // Signed in
     const dto: ScheduleData = await request.json();
-    const sheetsManager = new SheetsManager();
+    const sheetsManager = appContainer.get<SheetsManagement>(TYPES.SheetsManagement);
     sheetsManager.setCredentials({
       access_token: token.accessToken as string,
       refresh_token: token.refreshToken as string,
