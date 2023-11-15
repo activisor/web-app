@@ -7,4 +7,4 @@ interface ScheduleParticipant extends Participant {
     total: number;
 }
 
-export default ScheduleParticipant;
+export type { ScheduleParticipant };

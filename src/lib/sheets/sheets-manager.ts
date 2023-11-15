@@ -9,7 +9,7 @@ import type { SheetsManagement } from './sheets-management';
 import ScheduleData from '../schedule-data';
 import type { Randomization } from './randomization';
 import "reflect-metadata";
-import { TYPES } from "../../inversify-types";
+import { TYPES } from "@/inversify-types";
 
 
 const testSheetUrl = 'https://docs.google.com/spreadsheets/d/1fH2lu_BvphQsTrUn5HnrlTTmG-gGmjgqG-9ian1BqEg/edit?usp=sharing';
@@ -66,6 +66,10 @@ class SheetsManager implements SheetsManagement {
     }
 
     async createSheet(scheduleData: ScheduleData) {
+        const periods = 2;
+        const result = this._randomizer.randomize(periods, scheduleData.groupSize, scheduleData.participants);
+        console.log(result);
+        
         const service = google.sheets({ version: 'v4', auth: this.oauth2Client as OAuth2Client });
         const requestBody = {
             properties: {

@@ -1,7 +1,7 @@
 /**
  * interface for schedule randomization
  */
-import { RandomizeResult } from './randomize-result';
+import type { RandomizeResult } from './randomize-result';
 import Participant from '../participant';
 
 interface Randomization {

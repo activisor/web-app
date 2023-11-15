@@ -5,8 +5,8 @@ import TextField from '@mui/material/TextField';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton/IconButton';
-import { publish } from '../client-lib/events';
-import Participant from '../lib/participant';
+import { publish } from '@/client-lib/events';
+import Participant from '@/lib/participant';
 
 export interface ParticipantInputProps extends Participant {
     saved: boolean;
@@ -19,7 +19,7 @@ export const DELETE_EVENT = 'activisor:delete-participant';
 const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
     const [props_, setProps_] = useState(props);
 
-    const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) : void => {
+    const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
         let tempProps = { ...props_ };
         tempProps.email = event.target.value;
         setProps_(tempProps);
@@ -28,7 +28,7 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
         }
     };
 
-    const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) : void => {
+    const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
         let tempProps = { ...props_ };
         tempProps.name = event.target.value;
         setProps_(tempProps);
@@ -37,9 +37,9 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
         }
     };
 
-    const handleAddClick = (event: React.MouseEvent<HTMLButtonElement>) : void => {
+    const handleAddClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
         publish(ADD_EVENT, props_);
-        const initialProps : ParticipantInputProps = {
+        const initialProps: ParticipantInputProps = {
             name: '',
             email: '',
             saved: false
@@ -47,14 +47,14 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
         setProps_(initialProps);
     };
 
-    const handleDeleteClick = (event: React.MouseEvent<HTMLButtonElement>) : void => {
+    const handleDeleteClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
         publish(DELETE_EVENT, props_);
     };
 
     return (
         <div className="flex items-center justify-between p-4">
-            <TextField id="participant-email" type="text" inputProps={{placeholder: 'Email', value: props_.email}} onChange={handleEmailChange} />
-            <TextField id="participant-name" type="text" inputProps={{placeholder: 'Name', value: props_.name}} onChange={handleNameChange} />
+            <TextField id="participant-email" type="text" inputProps={{ placeholder: 'Email', value: props_.email }} onChange={handleEmailChange} />
+            <TextField id="participant-name" type="text" inputProps={{ placeholder: 'Name', value: props_.name }} onChange={handleNameChange} />
             {props.saved ? (
                 <IconButton aria-label="delete" color="primary" onClick={handleDeleteClick}>
                     <DeleteIcon />

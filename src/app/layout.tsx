@@ -6,21 +6,21 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Activisor',
-  description: 'Generates schedules for your team.',
-  applicationName: 'Activisor'
+    title: 'Activisor',
+    description: 'Generates schedules for your team.',
+    applicationName: 'Activisor'
 }
 
 export default function RootLayout({
-  children,
+    children,
 }: {
-  children: React.ReactNode
+    children: React.ReactNode
 }) {
-  return (
-    <html lang="en">
-      <body className={inter.className}>
-        <Providers>{children}</Providers>
-      </body>
-    </html>
-  )
+    return (
+        <html lang="en">
+            <body className={inter.className}>
+                <Providers>{children}</Providers>
+            </body>
+        </html>
+    )
 }

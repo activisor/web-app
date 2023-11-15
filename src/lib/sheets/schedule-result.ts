@@ -6,4 +6,4 @@ interface ScheduleResult {
 
 }
 
-export default ScheduleResult;
+export type { ScheduleResult };

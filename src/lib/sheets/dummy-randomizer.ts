@@ -1,18 +1,28 @@
 /**
  * dummy randomizer implementation to scaffold end-to-end
+ * copies short list of participants to schedule and repeats for each period
  */
 import { injectable } from 'inversify';
 import "reflect-metadata";
-import { Randomization } from './randomization';
-import { RandomizeResult } from './randomize-result';
+import type { Randomization } from './randomization';
+import type { RandomizeResult } from './randomize-result';
 import Participant from '../participant';
-import ScheduleParticipant from './schedule-participant';
+import type { ScheduleParticipant } from './schedule-participant';
 
 @injectable()
 class DummyRandomizer implements Randomization {
-    randomize (periods: number, groupSize: number, participants: Participant[]) {
+    randomize(periods: number, groupSize: number, participants: Participant[]) {
         const resultParticipants: ScheduleParticipant[] = [];
+        const group = groupSize > participants.length ? participants.length : groupSize;
+        for (let i = 0; i < group; i++) {
+            resultParticipants.push({ ...participants[i], total: 0 });
+        }
+
         const schedule: Participant[][] = [];
+        for (let i = 0; i < periods; i++) {
+            schedule.push(resultParticipants);
+        }
+
         const result: RandomizeResult = {
             participants: resultParticipants,
             schedule: schedule
