@@ -172,9 +172,10 @@ const ScheduleInput: React.FC = () => {
                         >
                             <MenuItem value="1">daily</MenuItem>
                             <MenuItem value="2">weekly</MenuItem>
-                            <MenuItem value="3">monthly</MenuItem>
-                            <MenuItem value="4">every weekday</MenuItem>
-                            <MenuItem value="5">custom</MenuItem>
+                            <MenuItem value="3">every other week</MenuItem>
+                            <MenuItem value="4">monthly</MenuItem>
+                            <MenuItem value="5">every weekday</MenuItem>
+                            <MenuItem value="6">custom</MenuItem>
                         </Select>
                     </FormControl>
                 </div>

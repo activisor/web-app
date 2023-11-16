@@ -4,8 +4,9 @@ Schedule frequency enum
 enum Frequency {
     Daily = 1,
     Weekly = 2,
-    Monthly = 3,
-    Weekday = 4
+    Biweekly = 3,
+    Monthly = 4,
+    Weekday = 5
 }
 
 export default Frequency;
