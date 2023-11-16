@@ -41,7 +41,6 @@ class DateRangeParser implements DateRangeParse {
                 throw new Error(`Frequency ${frequency} not supported`);
         }
 
-        console.log(`getNextDate: ${result}`);
         return result;
     }
 }

@@ -4,11 +4,12 @@
 import { injectable, inject } from "inversify";
 import "reflect-metadata";
 import { Credentials, OAuth2Client } from 'google-auth-library';
-import { GoogleApis, google } from 'googleapis';
+import { google } from 'googleapis';
 import type { SheetsManagement } from './sheets-management';
 import ScheduleData from '../schedule-data';
 import type { DateRangeParse } from './date-range-parse';
 import type { Randomization } from './randomization';
+import type { SheetSpecification } from './sheet-specification';
 import "reflect-metadata";
 import { TYPES } from "@/inversify-types";
 
@@ -19,13 +20,16 @@ const testSheetUrl = 'https://docs.google.com/spreadsheets/d/1fH2lu_BvphQsTrUn5H
 class SheetsManager implements SheetsManagement {
     private _randomizer: Randomization;
     private _dateRangeParser: DateRangeParse;
+    private _sheetSpecifier: SheetSpecification;
 
     public constructor(
         @inject(TYPES.Randomization) randomizer: Randomization,
-        @inject(TYPES.DateRangeParse) dateRangeParser: DateRangeParse
+        @inject(TYPES.DateRangeParse) dateRangeParser: DateRangeParse,
+        @inject(TYPES.SheetSpecification) sheetSpecifier: SheetSpecification
     ) {
         this._randomizer = randomizer;
         this._dateRangeParser = dateRangeParser;
+        this._sheetSpecifier = sheetSpecifier;
     }
 
     // singleton
@@ -77,8 +81,6 @@ class SheetsManager implements SheetsManagement {
         const dates = this._dateRangeParser.parse(startDate, endDate, scheduleData.frequency);
         const periods = dates.length;
         const result = this._randomizer.randomize(periods, scheduleData.groupSize, scheduleData.participants);
-        console.log(`start date: ${scheduleData.startDate}`);
-        console.log(`end date: ${scheduleData.endDate}`)
         console.log(`dates: ${JSON.stringify(dates)}`);
         console.log(JSON.stringify(result));
 
@@ -87,12 +89,22 @@ class SheetsManager implements SheetsManagement {
             properties: {
                 title: scheduleData.scheduleName,
             },
+            sheets: [ this._sheetSpecifier.generate(dates, result) ]
         };
         const spreadsheet = await service.spreadsheets.create({
             requestBody,
             fields: 'spreadsheetId',
         }, {});
-
+/*
+        await service.spreadsheets.values.append({
+            spreadsheetId: spreadsheet.data.spreadsheetId as string,
+            range: 'A1',
+            valueInputOption: 'RAW',
+            requestBody: {
+                values: [['Date', 'Participants']],
+            },
+        }, {});
+*/
         return `https://docs.google.com/spreadsheets/d/${spreadsheet.data.spreadsheetId}/edit?usp=sharing`;
     }
 }
