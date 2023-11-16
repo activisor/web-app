@@ -23,17 +23,19 @@ class DateRangeParser implements DateRangeParse {
         const result = new Date(currentDate);
         switch (frequency) {
             case Frequency.Daily:
-                // result.setDate(result.getDate() + 1);
+                result.setDate(result.getDate() + 1);
                 break;
             case Frequency.Weekly:
                 result.setDate(result.getDate() + 7);
                 break;
             case Frequency.Biweekly:
-                // result.setDate(result.getDate() + 14);
+                result.setDate(result.getDate() + 14);
                 break;
             case Frequency.Monthly:
                 // result.setMonth(result.getMonth() + 1);
                 break;
+            default:
+                throw new Error(`Frequency ${frequency} not supported`);
         }
 
         return result;
