@@ -1,3 +1,6 @@
+/**
+ * generates dummy sheet specification to scaffold end-to-end
+ */
 import { injectable } from 'inversify';
 import "reflect-metadata";
 import type { RandomizeResult } from './randomize-result';
@@ -28,16 +31,6 @@ class DummySpecifier implements SheetSpecification {
                                         stringValue: 'Email',
                                     },
                                 },
-                            ],
-                        },
-                    ],
-                },
-                {
-                    startRow: 0,
-                    startColumn: 2,
-                    rowData: [
-                        {
-                            values: [
                                 {
                                     userEnteredValue: {
                                         stringValue: `${dates[0].toLocaleDateString()}`,
