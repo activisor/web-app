@@ -7,6 +7,7 @@ import { Credentials, OAuth2Client } from 'google-auth-library';
 import { GoogleApis, google } from 'googleapis';
 import type { SheetsManagement } from './sheets-management';
 import ScheduleData from '../schedule-data';
+import type { DateRangeParse } from './date-range-parse';
 import type { Randomization } from './randomization';
 import "reflect-metadata";
 import { TYPES } from "@/inversify-types";
@@ -17,9 +18,14 @@ const testSheetUrl = 'https://docs.google.com/spreadsheets/d/1fH2lu_BvphQsTrUn5H
 @injectable()
 class SheetsManager implements SheetsManagement {
     private _randomizer: Randomization;
+    private _dateRangeParser: DateRangeParse;
 
-    public constructor(@inject(TYPES.Randomization) randomizer: Randomization) {
+    public constructor(
+        @inject(TYPES.Randomization) randomizer: Randomization,
+        @inject(TYPES.DateRangeParse) dateRangeParser: DateRangeParse
+    ) {
         this._randomizer = randomizer;
+        this._dateRangeParser = dateRangeParser;
     }
 
     // singleton
@@ -66,10 +72,16 @@ class SheetsManager implements SheetsManagement {
     }
 
     async createSheet(scheduleData: ScheduleData) {
-        const periods = 2;
+        const startDate = new Date(scheduleData.startDate);
+        const endDate = new Date(scheduleData.endDate);
+        const dates = this._dateRangeParser.parse(startDate, endDate, scheduleData.frequency);
+        const periods = dates.length;
         const result = this._randomizer.randomize(periods, scheduleData.groupSize, scheduleData.participants);
-        console.log(result);
-        
+        console.log(`start date: ${scheduleData.startDate}`);
+        console.log(`end date: ${scheduleData.endDate}`)
+        console.log(`dates: ${JSON.stringify(dates)}`);
+        console.log(JSON.stringify(result));
+
         const service = google.sheets({ version: 'v4', auth: this.oauth2Client as OAuth2Client });
         const requestBody = {
             properties: {

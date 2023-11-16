@@ -2,24 +2,27 @@
  * @module DateRangeParser
  * @description Parses a date range and frequency into an array of dates.
  */
+import { injectable } from 'inversify';
+import "reflect-metadata";
 import type { DateRangeParse } from './date-range-parse';
 import Frequency from '../frequency';
 
+@injectable()
 class DateRangeParser implements DateRangeParse {
     parse(startDate: Date, endDate: Date, frequency: Frequency): Date[] {
         const result = Array<Date>();
         result.push(startDate);
 
-        let nextDate = this.getNextDate(startDate, frequency);
+        let nextDate = this._getNextDate(startDate, frequency);
         while (nextDate <= endDate) {
             result.push(nextDate);
-            nextDate = this.getNextDate(nextDate, frequency);
+            nextDate = this._getNextDate(nextDate, frequency);
         }
 
         return result;
     }
 
-    getNextDate(currentDate: Date, frequency: Frequency): Date {
+    _getNextDate(currentDate: Date, frequency: Frequency): Date {
         const result = new Date(currentDate);
         switch (frequency) {
             case Frequency.Daily:
@@ -38,6 +41,7 @@ class DateRangeParser implements DateRangeParse {
                 throw new Error(`Frequency ${frequency} not supported`);
         }
 
+        console.log(`getNextDate: ${result}`);
         return result;
     }
 }
