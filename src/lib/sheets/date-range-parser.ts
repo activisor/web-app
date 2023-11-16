@@ -32,7 +32,7 @@ class DateRangeParser implements DateRangeParse {
                 result.setDate(result.getDate() + 14);
                 break;
             case Frequency.Monthly:
-                // result.setMonth(result.getMonth() + 1);
+                result.setMonth(result.getMonth() + 1);
                 break;
             default:
                 throw new Error(`Frequency ${frequency} not supported`);
