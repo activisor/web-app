@@ -7,7 +7,7 @@ import { injectable } from 'inversify';
 import "reflect-metadata";
 import type { Randomization } from './randomization';
 import type { RandomizeResult } from './randomize-result';
-import Participant from '../participant';
+import type { Participant } from '../participant';
 import type { ScheduleParticipant } from './schedule-participant';
 
 @injectable()

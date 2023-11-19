@@ -2,7 +2,7 @@
  * calculates the variance of the given values
  */
 import type { RandomizeResult } from '@/lib/sheets/randomize-result';
-import Participant from '@/lib/participant';
+import type { Participant } from '@/lib/participant';
 
 /**
  * calculates the variance of the given values

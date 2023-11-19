@@ -3,7 +3,7 @@
 import { useSession } from 'next-auth/react';
 import ScheduleInput from '@/components/schedule-input';
 import { readItem, saveItem, GENERATION_REQUESTED, SCHEDULE_DATA } from '@/client-lib/local-storage';
-import ScheduleData from '@/lib/schedule-data';
+import type { ScheduleData } from '@/lib/schedule-data';
 
 // need client side to get DTO from Local Storgate
 export default function Home() {

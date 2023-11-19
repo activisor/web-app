@@ -8,4 +8,4 @@ interface Participant {
     name: string;
 }
 
-export default Participant;
+export type { Participant };

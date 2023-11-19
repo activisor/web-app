@@ -6,7 +6,7 @@ import "reflect-metadata";
 import { Credentials, OAuth2Client } from 'google-auth-library';
 import { google } from 'googleapis';
 import type { SheetsManagement } from './sheets-management';
-import ScheduleData from '../schedule-data';
+import type { ScheduleData } from '../schedule-data';
 import type { DateRangeParse } from './date-range-parse';
 import type { Randomization } from './randomization';
 import type { SheetSpecification } from './sheet-specification';

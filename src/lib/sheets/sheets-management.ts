@@ -2,7 +2,7 @@
  * interface for google sheets management
  */
 import { Credentials } from 'google-auth-library';
-import ScheduleData from '../schedule-data';
+import type { ScheduleData } from '../schedule-data';
 
 interface SheetsManagement {
     getAuthUrl: (scopes: string[]) => string;

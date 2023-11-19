@@ -6,7 +6,7 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton/IconButton';
 import { publish } from '@/client-lib/events';
-import Participant from '@/lib/participant';
+import type { Participant } from '@/lib/participant';
 
 export interface ParticipantInputProps extends Participant {
     saved: boolean;

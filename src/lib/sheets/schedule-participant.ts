@@ -1,7 +1,7 @@
 /**
  * DTO for participant after randomized schedule assignment
  */
-import Participant from '../participant';
+import type { Participant } from '../participant';
 
 interface ScheduleParticipant extends Participant {
     total: number;

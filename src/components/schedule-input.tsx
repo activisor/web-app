@@ -13,7 +13,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { signIn } from 'next-auth/react';
 import ParticipantInput, { ParticipantInputProps, ADD_EVENT, CHANGE_EVENT, DELETE_EVENT } from './participant-input';
 import Frequency from '@/lib/frequency';
-import ScheduleData from '@/lib/schedule-data';
+import type { ScheduleData } from '@/lib/schedule-data';
 import { subscribe } from '@/client-lib/events';
 import { saveItem, hasStorage, GENERATION_REQUESTED, SCHEDULE_DATA } from '@/client-lib/local-storage';
 

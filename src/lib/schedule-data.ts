@@ -1,7 +1,7 @@
 /**
  * DTO for schedule creation parameters
  */
-import Participant from './participant';
+import type { Participant } from './participant';
 import Frequency from './frequency';
 
 interface ScheduleData {
@@ -13,4 +13,4 @@ interface ScheduleData {
     frequency: Frequency;
 }
 
-export default ScheduleData;
+export type { ScheduleData };
