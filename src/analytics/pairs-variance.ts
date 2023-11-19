@@ -46,11 +46,13 @@ export function pairsVariance(participantMatrix: RandomizeResult): number {
 
             for (let k = 0; k < pairs.length; k++) {
                 const pair = pairs[k];
-                if (period.includes(pair[0]) && period.includes(pair[1])) {
+                const pair0Match = (periodElement: Participant) => periodElement.email === pair[0].email;
+                const pair1Match = (periodElement: Participant) => periodElement.email === pair[1].email;
+                if (period.some(pair0Match) && period.some(pair1Match)) {
                     pairCounts[k]++;
                 }
             }
     }
-
+    console.log(JSON.stringify(pairCounts));
     return variance(pairCounts);
 }

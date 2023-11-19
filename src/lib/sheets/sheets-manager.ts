@@ -3,6 +3,7 @@
  */
 import { injectable, inject } from "inversify";
 import "reflect-metadata";
+import { TYPES } from "@/inversify-types";
 import { Credentials, OAuth2Client } from 'google-auth-library';
 import { google } from 'googleapis';
 import type { SheetsManagement } from './sheets-management';
@@ -10,11 +11,7 @@ import type { ScheduleData } from '../schedule-data';
 import type { DateRangeParse } from './date-range-parse';
 import type { Randomization } from './randomization';
 import type { SheetSpecification } from './sheet-specification';
-import "reflect-metadata";
-import { TYPES } from "@/inversify-types";
-
-
-const testSheetUrl = 'https://docs.google.com/spreadsheets/d/1fH2lu_BvphQsTrUn5HnrlTTmG-gGmjgqG-9ian1BqEg/edit?usp=sharing';
+import { pairsVariance } from '@/analytics/pairs-variance';
 
 @injectable()
 class SheetsManager implements SheetsManagement {
@@ -82,7 +79,12 @@ class SheetsManager implements SheetsManagement {
         const periods = dates.length;
         const result = this._randomizer.randomize(periods, scheduleData.groupSize, scheduleData.participants);
         console.log(`dates: ${JSON.stringify(dates)}`);
-        console.log(JSON.stringify(result));
+        for (let i = 0; i < result.schedule.length; i++) {
+            const row = result.schedule[i];
+            console.log(`row ${i}: ${row.map(p => p.name).join(', ')}`);
+        }
+        const variance = pairsVariance(result);
+        console.log(`variance: ${variance}`);
 
         const service = google.sheets({ version: 'v4', auth: this.oauth2Client as OAuth2Client });
         const requestBody = {
@@ -95,16 +97,7 @@ class SheetsManager implements SheetsManagement {
             requestBody,
             fields: 'spreadsheetId',
         }, {});
-/*
-        await service.spreadsheets.values.append({
-            spreadsheetId: spreadsheet.data.spreadsheetId as string,
-            range: 'A1',
-            valueInputOption: 'RAW',
-            requestBody: {
-                values: [['Date', 'Participants']],
-            },
-        }, {});
-*/
+
         return `https://docs.google.com/spreadsheets/d/${spreadsheet.data.spreadsheetId}/edit?usp=sharing`;
     }
 }
