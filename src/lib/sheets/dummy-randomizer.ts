@@ -1,6 +1,7 @@
 /**
  * dummy randomizer implementation to scaffold end-to-end
  * copies short list of participants to schedule and repeats for each period
+ * to test, group size must = number of participants
  */
 import { injectable } from 'inversify';
 import "reflect-metadata";

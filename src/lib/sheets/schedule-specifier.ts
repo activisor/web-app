@@ -68,7 +68,7 @@ class ScheduleSpecifier implements SheetSpecification {
             for (let j = 0; j < participantMatrix.schedule.length; j++) {
                 let participationKey = '';
                 for (let k = 0; k < participantMatrix.schedule[j].length; k++) {
-                    console.log(JSON.stringify(participantMatrix.schedule[j][k]));
+                    // console.log(JSON.stringify(participantMatrix.schedule[j][k]));
                     if (participantMatrix.schedule[j][k].email === participant.email) {
                         participationKey = 'X';
                         break;

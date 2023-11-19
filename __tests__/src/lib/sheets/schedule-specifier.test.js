@@ -81,7 +81,7 @@ test('adds participant rows', () => {
   expect(row1Values[1].userEnteredValue.stringValue).toBe(participantA.email);
   expect(row1Values[2].userEnteredValue).toBeTruthy();
   expect(row1Values[2].userEnteredValue.stringValue).toMatch(/[xX]/);
-  expect(row1Values[3].userEnteredValue.stringValue).not.toBeTruthy();
+  expect(row1Values[3].userEnteredValue.stringValue).toBeFalsy();
 
   const row2Values = result.data[0].rowData[2].values;
   expect(row2Values[0].userEnteredValue).toBeTruthy();
@@ -98,7 +98,7 @@ test('adds participant rows', () => {
   expect(row3Values[0].userEnteredValue.stringValue).toBe(participantC.name);
   expect(row3Values[1].userEnteredValue).toBeTruthy();
   expect(row3Values[1].userEnteredValue.stringValue).toBe(participantC.email);
-  expect(row3Values[2].userEnteredValue.stringValue).not.toBeTruthy();
+  expect(row3Values[2].userEnteredValue.stringValue).toBeFalsy();
   expect(row3Values[3].userEnteredValue).toBeTruthy();
   expect(row3Values[3].userEnteredValue.stringValue).toMatch(/[xX]/);
 });
