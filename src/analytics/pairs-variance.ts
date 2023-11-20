@@ -53,6 +53,6 @@ export function pairsVariance(participantMatrix: RandomizeResult): number {
                 }
             }
     }
-    console.log(JSON.stringify(pairCounts));
+    console.log(`pair counts: ${JSON.stringify(pairCounts)}`);
     return variance(pairCounts);
 }
