@@ -13,7 +13,7 @@ export default function Schedule() {
         redirect('/build-schedule');
     } else {
         return (
-            <main className="flex min-h-screen flex-col items-center justify-between p-24">
+            <main>
                 <h1>You have been logged out</h1>
             </main>
         );
