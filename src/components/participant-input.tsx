@@ -1,5 +1,7 @@
+/** @jsxImportSource @emotion/react */
 'use client'
 
+import { css } from '@emotion/react'
 import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import AddIcon from '@mui/icons-material/Add';
@@ -53,8 +55,17 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
 
     return (
         <div className="flex items-center justify-between p-4">
-            <TextField id="participant-email" type="text" inputProps={{ placeholder: 'Email', value: props_.email }} onChange={handleEmailChange} />
-            <TextField id="participant-name" type="text" inputProps={{ placeholder: 'Name', value: props_.name }} onChange={handleNameChange} />
+            <TextField
+                id="participant-email"
+                type="text"
+                inputProps={{ placeholder: 'Email', value: props_.email }}
+                onChange={handleEmailChange}
+                css={{ marginRight: 8 }} />
+            <TextField
+                id="participant-name"
+                type="text"
+                inputProps={{ placeholder: 'Name', value: props_.name }}
+                onChange={handleNameChange} />
             {props.saved ? (
                 <IconButton aria-label="delete" color="primary" onClick={handleDeleteClick}>
                     <DeleteIcon />

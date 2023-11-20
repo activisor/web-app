@@ -1,15 +1,16 @@
+/** @jsxImportSource @emotion/react */
 'use client'
 
+import { css } from '@emotion/react'
 import { useSession } from 'next-auth/react';
 import ScheduleInput from '@/components/schedule-input';
 import { readItem, saveItem, GENERATION_REQUESTED, SCHEDULE_DATA } from '@/client-lib/local-storage';
 import type { ScheduleData } from '@/lib/schedule-data';
 
-// need client side to get DTO from Local Storgate
 export default function Home() {
-    // if token detected, get DTO, compress & redirect to /schedule with payload
     const { data: session, status } = useSession();
 
+    // if token detected, get DTO, compress & redirect to /schedule with payload
     if (status === "authenticated") {
         const generationRequested = readItem(GENERATION_REQUESTED);
         if (!generationRequested) {
@@ -38,14 +39,22 @@ export default function Home() {
 
         return (
             <main>
-                <h1>Building Your Schedule</h1>
+                <h1 css={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                }}>Building Your Schedule</h1>
             </main>
         );
     }
 
     return (
-        <main>
-            <h1>Activisor</h1>
+        <main >
+            <h1 css={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+            }}>Activisor</h1>
             <ScheduleInput />
         </main>
     );
