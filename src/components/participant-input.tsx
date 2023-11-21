@@ -74,7 +74,8 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
         <div className="flex items-center justify-between p-4">
             <TextField
                 id="participant-email"
-                type="text"
+                type={"email"}
+                required
                 inputProps={{ placeholder: 'Email', value: props_.email }}
                 onChange={handleEmailChange}
                 onKeyDown={handleEmailKeyDown}
