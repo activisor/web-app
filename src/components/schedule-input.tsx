@@ -63,11 +63,13 @@ const ScheduleInput: React.FC = () => {
     }
 
     const handleAddParticipant = (event: CustomEvent) => {
-        event.detail.saved = true;
-        event.detail.id = participantKey;
+        const participant: ParticipantInputProps = {
+            ...event.detail,
+            saved: true,
+            id: participantKey};
         setParticipantKey(participantKey + 1);
 
-        setParticipants([...participants, event.detail]);
+        setParticipants([...participants, participant]);
     }
 
     const handleChangeParticipant = (event: CustomEvent) => {

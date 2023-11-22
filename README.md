@@ -1,5 +1,5 @@
 # Activisor
-## Video Demo: https://youtu.be/2X6QX6Z3Zqo
+## Video Demo: https://youtu.be/Qgbl4iZW76U
 
 ## Description
 
@@ -76,4 +76,3 @@ Persistence is lightweight; the user's form data is stored in browser Local Stor
 - Persistence: I chose browser Local Storage over a database because the data is simple and doesn't need to be shared with other users. It greatly simplifies architecture and deployment on a cloud platform.
 - Authentication/Authorization: I chose NextAuth.js over directly using Google's Auth API for only authorization because it adds authentication (logging in/out) and session management. It also provides a simple way to store the user's OAuth2 tokens in a JWT cookie for use in subsequent Google API calls. Authentication allows expansion of in-app user features in the future.
 - Randomization algorithm: Two broad approaches were considered; a brute force permutation generation of a collection of schedules and a single pass with weighted randomization, where the weight coefficients are based on the whether ocurrence counts of each unique pair of participants in a schedule are greater than the expected average by that event in the schedule. The brute force approach was rejected because it would be too slow for large schedules. The weighted randomization approach was selected because it's fast and produces a schedule that is random enough for most purposes. The variance of the ocurrence counts of each unique pair of participants in a schedule is used as a proxy for determining how random a schedule is. The variance is calculated by the pairs-variance.ts module.
-

@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 'use client'
 
-import { css } from '@emotion/react'
+// import { css } from '@emotion/react'
 import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import AddIcon from '@mui/icons-material/Add';
@@ -9,6 +9,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton/IconButton';
 import { publish } from '@/client-lib/events';
 import type { Participant } from '@/lib/participant';
+
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 
 export interface ParticipantInputProps extends Participant {
     saved: boolean;
@@ -18,21 +21,44 @@ export const ADD_EVENT = 'activisor:add-participant';
 export const CHANGE_EVENT = 'activisor:change-participant';
 export const DELETE_EVENT = 'activisor:delete-participant';
 
+// const emailSchema = yup.string().email('Invalid email address').required('Required');
+const emailSchema = yup.object({
+    email: yup.string().email('Invalid email address').required('Required')
+});
+
 const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
     const [props_, setProps_] = useState(props);
+
+    const formik = useFormik({
+        initialValues: {
+          email: '',
+        },
+
+        validationSchema: emailSchema,
+
+        onSubmit: values => {},
+     });
 
     const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
         let tempProps = { ...props_ };
         tempProps.email = event.target.value;
         setProps_(tempProps);
+        formik.handleChange(event);
         if (props_.saved) {
-            publish(CHANGE_EVENT, tempProps);
+            formik.validateField('email');
+            if (!Boolean(formik.errors.email)) {
+                publish(CHANGE_EVENT, tempProps);
+            }
         }
     };
 
     const handleEmailKeyDown = (event: React.KeyboardEvent<HTMLInputElement>): void => {
         if (event.key === 'Enter' && props_.saved) {
-            publish(CHANGE_EVENT, props_);
+            // event.preventDefault();
+            formik.validateField('email');
+            if (!Boolean(formik.errors.email)) {
+                publish(CHANGE_EVENT, props_);
+            }
         }
     }
 
@@ -44,19 +70,26 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
 
     const handleNameKeyDown = (event: React.KeyboardEvent<HTMLInputElement>): void => {
         if (event.key === 'Enter' && props_.saved) {
-            publish(CHANGE_EVENT, props_);
+            formik.validateField('email');
+            if (!Boolean(formik.errors.email)) {
+                publish(CHANGE_EVENT, props_);
+            }
         } else if (event.key === 'Enter' && props_.email && props_.name) {
-            publish(ADD_EVENT, props_);
-            const initialProps: ParticipantInputProps = {
-                name: '',
-                email: '',
-                saved: false
-            };
-            setProps_(initialProps);
+            formik.validateField('email');
+            if (!Boolean(formik.errors.email)) {
+                publish(ADD_EVENT, props_);
+                const initialProps: ParticipantInputProps = {
+                    name: '',
+                    email: '',
+                    saved: false
+                };
+                setProps_(initialProps);
+            }
         }
     }
 
     const handleAddClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
+        formik.validateField('email');
         publish(ADD_EVENT, props_);
         const initialProps: ParticipantInputProps = {
             name: '',
@@ -72,15 +105,18 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
 
     return (
         <div className="flex items-center justify-between p-4">
-            <TextField
+            <TextField name="email"
                 id="participant-email"
                 type={"email"}
                 required
                 inputProps={{ placeholder: 'Email', value: props_.email }}
+                onBlur={formik.handleBlur}
                 onChange={handleEmailChange}
                 onKeyDown={handleEmailKeyDown}
+                error={formik.touched.email && Boolean(formik.errors.email)}
+                helperText={formik.touched.email && formik.errors.email}
                 css={{ marginRight: 8 }} />
-            <TextField
+            <TextField name="name"
                 id="participant-name"
                 type="text"
                 inputProps={{ placeholder: 'Name', value: props_.name }}
@@ -91,7 +127,12 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
                     <DeleteIcon />
                 </IconButton>
             ) : (
-                <IconButton aria-label="add" color="primary" onClick={handleAddClick}>
+                <IconButton
+                    aria-label="add"
+                    color="primary"
+                    onClick={handleAddClick}
+                    disabled={!Boolean(props_.email) || Boolean(formik.errors.email)}
+                >
                     <AddIcon />
                 </IconButton>
             )}
