@@ -7,11 +7,11 @@ import TextField from '@mui/material/TextField';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton/IconButton';
-import { publish } from '@/client-lib/events';
-import type { Participant } from '@/lib/participant';
-
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+
+import { publish } from '@/client-lib/events';
+import type { Participant } from '@/lib/participant';
 
 export interface ParticipantInputProps extends Participant {
     saved: boolean;
@@ -21,7 +21,6 @@ export const ADD_EVENT = 'activisor:add-participant';
 export const CHANGE_EVENT = 'activisor:change-participant';
 export const DELETE_EVENT = 'activisor:delete-participant';
 
-// const emailSchema = yup.string().email('Invalid email address').required('Required');
 const emailSchema = yup.object({
     email: yup.string().email('Invalid email address').required('Required')
 });
