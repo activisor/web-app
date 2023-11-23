@@ -13,6 +13,9 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { signIn } from 'next-auth/react';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+
 import ParticipantInput, { ParticipantInputProps, ADD_EVENT, CHANGE_EVENT, DELETE_EVENT } from './participant-input';
 import Frequency from '@/lib/frequency';
 import type { ScheduleData } from '@/lib/schedule-data';
@@ -28,6 +31,18 @@ const twoColumnChild = css`
         margin: 8px;
     }
 `;
+
+const scheduleSchema = yup.object({
+    participants: yup.array(),
+    scheduleName: yup.string()
+        .min(2, 'must be at least 2 characters long')
+        .required('Required'),
+    startDate: yup.date().required('Required'),
+    endDate: yup.date()
+        .min(yup.ref('startDate'), 'End date must be after start date')
+        .required('Required'),
+});
+
 
 const ScheduleInput: React.FC = () => {
     const initialParticipants: ParticipantInputProps[] = [];
@@ -144,7 +159,7 @@ const ScheduleInput: React.FC = () => {
     });
 
     return (
-        <div>
+        <form>
             <div id="container" css={{
                 /* breakpoint for large screen overrides, 1280px wide */
                 '@media(min-width: 1248px)': {
@@ -156,7 +171,7 @@ const ScheduleInput: React.FC = () => {
                         ${twoColumnChild};
                     `}>
                     <div>
-                        <TextField id="schedule-name" type="text" inputProps={scheduleInputProps} onChange={handleScheduleNameChange} />
+                        <TextField id="scheduleName" type="text" inputProps={scheduleInputProps} onChange={handleScheduleNameChange} />
                     </div>
                     <div>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -228,7 +243,7 @@ const ScheduleInput: React.FC = () => {
             }}>
                 <Button variant="contained" onClick={handleCreateClick}>Create Schedule</Button>
             </div>
-        </div>
+        </form>
     );
 }
 
