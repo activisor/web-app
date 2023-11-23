@@ -10,8 +10,7 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+
 import { signIn } from 'next-auth/react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -174,10 +173,8 @@ const ScheduleInput: React.FC = () => {
                         <TextField id="scheduleName" type="text" inputProps={scheduleInputProps} onChange={handleScheduleNameChange} />
                     </div>
                     <div>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DatePicker label="Start on" onChange={onStartDateChange} css={{ marginRight: 8}}/>
-                            <DatePicker label="End by" onChange={onEndByChange} />
-                        </LocalizationProvider>
+                        <DatePicker label="Start on" onChange={onStartDateChange} css={{ marginRight: 8}}/>
+                        <DatePicker label="End by" onChange={onEndByChange} />
                     </div>
                     <div>
                         <FormControl sx={{ m: 1, minWidth: 150 }}>
