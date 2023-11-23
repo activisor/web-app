@@ -83,8 +83,11 @@ class SheetsManager implements SheetsManagement {
             const row = result.schedule[i];
             console.log(`row ${i}: ${row.map(p => p.name).join(', ')}`);
         }
-        const variance = pairsVariance(result);
-        console.log(`variance: ${variance}`);
+        
+        if(scheduleData.participants.length > 1) {
+            const variance = pairsVariance(result);
+            console.log(`variance: ${variance}`);
+        }
 
         const service = google.sheets({ version: 'v4', auth: this.oauth2Client as OAuth2Client });
         const requestBody = {
