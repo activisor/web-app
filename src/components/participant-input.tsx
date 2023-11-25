@@ -30,13 +30,14 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
 
     const formik = useFormik({
         initialValues: {
-          email: '',
+            email: props.email,
+            name: props.name,
         },
 
         validationSchema: emailSchema,
 
-        onSubmit: values => {},
-     });
+        onSubmit: values => { },
+    });
 
     const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
         let tempProps = { ...props_ };
@@ -52,12 +53,15 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
     };
 
     const handleEmailKeyDown = (event: React.KeyboardEvent<HTMLInputElement>): void => {
-        if (event.key === 'Enter' && props_.saved) {
-            // event.preventDefault();
-            formik.validateField('email');
-            if (!Boolean(formik.errors.email)) {
-                publish(CHANGE_EVENT, props_);
+        if (event.key === 'Enter') {
+            if (props_.saved) {
+                formik.validateField('email');
+                if (!Boolean(formik.errors.email)) {
+                    publish(CHANGE_EVENT, props_);
+                }
             }
+            // prevent form submission
+            event.preventDefault();
         }
     }
 
@@ -68,22 +72,26 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
     };
 
     const handleNameKeyDown = (event: React.KeyboardEvent<HTMLInputElement>): void => {
-        if (event.key === 'Enter' && props_.saved) {
-            formik.validateField('email');
-            if (!Boolean(formik.errors.email)) {
-                publish(CHANGE_EVENT, props_);
+        if (event.key === 'Enter') {
+            if (props_.saved) {
+                formik.validateField('email');
+                if (!Boolean(formik.errors.email)) {
+                    publish(CHANGE_EVENT, props_);
+                }
+            } else if (props_.email && props_.name) {
+                formik.validateField('email');
+                if (!Boolean(formik.errors.email)) {
+                    publish(ADD_EVENT, props_);
+                    const initialProps: ParticipantInputProps = {
+                        name: '',
+                        email: '',
+                        saved: false
+                    };
+                    setProps_(initialProps);
+                }
             }
-        } else if (event.key === 'Enter' && props_.email && props_.name) {
-            formik.validateField('email');
-            if (!Boolean(formik.errors.email)) {
-                publish(ADD_EVENT, props_);
-                const initialProps: ParticipantInputProps = {
-                    name: '',
-                    email: '',
-                    saved: false
-                };
-                setProps_(initialProps);
-            }
+            // prevent form submission
+            event.preventDefault();
         }
     }
 
@@ -107,7 +115,6 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
             <TextField name="email"
                 id="participant-email"
                 type={"email"}
-                required
                 inputProps={{ placeholder: 'Email', value: props_.email }}
                 onBlur={formik.handleBlur}
                 onChange={handleEmailChange}
