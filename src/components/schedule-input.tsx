@@ -31,6 +31,13 @@ const twoColumnChild = css`
     }
 `;
 
+const forceInt = (value: any): any => {
+    if (typeof value === 'string') {
+        return parseInt(value);
+    }
+    return value;
+}
+
 const scheduleSchema = yup.object({
     //participants: yup.array(),//.min(yup.ref('groupSize'), 'Must have at least as many participants as group size'),
     scheduleName: yup.string()
@@ -39,8 +46,8 @@ const scheduleSchema = yup.object({
     startDate: yup.date(),
     endDate: yup.date()
         .min(yup.ref('startDate'), "Start date can't be after end date"),
-    groupSize: yup.number(),
-    frequency: yup.number()
+    groupSize: yup.number().transform(forceInt),
+    frequency: yup.number().transform(forceInt)
 });
 
 const ScheduleInput: React.FC = () => {
@@ -119,8 +126,8 @@ const ScheduleInput: React.FC = () => {
                         scheduleName: values.scheduleName,
                         startDate: values.startDate,
                         endDate: values.endDate,
-                        groupSize: values.groupSize,
-                        frequency: values.frequency
+                        groupSize: forceInt(values.groupSize),
+                        frequency: forceInt(values.frequency)
                     };
                     saveItem(SCHEDULE_DATA, scheduleData);
                     saveItem(GENERATION_REQUESTED, false);

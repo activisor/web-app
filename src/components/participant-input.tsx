@@ -21,8 +21,9 @@ export const ADD_EVENT = 'activisor:add-participant';
 export const CHANGE_EVENT = 'activisor:change-participant';
 export const DELETE_EVENT = 'activisor:delete-participant';
 
-const emailSchema = yup.object({
-    email: yup.string().email('Invalid email address').required('Required')
+const participantSchema = yup.object({
+    email: yup.string().email('Invalid email address').required('Required'),
+    name: yup.string(),
 });
 
 const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
@@ -34,7 +35,7 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
             name: props.name,
         },
 
-        validationSchema: emailSchema,
+        validationSchema: participantSchema,
 
         onSubmit: values => { },
     });
