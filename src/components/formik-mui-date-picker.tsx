@@ -18,7 +18,7 @@ const FormikMuiDatePicker = <TDate,>({ name, ...props }: Props<TDate>) => {
         {...props}
         // use the DatePicker component override the value formik state value
         value={dayjs(field.value) as TDate}
-        // modify the formik sate using setFieldValue
+        // modify the formik state using setFieldValue
         onChange={(val) => {
           setFieldValue(name, val);
         }}
