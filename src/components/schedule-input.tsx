@@ -31,6 +31,19 @@ const twoColumnChild = css({
     }
 });
 
+/**
+ * returns a Date object representing today's date with zeroed out time
+ */
+const today = (): Date => {
+    const now = new Date();
+    return new Date(now.getFullYear(), now.getMonth(), now.getDate());
+}
+
+/**
+ * converts a string to an integer
+ * @param value
+ * @returns any
+ */
 const forceInt = (value: any): any => {
     if (typeof value === 'string') {
         return parseInt(value);
@@ -40,7 +53,7 @@ const forceInt = (value: any): any => {
 
 const scheduleSchema = yup.object({
     participants: yup.array<ParticipantInputProps>()
-        .min(yup.ref('groupSize'), 'Not enough participants for your group size'),
+        .min(yup.ref('groupSize'), 'Not enough participants for this size group'),
     scheduleName: yup.string()
         .min(2, 'must be at least 2 characters long')
         .required('Required'),
@@ -61,8 +74,8 @@ const ScheduleInput: React.FC = () => {
             participants: initialParticipants,
             groupSize: 1,
             frequency: Frequency.Weekly,
-            startDate: new Date(),
-            endDate: new Date()
+            startDate: today(),
+            endDate: today()
         },
 
         validationSchema: scheduleSchema,
