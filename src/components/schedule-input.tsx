@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 'use client'
 
-import { css } from '@emotion/react'
+import { css } from '@emotion/react';
 import React, { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import InputLabel from '@mui/material/InputLabel';
@@ -22,12 +22,19 @@ import { subscribe } from '@/client-lib/events';
 import { saveItem, hasStorage, GENERATION_REQUESTED, SCHEDULE_DATA } from '@/client-lib/local-storage';
 
 const twoColumnChild = css({
-    flexGrow: 1,
-    flexShrink: 1,
-    flexBasis: 0,
-    height: '100%',
+    margin: 8,
     '& > *': {
-        margin: 8
+        margin: 16
+    },
+    '@media(min-width: 1248px)': {
+        flexGrow: 1,
+        flexShrink: 1,
+        flexBasis: 0,
+        height: '100%',
+        margin: 8,
+        '& > *': {
+            margin: 24
+        },
     }
 });
 
@@ -165,12 +172,18 @@ const ScheduleInput: React.FC = () => {
                     /* breakpoint for large screen overrides, 1280px wide */
                     '@media(min-width: 1248px)': {
                         display: 'flex',
-                        alignItems: 'flex-start',
+                        alignItems: 'flex-start'
                     }
                 }}>
                     <div css={css`
                         ${twoColumnChild};
                     `}>
+                        <h2 css={{
+                            /* breakpoint for large screen overrides, 1280px wide */
+                            '@media(min-width: 1248px)': {
+                                marginTop: 8
+                            }
+                        }}>Schedule</h2>
                         <div>
                             <TextField
                                 id="scheduleName"
@@ -189,11 +202,19 @@ const ScheduleInput: React.FC = () => {
                                 }}
                             />
                         </div>
-                        <div>
+                        <div css={css`
+                            display: flex;
+
+                        `}>
                             <FormikMuiDatePicker
                                 name="startDate"
                                 label="Start on"
-                                css={{ marginRight: 8 }}
+                                css={{
+                                    marginRight: 8,
+                                    '@media(min-width: 1248px)': {
+                                        marginRight: 24
+                                    }
+                                }}
                             />
                             <FormikMuiDatePicker
                                 name="endDate"
@@ -203,8 +224,15 @@ const ScheduleInput: React.FC = () => {
                         <div>
                             <ErrorMessage name="endDate" />
                         </div>
-                        <div>
-                            <FormControl sx={{ minWidth: 150 }}>
+                        <div css={{
+                            display: 'flex'
+                        }}>
+                            <FormControl sx={{ minWidth: 150 }} css={{
+                                marginRight: 8,
+                                '@media(min-width: 1248px)': {
+                                    marginRight: 24
+                                }
+                            }}>
                                 <InputLabel id="size-select-label">Group Size</InputLabel>
                                 <Select
                                     labelId="size-select-label"
@@ -247,7 +275,13 @@ const ScheduleInput: React.FC = () => {
                     <div css={css`
                             ${twoColumnChild};
                         `}>
-                        <h2>Participants</h2>
+                        <h2 css={{
+                            marginTop: 24,
+                            /* breakpoint for large screen overrides, 1280px wide */
+                            '@media(min-width: 1248px)': {
+                                marginTop: 8
+                            }
+                        }}>Participants</h2>
                         <div id="existing-participants" css={{
                             '& > *': {
                                 marginBottom: 8,

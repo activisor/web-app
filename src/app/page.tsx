@@ -49,13 +49,25 @@ export default function Home() {
     }
 
     return (
-        <main >
-            <h1 css={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-            }}>Activisor</h1>
-            <ScheduleInput />
+        <main css={{
+            display: 'flex',
+            justifyContent: 'center',
+            /* breakpoint for large screen overrides, 1280px wide */
+            '@media(min-width: 1248px)': {
+                marginTop: 16
+            }
+        }}>
+            <div>
+                <h1 css={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    '@media(max-width: 1247px)': {
+                        marginTop: 8
+                    }
+                }}>Activisor</h1>
+                <ScheduleInput />
+            </div>
         </main>
     );
 }

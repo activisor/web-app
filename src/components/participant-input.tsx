@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 'use client'
 
-// import { css } from '@emotion/react'
+import { css } from '@emotion/react';
 import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import AddIcon from '@mui/icons-material/Add';
@@ -24,6 +24,12 @@ export const DELETE_EVENT = 'activisor:delete-participant';
 const participantSchema = yup.object({
     email: yup.string().email('Invalid email address').required('Required'),
     name: yup.string(),
+});
+
+const participantInputStyle = css({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
 });
 
 const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
@@ -112,7 +118,9 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
     };
 
     return (
-        <div className="flex items-center justify-between p-4">
+        <div css={css`
+            display: flex;
+        `}>
             <TextField name="email"
                 id="participant-email"
                 type={"email"}
