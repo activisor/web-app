@@ -3,14 +3,9 @@ import { appContainer } from '@/inversify.config';
 import { TYPES } from "@/inversify-types";
 
 export async function POST(request: NextRequest) {
-    let dto = "";
-    try {
-        dto = await request.json();
-    } catch (error) {
-        console.log(error);
-        dto = await request.text();
-    }
+    // parse multipart/form-data
+    const formData = await request.formData()
 
-    console.log(dto);
+    console.log(formData);
     return new Response('', { status: 200 });
 }
