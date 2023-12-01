@@ -3,6 +3,7 @@ import { appContainer } from '@/inversify.config';
 import { TYPES } from "@/inversify-types";
 
 export async function POST(request: NextRequest) {
-    console.log('POST /api/mail-relay');
+    const dto = await request.json();
+    console.log(dto);
     return new Response('', { status: 200 });
 }
