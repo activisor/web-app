@@ -30,6 +30,20 @@ test('should extract subject', () => {
   expect(result.subject).toBe('Test Subject');
 });
 
+test('should extract cc', () => {
+  const sut = new SendGridEmailExtractor();
+  const mockFormData = new FormData();
+  mockFormData.append('from', 'test@example.com');
+  mockFormData.append('cc', 'First CC <cc1@example.com>, cc2@example.com');
+
+  const result = sut.extract(mockFormData);
+  expect(result.participants).toEqual([
+    { email: 'test@example.com', name: '' },
+    { email: 'cc1@example.com', name: 'First Cc' },
+    { email: 'cc2@example.com', name: '' },
+  ]);
+});
+
 /*
 test('should extract sender without name', () => {
   const sut = new SendGridEmailExtractor();

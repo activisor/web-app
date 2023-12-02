@@ -45,25 +45,16 @@ function parseEmail(text: string): Participant {
  */
 class SendGridEmailExtractor implements EmailExtraction {
     extract(body: FormData): EmailExtract {
-        const participants: Participant[] = [];
         const sender: Participant = parseEmail(body.get('from') as string);
-        /*
-        const sender: Participant = {
-            email: body.get('from') as string,
-            name: body.get('fromname') as string
-        };
-        */
+        const participants: Participant[] = [sender];
+
         const subject: string = body.get('subject') as string;
 
         const cc: string = body.get('cc') as string;
         if (cc) {
             const ccList: string[] = cc.split(',');
             ccList.forEach((cc) => {
-                const ccParticipant: Participant = {
-                    email: cc,
-                    name: cc
-                };
-                participants.push(ccParticipant);
+                participants.push(parseEmail(cc));
             });
         }
 
