@@ -8,6 +8,7 @@ const TYPES = {
     DateRangeParse: Symbol.for('DateRangeParse'),
     SheetSpecification: Symbol.for('SheetSpecification'),
     DEVARIANCE_COEF: Symbol.for('DEVARIANCE_COEF'),
+    SCHEDULER_EMAIL: Symbol.for('SCHEDULER_EMAIL'),
 };
 
 export { TYPES };

@@ -1,7 +1,9 @@
 import { SendGridEmailExtractor } from '@/lib/email/sendgrid-email-extractor';
 
+const schedulerEmail = 'scheduler@example.com';
+const sut = new SendGridEmailExtractor(schedulerEmail);
+
 test('should extract sender with name and email correctly', () => {
-  const sut = new SendGridEmailExtractor();
   const mockFormData = new FormData();
   mockFormData.append('from', ' FIRST middle NAME-LAST <test@example.com> ');
 
@@ -11,7 +13,6 @@ test('should extract sender with name and email correctly', () => {
 });
 
 test('should extract sender with only email correctly', () => {
-  const sut = new SendGridEmailExtractor();
   const mockFormData = new FormData();
   mockFormData.append('from', ' test@example.com ');
 
@@ -21,7 +22,6 @@ test('should extract sender with only email correctly', () => {
 });
 
 test('should extract subject', () => {
-  const sut = new SendGridEmailExtractor();
   const mockFormData = new FormData();
   mockFormData.append('subject', ' Test Subject ');
 
@@ -30,11 +30,10 @@ test('should extract subject', () => {
   expect(result.subject).toBe('Test Subject');
 });
 
-test('should extract cc', () => {
-  const sut = new SendGridEmailExtractor();
+test('should extract cc, excluding scheduler email', () => {
   const mockFormData = new FormData();
   mockFormData.append('from', 'test@example.com');
-  mockFormData.append('cc', 'First CC <cc1@example.com>, cc2@example.com');
+  mockFormData.append('cc', `First CC <cc1@example.com>, cc2@example.com, Scheduler <${schedulerEmail}>`);
 
   const result = sut.extract(mockFormData);
   expect(result.participants).toEqual([
@@ -44,8 +43,19 @@ test('should extract cc', () => {
   ]);
 });
 
+test('should extract to, excluding scheduler email', () => {
+  const mockFormData = new FormData();
+  mockFormData.append('from', 'test@example.com');
+  mockFormData.append('to', `Scheduler <${schedulerEmail}>, Second To <to@example.com>`);
+  const result = sut.extract(mockFormData);
+  expect(result.participants).toEqual([
+    { email: 'test@example.com', name: '' },
+    { email: 'to@example.com', name: 'Second To' },
+  ]);
+});
+
 /*
-test('should extract sender without name', () => {
+test('should remove duplicate participants', () => {
   const sut = new SendGridEmailExtractor();
   const mockFormData = new FormData();
   mockFormData.append('from', 'test@example.com');

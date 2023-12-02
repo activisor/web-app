@@ -3,6 +3,10 @@
  * @description implementation to extract data from SendGrid inbound parse webhook
  */
 
+import { injectable, inject } from 'inversify';
+import "reflect-metadata";
+import { TYPES } from "@/inversify-types";
+
 import { EmailExtraction } from './email-extraction';
 import { EmailExtract } from './email-extract';
 import { Participant } from '../participant';
@@ -38,12 +42,30 @@ function parseEmail(text: string): Participant {
         name: name
     };
 }
+
+
 /**
  * @class SendGridEmailExtractor
  * @implements EmailExtraction
  * @description implementation to extract data from SendGrid inbound parse webhook
  */
 class SendGridEmailExtractor implements EmailExtraction {
+    private _schedulerEmail: string;
+
+    constructor(@inject(TYPES.SCHEDULER_EMAIL) schedulerEmail: string) {
+        this._schedulerEmail = schedulerEmail;
+    }
+
+    _addParticipants(participants: Participant[], items: string): void {
+        const itemsList: string[] = items.split(',');
+        itemsList.forEach((item) => {
+            const participant = parseEmail(item);
+            if (participant.email != this._schedulerEmail) {
+                participants.push(participant);
+            }
+        });
+    }
+
     extract(body: FormData): EmailExtract {
         const sender: Participant = parseEmail(body.get('from') as string);
         const participants: Participant[] = [sender];
@@ -52,22 +74,12 @@ class SendGridEmailExtractor implements EmailExtraction {
 
         const cc: string = body.get('cc') as string;
         if (cc) {
-            const ccList: string[] = cc.split(',');
-            ccList.forEach((cc) => {
-                participants.push(parseEmail(cc));
-            });
+            this._addParticipants(participants, cc);
         }
 
         const to: string = body.get('to') as string;
         if (to) {
-            const toList: string[] = to.split(',');
-            toList.forEach((to) => {
-                const toParticipant: Participant = {
-                    email: to,
-                    name: to
-                };
-                participants.push(toParticipant);
-            });
+            this._addParticipants(participants, to);
         }
 
         const emailExtract: EmailExtract = {
