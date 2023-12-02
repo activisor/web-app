@@ -1,5 +1,4 @@
 import { SendGridEmailExtractor } from '@/lib/email/sendgrid-email-extractor';
-import { DateRangeParser } from '@/lib/sheets/date-range-parser';
 
 test('should extract sender with name and email correctly', () => {
   const sut = new SendGridEmailExtractor();
@@ -19,6 +18,16 @@ test('should extract sender with only email correctly', () => {
   const result = sut.extract(mockFormData);
 
   expect(result.sender).toEqual({ email: 'test@example.com', name: '' });
+});
+
+test('should extract subject', () => {
+  const sut = new SendGridEmailExtractor();
+  const mockFormData = new FormData();
+  mockFormData.append('subject', ' Test Subject ');
+
+  const result = sut.extract(mockFormData);
+
+  expect(result.subject).toBe('Test Subject');
 });
 
 /*

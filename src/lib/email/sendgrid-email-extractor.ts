@@ -82,7 +82,7 @@ class SendGridEmailExtractor implements EmailExtraction {
         const emailExtract: EmailExtract = {
             participants: participants,
             sender: sender,
-            subject: subject
+            subject: subject? subject.trim() : ''
         };
 
         return emailExtract;
