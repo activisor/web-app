@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest --watch"
+    "test": "jest --watch",
+    "test-all": "jest --all"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
