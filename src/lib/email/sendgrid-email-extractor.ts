@@ -43,7 +43,6 @@ function parseEmail(text: string): Participant {
     };
 }
 
-
 /**
  * @class SendGridEmailExtractor
  * @implements EmailExtraction
@@ -80,6 +79,11 @@ class SendGridEmailExtractor implements EmailExtraction {
         const to: string = body.get('to') as string;
         if (to) {
             this._addParticipants(participants, to);
+        }
+
+        const text: string = body.get('text') as string;
+        if (text) {
+            this._addParticipants(participants, text);
         }
 
         const emailExtract: EmailExtract = {
