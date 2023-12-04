@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
     // parse multipart/form-data
     const formData = await request.formData()
 
-    console.log(formData);
+    // console.log(formData);
     console.log(`subject: ${formData.get('subject')}`);
     console.log(`cc: ${formData.get('cc')}`);
     console.log(`dkim: ${formData.get('dkim')}, ${typeof formData.get('dkim')}`);
@@ -20,7 +20,8 @@ export async function POST(request: NextRequest) {
     console.log(JSON.stringify(email));
 
     const sendGridEmailResponder = appContainer.get<EmailExtractProcessing>(TYPES.SendGridEmailResponder);
-    sendGridEmailResponder.process(email);
+    const result = await sendGridEmailResponder.process(email);
+    console.log(`sendGridEmailResponder result: ${result}`);
 
     return new Response('', { status: 200 });
 }

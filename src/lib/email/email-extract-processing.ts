@@ -9,7 +9,7 @@ interface EmailExtractProcessing {
      * @param emailData
      * @returns true if successful, false otherwise
      */
-    process: (emailData: EmailExtract) => boolean;
+    process: (emailData: EmailExtract) => Promise<boolean>;
 }
 
 export type { EmailExtractProcessing };

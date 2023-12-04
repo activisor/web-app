@@ -6,7 +6,8 @@
 import { injectable, inject } from 'inversify';
 import 'reflect-metadata';
 import { TYPES } from '@/inversify-types';
-import sendGridMail from '@sendgrid/mail';
+import sgMail, { MailDataRequired } from '@sendgrid/mail';
+import ResponseError from '@sendgrid/helpers/classes/response-error';
 
 import { EmailExtract } from './email-extract';
 import { EmailExtractProcessing } from './email-extract-processing';
@@ -22,33 +23,35 @@ class SendGridEmailResponder implements EmailExtractProcessing {
 
     constructor(
         @inject(TYPES.SENDGRID_API_KEY) apiKey: string,
-        @inject(TYPES.SCHEDULER_EMAIL) schedulerEmail: string
+        @inject(TYPES.SCHEDULER_RESPONDER_EMAIL) schedulerEmail: string
     ) {
-        sendGridMail.setApiKey(apiKey);
+        sgMail.setApiKey(apiKey);
         this._schedulerEmail = schedulerEmail;
     }
 
-    process(emailData: EmailExtract): boolean {
-        console.log(`emailData: ${JSON.stringify(emailData)}`);
-
-        const msg = {
+    async process(emailData: EmailExtract): Promise<boolean> {
+        const msg: MailDataRequired = {
             to: emailData.sender,
-            from: this._schedulerEmail, // Change to your verified sender
+            from: this._schedulerEmail,
             subject: emailData.subject,
             text: 'and easy to do anywhere, even with Node.js',
             html: '<strong>and easy to do anywhere, even with Node.js</strong>',
         };
 
-        sendGridMail
-            .send(msg)
-            .then(() => {
-                console.log('Email sent')
-            })
-            .catch((error) => {
-                console.error(error)
-            });
+        console.log(`msg: ${JSON.stringify(msg)}`);
+        let result = false;
+        try {
+            await sgMail.send(msg);
+            console.log(`Email sent to ${emailData.sender}`);
+            result = true;
+        } catch (error) {
+            console.error('Error sending test email');
+            if (error instanceof ResponseError) {
+                console.error(JSON.stringify(error.response.body))
+            }
+        }
 
-        return true;
+        return result;
     }
 }
 

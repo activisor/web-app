@@ -50,7 +50,7 @@ function getUniqueParticipants(participants: Participant[]): Participant[] {
 class SendGridEmailExtractor implements EmailExtraction {
     private _schedulerEmail: string;
 
-    constructor(@inject(TYPES.SCHEDULER_EMAIL) schedulerEmail: string) {
+    constructor(@inject(TYPES.SCHEDULE_ENTRY_EMAIL) schedulerEmail: string) {
         this._schedulerEmail = schedulerEmail;
     }
 

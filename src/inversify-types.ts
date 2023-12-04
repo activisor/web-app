@@ -10,7 +10,8 @@ const TYPES = {
     SendGridEmailExtractor: Symbol.for('SendGridEmailExtractor'),
     SendGridEmailResponder: Symbol.for('SendGridEmailResponder'),
     DEVARIANCE_COEF: Symbol.for('DEVARIANCE_COEF'),
-    SCHEDULER_EMAIL: Symbol.for('SCHEDULER_EMAIL'),
+    SCHEDULE_ENTRY_EMAIL: Symbol.for('SCHEDULE_ENTRY_EMAIL'),
+    SCHEDULER_RESPONDER_EMAIL: Symbol.for('SCHEDULER_RESPONDER_EMAIL'),
     SENDGRID_API_KEY: Symbol.for('SENDGRID_API_KEY'),
 };
 
