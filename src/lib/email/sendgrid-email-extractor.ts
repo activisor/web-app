@@ -9,33 +9,22 @@ import { TYPES } from "@/inversify-types";
 
 import { EmailExtraction } from './email-extraction';
 import { EmailExtract } from './email-extract';
+import { extractEmail, extractName } from './extract-email-fields';
 import { Participant } from '../participant';
+import { toTitleCase } from '../text';
 
-function toTitleCase(str: string) {
-    // greedy match for all non-whitespace and non-hyphen characters
-    return str.replace(/[^\s\-]+/g, function(txt: string){
-        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-    });
-}
-
-function parseEmail(text: string): Participant {
+function getParticipant(text: string): Participant | null {
     if (!text) {
-        return {
-            email: '',
-            name: ''
-        };
+        return null;
     };
 
-    // email regex: optional non-capturing groups for < and > around email address,
-    //   then match text with no whitespace or @, then @,
-    //   then text with no whitespace or @, then ., then text with no whitespace or @
-    const emailMatches = text.match(/(?:<)?([^\s@]+@[^\s@]+\.[^\s@>]+)(?:>)?/);
-    const email = emailMatches ? emailMatches[1] : '';
+    const email = extractEmail(text);
+    if (!email) {
+        return null;
+    };
 
-    // name regex: capture group preceding <
-    const nameMatches = text.match(/(.*)</);
-    let name = nameMatches ? nameMatches[1] : '';
-    name = toTitleCase(name.trim());
+    let name = extractName(text);
+    name = toTitleCase(name);
 
     return {
         email: email,
@@ -58,15 +47,19 @@ class SendGridEmailExtractor implements EmailExtraction {
     _addParticipants(participants: Participant[], items: string): void {
         const itemsList: string[] = items.split(',');
         itemsList.forEach((item) => {
-            const participant = parseEmail(item);
-            if (participant.email != this._schedulerEmail) {
+            const participant = getParticipant(item);
+            if (participant && (participant.email != this._schedulerEmail)) {
                 participants.push(participant);
             }
         });
     }
 
     extract(body: FormData): EmailExtract {
-        const sender: Participant = parseEmail(body.get('from') as string);
+        const sender = getParticipant(body.get('from') as string);
+        if (!sender) {
+            throw new Error('Sender not found');
+        }
+        
         const participants: Participant[] = [sender];
 
         const subject: string = body.get('subject') as string;
@@ -82,8 +75,14 @@ class SendGridEmailExtractor implements EmailExtraction {
         }
 
         const text: string = body.get('text') as string;
+
         if (text) {
-            this._addParticipants(participants, text);
+            const textSections = text.toLowerCase().split(/from:|to:|cc:/);
+            textSections.forEach((section) => {
+                if (section.length > 1) {
+                    this._addParticipants(participants, section);
+                }
+            });
         }
 
         const emailExtract: EmailExtract = {

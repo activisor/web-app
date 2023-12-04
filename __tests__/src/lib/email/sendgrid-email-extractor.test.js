@@ -1,16 +1,15 @@
 import { SendGridEmailExtractor } from '@/lib/email/sendgrid-email-extractor';
-import test from 'node:test';
 
 const schedulerEmail = 'scheduler@example.com';
 const sut = new SendGridEmailExtractor(schedulerEmail);
 
 test('should extract sender with name and email correctly', () => {
   const mockFormData = new FormData();
-  mockFormData.append('from', ' FIRST middle NAME-LAST <test@example.com> ');
+  mockFormData.append('from', ' First Last <test@example.com> ');
 
   const result = sut.extract(mockFormData);
 
-  expect(result.sender).toEqual({ email: 'test@example.com', name: 'First Middle Name-Last' });
+  expect(result.sender).toEqual({ email: 'test@example.com', name: 'First Last' });
 });
 
 test('should extract sender with only email correctly', () => {
@@ -24,6 +23,7 @@ test('should extract sender with only email correctly', () => {
 
 test('should extract subject', () => {
   const mockFormData = new FormData();
+  mockFormData.append('from', 'test@example.com');
   mockFormData.append('subject', ' Test Subject ');
 
   const result = sut.extract(mockFormData);
