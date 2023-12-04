@@ -47,7 +47,7 @@ test('should extract CC participants, excluding scheduler email', () => {
 test('should extract To participants, excluding scheduler email', () => {
   const mockFormData = new FormData();
   mockFormData.append('from', 'test@example.com');
-  mockFormData.append('to', `Scheduler <${schedulerEmail}>, Second To <to@example.com>`);
+  mockFormData.append('to', `Scheduler <${schedulerEmail}>, ${schedulerEmail}, Second To <to@example.com>`);
   const result = sut.extract(mockFormData);
   expect(result.participants).toEqual([
     { email: 'test@example.com', name: '' },
@@ -88,36 +88,27 @@ text body
     { email: 'p5@example.com', name: '' },
   ]);
 });
-/*
+
+
 test('should remove duplicate participants', () => {
-  const sut = new SendGridEmailExtractor();
   const mockFormData = new FormData();
-  mockFormData.append('from', 'test@example.com');
+  const sender = 'Sender <sender@example.com>';
+  const participant2 = 'Participant 2 <p2@example.com>';
+
+  mockFormData.append('from', sender);
   mockFormData.append('subject', 'Test Subject');
-  mockFormData.append('cc', 'cc1@example.com,cc2@example.com');
-  mockFormData.append('to', 'to1@example.com,to2@example.com');
+  mockFormData.append('cc', `${sender}, ${participant2}`);
+  mockFormData.append('to', `${schedulerEmail}, ${participant2}`);
+  mockFormData.append('text', `
+From: ${sender}
+To: ${participant2}
+  `);
 
   const result = sut.extract(mockFormData);
 
-  expect(result.sender.email).toEqual('test@example.com');
+  expect(result.participants).toEqual([
+    { email: 'sender@example.com', name: 'Sender' },
+    { email: 'p2@example.com', name: 'Participant 2' },
+  ]);
 });
 
-    it('should extract participants correctly', () => {
-      const mockFormData = new FormData();
-      mockFormData.append('from', 'TEST NAME <test@example.com>');
-      mockFormData.append('fromname', 'Test Sender');
-      mockFormData.append('subject', 'Test Subject');
-      mockFormData.append('cc', 'cc1@example.com,cc2@example.com');
-      mockFormData.append('to', 'to1@example.com,to2@example.com');
-
-      const result = extractor.extract(mockFormData);
-
-      expect(result.sender).toEqual({ email: 'test@example.com', name: 'Test Sender' });
-      expect(result.subject).toBe('Test Subject');
-      expect(result.participants).toEqual([
-          { email: 'cc1@example.com', name: 'cc1@example.com' },
-          { email: 'cc2@example.com', name: 'cc2@example.com' },
-          { email: 'to1@example.com', name: 'to1@example.com' },
-          { email: 'to2@example.com', name: 'to2@example.com' },
-      ]);
-  });*/

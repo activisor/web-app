@@ -23,13 +23,22 @@ function getParticipant(text: string): Participant | null {
         return null;
     };
 
-    let name = extractName(text);
-    name = toTitleCase(name);
+    const name = extractName(text);
 
     return {
         email: email,
-        name: name
+        name: toTitleCase(name)
     };
+}
+
+function getUniqueParticipants(participants: Participant[]): Participant[] {
+    const uniqueParticipants: Participant[] = [];
+    participants.forEach((participant) => {
+        if (!uniqueParticipants.find((p) => p.email === participant.email)) {
+            uniqueParticipants.push(participant);
+        }
+    });
+    return uniqueParticipants;
 }
 
 /**
@@ -37,6 +46,7 @@ function getParticipant(text: string): Participant | null {
  * @implements EmailExtraction
  * @description implementation to extract data from SendGrid inbound parse webhook
  */
+@injectable()
 class SendGridEmailExtractor implements EmailExtraction {
     private _schedulerEmail: string;
 
@@ -59,7 +69,7 @@ class SendGridEmailExtractor implements EmailExtraction {
         if (!sender) {
             throw new Error('Sender not found');
         }
-        
+
         const participants: Participant[] = [sender];
 
         const subject: string = body.get('subject') as string;
@@ -86,7 +96,7 @@ class SendGridEmailExtractor implements EmailExtraction {
         }
 
         const emailExtract: EmailExtract = {
-            participants: participants,
+            participants: getUniqueParticipants(participants),
             sender: sender,
             subject: subject? subject.trim() : ''
         };
