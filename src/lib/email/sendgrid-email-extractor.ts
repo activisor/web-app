@@ -4,8 +4,8 @@
  */
 
 import { injectable, inject } from 'inversify';
-import "reflect-metadata";
-import { TYPES } from "@/inversify-types";
+import 'reflect-metadata';
+import { TYPES } from '@/inversify-types';
 
 import { EmailExtraction } from './email-extraction';
 import { EmailExtract } from './email-extract';
@@ -44,7 +44,7 @@ function getUniqueParticipants(participants: Participant[]): Participant[] {
 /**
  * @class SendGridEmailExtractor
  * @implements EmailExtraction
- * @description implementation to extract data from SendGrid inbound parse webhook
+ * @description implementation to extract schedule data from SendGrid inbound parse webhook
  */
 @injectable()
 class SendGridEmailExtractor implements EmailExtraction {

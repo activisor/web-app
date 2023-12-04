@@ -2,6 +2,7 @@ import type { NextRequest } from "next/server"
 import { appContainer } from '@/inversify.config';
 import { TYPES } from "@/inversify-types";
 import { EmailExtraction } from '@/lib/email/email-extraction';
+import { EmailExtractProcessing } from '@/lib/email/email-extract-processing';
 
 export async function POST(request: NextRequest) {
     // parse multipart/form-data
@@ -17,6 +18,9 @@ export async function POST(request: NextRequest) {
     const sendGridEmailExtractor = appContainer.get<EmailExtraction>(TYPES.SendGridEmailExtractor);
     const email = sendGridEmailExtractor.extract(formData);
     console.log(JSON.stringify(email));
+
+    const sendGridEmailResponder = appContainer.get<EmailExtractProcessing>(TYPES.SendGridEmailResponder);
+    sendGridEmailResponder.process(email);
 
     return new Response('', { status: 200 });
 }
