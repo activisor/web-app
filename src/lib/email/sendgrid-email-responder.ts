@@ -41,11 +41,11 @@ class SendGridEmailResponder implements EmailExtractProcessing {
         const msg: MailDataRequired = {
             to: emailData.sender,
             from: this._schedulerEmail,
-            subject: `Re: ${emailData.subject}`,
             templateId: this._emailTemplateId,
             dynamicTemplateData: {
-              userName: emailData.sender.name,
-              scheduleMakerLink: `https://activisor.com?data=${queryParam}`,
+                subject: `Re: ${emailData.subject}`,
+                userName: emailData.sender.name,
+                scheduleMakerLink: `https://activisor.com?data=${queryParam}`,
             },
         };
 
