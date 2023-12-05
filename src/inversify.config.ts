@@ -29,5 +29,6 @@ appContainer.bind<number>(TYPES.DEVARIANCE_COEF).toConstantValue(0.01);
 appContainer.bind<string>(TYPES.SCHEDULE_ENTRY_EMAIL).toConstantValue(process.env.SCHEDULE_ENTRY_EMAIL as string);
 appContainer.bind<string>(TYPES.SCHEDULER_RESPONDER_EMAIL).toConstantValue(process.env.SCHEDULER_RESPONDER_EMAIL as string);
 appContainer.bind<string>(TYPES.SENDGRID_API_KEY).toConstantValue(process.env.SENDGRID_API_KEY as string);
+appContainer.bind<string>(TYPES.SENDGRID_TEMPLATE_ID).toConstantValue(process.env.SENDGRID_TEMPLATE_ID as string);
 
 export { appContainer };

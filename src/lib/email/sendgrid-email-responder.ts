@@ -20,22 +20,27 @@ import { EmailExtractProcessing } from './email-extract-processing';
 @injectable()
 class SendGridEmailResponder implements EmailExtractProcessing {
     private _schedulerEmail: string;
+    private _emailTemplateId: string;
 
     constructor(
         @inject(TYPES.SENDGRID_API_KEY) apiKey: string,
-        @inject(TYPES.SCHEDULER_RESPONDER_EMAIL) schedulerEmail: string
+        @inject(TYPES.SCHEDULER_RESPONDER_EMAIL) schedulerEmail: string,
+        @inject(TYPES.SENDGRID_TEMPLATE_ID) emailTemplateId: string,
     ) {
         sgMail.setApiKey(apiKey);
         this._schedulerEmail = schedulerEmail;
+        this._emailTemplateId = emailTemplateId;
     }
 
     async process(emailData: EmailExtract): Promise<boolean> {
         const msg: MailDataRequired = {
             to: emailData.sender,
             from: this._schedulerEmail,
-            subject: emailData.subject,
-            text: 'and easy to do anywhere, even with Node.js',
-            html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+            templateId: this._emailTemplateId,
+            dynamicTemplateData: {
+              userName: emailData.sender.name,
+              scheduleMakerLink: 'https://activisor.com',
+            },
         };
 
         console.log(`msg: ${JSON.stringify(msg)}`);
