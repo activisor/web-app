@@ -8,7 +8,7 @@ import 'reflect-metadata';
 import { TYPES } from '@/inversify-types';
 
 import { EmailExtraction } from './email-extraction';
-import { EmailExtract } from './email-extract';
+import { EmailExtract } from '../email-extract';
 import { extractEmail, extractName } from './extract-email-fields';
 import { Participant } from '../participant';
 import { toTitleCase } from '../text';

@@ -1,7 +1,7 @@
 /**
  * interface for processing EmailExtracts
  */
-import { EmailExtract } from './email-extract';
+import { EmailExtract } from '../email-extract';
 
 interface EmailExtractProcessing {
     /**
