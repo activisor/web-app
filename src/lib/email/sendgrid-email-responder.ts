@@ -9,6 +9,7 @@ import { TYPES } from '@/inversify-types';
 import sgMail, { MailDataRequired } from '@sendgrid/mail';
 import ResponseError from '@sendgrid/helpers/classes/response-error';
 
+import { encode, decode } from '../base64-convert';
 import { removeSubstring } from '../text';
 import { EmailExtract } from '../email-extract';
 import { EmailExtractProcessing } from './email-extract-processing';
@@ -34,16 +35,17 @@ class SendGridEmailResponder implements EmailExtractProcessing {
     }
 
     async process(emailData: EmailExtract): Promise<boolean> {
-        const scheduleName = removeSubstring(emailData.subject, 'Fwd: ');
+        emailData.subject = removeSubstring(emailData.subject, 'Fwd: ');
+        const queryParam = encode(emailData);
 
         const msg: MailDataRequired = {
             to: emailData.sender,
             from: this._schedulerEmail,
-            subject: `Re: ${scheduleName}`,
+            subject: `Re: ${emailData.subject}`,
             templateId: this._emailTemplateId,
             dynamicTemplateData: {
               userName: emailData.sender.name,
-              scheduleMakerLink: 'https://activisor.com',
+              scheduleMakerLink: `https://activisor.com?data=${queryParam}`,
             },
         };
 
