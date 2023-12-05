@@ -7,10 +7,10 @@ import Frequency from './frequency';
 interface ScheduleData {
     scheduleName: string;
     participants: Participant[];
-    startDate: Date;
-    endDate: Date;
-    groupSize: number;
-    frequency: Frequency;
+    startDate?: Date;
+    endDate?: Date;
+    groupSize?: number;
+    frequency?: Frequency;
 }
 
 export type { ScheduleData };

@@ -1,0 +1,17 @@
+{
+    "participants": [
+        {
+            "name": "Art Test",
+            "email": "art@test.com"
+        },
+        {
+            "name": "Betty Test",
+            "email": "betty@test.com"
+        }
+    ],
+    "sender": {
+        "name": "Sender",
+        "email": "sender@test.com"
+    },
+    "subject": "Test Subject"
+}
