@@ -13,6 +13,7 @@ import { encode, decode } from '../base64-convert';
 import { removeSubstring } from '../text';
 import { EmailExtract } from '../email-extract';
 import { EmailExtractProcessing } from './email-extract-processing';
+import { splitFieldInternalAndForwardedProps } from '@mui/x-date-pickers/internals';
 
 /**
  * @class SendGridEmailResponder
@@ -37,6 +38,13 @@ class SendGridEmailResponder implements EmailExtractProcessing {
     async process(emailData: EmailExtract): Promise<boolean> {
         emailData.subject = removeSubstring(emailData.subject, 'Fwd: ');
         const queryParam = encode(emailData);
+        const link = `https://activisor.com?data=${queryParam}`;
+        const linkText = link.substring(0, 70);
+
+        let firstName =  '';
+        if (emailData.sender.name) {
+            firstName = emailData.sender.name.split(' ')[0];
+        }
 
         const msg: MailDataRequired = {
             to: emailData.sender,
@@ -44,8 +52,9 @@ class SendGridEmailResponder implements EmailExtractProcessing {
             templateId: this._emailTemplateId,
             dynamicTemplateData: {
                 subject: `Re: ${emailData.subject}`,
-                userName: emailData.sender.name,
-                scheduleMakerLink: `https://activisor.com?data=${queryParam}`,
+                userName: firstName,
+                scheduleMakerLink: link,
+                scheduleMakerLinkText: linkText,
             },
         };
 
