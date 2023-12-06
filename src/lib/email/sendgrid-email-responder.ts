@@ -27,7 +27,7 @@ class SendGridEmailResponder implements EmailExtractProcessing {
 
     constructor(
         @inject(TYPES.SENDGRID_API_KEY) apiKey: string,
-        @inject(TYPES.SCHEDULER_RESPONDER_EMAIL) schedulerEmail: string,
+        @inject(TYPES.SCHEDULER_FROM_EMAIL) schedulerEmail: string,
         @inject(TYPES.SENDGRID_TEMPLATE_ID) emailTemplateId: string,
     ) {
         sgMail.setApiKey(apiKey);

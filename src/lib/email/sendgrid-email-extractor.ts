@@ -50,7 +50,7 @@ function getUniqueParticipants(participants: Participant[]): Participant[] {
 class SendGridEmailExtractor implements EmailExtraction {
     private _schedulerEmail: string;
 
-    constructor(@inject(TYPES.SCHEDULER_ENTRY_EMAIL) schedulerEmail: string) {
+    constructor(@inject(TYPES.SCHEDULER_TO_EMAIL) schedulerEmail: string) {
         this._schedulerEmail = schedulerEmail;
     }
 
@@ -65,7 +65,7 @@ class SendGridEmailExtractor implements EmailExtraction {
     }
 
     extract(body: FormData): EmailExtract {
-        console.log(`SCHEDULER_ENTRY_EMAIL: ${this._schedulerEmail}`);
+        console.log(`SCHEDULER_TO_EMAIL: ${this._schedulerEmail}`);
         const sender = getParticipant(body.get('from') as string);
         if (!sender) {
             throw new Error('Sender not found');
