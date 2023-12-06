@@ -19,13 +19,17 @@ export async function POST(request: NextRequest) {
             refresh_token: token.refreshToken as string,
             expiry_date: token.exp as number
         });
+        
         const sheetUrl = await sheetsManager.createSheet(dto);
+        if (sheetUrl) {
+            const obj = { url: sheetUrl };
+            const blob = new Blob([JSON.stringify(obj, null, 2)], {
+                type: "application/json",
+            });
+            return new Response(blob);
+        }
 
-        const obj = { url: sheetUrl };
-        const blob = new Blob([JSON.stringify(obj, null, 2)], {
-            type: "application/json",
-        });
-        return new Response(blob);
+        return new Response('', { status: 400 });
     }
 
     return new Response('', { status: 401 });

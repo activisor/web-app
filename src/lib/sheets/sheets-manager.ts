@@ -6,12 +6,27 @@ import "reflect-metadata";
 import { TYPES } from "@/inversify-types";
 import { Credentials, OAuth2Client } from 'google-auth-library';
 import { google } from 'googleapis';
+
+import Frequency from '../frequency';
 import type { SheetsManagement } from './sheets-management';
 import type { ScheduleData } from '../schedule-data';
 import type { DateRangeParse } from './date-range-parse';
 import type { Randomization } from './randomization';
 import type { SheetSpecification } from './sheet-specification';
 import { pairsVariance } from '@/analytics/pairs-variance';
+
+function isValidSchedulData(scheduleData: ScheduleData): boolean {
+    if (scheduleData.scheduleName
+        && scheduleData.participants && (scheduleData.participants.length > 0)
+        && scheduleData.startDate
+        && scheduleData.endDate
+        && scheduleData.groupSize
+        && scheduleData.frequency) {
+        return true;
+    }
+
+    return false;
+}
 
 @injectable()
 class SheetsManager implements SheetsManagement {
@@ -73,35 +88,39 @@ class SheetsManager implements SheetsManagement {
     }
 
     async createSheet(scheduleData: ScheduleData) {
-        const startDate = new Date(scheduleData.startDate);
-        const endDate = new Date(scheduleData.endDate);
-        const dates = this._dateRangeParser.parse(startDate, endDate, scheduleData.frequency);
-        const periods = dates.length;
-        const result = this._randomizer.randomize(periods, scheduleData.groupSize, scheduleData.participants);
-        console.log(`dates: ${JSON.stringify(dates)}`);
-        for (let i = 0; i < result.schedule.length; i++) {
-            const row = result.schedule[i];
-            console.log(`row ${i}: ${row.map(p => p.name).join(', ')}`);
-        }
-        
-        if(scheduleData.participants.length > 1) {
-            const variance = pairsVariance(result);
-            console.log(`variance: ${variance}`);
+        if (isValidSchedulData(scheduleData)) {
+            const startDate = new Date(scheduleData.startDate as Date);
+            const endDate = new Date(scheduleData.endDate as Date);
+            const dates = this._dateRangeParser.parse(startDate, endDate, scheduleData.frequency as Frequency);
+            const periods = dates.length;
+            const result = this._randomizer.randomize(periods, scheduleData.groupSize as number, scheduleData.participants);
+            console.log(`dates: ${JSON.stringify(dates)}`);
+            for (let i = 0; i < result.schedule.length; i++) {
+                const row = result.schedule[i];
+                console.log(`row ${i}: ${row.map(p => p.name).join(', ')}`);
+            }
+
+            if (scheduleData.participants.length > 1) {
+                const variance = pairsVariance(result);
+                console.log(`variance: ${variance}`);
+            }
+
+            const service = google.sheets({ version: 'v4', auth: this.oauth2Client as OAuth2Client });
+            const requestBody = {
+                properties: {
+                    title: scheduleData.scheduleName,
+                },
+                sheets: [this._sheetSpecifier.generate(dates, result)]
+            };
+            const spreadsheet = await service.spreadsheets.create({
+                requestBody,
+                fields: 'spreadsheetId',
+            }, {});
+
+            return `https://docs.google.com/spreadsheets/d/${spreadsheet.data.spreadsheetId}/edit?usp=sharing`;
         }
 
-        const service = google.sheets({ version: 'v4', auth: this.oauth2Client as OAuth2Client });
-        const requestBody = {
-            properties: {
-                title: scheduleData.scheduleName,
-            },
-            sheets: [ this._sheetSpecifier.generate(dates, result) ]
-        };
-        const spreadsheet = await service.spreadsheets.create({
-            requestBody,
-            fields: 'spreadsheetId',
-        }, {});
-
-        return `https://docs.google.com/spreadsheets/d/${spreadsheet.data.spreadsheetId}/edit?usp=sharing`;
+        return '';
     }
 }
 
