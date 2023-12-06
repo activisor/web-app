@@ -65,6 +65,7 @@ class SendGridEmailExtractor implements EmailExtraction {
     }
 
     extract(body: FormData): EmailExtract {
+        console.log(`SCHEDULE_ENTRY_EMAIL: ${this._schedulerEmail}`);
         const sender = getParticipant(body.get('from') as string);
         if (!sender) {
             throw new Error('Sender not found');

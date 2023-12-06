@@ -62,7 +62,7 @@ class SendGridEmailResponder implements EmailExtractProcessing {
         let result = false;
         try {
             await sgMail.send(msg);
-            console.log(`Email sent to ${emailData.sender}`);
+            console.log(`Email sent to ${emailData.sender.email}`);
             result = true;
         } catch (error) {
             console.error('Error sending test email');
