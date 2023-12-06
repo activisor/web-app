@@ -26,7 +26,7 @@ appContainer.bind<EmailExtractProcessing>(TYPES.SendGridEmailResponder).to(SendG
 
 // constants
 appContainer.bind<number>(TYPES.DEVARIANCE_COEF).toConstantValue(0.01);
-appContainer.bind<string>(TYPES.SCHEDULER_TO_EMAIL).toConstantValue(process.env.SCHEDULER_TO_EMAIL as string);
+appContainer.bind<string>(TYPES.SCHEDULER_TO_DOMAIN).toConstantValue(process.env.SCHEDULER_TO_DOMAIN as string);
 appContainer.bind<string>(TYPES.SCHEDULER_FROM_EMAIL).toConstantValue(process.env.SCHEDULER_FROM_EMAIL as string);
 appContainer.bind<string>(TYPES.SENDGRID_API_KEY).toConstantValue(process.env.SENDGRID_API_KEY as string);
 appContainer.bind<string>(TYPES.SENDGRID_TEMPLATE_ID).toConstantValue(process.env.SENDGRID_TEMPLATE_ID as string);

@@ -9,7 +9,7 @@ import { TYPES } from '@/inversify-types';
 
 import { EmailExtraction } from './email-extraction';
 import { EmailExtract } from '../email-extract';
-import { extractEmail, extractName } from './extract-email-fields';
+import { extractEmail, extractName, isFromDomain } from './extract-email-fields';
 import { Participant } from '../participant';
 import { toTitleCase } from '../text';
 
@@ -48,24 +48,23 @@ function getUniqueParticipants(participants: Participant[]): Participant[] {
  */
 @injectable()
 class SendGridEmailExtractor implements EmailExtraction {
-    private _schedulerEmail: string;
+    private _schedulerDomain: string;
 
-    constructor(@inject(TYPES.SCHEDULER_TO_EMAIL) schedulerEmail: string) {
-        this._schedulerEmail = schedulerEmail;
+    constructor(@inject(TYPES.SCHEDULER_TO_DOMAIN) schedulerDomain: string) {
+        this._schedulerDomain = schedulerDomain;
     }
 
     _addParticipants(participants: Participant[], items: string): void {
         const itemsList: string[] = items.split(',');
         itemsList.forEach((item) => {
             const participant = getParticipant(item);
-            if (participant && (participant.email != this._schedulerEmail)) {
+            if (participant && !isFromDomain(participant.email, this._schedulerDomain)) {
                 participants.push(participant);
             }
         });
     }
 
     extract(body: FormData): EmailExtract {
-        console.log(`SCHEDULER_TO_EMAIL: ${this._schedulerEmail}`);
         const sender = getParticipant(body.get('from') as string);
         if (!sender) {
             throw new Error('Sender not found');

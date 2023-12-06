@@ -27,4 +27,8 @@ function extractName(text: string): string {
     return extract(text, NAME_REGEX);
 }
 
-export { extractEmail, extractName };
+function isFromDomain(email: string, domain: string): boolean {
+    return email.endsWith(`@${domain}`);
+}
+
+export { extractEmail, extractName, isFromDomain };

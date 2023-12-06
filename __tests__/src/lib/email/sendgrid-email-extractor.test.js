@@ -1,7 +1,8 @@
 import { SendGridEmailExtractor } from '@/lib/email/sendgrid-email-extractor';
 
-const schedulerEmail = 'scheduler@example.com';
-const sut = new SendGridEmailExtractor(schedulerEmail);
+const schedulerDomain = 'mail.example.com';
+const schedulerEmail = `scheduler@${schedulerDomain}`;
+const sut = new SendGridEmailExtractor(schedulerDomain);
 
 test('should extract sender with name and email correctly', () => {
   const mockFormData = new FormData();
@@ -111,4 +112,3 @@ To: ${participant2}
     { email: 'p2@example.com', name: 'Participant 2' },
   ]);
 });
-
