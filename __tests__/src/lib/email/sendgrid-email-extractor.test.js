@@ -56,13 +56,13 @@ test('should extract To participants, excluding scheduler email', () => {
   ]);
 });
 
-test('should extract participants from text, excluding scheduler email', () => {
+test('should extract participants from forwarded text, excluding scheduler email', () => {
   const sender = 'Sender <sender@example.com>';
   const participant2 = 'Participant 2 <p2@example.com>';
   const participant3 = 'Participant 3 <p3@example.com>';
   const participant4_1 = 'Participant 4 <';
   const participant4_2 = 'p4@example.com>';
-  const particpant5 = 'p5@example.com';
+  const participant5 = 'p5@example.com';
 
   const mockFormData = new FormData();
   mockFormData.append('from', sender);
@@ -75,7 +75,7 @@ Date: Fri, Dec 1, 2023 at 8:52 AM
 Subject: test forward subject
 To: ${participant3}, ${participant4_1}
 ${participant4_2}, ${schedulerEmail}
-Cc: ${particpant5}
+Cc: ${participant5}
 text body
   `);
 
@@ -90,6 +90,38 @@ text body
   ]);
 });
 
+test('should extract participants from text body', () => {
+  const sender = 'Sender <sender@example.com>';
+  const participant2 = 'p2@example.com';
+  const participant3 = 'p3@example.com';
+  const participant4 = 'p4@example.com';
+  const participant5 = 'Participant 5 <p5@example.com>';
+
+  const mockFormData = new FormData();
+  mockFormData.append('from', sender);
+  mockFormData.append('text', `
+${participant2}
+${participant3}, ${participant4}
+
+
+---------- Forwarded message ---------
+From: ${participant5}
+Date: Fri, Dec 1, 2023 at 8:52 AM
+Subject: test forward subject
+To: ${schedulerEmail}
+forwarded text body
+  `);
+
+  const result = sut.extract(mockFormData);
+
+  expect(result.participants).toEqual([
+    { email: 'sender@example.com', name: 'Sender' },
+    { email: 'p2@example.com', name: '' },
+    { email: 'p3@example.com', name: '' },
+    { email: 'p4@example.com', name: '' },
+    { email: 'p5@example.com', name: 'Participant 5' },
+  ]);
+});
 
 test('should remove duplicate participants', () => {
   const mockFormData = new FormData();

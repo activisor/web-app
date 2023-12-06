@@ -88,11 +88,27 @@ class SendGridEmailExtractor implements EmailExtraction {
 
         if (text) {
             const textSections = text.toLowerCase().split(/from:|to:|cc:/);
-            textSections.forEach((section) => {
-                if (section.length > 1) {
-                    this._addParticipants(participants, section);
+
+            /* sections can be:
+                [0] - text before from:, can split on \n
+                [1] - from:
+                [2] - text before to:
+                [3] - to:
+                [4] - text before cc:
+                [5] - cc:
+            */
+            for (let i = 0; i < textSections.length; i++) {
+                if (i === 0) {
+                    const bodySections = textSections[i].split(/\n| |,/);
+                    bodySections.forEach((section) => {
+                        if (section.length > 1) {
+                            this._addParticipants(participants, section);
+                        }
+                    });
+                } else if(textSections[i].length > 1) {
+                    this._addParticipants(participants, textSections[i]);
                 }
-            });
+            }
         }
 
         const emailExtract: EmailExtract = {
