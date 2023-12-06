@@ -8,12 +8,15 @@ export async function POST(request: NextRequest) {
     // parse multipart/form-data
     const formData = await request.formData()
 
-    // console.log(formData);
     console.log(`subject: ${formData.get('subject')}`);
     console.log(`cc: ${formData.get('cc')}`);
-    console.log(`dkim: ${formData.get('dkim')}, ${typeof formData.get('dkim')}`);
     console.log(`from: ${formData.get('from')}`);
     console.log(`text: ${formData.get('text')}`);
+
+    console.log(`dkim: ${formData.get('dkim')}, ${typeof formData.get('dkim')}`);
+    console.log(`SPF: ${formData.get('SPF')}, ${typeof formData.get('SPF')}`);
+    console.log(`spam_score: ${formData.get('spam_score')}, ${typeof formData.get('spam_score')}`);
+    console.log(`spam_report: ${formData.get('spam_report')}`);
 
     const sendGridEmailExtractor = appContainer.get<EmailExtraction>(TYPES.SendGridEmailExtractor);
     const email = sendGridEmailExtractor.extract(formData);
