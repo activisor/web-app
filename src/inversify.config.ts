@@ -15,14 +15,17 @@ import type { EmailExtraction } from './lib/email/email-extraction';
 import { SendGridEmailExtractor } from './lib/email/sendgrid-email-extractor';
 import type { EmailExtractProcessing } from './lib/email/email-extract-processing';
 import { SendGridEmailResponder } from './lib/email/sendgrid-email-responder';
+import type { FormDataValidation } from './lib/form-data-validation';
+import { SendGridEmailSpamValidator } from './lib/email/sendgrid-email-spam-validator';
 
 const appContainer = new Container();
 appContainer.bind<Randomization>(TYPES.Randomization).to(Randomizer);
 appContainer.bind<SheetsManagement>(TYPES.SheetsManagement).to(SheetsManager);
 appContainer.bind<DateRangeParse>(TYPES.DateRangeParse).to(DateRangeParser);
 appContainer.bind<SheetSpecification>(TYPES.SheetSpecification).to(ScheduleSpecifier);
-appContainer.bind<EmailExtraction>(TYPES.SendGridEmailExtractor).to(SendGridEmailExtractor);
-appContainer.bind<EmailExtractProcessing>(TYPES.SendGridEmailResponder).to(SendGridEmailResponder);
+appContainer.bind<EmailExtraction>(TYPES.EmailExtraction).to(SendGridEmailExtractor);
+appContainer.bind<EmailExtractProcessing>(TYPES.EmailExtractProcessing).to(SendGridEmailResponder);
+appContainer.bind<FormDataValidation>(TYPES.SpamValidation).to(SendGridEmailSpamValidator);
 
 // constants
 appContainer.bind<number>(TYPES.DEVARIANCE_COEF).toConstantValue(0.01);

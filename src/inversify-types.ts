@@ -7,8 +7,10 @@ const TYPES = {
     SheetsManagement: Symbol.for('SheetsManagement'),
     DateRangeParse: Symbol.for('DateRangeParse'),
     SheetSpecification: Symbol.for('SheetSpecification'),
-    SendGridEmailExtractor: Symbol.for('SendGridEmailExtractor'),
-    SendGridEmailResponder: Symbol.for('SendGridEmailResponder'),
+    EmailExtraction: Symbol.for('EmailExtraction'),
+    EmailExtractProcessing: Symbol.for('EmailExtractProcessing'),
+    SpamValidation: Symbol.for('SpamValidation'),
+
     DEVARIANCE_COEF: Symbol.for('DEVARIANCE_COEF'),
     SCHEDULER_TO_DOMAIN: Symbol.for('SCHEDULER_TO_DOMAIN'),
     SCHEDULER_FROM_EMAIL: Symbol.for('SCHEDULER_FROM_EMAIL'),
