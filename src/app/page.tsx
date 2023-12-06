@@ -8,7 +8,7 @@ import ScheduleInput from '@/components/schedule-input';
 import { readItem, saveItem, hasStorage, GENERATION_REQUESTED, SCHEDULE_DATA } from '@/client-lib/local-storage';
 import type { Participant } from '@/lib/participant';
 import type { ScheduleData } from '@/lib/schedule-data';
-import { decode } from '@/lib/base64-convert';
+import { decode, isNodeJs } from '@/lib/base64-convert';
 
 export default function Home() {
     const { data: session, status } = useSession();
@@ -69,6 +69,7 @@ export default function Home() {
                 .then(data => {
                     // Handle API response data here
                     console.log(data);
+
                     window.open(data.url, '_self');
                 })
                 .catch(error => {
@@ -127,23 +128,25 @@ export default function Home() {
     }
 
     // get 'data' query param, if present
-    const params = new URLSearchParams(window.location.search);
-    let data = params.get('data');
-    // then base64 decode and save to local storage if not already present
-    if (data && hasStorage() && !readItem(SCHEDULE_DATA)) {
-        const emailExtract = decode(data);
+    if (!isNodeJs()) {
+        const params = new URLSearchParams(window.location.search);
+        let data = params.get('data');
+        // then base64 decode and save to local storage if not already present
+        if (data && hasStorage() && !readItem(SCHEDULE_DATA)) {
+            const emailExtract = decode(data);
 
-        let participantIndex = 1;
-        emailExtract.participants.forEach((participant: Participant) => {
-            participant.id = participantIndex;
-            participantIndex++;
-        });
+            let participantIndex = 1;
+            emailExtract.participants.forEach((participant: Participant) => {
+                participant.id = participantIndex;
+                participantIndex++;
+            });
 
-        const scheduleData: ScheduleData = {
-            participants: emailExtract.participants,
-            scheduleName: emailExtract.subject,
-        };
-        saveItem(SCHEDULE_DATA, scheduleData);
+            const scheduleData: ScheduleData = {
+                participants: emailExtract.participants,
+                scheduleName: emailExtract.subject,
+            };
+            saveItem(SCHEDULE_DATA, scheduleData);
+        }
     }
 
     return (

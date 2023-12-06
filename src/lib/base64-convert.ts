@@ -30,4 +30,4 @@ function decode(encoded: string): EmailExtract {
     return JSON.parse(json);
 }
 
-export { encode, decode };
+export { decode, encode, isNodeJs };
