@@ -2,6 +2,7 @@
 'use client'
 
 import { css } from '@emotion/react'
+import { useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import Skeleton from '@mui/material/Skeleton';
 import ScheduleInput from '@/components/schedule-input';
@@ -51,6 +52,30 @@ export default function Home() {
         width: '90%'
     });
 
+    useEffect(() => {
+        // get 'data' query param, if present
+        if (!isNodeJs()) {
+            const params = new URLSearchParams(window.location.search);
+            let data = params.get('data');
+            // then base64 decode and save to local storage if not already present
+            if (data && hasStorage() && !readItem(SCHEDULE_DATA)) {
+                const emailExtract = decode(data);
+
+                let participantIndex = 1;
+                emailExtract.participants.forEach((participant: Participant) => {
+                    participant.id = participantIndex;
+                    participantIndex++;
+                });
+
+                const scheduleData: ScheduleData = {
+                    participants: emailExtract.participants,
+                    scheduleName: emailExtract.subject,
+                };
+                saveItem(SCHEDULE_DATA, scheduleData);
+            }
+        }
+    }, []);
+
     // if token detected, get DTO, compress & redirect to /schedule with payload
     if (status === "authenticated") {
         if (!generationRequested) {
@@ -89,12 +114,12 @@ export default function Home() {
                 }
             }}>
                 <div css={{
-                        width: '100%',
-                        height: '100vh',
-                        '@media(min-width: 1248px)': {
-                            width: '50%'
-                        }
-                    }}>
+                    width: '100%',
+                    height: '100vh',
+                    '@media(min-width: 1248px)': {
+                        width: '50%'
+                    }
+                }}>
                     <h1 css={{
                         textAlign: 'center',
                         marginBottom: '10vh',
@@ -125,28 +150,6 @@ export default function Home() {
                 </div>
             </main>
         );
-    }
-
-    // get 'data' query param, if present
-    if (!isNodeJs()) {
-        const params = new URLSearchParams(window.location.search);
-        let data = params.get('data');
-        // then base64 decode and save to local storage if not already present
-        if (data && hasStorage() && !readItem(SCHEDULE_DATA)) {
-            const emailExtract = decode(data);
-
-            let participantIndex = 1;
-            emailExtract.participants.forEach((participant: Participant) => {
-                participant.id = participantIndex;
-                participantIndex++;
-            });
-
-            const scheduleData: ScheduleData = {
-                participants: emailExtract.participants,
-                scheduleName: emailExtract.subject,
-            };
-            saveItem(SCHEDULE_DATA, scheduleData);
-        }
     }
 
     return (

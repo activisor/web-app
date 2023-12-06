@@ -17,9 +17,10 @@ import * as yup from 'yup';
 import FormikMuiDatePicker from '@/components/formik-mui-date-picker';
 import ParticipantInput, { ParticipantInputProps, ADD_EVENT, CHANGE_EVENT, DELETE_EVENT } from './participant-input';
 import Frequency from '@/lib/frequency';
+import type { Participant } from '@/lib/participant';
 import type { ScheduleData } from '@/lib/schedule-data';
 import { subscribe } from '@/client-lib/events';
-import { saveItem, hasStorage, GENERATION_REQUESTED, SCHEDULE_DATA } from '@/client-lib/local-storage';
+import { readItem, saveItem, hasStorage, GENERATION_REQUESTED, SCHEDULE_DATA } from '@/client-lib/local-storage';
 
 const twoColumnChild = css({
     margin: 8,
@@ -56,6 +57,10 @@ const forceInt = (value: any): any => {
         return parseInt(value);
     }
     return value;
+}
+
+const toParticipantInputProps = (participant: Participant): ParticipantInputProps => {
+    return {...participant, saved: true };
 }
 
 const scheduleSchema = yup.object({
@@ -163,6 +168,15 @@ const ScheduleInput: React.FC = () => {
         subscribe(ADD_EVENT, handleAddParticipant);
         subscribe(CHANGE_EVENT, handleChangeParticipant);
         subscribe(DELETE_EVENT, handleDeleteParticipant);
+
+        // initialize form values from local storage if available and not already changed
+        if (hasStorage()) {
+            const dto: ScheduleData | null = readItem(SCHEDULE_DATA);
+            if (dto && !formikProps.values.scheduleName && !formikProps.values.participants.length) {
+                formikProps.setFieldValue('scheduleName', dto.scheduleName);
+                formikProps.setFieldValue('participants', dto.participants.map(toParticipantInputProps));
+            }
+        }
     });
 
     return (
