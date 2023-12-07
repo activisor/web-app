@@ -33,18 +33,18 @@ function getTotalsConditionalFormatRule(sheetId: number, rowIndex: number, numDa
         ranges: [
             {
                 startRowIndex: rowIndex,
-                endRowIndex: rowIndex,
+                endRowIndex: rowIndex + 1,
                 startColumnIndex: COLUMN_OFFSET,
-                endColumnIndex: COLUMN_OFFSET + numDates - 1,
+                endColumnIndex: COLUMN_OFFSET + numDates,
                 sheetId,
             },
         ],
         booleanRule: {
             condition: {
-                type: 'CUSTOM_FORMULA',
+                type: 'NUMBER_NOT_EQ',
                 values: [
                     {
-                        userEnteredValue: `=NUMBER_NOT_EQ(${groupNum})`,
+                        userEnteredValue: `${groupNum}`,
                     },
                 ],
             },
@@ -193,7 +193,8 @@ class ScheduleSpecifier implements SheetSpecification {
 
         result.push({
             addConditionalFormatRule: {
-                rule: totalsConditionalFormat
+                rule: totalsConditionalFormat,
+                index: 0,
             },
         });
 

@@ -3,13 +3,13 @@
  */
 import { injectable } from 'inversify';
 import "reflect-metadata";
+import { sheets_v4 } from 'googleapis';
 import type { RandomizeResult } from './randomize-result';
 import type { SheetSpecification } from './sheet-specification';
 
 @injectable()
 class DummySpecifier implements SheetSpecification {
     generate(dates: Date[], participantMatrix: RandomizeResult) {
-
         return {
             properties: {
                 title: 'Schedule',
@@ -42,6 +42,10 @@ class DummySpecifier implements SheetSpecification {
                 },
             ],
         };
+    }
+
+    addConditionalFormatting(sheetId: number, participantMatrix: RandomizeResult): sheets_v4.Schema$Request[] {
+        return Array<sheets_v4.Schema$Request>();
     }
 }
 

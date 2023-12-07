@@ -114,12 +114,15 @@ class SheetsManager implements SheetsManagement {
             };
             const spreadsheet = await service.spreadsheets.create({
                 requestBody,
-                fields: 'spreadsheetId',
+                fields: 'spreadsheetId,sheets(properties(sheetId))',
             }, {});
 
-            const conditionalFormatRequests = this._sheetSpecifier.addConditionalFormatting(0, result);
+            const firstSheetId = spreadsheet.data.sheets && spreadsheet.data.sheets[0] && spreadsheet.data.sheets[0].properties? spreadsheet.data.sheets[0].properties.sheetId : 0;
 
-            await service.spreadsheets.batchUpdate({
+            const conditionalFormatRequests = this._sheetSpecifier.addConditionalFormatting(firstSheetId as number, result);
+            // console.log(`conditionalFormat: ${JSON.stringify(conditionalFormatRequests[0])}`);
+
+            service.spreadsheets.batchUpdate({
                 spreadsheetId: spreadsheet.data.spreadsheetId as string,
                 requestBody: {
                     requests: /*Schema$Request[]*/ conditionalFormatRequests,

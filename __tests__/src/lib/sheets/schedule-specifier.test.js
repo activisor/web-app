@@ -153,20 +153,20 @@ test('adds event total conditional formatting', () => {
   // rule
   expect(rule.booleanRule).toBeTruthy();
   expect(rule.booleanRule.condition).toBeTruthy();
-  expect(rule.booleanRule.condition.type).toBe('CUSTOM_FORMULA');
+  expect(rule.booleanRule.condition.type).toBe('NUMBER_NOT_EQ');
   expect(rule.booleanRule.condition.values).toBeTruthy();
   expect(rule.booleanRule.condition.values.length).toBe(1);
   expect(rule.booleanRule.condition.values[0]).toBeTruthy();
-  expect(rule.booleanRule.condition.values[0].userEnteredValue).toBe('=NUMBER_NOT_EQ(2)');
+  expect(rule.booleanRule.condition.values[0].userEnteredValue).toBe('2');
 
   // range
   expect(rule.ranges).toBeTruthy();
   expect(rule.ranges.length).toBe(1);
   expect(rule.ranges[0]).toBeTruthy();
   expect(rule.ranges[0].startRowIndex).toBe(4);
-  expect(rule.ranges[0].endRowIndex).toBe(4);
+  expect(rule.ranges[0].endRowIndex).toBe(5);
   expect(rule.ranges[0].startColumnIndex).toBe(2);
-  expect(rule.ranges[0].endColumnIndex).toBe(3);
+  expect(rule.ranges[0].endColumnIndex).toBe(4);
   expect(rule.ranges[0].sheetId).toBe(sheetId);
 
   // format
