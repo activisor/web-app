@@ -117,6 +117,15 @@ class SheetsManager implements SheetsManagement {
                 fields: 'spreadsheetId',
             }, {});
 
+            const conditionalFormatRequests = this._sheetSpecifier.addConditionalFormatting(0, result);
+
+            await service.spreadsheets.batchUpdate({
+                spreadsheetId: spreadsheet.data.spreadsheetId as string,
+                requestBody: {
+                    requests: /*Schema$Request[]*/ conditionalFormatRequests,
+                },
+            }, {});
+
             return `https://docs.google.com/spreadsheets/d/${spreadsheet.data.spreadsheetId}/edit?usp=sharing`;
         }
 

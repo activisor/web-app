@@ -28,7 +28,7 @@ function getSumFormula(first: Cell, last: Cell): string {
     return `=SUM(${firstCellLocation}:${lastCellLocation})`;
 }
 
-function getTotalsConditionalFormat(rowIndex: number, numDates: number, groupNum: number): sheets_v4.Schema$ConditionalFormatRule {
+function getTotalsConditionalFormatRule(sheetId: number, rowIndex: number, numDates: number, groupNum: number): sheets_v4.Schema$ConditionalFormatRule {
     return {
         ranges: [
             {
@@ -36,7 +36,7 @@ function getTotalsConditionalFormat(rowIndex: number, numDates: number, groupNum
                 endRowIndex: rowIndex,
                 startColumnIndex: COLUMN_OFFSET,
                 endColumnIndex: COLUMN_OFFSET + numDates - 1,
-                sheetId: 0,
+                sheetId,
             },
         ],
         booleanRule: {
@@ -162,7 +162,7 @@ class ScheduleSpecifier implements SheetSpecification {
 
         const totalsConditionalFormatRowIndex = rowOffset + participantMatrix.participants.length;
         const groupSize = participantMatrix.schedule[0].length;
-        const totalsConditionalFormat = getTotalsConditionalFormat(totalsConditionalFormatRowIndex, numDates, groupSize);
+        // const totalsConditionalFormat = getTotalsConditionalFormatRule(totalsConditionalFormatRowIndex, numDates, groupSize);
 
         return {
             properties: {
@@ -175,8 +175,29 @@ class ScheduleSpecifier implements SheetSpecification {
                     rowData: rowData.concat(scheduleRows)
                 },
             ],
-            conditionalFormats: [ totalsConditionalFormat ],
+            // conditionalFormats: [ totalsConditionalFormat ],
         };
+    }
+
+    addConditionalFormatting(sheetId: number, participantMatrix: RandomizeResult): sheets_v4.Schema$Request[] {
+        const result = Array<sheets_v4.Schema$Request>();
+
+        const numDates = participantMatrix.schedule.length;
+        if (numDates == 0) {
+            throw new Error('numDates is 0');
+        }
+
+        const totalsConditionalFormatRowIndex = 1 + participantMatrix.participants.length;
+        const groupSize = participantMatrix.schedule[0].length;
+        const totalsConditionalFormat = getTotalsConditionalFormatRule(sheetId, totalsConditionalFormatRowIndex, numDates, groupSize);
+
+        result.push({
+            addConditionalFormatRule: {
+                rule: totalsConditionalFormat
+            },
+        });
+
+        return result;
     }
 
     _generateScheduleRows(participantMatrix: RandomizeResult, rowOffset: number): sheets_v4.Schema$RowData[] {

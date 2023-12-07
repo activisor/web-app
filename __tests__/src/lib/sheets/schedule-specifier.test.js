@@ -1,5 +1,4 @@
 import { ScheduleSpecifier } from '@/lib/sheets/schedule-specifier';
-import exp from 'constants';
 
 const dates = [
   new Date(2023, 10, 15),
@@ -142,35 +141,38 @@ test('adds participant rows and totals', () => {
  *
  */
 test('adds event total conditional formatting', () => {
-  const result = sut.generate(dates, participantMatrix);
-  expect(result.conditionalFormats).toBeTruthy();
-  expect(result.conditionalFormats.length).toBe(1);
+  const sheetId = 0;
+  const result /* sheets_v4.Schema$Request[] */ = sut.addConditionalFormatting(sheetId, participantMatrix);
 
-  const format = result.conditionalFormats[0];
+  expect(result.length).toBe(1);
+
+  const format = result[0].addConditionalFormatRule;
+  expect(format.rule).toBeTruthy();
+  const rule = format.rule;
 
   // rule
-  expect(format.booleanRule).toBeTruthy();
-  expect(format.booleanRule.condition).toBeTruthy();
-  expect(format.booleanRule.condition.type).toBe('CUSTOM_FORMULA');
-  expect(format.booleanRule.condition.values).toBeTruthy();
-  expect(format.booleanRule.condition.values.length).toBe(1);
-  expect(format.booleanRule.condition.values[0]).toBeTruthy();
-  expect(format.booleanRule.condition.values[0].userEnteredValue).toBe('=NUMBER_NOT_EQ(2)');
+  expect(rule.booleanRule).toBeTruthy();
+  expect(rule.booleanRule.condition).toBeTruthy();
+  expect(rule.booleanRule.condition.type).toBe('CUSTOM_FORMULA');
+  expect(rule.booleanRule.condition.values).toBeTruthy();
+  expect(rule.booleanRule.condition.values.length).toBe(1);
+  expect(rule.booleanRule.condition.values[0]).toBeTruthy();
+  expect(rule.booleanRule.condition.values[0].userEnteredValue).toBe('=NUMBER_NOT_EQ(2)');
 
   // range
-  expect(format.ranges).toBeTruthy();
-  expect(format.ranges.length).toBe(1);
-  expect(format.ranges[0]).toBeTruthy();
-  expect(format.ranges[0].startRowIndex).toBe(4);
-  expect(format.ranges[0].endRowIndex).toBe(4);
-  expect(format.ranges[0].startColumnIndex).toBe(2);
-  expect(format.ranges[0].endColumnIndex).toBe(3);
-  expect(format.ranges[0].sheetId).toBe(0);
+  expect(rule.ranges).toBeTruthy();
+  expect(rule.ranges.length).toBe(1);
+  expect(rule.ranges[0]).toBeTruthy();
+  expect(rule.ranges[0].startRowIndex).toBe(4);
+  expect(rule.ranges[0].endRowIndex).toBe(4);
+  expect(rule.ranges[0].startColumnIndex).toBe(2);
+  expect(rule.ranges[0].endColumnIndex).toBe(3);
+  expect(rule.ranges[0].sheetId).toBe(sheetId);
 
   // format
-  expect(format.booleanRule.format).toBeTruthy();
-  expect(format.booleanRule.format.textFormat).toBeTruthy();
-  expect(format.booleanRule.format.textFormat.foregroundColor).toBeTruthy();
-  expect(format.booleanRule.format.textFormat.foregroundColor.red).toBe(1);
-  expect(format.booleanRule.format.textFormat.bold).toBeTruthy();
+  expect(rule.booleanRule.format).toBeTruthy();
+  expect(rule.booleanRule.format.textFormat).toBeTruthy();
+  expect(rule.booleanRule.format.textFormat.foregroundColor).toBeTruthy();
+  expect(rule.booleanRule.format.textFormat.foregroundColor.red).toBe(1);
+  expect(rule.booleanRule.format.textFormat.bold).toBeTruthy();
 });
