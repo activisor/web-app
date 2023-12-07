@@ -1,4 +1,5 @@
 import { ScheduleSpecifier } from '@/lib/sheets/schedule-specifier';
+import exp from 'constants';
 
 const dates = [
   new Date(2023, 10, 15),
@@ -164,6 +165,7 @@ test('adds event total conditional formatting', () => {
   expect(format.ranges[0].endRowIndex).toBe(4);
   expect(format.ranges[0].startColumnIndex).toBe(2);
   expect(format.ranges[0].endColumnIndex).toBe(3);
+  expect(format.ranges[0].sheetId).toBe(0);
 
   // format
   expect(format.booleanRule.format).toBeTruthy();

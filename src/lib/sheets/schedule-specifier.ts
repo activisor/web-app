@@ -36,6 +36,7 @@ function getTotalsConditionalFormat(rowIndex: number, numDates: number, groupNum
                 endRowIndex: rowIndex,
                 startColumnIndex: COLUMN_OFFSET,
                 endColumnIndex: COLUMN_OFFSET + numDates - 1,
+                sheetId: 0,
             },
         ],
         booleanRule: {
