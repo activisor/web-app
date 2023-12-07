@@ -65,9 +65,9 @@ test('adds title and header row', () => {
 /**
  * expected output:
  * header row
- * [ A Test ][ a@test.com ][ x ] [   ]
- * [ B Test ][ b@test.com ][ x ] [ x ]
- * [ C Test ][ c@test.com ][   ] [ x ]
+ * [ A Test ][ a@test.com ][ x ] [   ][=COUNTIF(C2:D2, "x"]
+ * [ B Test ][ b@test.com ][ x ] [ x ][=COUNTIF(C3:D3, "x")]
+ * [ C Test ][ c@test.com ][   ] [ x ][=COUNTIF(C4:D4, "x")]
  */
 test('adds participant rows', () => {
   const result = sut.generate(dates, participantMatrix);
@@ -82,6 +82,7 @@ test('adds participant rows', () => {
   expect(row1Values[2].userEnteredValue).toBeTruthy();
   expect(row1Values[2].userEnteredValue.stringValue).toMatch(/[xX]/);
   expect(row1Values[3].userEnteredValue.stringValue).toBeFalsy();
+  expect(row1Values[4].userEnteredValue.stringValue).toBe('=COUNTIF(C2:D2, "x")');
 
   const row2Values = result.data[0].rowData[2].values;
   expect(row2Values[0].userEnteredValue).toBeTruthy();
@@ -92,6 +93,7 @@ test('adds participant rows', () => {
   expect(row2Values[2].userEnteredValue.stringValue).toMatch(/[xX]/);
   expect(row2Values[3].userEnteredValue).toBeTruthy();
   expect(row2Values[3].userEnteredValue.stringValue).toMatch(/[xX]/);
+  expect(row2Values[4].userEnteredValue.stringValue).toBe('=COUNTIF(C3:D3, "x")');
 
   const row3Values = result.data[0].rowData[3].values;
   expect(row3Values[0].userEnteredValue).toBeTruthy();
@@ -101,4 +103,5 @@ test('adds participant rows', () => {
   expect(row3Values[2].userEnteredValue.stringValue).toBeFalsy();
   expect(row3Values[3].userEnteredValue).toBeTruthy();
   expect(row3Values[3].userEnteredValue.stringValue).toMatch(/[xX]/);
+  expect(row3Values[4].userEnteredValue.stringValue).toBe('=COUNTIF(C4:D4, "x")');
 });

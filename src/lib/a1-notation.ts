@@ -15,4 +15,14 @@ function iToAlpha(i: number): string {
     return result;
 }
 
-export { iToAlpha };
+/**
+ *
+ * @param row 0 based
+ * @param column 0 based
+ * @returns A1 notation for the given row and column
+ */
+function toA1Notation(row: number, column: number): string {
+    return `${iToAlpha(column)}${row + 1}`;
+}
+
+export { iToAlpha, toA1Notation };
