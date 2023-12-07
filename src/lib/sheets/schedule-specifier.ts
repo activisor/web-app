@@ -21,14 +21,19 @@ function getTotalsFormula(first: Cell, last: Cell): string {
     return `=COUNTIF(${firstCellLocation}:${lastCellLocation}, "${SCHEDULE_MARKER}")`;
 }
 
-function getTotalsConditionalFormat(numParticipants: number, numDates: number, rowOffset: number, groupNum: number): sheets_v4.Schema$ConditionalFormatRule {
-    const rowNumber = rowOffset + numParticipants;
+function getSumFormula(first: Cell, last: Cell): string {
+    const firstCellLocation = toA1Notation(first.row, first.column);
+    const lastCellLocation = toA1Notation(last.row, last.column);
 
+    return `=SUM(${firstCellLocation}:${lastCellLocation})`;
+}
+
+function getTotalsConditionalFormat(rowIndex: number, numDates: number, groupNum: number): sheets_v4.Schema$ConditionalFormatRule {
     return {
         ranges: [
             {
-                startRowIndex: rowNumber,
-                endRowIndex: rowNumber,
+                startRowIndex: rowIndex,
+                endRowIndex: rowIndex,
                 startColumnIndex: COLUMN_OFFSET,
                 endColumnIndex: COLUMN_OFFSET + numDates - 1,
             },
@@ -56,11 +61,40 @@ function getTotalsConditionalFormat(numParticipants: number, numDates: number, r
     };
 }
 
-function getSumFormula(first: Cell, last: Cell): string {
-    const firstCellLocation = toA1Notation(first.row, first.column);
-    const lastCellLocation = toA1Notation(last.row, last.column);
+function getHeaderRow(dates: Date[]): sheets_v4.Schema$RowData {
+    const headerRow: sheets_v4.Schema$RowData = {
+        values: [
+            {
+                userEnteredValue: {
+                    stringValue: 'Name',
+                },
+            },
+            {
+                userEnteredValue: {
+                    stringValue: 'Email',
+                },
+            },
+        ],
+    };
 
-    return `=SUM(${firstCellLocation}:${lastCellLocation})`;
+    if (headerRow.values === undefined) {
+        throw new Error('headerRow.values is undefined');
+    }
+
+    for (let i = 0; i < dates.length; i++) {
+        headerRow.values.push({
+            userEnteredValue: {
+                stringValue: `${dates[i].toLocaleDateString('en-US', { dateStyle: 'short' })}`,
+            },
+        });
+    }
+    headerRow.values.push({
+        userEnteredValue: {
+            stringValue: 'Total',
+        },
+    });
+
+    return headerRow;
 }
 
 function getTotalsRow(numParticipants: number, numDates: number, rowOffset: number): sheets_v4.Schema$RowData {
@@ -114,40 +148,10 @@ function getTotalsRow(numParticipants: number, numDates: number, rowOffset: numb
 @injectable()
 class ScheduleSpecifier implements SheetSpecification {
     generate(dates: Date[], participantMatrix: RandomizeResult): sheets_v4.Schema$Sheet {
-        const headerRow: sheets_v4.Schema$RowData = {
-            values: [
-                {
-                    userEnteredValue: {
-                        stringValue: 'Name',
-                    },
-                },
-                {
-                    userEnteredValue: {
-                        stringValue: 'Email',
-                    },
-                },
-            ],
-        };
-
-        if (headerRow.values === undefined) {
-            throw new Error('headerRow.values is undefined');
-        }
-
-        for (let i = 0; i < dates.length; i++) {
-            headerRow.values.push({
-                userEnteredValue: {
-                    stringValue: `${dates[i].toLocaleDateString('en-US', { dateStyle: 'short' })}`,
-                },
-            });
-        }
-        headerRow.values.push({
-            userEnteredValue: {
-                stringValue: 'Total',
-            },
-        });
-
+        const headerRow: sheets_v4.Schema$RowData = getHeaderRow(dates);
         const rowData = [headerRow];
         const rowOffset = rowData.length;
+
         const numDates = participantMatrix.schedule.length;
         if (numDates == 0) {
             throw new Error('numDates is 0');
@@ -155,8 +159,9 @@ class ScheduleSpecifier implements SheetSpecification {
 
         const scheduleRows = this._generateScheduleRows(participantMatrix, rowOffset);
 
+        const totalsConditionalFormatRowIndex = rowOffset + participantMatrix.participants.length;
         const groupSize = participantMatrix.schedule[0].length;
-        const totalsConditionalFormat = getTotalsConditionalFormat(participantMatrix.participants.length, numDates, rowOffset, groupSize);
+        const totalsConditionalFormat = getTotalsConditionalFormat(totalsConditionalFormatRowIndex, numDates, groupSize);
 
         return {
             properties: {
