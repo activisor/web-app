@@ -117,10 +117,12 @@ class SheetsManager implements SheetsManagement {
                 fields: 'spreadsheetId,sheets(properties(sheetId))',
             }, {});
 
-            const firstSheetId = spreadsheet.data.sheets && spreadsheet.data.sheets[0] && spreadsheet.data.sheets[0].properties ? spreadsheet.data.sheets[0].properties.sheetId : 0;
+            const firstSheetId = spreadsheet.data.sheets && spreadsheet.data.sheets[0] && spreadsheet.data.sheets[0].properties
+                ? spreadsheet.data.sheets[0].properties.sheetId
+                : 0;
 
-            const conditionalFormatRequests = this._sheetSpecifier.addFormatting(firstSheetId as number, result);
-            // console.log(`conditionalFormat: ${JSON.stringify(conditionalFormatRequests[0])}`);
+            const formatRequests = this._sheetSpecifier.addFormatting(firstSheetId as number, result);
+            // console.log(`conditionalFormat: ${JSON.stringify(formatRequests[0])}`);
             const autoResizeDimensionsRequest: sheets_v4.Schema$Request = {
                 autoResizeDimensions: {
                     dimensions: {
@@ -134,7 +136,7 @@ class SheetsManager implements SheetsManagement {
             service.spreadsheets.batchUpdate({
                 spreadsheetId: spreadsheet.data.spreadsheetId as string,
                 requestBody: {
-                    requests: /*Schema$Request[]*/[...conditionalFormatRequests, autoResizeDimensionsRequest],
+                    requests: /*Schema$Request[]*/[...formatRequests, autoResizeDimensionsRequest],
                 },
             }, {});
 

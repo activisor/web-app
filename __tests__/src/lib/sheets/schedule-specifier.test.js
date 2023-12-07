@@ -187,9 +187,7 @@ test('adds center-justified cell formatting', () => {
     expect(format.range).toBeTruthy();
     expect(format.range.sheetId).toBe(sheetId);
     expect(format.range.startRowIndex).toBe(0);
-    // expect(format.range.endRowIndex).toBe(4);
     expect(format.range.startColumnIndex).toBe(2);
-    // expect(format.range.endColumnIndex).toBe(4);
 
     expect(format.cell).toBeTruthy();
     expect(format.cell.userEnteredFormat).toBeTruthy();

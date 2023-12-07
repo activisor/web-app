@@ -173,16 +173,7 @@ class ScheduleSpecifier implements SheetSpecification {
         const rowData = [headerRow];
         const rowOffset = rowData.length;
 
-        const numDates = participantMatrix.schedule.length;
-        if (numDates == 0) {
-            throw new Error('numDates is 0');
-        }
-
         const scheduleRows = this._generateScheduleRows(participantMatrix, rowOffset);
-
-        const totalsConditionalFormatRowIndex = rowOffset + participantMatrix.participants.length;
-        const groupSize = participantMatrix.schedule[0].length;
-        // const totalsConditionalFormat = getTotalsConditionalFormatRule(totalsConditionalFormatRowIndex, numDates, groupSize);
 
         return {
             properties: {
@@ -195,8 +186,16 @@ class ScheduleSpecifier implements SheetSpecification {
                     rowData: rowData.concat(scheduleRows)
                 },
             ],
-            // conditionalFormats: [ totalsConditionalFormat ],
         };
+    }
+
+    addFormatting(sheetId: number, participantMatrix: RandomizeResult): sheets_v4.Schema$Request[] {
+        const result = [
+            ...this.addConditionalFormatting(sheetId, participantMatrix),
+            ...this.addCellFormatting(sheetId, participantMatrix)
+        ];
+
+        return result;
     }
 
     addConditionalFormatting(sheetId: number, participantMatrix: RandomizeResult): sheets_v4.Schema$Request[] {
@@ -223,15 +222,6 @@ class ScheduleSpecifier implements SheetSpecification {
 
     addCellFormatting(sheetId: number, participantMatrix: RandomizeResult): sheets_v4.Schema$Request[] {
         const result = [ getCenteredTextCellFormatRequest(sheetId) ];
-
-        return result;
-    }
-
-    addFormatting(sheetId: number, participantMatrix: RandomizeResult): sheets_v4.Schema$Request[] {
-        const result = [
-            ...this.addConditionalFormatting(sheetId, participantMatrix),
-            ...this.addCellFormatting(sheetId, participantMatrix)
-        ];
 
         return result;
     }
