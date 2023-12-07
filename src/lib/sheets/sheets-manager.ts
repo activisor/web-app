@@ -5,7 +5,7 @@ import { injectable, inject } from "inversify";
 import "reflect-metadata";
 import { TYPES } from "@/inversify-types";
 import { Credentials, OAuth2Client } from 'google-auth-library';
-import { google } from 'googleapis';
+import { google, sheets_v4 } from 'googleapis';
 
 import Frequency from '../frequency';
 import type { SheetsManagement } from './sheets-management';
@@ -117,15 +117,24 @@ class SheetsManager implements SheetsManagement {
                 fields: 'spreadsheetId,sheets(properties(sheetId))',
             }, {});
 
-            const firstSheetId = spreadsheet.data.sheets && spreadsheet.data.sheets[0] && spreadsheet.data.sheets[0].properties? spreadsheet.data.sheets[0].properties.sheetId : 0;
+            const firstSheetId = spreadsheet.data.sheets && spreadsheet.data.sheets[0] && spreadsheet.data.sheets[0].properties ? spreadsheet.data.sheets[0].properties.sheetId : 0;
 
             const conditionalFormatRequests = this._sheetSpecifier.addConditionalFormatting(firstSheetId as number, result);
             // console.log(`conditionalFormat: ${JSON.stringify(conditionalFormatRequests[0])}`);
+            const autoResizeDimensionsRequest: sheets_v4.Schema$Request = {
+                autoResizeDimensions: {
+                    dimensions: {
+                        sheetId: firstSheetId,
+                        dimension: 'COLUMNS',
+                        startIndex: 0,
+                    },
+                },
+            };
 
             service.spreadsheets.batchUpdate({
                 spreadsheetId: spreadsheet.data.spreadsheetId as string,
                 requestBody: {
-                    requests: /*Schema$Request[]*/ conditionalFormatRequests,
+                    requests: /*Schema$Request[]*/[...conditionalFormatRequests, autoResizeDimensionsRequest],
                 },
             }, {});
 
