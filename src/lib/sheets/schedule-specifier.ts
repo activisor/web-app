@@ -21,6 +21,41 @@ function getTotalsFormula(first: Cell, last: Cell): string {
     return `=COUNTIF(${firstCellLocation}:${lastCellLocation}, "${SCHEDULE_MARKER}")`;
 }
 
+function getTotalsConditionalFormat(numParticipants: number, numDates: number, rowOffset: number, groupNum: number): sheets_v4.Schema$ConditionalFormatRule {
+    const rowNumber = rowOffset + numParticipants;
+
+    return {
+        ranges: [
+            {
+                startRowIndex: rowNumber,
+                endRowIndex: rowNumber,
+                startColumnIndex: COLUMN_OFFSET,
+                endColumnIndex: COLUMN_OFFSET + numDates - 1,
+            },
+        ],
+        booleanRule: {
+            condition: {
+                type: 'CUSTOM_FORMULA',
+                values: [
+                    {
+                        userEnteredValue: `=NUMBER_NOT_EQ(${groupNum})`,
+                    },
+                ],
+            },
+            format: {
+                textFormat: {
+                    foregroundColor: {
+                        red: 1.0,
+                        green: 0.0,
+                        blue: 0.0,
+                    },
+                    bold: true,
+                },
+            },
+        },
+    };
+}
+
 function getSumFormula(first: Cell, last: Cell): string {
     const firstCellLocation = toA1Notation(first.row, first.column);
     const lastCellLocation = toA1Notation(last.row, last.column);
@@ -112,7 +147,16 @@ class ScheduleSpecifier implements SheetSpecification {
         });
 
         const rowData = [headerRow];
-        const scheduleRows = this._generateScheduleRows(participantMatrix, rowData.length);
+        const rowOffset = rowData.length;
+        const numDates = participantMatrix.schedule.length;
+        if (numDates == 0) {
+            throw new Error('numDates is 0');
+        }
+
+        const scheduleRows = this._generateScheduleRows(participantMatrix, rowOffset);
+
+        const groupSize = participantMatrix.schedule[0].length;
+        const totalsConditionalFormat = getTotalsConditionalFormat(participantMatrix.participants.length, numDates, rowOffset, groupSize);
 
         return {
             properties: {
@@ -125,12 +169,18 @@ class ScheduleSpecifier implements SheetSpecification {
                     rowData: rowData.concat(scheduleRows)
                 },
             ],
+            conditionalFormats: [ totalsConditionalFormat ],
         };
     }
 
-    _generateScheduleRows(participantMatrix: RandomizeResult, rowOffset: number) {
-        const result = Array<any>();
+    _generateScheduleRows(participantMatrix: RandomizeResult, rowOffset: number): sheets_v4.Schema$RowData[] {
+        const result = Array<sheets_v4.Schema$RowData>();
         const numDates = participantMatrix.schedule.length;
+        if (numDates === 0) {
+            return result;
+        }
+
+        const groupSize = participantMatrix.schedule[0].length;
 
         for (let i = 0; i < participantMatrix.participants.length; i++) {
             const participant = participantMatrix.participants[i];
@@ -152,10 +202,10 @@ class ScheduleSpecifier implements SheetSpecification {
             if (row.values === undefined) {
                 throw new Error('row.values is undefined');
             }
-            
+
             for (let j = 0; j < numDates; j++) {
                 let participationKey = '';
-                for (let k = 0; k < participantMatrix.schedule[j].length; k++) {
+                for (let k = 0; k < groupSize; k++) {
                     if (participantMatrix.schedule[j][k].email === participant.email) {
                         participationKey = SCHEDULE_MARKER;
                         break;

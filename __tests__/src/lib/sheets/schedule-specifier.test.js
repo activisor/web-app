@@ -63,14 +63,14 @@ test('adds title and header row', () => {
 });
 
 /**
- * expected output:
- * header row
+ * expected output: sheets_v4.Schema$Sheet
+ * [ header row... ]
  * [ A Test ] [ a@test.com ] [ x ]         [   ]         [=COUNTIF(C2:D2, "x"]
  * [ B Test ] [ b@test.com ] [ x ]         [ x ]         [=COUNTIF(C3:D3, "x")]
  * [ C Test ] [ c@test.com ] [   ]         [ x ]         [=COUNTIF(C4:D4, "x")]
  * [        ] [ Total      ] [=SUM(C2:C4)] [=SUM(D2:D4)] [=SUM(E2:E4)]
  */
-test('adds participant rows', () => {
+test('adds participant rows and totals', () => {
   const result = sut.generate(dates, participantMatrix);
 
   expect(result.data[0].rowData.length).toBe(5);
@@ -112,4 +112,63 @@ test('adds participant rows', () => {
   expect(row4Values[2].userEnteredValue.formulaValue ).toBe('=COUNTIF(C2:C4, "X")');
   expect(row4Values[3].userEnteredValue.formulaValue ).toBe('=COUNTIF(D2:D4, "X")');
   expect(row4Values[4].userEnteredValue.formulaValue ).toBe('=SUM(E2:E4)');
+});
+
+/**
+ * ref: https://developers.google.com/sheets/api/guides/conditional-format
+ *      https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/other#ConditionType
+ *
+ * expected result: sheets_v4.Schema$Sheet.
+ *     conditionalFormats?: Schema$ConditionalFormatRule[]
+ *
+ *     conditionalFormats: [
+ *        {
+ *           booleanRule: Schema$BooleanRule
+ *           ranges: Schema$GridRange[] [
+ *             {
+ *               sheetId?: 0,
+ *               startRowIndex: 1,
+ *               endRowIndex: 4,
+ *               startColumnIndex: 2,
+ *               endColumnIndex: 3,
+ *             }
+ *    ]
+ *
+ *    Schema$BooleanRule {
+ *      condition: Schema$BooleanCondition
+ *      format: Schema$CellFormat
+ *   }
+ *
+ */
+test('adds event total conditional formatting', () => {
+  const result = sut.generate(dates, participantMatrix);
+  expect(result.conditionalFormats).toBeTruthy();
+  expect(result.conditionalFormats.length).toBe(1);
+
+  const format = result.conditionalFormats[0];
+
+  // rule
+  expect(format.booleanRule).toBeTruthy();
+  expect(format.booleanRule.condition).toBeTruthy();
+  expect(format.booleanRule.condition.type).toBe('CUSTOM_FORMULA');
+  expect(format.booleanRule.condition.values).toBeTruthy();
+  expect(format.booleanRule.condition.values.length).toBe(1);
+  expect(format.booleanRule.condition.values[0]).toBeTruthy();
+  expect(format.booleanRule.condition.values[0].userEnteredValue).toBe('=NUMBER_NOT_EQ(2)');
+
+  // range
+  expect(format.ranges).toBeTruthy();
+  expect(format.ranges.length).toBe(1);
+  expect(format.ranges[0]).toBeTruthy();
+  expect(format.ranges[0].startRowIndex).toBe(4);
+  expect(format.ranges[0].endRowIndex).toBe(4);
+  expect(format.ranges[0].startColumnIndex).toBe(2);
+  expect(format.ranges[0].endColumnIndex).toBe(3);
+
+  // format
+  expect(format.booleanRule.format).toBeTruthy();
+  expect(format.booleanRule.format.textFormat).toBeTruthy();
+  expect(format.booleanRule.format.textFormat.foregroundColor).toBeTruthy();
+  expect(format.booleanRule.format.textFormat.foregroundColor.red).toBe(1);
+  expect(format.booleanRule.format.textFormat.bold).toBeTruthy();
 });
