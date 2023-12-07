@@ -1,11 +1,15 @@
 import { injectable } from 'inversify';
 import "reflect-metadata";
+import { sheets_v4 } from 'googleapis';
 import type { RandomizeResult } from './randomize-result';
 import type { SheetSpecification } from './sheet-specification';
 
+// marks particpant's spot on schedule
+const SCHEDULE_MARKER = 'X';
+
 @injectable()
 class ScheduleSpecifier implements SheetSpecification {
-    generate(dates: Date[], participantMatrix: RandomizeResult) {
+    generate(dates: Date[], participantMatrix: RandomizeResult): sheets_v4.Schema$Sheet {
         //const numDates = dates.length;
 
         const headerRow = {
@@ -70,7 +74,7 @@ class ScheduleSpecifier implements SheetSpecification {
                 for (let k = 0; k < participantMatrix.schedule[j].length; k++) {
                     // console.log(JSON.stringify(participantMatrix.schedule[j][k]));
                     if (participantMatrix.schedule[j][k].email === participant.email) {
-                        participationKey = 'X';
+                        participationKey = SCHEDULE_MARKER;
                         break;
                     }
                 }
@@ -81,6 +85,8 @@ class ScheduleSpecifier implements SheetSpecification {
                     },
                 });
             }
+
+            // add total events sum formula to row
 
             result.push(row);
         }
