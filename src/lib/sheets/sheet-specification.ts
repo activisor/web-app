@@ -7,7 +7,7 @@ import type { RandomizeResult } from './randomize-result';
 interface SheetSpecification {
     generate: (dates: Date[], participantMatrix: RandomizeResult) => sheets_v4.Schema$Sheet;
 
-    addConditionalFormatting: (sheetId: number, participantMatrix: RandomizeResult) => sheets_v4.Schema$Request[];
+    addFormatting: (sheetId: number, participantMatrix: RandomizeResult) => sheets_v4.Schema$Request[];
 }
 
 export type { SheetSpecification };

@@ -62,6 +62,26 @@ function getTotalsConditionalFormatRule(sheetId: number, rowIndex: number, numDa
     };
 }
 
+function getCenteredTextCellFormatRequest(sheetId: number): sheets_v4.Schema$Request {
+   return {
+         repeatCell: {
+              range: {
+                sheetId: sheetId as number,
+                startRowIndex: 0,
+//                endRowIndex: 1000,
+                startColumnIndex: 2,
+//                endColumnIndex: 16384,
+              },
+              cell: {
+                userEnteredFormat: {
+                     horizontalAlignment: 'CENTER',
+                },
+              },
+              fields: 'userEnteredFormat(horizontalAlignment)',
+         },
+    };
+}
+
 function getHeaderRow(dates: Date[]): sheets_v4.Schema$RowData {
     const headerRow: sheets_v4.Schema$RowData = {
         values: [
@@ -197,6 +217,21 @@ class ScheduleSpecifier implements SheetSpecification {
                 index: 0,
             },
         });
+
+        return result;
+    }
+
+    addCellFormatting(sheetId: number, participantMatrix: RandomizeResult): sheets_v4.Schema$Request[] {
+        const result = [ getCenteredTextCellFormatRequest(sheetId) ];
+
+        return result;
+    }
+
+    addFormatting(sheetId: number, participantMatrix: RandomizeResult): sheets_v4.Schema$Request[] {
+        const result = [
+            ...this.addConditionalFormatting(sheetId, participantMatrix),
+            ...this.addCellFormatting(sheetId, participantMatrix)
+        ];
 
         return result;
     }
