@@ -15,7 +15,7 @@ test('26 returns AA', () => {
   expect(result).toBe('AA');
 });
 
-test('row 0, column 0 returns A1', () => {
-  const result = toA1Notation(0, 0);
-  expect(result).toBe('A1');
+test('row 26, column 26 returns AA27', () => {
+  const result = toA1Notation(26, 26);
+  expect(result).toBe('AA27');
 });
