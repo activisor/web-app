@@ -133,7 +133,7 @@ class SheetsManager implements SheetsManagement {
                 },
             };
 
-            service.spreadsheets.batchUpdate({
+            await service.spreadsheets.batchUpdate({
                 spreadsheetId: spreadsheet.data.spreadsheetId as string,
                 requestBody: {
                     requests: /*Schema$Request[]*/[...formatRequests, autoResizeDimensionsRequest],
