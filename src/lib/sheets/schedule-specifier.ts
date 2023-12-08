@@ -9,10 +9,26 @@ import { toA1Notation } from '../a1-notation';
 const SCHEDULE_MARKER = 'X';
 const COLUMN_OFFSET = 2; // name, email
 
+// google sheet palette color "light green 3", #D9EAD3
+const HeaderColor = {
+    red: 217/255,
+    green: 234/255,
+    blue: 211/255,
+    alpha: 1.0
+};
+
 type Cell = {
     row: number;    // 0 based
     column: number; // 0 based
 };
+
+function getNumDates(participantMatrix: RandomizeResult): number {
+    if (participantMatrix.schedule.length === 0) {
+        throw new Error('participantMatrix.schedule.length is 0');
+    }
+
+    return participantMatrix.schedule.length;
+}
 
 function getTotalsFormula(first: Cell, last: Cell): string {
     const firstCellLocation = toA1Notation(first.row, first.column);
@@ -63,22 +79,42 @@ function getTotalsConditionalFormatRule(sheetId: number, rowIndex: number, numDa
 }
 
 function getCenteredTextCellFormatRequest(sheetId: number): sheets_v4.Schema$Request {
-   return {
-         repeatCell: {
-              range: {
+    return {
+        repeatCell: {
+            range: {
                 sheetId: sheetId as number,
                 startRowIndex: 0,
-//                endRowIndex: 1000,
+                //                endRowIndex: 1000,
                 startColumnIndex: 2,
-//                endColumnIndex: 16384,
-              },
-              cell: {
+                //                endColumnIndex: 16384,
+            },
+            cell: {
                 userEnteredFormat: {
-                     horizontalAlignment: 'CENTER',
+                    horizontalAlignment: 'CENTER',
                 },
-              },
-              fields: 'userEnteredFormat(horizontalAlignment)',
-         },
+            },
+            fields: 'userEnteredFormat(horizontalAlignment)',
+        },
+    };
+}
+
+function getHeaderRowsFormatRequest(sheetId: number, numDates: number): sheets_v4.Schema$Request {
+    return {
+        repeatCell: {
+            range: {
+                sheetId: sheetId as number,
+                startRowIndex: 0,
+                endRowIndex: 1,
+                startColumnIndex: 0,
+                endColumnIndex: COLUMN_OFFSET + numDates + 1,
+            },
+            cell: {
+                userEnteredFormat: {
+                    backgroundColor: HeaderColor,
+                },
+            },
+            fields: 'userEnteredFormat(backgroundColor)',
+        },
     };
 }
 
@@ -191,21 +227,17 @@ class ScheduleSpecifier implements SheetSpecification {
 
     addFormatting(sheetId: number, participantMatrix: RandomizeResult): sheets_v4.Schema$Request[] {
         const result = [
-            ...this.addConditionalFormatting(sheetId, participantMatrix),
-            ...this.addCellFormatting(sheetId, participantMatrix)
+            ...this._addConditionalFormatting(sheetId, participantMatrix),
+            ...this._addCellFormatting(sheetId, participantMatrix)
         ];
 
         return result;
     }
 
-    addConditionalFormatting(sheetId: number, participantMatrix: RandomizeResult): sheets_v4.Schema$Request[] {
+    _addConditionalFormatting(sheetId: number, participantMatrix: RandomizeResult): sheets_v4.Schema$Request[] {
         const result = Array<sheets_v4.Schema$Request>();
 
-        const numDates = participantMatrix.schedule.length;
-        if (numDates == 0) {
-            throw new Error('numDates is 0');
-        }
-
+        const numDates = getNumDates(participantMatrix);
         const totalsConditionalFormatRowIndex = 1 + participantMatrix.participants.length;
         const groupSize = participantMatrix.schedule[0].length;
         const totalsConditionalFormat = getTotalsConditionalFormatRule(sheetId, totalsConditionalFormatRowIndex, numDates, groupSize);
@@ -220,18 +252,20 @@ class ScheduleSpecifier implements SheetSpecification {
         return result;
     }
 
-    addCellFormatting(sheetId: number, participantMatrix: RandomizeResult): sheets_v4.Schema$Request[] {
-        const result = [ getCenteredTextCellFormatRequest(sheetId) ];
+    _addCellFormatting(sheetId: number, participantMatrix: RandomizeResult): sheets_v4.Schema$Request[] {
+        const numDates = getNumDates(participantMatrix);
+
+        const result = [
+            getCenteredTextCellFormatRequest(sheetId),
+            getHeaderRowsFormatRequest(sheetId, numDates),
+        ];
 
         return result;
     }
 
     _generateScheduleRows(participantMatrix: RandomizeResult, rowOffset: number): sheets_v4.Schema$RowData[] {
         const result = Array<sheets_v4.Schema$RowData>();
-        const numDates = participantMatrix.schedule.length;
-        if (numDates === 0) {
-            return result;
-        }
+        const numDates = getNumDates(participantMatrix);
 
         const groupSize = participantMatrix.schedule[0].length;
 
@@ -297,4 +331,4 @@ class ScheduleSpecifier implements SheetSpecification {
     }
 }
 
-export { ScheduleSpecifier };
+export { ScheduleSpecifier, getCenteredTextCellFormatRequest, getHeaderRowsFormatRequest, HeaderColor };

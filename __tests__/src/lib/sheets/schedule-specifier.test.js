@@ -1,4 +1,4 @@
-import { ScheduleSpecifier } from '@/lib/sheets/schedule-specifier';
+import { ScheduleSpecifier, getCenteredTextCellFormatRequest, getHeaderRowsFormatRequest, HeaderColor } from '@/lib/sheets/schedule-specifier';
 
 const dates = [
     new Date(2023, 10, 15),
@@ -142,7 +142,7 @@ test('adds participant rows and totals', () => {
  */
 test('adds event total conditional formatting', () => {
     const sheetId = 0;
-    const result /* sheets_v4.Schema$Request[] */ = sut.addConditionalFormatting(sheetId, participantMatrix);
+    const result /* sheets_v4.Schema$Request[] */ = sut._addConditionalFormatting(sheetId, participantMatrix);
 
     expect(result.length).toBe(1);
 
@@ -179,11 +179,10 @@ test('adds event total conditional formatting', () => {
 
 test('adds center-justified cell formatting', () => {
     const sheetId = 0;
-    const result /* sheets_v4.Schema$Request[] */ = sut.addCellFormatting(sheetId, participantMatrix);
+    const result /* sheets_v4.Schema$Request */ = getCenteredTextCellFormatRequest(sheetId);
 
-    expect(result.length).toBe(1);
-
-    const format = result[0].repeatCell;
+    expect(result.repeatCell).toBeTruthy();
+    const format = result.repeatCell;
     expect(format.range).toBeTruthy();
     expect(format.range.sheetId).toBe(sheetId);
     expect(format.range.startRowIndex).toBe(0);
@@ -193,4 +192,26 @@ test('adds center-justified cell formatting', () => {
     expect(format.cell.userEnteredFormat).toBeTruthy();
     expect(format.cell.userEnteredFormat.horizontalAlignment).toBe('CENTER');
     expect(format.fields).toBe('userEnteredFormat(horizontalAlignment)');
+});
+
+test('adds header row formatting', () => {
+    const sheetId = 0;
+    const result /* sheets_v4.Schema$Request */ = getHeaderRowsFormatRequest(sheetId, 2);
+
+    expect(result.repeatCell).toBeTruthy();
+    const format = result.repeatCell;
+    expect(format.range).toBeTruthy();
+    expect(format.range.sheetId).toBe(sheetId);
+    expect(format.range.startRowIndex).toBe(0);
+    expect(format.range.endRowIndex).toBe(1);
+    expect(format.range.startColumnIndex).toBe(0);
+    expect(format.range.endColumnIndex).toBe(5);
+
+    expect(format.cell).toBeTruthy();
+    expect(format.cell.userEnteredFormat).toBeTruthy();
+    expect(format.cell.userEnteredFormat.backgroundColor.red).toBe(HeaderColor.red);
+    expect(format.cell.userEnteredFormat.backgroundColor.green).toBe(HeaderColor.green);
+    expect(format.cell.userEnteredFormat.backgroundColor.blue).toBe(HeaderColor.blue);
+    expect(format.cell.userEnteredFormat.backgroundColor.alpha).toBe(HeaderColor.alpha);
+    expect(format.fields).toBe('userEnteredFormat(backgroundColor)');
 });
