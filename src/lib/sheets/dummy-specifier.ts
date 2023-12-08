@@ -44,7 +44,7 @@ class DummySpecifier implements SheetSpecification {
         };
     }
 
-    addConditionalFormatting(sheetId: number, participantMatrix: RandomizeResult): sheets_v4.Schema$Request[] {
+    addFormatting(sheetId: number, participantMatrix: RandomizeResult): sheets_v4.Schema$Request[] {
         return Array<sheets_v4.Schema$Request>();
     }
 }
