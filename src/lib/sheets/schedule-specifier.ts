@@ -362,13 +362,13 @@ class ScheduleSpecifier implements SheetSpecification {
                     rule: datePendingConditionalFormat,
                     index: 1,
                 },
-            },
+            },/*
             {
                 addConditionalFormatRule: {
                     rule: dateExpiredConditionalFormat,
                     index: 2,
                 },
-            },
+            },*/
         ];
 
         return result;

@@ -94,11 +94,13 @@ class SheetsManager implements SheetsManagement {
             const dates = this._dateRangeParser.parse(startDate, endDate, scheduleData.frequency as Frequency);
             const periods = dates.length;
             const result = this._randomizer.randomize(periods, scheduleData.groupSize as number, scheduleData.participants);
+            /*
             console.log(`dates: ${JSON.stringify(dates)}`);
             for (let i = 0; i < result.schedule.length; i++) {
                 const row = result.schedule[i];
                 console.log(`row ${i}: ${row.map(p => p.name).join(', ')}`);
             }
+            */
 
             if (scheduleData.participants.length > 1) {
                 const variance = pairsVariance(result);
