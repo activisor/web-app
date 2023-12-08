@@ -9,6 +9,21 @@ import { toA1Notation } from '../a1-notation';
 const SCHEDULE_MARKER = 'X';
 const COLUMN_OFFSET = 2; // name, email
 
+const DefaultColor = {
+    red: 1.0,
+    green: 1.0,
+    blue: 1.0,
+    alpha: 1.0
+};
+
+// google sheet palette color "light grey 3", #F3F3F3
+const BandingColor = {
+    red: 243 / 255,
+    green: 243 / 255,
+    blue: 243 / 255,
+    alpha: 1.0
+};
+
 // google sheet palette color "light green 3", #D9EAD3
 const HeaderColor = {
     red: 217 / 255,
@@ -191,6 +206,30 @@ function getHeaderRowFormatRequest(sheetId: number, numDates: number): sheets_v4
                 },
             },
             fields: 'userEnteredFormat(borders, padding)',
+        },
+    };
+}
+
+function getBandingFormatRequest(sheetId: number, numDates: number, numParticipants: number): sheets_v4.Schema$Request {
+    return {
+        addBanding: {
+            bandedRange: {
+                range: {
+                    sheetId: sheetId as number,
+                    startRowIndex: 1,
+                    endRowIndex: numParticipants + 1,
+                    startColumnIndex: 0,
+                    endColumnIndex: COLUMN_OFFSET + numDates + 1,
+                },
+                rowProperties: {
+                    firstBandColorStyle: {
+                        rgbColor: DefaultColor
+                    },
+                    secondBandColorStyle: {
+                        rgbColor: BandingColor
+                    },
+                },
+            },
         },
     };
 }
@@ -381,6 +420,7 @@ class ScheduleSpecifier implements SheetSpecification {
             getCenteredTextCellFormatRequest(sheetId),
             getHeaderRowFormatRequest(sheetId, numDates),
             getTotalsRowFormatRequest(sheetId, numDates, participantMatrix.participants.length),
+            getBandingFormatRequest(sheetId, numDates, participantMatrix.participants.length),
         ];
 
         return result;
