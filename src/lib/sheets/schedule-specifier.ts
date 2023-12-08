@@ -107,7 +107,9 @@ function getDateExpiredConditionalFormatRule(sheetId: number, rowIndex: number, 
                 ],
             },
             format: {
-                backgroundColor: HeaderExpiredColor,
+                backgroundColorStyle: {
+                    rgbColor: HeaderExpiredColor
+                } ,
             },
         },
     };
@@ -129,12 +131,14 @@ function getDatePendingConditionalFormatRule(sheetId: number, rowIndex: number, 
                 type: 'DATE_AFTER',
                 values: [
                     {
-                        relativeDate: 'TODAY',
+                        relativeDate: 'YESTERDAY',
                     },
                 ],
             },
             format: {
-                backgroundColor: HeaderColor,
+                backgroundColorStyle: {
+                    rgbColor: HeaderColor
+                } ,
             },
         },
     };
@@ -160,7 +164,7 @@ function getCenteredTextCellFormatRequest(sheetId: number): sheets_v4.Schema$Req
     };
 }
 
-function getHeaderRowsFormatRequest(sheetId: number, numDates: number): sheets_v4.Schema$Request {
+function getHeaderRowFormatRequest(sheetId: number, numDates: number): sheets_v4.Schema$Request {
     return {
         repeatCell: {
             range: {
@@ -172,10 +176,52 @@ function getHeaderRowsFormatRequest(sheetId: number, numDates: number): sheets_v
             },
             cell: {
                 userEnteredFormat: {
-                    backgroundColor: HeaderColor,
+                    borders: {
+                        bottom: {
+                            style: 'SOLID',
+                            width: 1,
+                        },
+                    },
+                    padding: {
+                        top: 4,
+                        right: 4,
+                        bottom: 4,
+                        left: 4,
+                    },
                 },
             },
-            fields: 'userEnteredFormat(backgroundColor)',
+            fields: 'userEnteredFormat(borders, padding)',
+        },
+    };
+}
+
+function getTotalsRowFormatRequest(sheetId: number, numDates: number, numParticipants: number): sheets_v4.Schema$Request {
+    return {
+        repeatCell: {
+            range: {
+                sheetId: sheetId as number,
+                startRowIndex: numParticipants + 1,
+                endRowIndex: numParticipants + 2,
+                startColumnIndex: 0,
+                endColumnIndex: COLUMN_OFFSET + numDates + 1,
+            },
+            cell: {
+                userEnteredFormat: {
+                    borders: {
+                        top: {
+                            style: 'SOLID',
+                            width: 1,
+                        },
+                    },
+                    padding: {
+                        top: 4,
+                        right: 4,
+                        bottom: 4,
+                        left: 4,
+                    },
+                },
+            },
+            fields: 'userEnteredFormat(borders, padding)',
         },
     };
 }
@@ -297,8 +343,6 @@ class ScheduleSpecifier implements SheetSpecification {
     }
 
     _addConditionalFormatting(sheetId: number, participantMatrix: RandomizeResult): sheets_v4.Schema$Request[] {
-
-
         const numDates = getNumDates(participantMatrix);
         const totalsConditionalFormatRowIndex = 1 + participantMatrix.participants.length;
         const groupSize = participantMatrix.schedule[0].length;
@@ -315,13 +359,13 @@ class ScheduleSpecifier implements SheetSpecification {
             },
             {
                 addConditionalFormatRule: {
-                    rule: dateExpiredConditionalFormat,
+                    rule: datePendingConditionalFormat,
                     index: 1,
                 },
             },
             {
                 addConditionalFormatRule: {
-                    rule: datePendingConditionalFormat,
+                    rule: dateExpiredConditionalFormat,
                     index: 2,
                 },
             },
@@ -335,7 +379,8 @@ class ScheduleSpecifier implements SheetSpecification {
 
         const result = [
             getCenteredTextCellFormatRequest(sheetId),
-            // getHeaderRowsFormatRequest(sheetId, numDates),
+            getHeaderRowFormatRequest(sheetId, numDates),
+            getTotalsRowFormatRequest(sheetId, numDates, participantMatrix.participants.length),
         ];
 
         return result;
@@ -412,7 +457,7 @@ class ScheduleSpecifier implements SheetSpecification {
 export {
     ScheduleSpecifier,
     getCenteredTextCellFormatRequest,
-    getHeaderRowsFormatRequest,
+    getHeaderRowFormatRequest,
     getDateExpiredConditionalFormatRule,
     getTotalsConditionalFormatRule,
     HeaderColor,

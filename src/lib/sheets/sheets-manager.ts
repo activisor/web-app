@@ -133,19 +133,22 @@ class SheetsManager implements SheetsManagement {
                 },
             };
 
-            await service.spreadsheets.batchUpdate({
+            service.spreadsheets.batchUpdate({
                 spreadsheetId: spreadsheet.data.spreadsheetId as string,
                 requestBody: {
                     requests: /*Schema$Request[]*/[...formatRequests, autoResizeDimensionsRequest],
                 },
             }, {});
-
+/*
             const sheetData = await service.spreadsheets.get({
                 spreadsheetId: spreadsheet.data.spreadsheetId as string,
                 includeGridData: true,
             }, {});
-            console.log(`sheetData: ${JSON.stringify(sheetData.data, null, 2)}`);
 
+            if (sheetData.data.sheets && sheetData.data.sheets[0] && sheetData.data.sheets[0].conditionalFormats) {
+                console.log(`{ conditionalFormats: ${JSON.stringify(sheetData.data.sheets[0].conditionalFormats)} }`);
+            }
+*/
             return `https://docs.google.com/spreadsheets/d/${spreadsheet.data.spreadsheetId}/edit?usp=sharing`;
         }
 
