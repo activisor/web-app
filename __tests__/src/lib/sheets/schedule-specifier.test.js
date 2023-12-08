@@ -1,4 +1,12 @@
-import { ScheduleSpecifier, getCenteredTextCellFormatRequest, getHeaderRowsFormatRequest, HeaderColor } from '@/lib/sheets/schedule-specifier';
+import {
+    ScheduleSpecifier,
+    getCenteredTextCellFormatRequest,
+    getHeaderRowsFormatRequest,
+    getDateExpiredConditionalFormatRule,
+    getTotalsConditionalFormatRule,
+    HeaderColor,
+    HeaderExpiredColor
+} from '@/lib/sheets/schedule-specifier';
 
 const dates = [
     new Date(2023, 10, 15),
@@ -142,15 +150,13 @@ test('adds participant rows and totals', () => {
  */
 test('adds event total conditional formatting', () => {
     const sheetId = 0;
-    const result /* sheets_v4.Schema$Request[] */ = sut._addConditionalFormatting(sheetId, participantMatrix);
-
-    expect(result.length).toBe(1);
-
-    const format = result[0].addConditionalFormatRule;
-    expect(format.rule).toBeTruthy();
-    const rule = format.rule;
+    const rowIndex = 4;
+    const numDates = 2;
+    const groupNum = 2;
+    const rule /* sheets_v4.Schema$ConditionalFormatRule */ = getTotalsConditionalFormatRule(sheetId, rowIndex, numDates, groupNum);
 
     // rule
+    expect(rule).toBeTruthy();
     expect(rule.booleanRule).toBeTruthy();
     expect(rule.booleanRule.condition).toBeTruthy();
     expect(rule.booleanRule.condition.type).toBe('NUMBER_NOT_EQ');
@@ -175,6 +181,40 @@ test('adds event total conditional formatting', () => {
     expect(rule.booleanRule.format.textFormat.foregroundColor).toBeTruthy();
     expect(rule.booleanRule.format.textFormat.foregroundColor.red).toBe(1);
     expect(rule.booleanRule.format.textFormat.bold).toBeTruthy();
+});
+
+test('adds header expired conditional formatting', () => {
+    const sheetId = 0;
+    const rowIndex = 0;
+    const numDates = 2;
+    const groupNum = 2;
+    const rule /* sheets_v4.Schema$ConditionalFormatRule */ = getDateExpiredConditionalFormatRule(sheetId, rowIndex, numDates, groupNum);
+
+    // rule
+    expect(rule.booleanRule).toBeTruthy();
+    expect(rule.booleanRule.condition).toBeTruthy();
+    expect(rule.booleanRule.condition.type).toBe('DATE_BEFORE');
+    expect(rule.booleanRule.condition.values).toBeTruthy();
+    expect(rule.booleanRule.condition.values.length).toBe(1);
+    expect(rule.booleanRule.condition.values[0]).toBeTruthy();
+    expect(rule.booleanRule.condition.values[0].relativeDate).toBe('TODAY');
+
+    // range
+    expect(rule.ranges).toBeTruthy();
+    expect(rule.ranges.length).toBe(1);
+    expect(rule.ranges[0]).toBeTruthy();
+    expect(rule.ranges[0].startRowIndex).toBe(0);
+    expect(rule.ranges[0].endRowIndex).toBe(1);
+    expect(rule.ranges[0].startColumnIndex).toBe(2);
+    expect(rule.ranges[0].endColumnIndex).toBe(4);
+    expect(rule.ranges[0].sheetId).toBe(sheetId);
+
+    // format
+    expect(rule.booleanRule.format).toBeTruthy();
+    expect(rule.booleanRule.format.backgroundColor).toBeTruthy();
+    expect(rule.booleanRule.format.backgroundColor.red).toBe(HeaderExpiredColor.red);
+    expect(rule.booleanRule.format.backgroundColor.green).toBe(HeaderExpiredColor.green);
+    expect(rule.booleanRule.format.backgroundColor.blue).toBe(HeaderExpiredColor.blue);
 });
 
 test('adds center-justified cell formatting', () => {

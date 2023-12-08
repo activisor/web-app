@@ -11,9 +11,17 @@ const COLUMN_OFFSET = 2; // name, email
 
 // google sheet palette color "light green 3", #D9EAD3
 const HeaderColor = {
-    red: 217/255,
-    green: 234/255,
-    blue: 211/255,
+    red: 217 / 255,
+    green: 234 / 255,
+    blue: 211 / 255,
+    alpha: 1.0
+};
+
+// google sheet palette color "dark grey 2", #999999
+const HeaderExpiredColor = {
+    red: 153 / 255,
+    green: 153 / 255,
+    blue: 153 / 255,
     alpha: 1.0
 };
 
@@ -73,6 +81,60 @@ function getTotalsConditionalFormatRule(sheetId: number, rowIndex: number, numDa
                     },
                     bold: true,
                 },
+            },
+        },
+    };
+}
+
+function getDateExpiredConditionalFormatRule(sheetId: number, rowIndex: number, numDates: number): sheets_v4.Schema$ConditionalFormatRule {
+    return {
+        ranges: [
+            {
+                startRowIndex: rowIndex,
+                endRowIndex: rowIndex + 1,
+                startColumnIndex: COLUMN_OFFSET,
+                endColumnIndex: COLUMN_OFFSET + numDates,
+                sheetId,
+            },
+        ],
+        booleanRule: {
+            condition: {
+                type: 'DATE_BEFORE',
+                values: [
+                    {
+                        relativeDate: 'TODAY',
+                    },
+                ],
+            },
+            format: {
+                backgroundColor: HeaderExpiredColor,
+            },
+        },
+    };
+}
+
+function getDatePendingConditionalFormatRule(sheetId: number, rowIndex: number, numDates: number): sheets_v4.Schema$ConditionalFormatRule {
+    return {
+        ranges: [
+            {
+                startRowIndex: rowIndex,
+                endRowIndex: rowIndex + 1,
+                startColumnIndex: COLUMN_OFFSET,
+                endColumnIndex: COLUMN_OFFSET + numDates,
+                sheetId,
+            },
+        ],
+        booleanRule: {
+            condition: {
+                type: 'DATE_AFTER',
+                values: [
+                    {
+                        relativeDate: 'TODAY',
+                    },
+                ],
+            },
+            format: {
+                backgroundColor: HeaderColor,
             },
         },
     };
@@ -235,19 +297,35 @@ class ScheduleSpecifier implements SheetSpecification {
     }
 
     _addConditionalFormatting(sheetId: number, participantMatrix: RandomizeResult): sheets_v4.Schema$Request[] {
-        const result = Array<sheets_v4.Schema$Request>();
+
 
         const numDates = getNumDates(participantMatrix);
         const totalsConditionalFormatRowIndex = 1 + participantMatrix.participants.length;
         const groupSize = participantMatrix.schedule[0].length;
         const totalsConditionalFormat = getTotalsConditionalFormatRule(sheetId, totalsConditionalFormatRowIndex, numDates, groupSize);
+        const dateExpiredConditionalFormat = getDateExpiredConditionalFormatRule(sheetId, 0, numDates);
+        const datePendingConditionalFormat = getDatePendingConditionalFormatRule(sheetId, 0, numDates);
 
-        result.push({
-            addConditionalFormatRule: {
-                rule: totalsConditionalFormat,
-                index: 0,
+        const result: sheets_v4.Schema$Request[] = [
+            {
+                addConditionalFormatRule: {
+                    rule: totalsConditionalFormat,
+                    index: 0,
+                },
             },
-        });
+            {
+                addConditionalFormatRule: {
+                    rule: dateExpiredConditionalFormat,
+                    index: 1,
+                },
+            },
+            {
+                addConditionalFormatRule: {
+                    rule: datePendingConditionalFormat,
+                    index: 2,
+                },
+            },
+        ];
 
         return result;
     }
@@ -257,7 +335,7 @@ class ScheduleSpecifier implements SheetSpecification {
 
         const result = [
             getCenteredTextCellFormatRequest(sheetId),
-            getHeaderRowsFormatRequest(sheetId, numDates),
+            // getHeaderRowsFormatRequest(sheetId, numDates),
         ];
 
         return result;
@@ -331,4 +409,12 @@ class ScheduleSpecifier implements SheetSpecification {
     }
 }
 
-export { ScheduleSpecifier, getCenteredTextCellFormatRequest, getHeaderRowsFormatRequest, HeaderColor };
+export {
+    ScheduleSpecifier,
+    getCenteredTextCellFormatRequest,
+    getHeaderRowsFormatRequest,
+    getDateExpiredConditionalFormatRule,
+    getTotalsConditionalFormatRule,
+    HeaderColor,
+    HeaderExpiredColor,
+};
