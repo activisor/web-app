@@ -17,13 +17,6 @@ const DefaultColor = {
     alpha: 1.0
 };
 
-// google sheet palette color "light grey 3", #F3F3F3
-const LightGrey3Rgb = {
-    red: 243 / 255,
-    green: 243 / 255,
-    blue: 243 / 255,
-    alpha: 1.0
-};
 
 // google sheet palette color "light green 3", #D9EAD3
 const LightGreen3Rgb = {
@@ -48,11 +41,28 @@ const RedRgb = {
     alpha: 1.0
 };
 
-// google sheet palette color "grey", #CCCCCC
-const GreyRgb = {
-    red: 204 / 255,
-    green: 204 / 255,
-    blue: 204 / 255,
+// google sheet palette color "light grey 1", #D9D9D9
+const LightGrey1Rgb = {
+    red: 217 / 255,
+    green: 217 / 255,
+    blue: 217 / 255,
+    alpha: 1.0
+};
+
+
+// google sheet palette color "light grey 2", #EFEFEF
+const LightGrey2Rgb = {
+    red: 239 / 255,
+    green: 239 / 255,
+    blue: 239 / 255,
+    alpha: 1.0
+};
+
+// google sheet palette color "light grey 3", #F3F3F3
+const LightGrey3Rgb = {
+    red: 243 / 255,
+    green: 243 / 255,
+    blue: 243 / 255,
     alpha: 1.0
 };
 
@@ -137,8 +147,13 @@ function getDateExpiredConditionalFormatRule(sheetId: number, rowIndex: number, 
             },
             format: {
                 backgroundColorStyle: {
-                    rgbColor: GreyRgb
-                } ,
+                    rgbColor: LightGrey2Rgb
+                },
+                textFormat: {
+                    foregroundColorStyle:{
+                        rgbColor: DarkGrey2Rgb
+                    },
+                },
             },
         },
     };
@@ -519,7 +534,5 @@ export {
     getHeaderRowFormatRequest,
     getDateExpiredConditionalFormatRule,
     getTotalsConditionalFormatRule,
-    LightGreen3Rgb,
-    DarkGrey2Rgb,
     RedRgb
 };

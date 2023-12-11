@@ -4,8 +4,7 @@ import {
     getHeaderRowFormatRequest,
     getDateExpiredConditionalFormatRule,
     getTotalsConditionalFormatRule,
-    RedRgb,
-    GreyRgb
+    RedRgb
 } from '@/lib/sheets/schedule-specifier';
 
 const dates = [
@@ -211,7 +210,7 @@ test('adds header expired conditional formatting', () => {
     expect(rule.ranges[0].endColumnIndex).toBe(4);
     expect(rule.ranges[0].sheetId).toBe(sheetId);
 
-    // format with color
+    // format backgroundColorStyle
     expect(rule.booleanRule.format).toBeTruthy();
     expect(rule.booleanRule.format.backgroundColorStyle).toBeTruthy();
     expect(rule.booleanRule.format.backgroundColorStyle.rgbColor).toBeTruthy();
