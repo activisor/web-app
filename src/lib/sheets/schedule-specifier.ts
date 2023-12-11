@@ -3,6 +3,7 @@ import "reflect-metadata";
 import { sheets_v4 } from 'googleapis';
 import type { RandomizeResult } from './randomize-result';
 import type { SheetSpecification } from './sheet-specification';
+import { toExcelDate } from './to-excel-date';
 import { toA1Notation } from '../a1-notation';
 
 // marks particpant's spot on schedule
@@ -17,7 +18,7 @@ const DefaultColor = {
 };
 
 // google sheet palette color "light grey 3", #F3F3F3
-const BandingColor = {
+const LightGrey3Rgb = {
     red: 243 / 255,
     green: 243 / 255,
     blue: 243 / 255,
@@ -25,7 +26,7 @@ const BandingColor = {
 };
 
 // google sheet palette color "light green 3", #D9EAD3
-const HeaderColor = {
+const LightGreen3Rgb = {
     red: 217 / 255,
     green: 234 / 255,
     blue: 211 / 255,
@@ -33,10 +34,25 @@ const HeaderColor = {
 };
 
 // google sheet palette color "dark grey 2", #999999
-const HeaderExpiredColor = {
+const DarkGrey2Rgb = {
     red: 153 / 255,
     green: 153 / 255,
     blue: 153 / 255,
+    alpha: 1.0
+};
+
+const RedRgb = {
+    red: 1.0,
+    green: 0.0,
+    blue: 0.0,
+    alpha: 1.0
+};
+
+// google sheet palette color "grey", #CCCCCC
+const GreyRgb = {
+    red: 204 / 255,
+    green: 204 / 255,
+    blue: 204 / 255,
     alpha: 1.0
 };
 
@@ -89,10 +105,8 @@ function getTotalsConditionalFormatRule(sheetId: number, rowIndex: number, numDa
             },
             format: {
                 textFormat: {
-                    foregroundColor: {
-                        red: 1.0,
-                        green: 0.0,
-                        blue: 0.0,
+                    foregroundColorStyle:{
+                        rgbColor: RedRgb
                     },
                     bold: true,
                 },
@@ -123,7 +137,7 @@ function getDateExpiredConditionalFormatRule(sheetId: number, rowIndex: number, 
             },
             format: {
                 backgroundColorStyle: {
-                    rgbColor: HeaderExpiredColor
+                    rgbColor: GreyRgb
                 } ,
             },
         },
@@ -152,7 +166,7 @@ function getDatePendingConditionalFormatRule(sheetId: number, rowIndex: number, 
             },
             format: {
                 backgroundColorStyle: {
-                    rgbColor: HeaderColor
+                    rgbColor: LightGreen3Rgb
                 } ,
             },
         },
@@ -203,9 +217,13 @@ function getHeaderRowFormatRequest(sheetId: number, numDates: number): sheets_v4
                         bottom: 4,
                         left: 4,
                     },
+                    numberFormat: {
+                        type: 'DATE',
+                        pattern: 'MM/dd/yyyy',
+                    },
                 },
             },
-            fields: 'userEnteredFormat(borders, padding)',
+            fields: 'userEnteredFormat(borders, padding, numberFormat)',
         },
     };
 }
@@ -226,7 +244,7 @@ function getBandingFormatRequest(sheetId: number, numDates: number, numParticipa
                         rgbColor: DefaultColor
                     },
                     secondBandColorStyle: {
-                        rgbColor: BandingColor
+                        rgbColor: LightGrey3Rgb
                     },
                 },
             },
@@ -288,7 +306,8 @@ function getHeaderRow(dates: Date[]): sheets_v4.Schema$RowData {
     for (let i = 0; i < dates.length; i++) {
         headerRow.values.push({
             userEnteredValue: {
-                stringValue: `${dates[i].toLocaleDateString('en-US', { dateStyle: 'short' })}`,
+                numberValue: toExcelDate(dates[i]),
+
             },
         });
     }
@@ -401,13 +420,13 @@ class ScheduleSpecifier implements SheetSpecification {
                     rule: datePendingConditionalFormat,
                     index: 1,
                 },
-            },/*
+            },
             {
                 addConditionalFormatRule: {
                     rule: dateExpiredConditionalFormat,
                     index: 2,
                 },
-            },*/
+            },
         ];
 
         return result;
@@ -500,6 +519,7 @@ export {
     getHeaderRowFormatRequest,
     getDateExpiredConditionalFormatRule,
     getTotalsConditionalFormatRule,
-    HeaderColor,
-    HeaderExpiredColor,
+    LightGreen3Rgb,
+    DarkGrey2Rgb,
+    RedRgb
 };

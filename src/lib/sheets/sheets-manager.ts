@@ -124,7 +124,7 @@ class SheetsManager implements SheetsManagement {
                 : 0;
 
             const formatRequests = this._sheetSpecifier.addFormatting(firstSheetId as number, result);
-            // console.log(`conditionalFormat: ${JSON.stringify(formatRequests[0])}`);
+            console.log(`conditionalFormat: ${JSON.stringify(formatRequests[0])}`);
             const autoResizeDimensionsRequest: sheets_v4.Schema$Request = {
                 autoResizeDimensions: {
                     dimensions: {

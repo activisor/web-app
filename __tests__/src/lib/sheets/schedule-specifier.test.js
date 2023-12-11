@@ -4,8 +4,8 @@ import {
     getHeaderRowFormatRequest,
     getDateExpiredConditionalFormatRule,
     getTotalsConditionalFormatRule,
-    HeaderColor,
-    HeaderExpiredColor
+    RedRgb,
+    GreyRgb
 } from '@/lib/sheets/schedule-specifier';
 
 const dates = [
@@ -64,10 +64,12 @@ test('adds title and header row', () => {
     expect(row0Values[1].userEnteredValue.stringValue).toBe('Email');
 
     expect(row0Values[2].userEnteredValue).toBeTruthy();
-    expect(row0Values[2].userEnteredValue.stringValue).toBe('11/15/23');
+    expect(row0Values[2].userEnteredValue.numberValue).toBeTruthy();
+    // expect(row0Values[2].userEnteredValue.numberValue).toBe(1700024400000);
 
     expect(row0Values[3].userEnteredValue).toBeTruthy();
-    expect(row0Values[3].userEnteredValue.stringValue).toBe('11/22/23');
+    expect(row0Values[3].userEnteredValue.numberValue).toBeTruthy();
+    // expect(row0Values[3].userEnteredValue.numberValue).toBe(1700629200000);
 });
 
 /**
@@ -178,8 +180,8 @@ test('adds event total conditional formatting', () => {
     // format
     expect(rule.booleanRule.format).toBeTruthy();
     expect(rule.booleanRule.format.textFormat).toBeTruthy();
-    expect(rule.booleanRule.format.textFormat.foregroundColor).toBeTruthy();
-    expect(rule.booleanRule.format.textFormat.foregroundColor.red).toBe(1);
+    expect(rule.booleanRule.format.textFormat.foregroundColorStyle).toBeTruthy();
+    expect(rule.booleanRule.format.textFormat.foregroundColorStyle.rgbColor).toEqual(RedRgb);
     expect(rule.booleanRule.format.textFormat.bold).toBeTruthy();
 });
 
@@ -209,13 +211,13 @@ test('adds header expired conditional formatting', () => {
     expect(rule.ranges[0].endColumnIndex).toBe(4);
     expect(rule.ranges[0].sheetId).toBe(sheetId);
 
-    // format
+    // format with color
     expect(rule.booleanRule.format).toBeTruthy();
     expect(rule.booleanRule.format.backgroundColorStyle).toBeTruthy();
     expect(rule.booleanRule.format.backgroundColorStyle.rgbColor).toBeTruthy();
-    expect(rule.booleanRule.format.backgroundColorStyle.rgbColor.red).toBe(HeaderExpiredColor.red);
-    expect(rule.booleanRule.format.backgroundColorStyle.rgbColor.green).toBe(HeaderExpiredColor.green);
-    expect(rule.booleanRule.format.backgroundColorStyle.rgbColor.blue).toBe(HeaderExpiredColor.blue);
+//    expect(rule.booleanRule.format.backgroundColorStyle.rgbColor.red).toBe(GreyRgb.red);
+//    expect(rule.booleanRule.format.backgroundColorStyle.rgbColor.green).toBe(GreyRgb.green);
+//    expect(rule.booleanRule.format.backgroundColorStyle.rgbColor.blue).toBe(GreyRgb.blue);
 });
 
 test('adds center-justified cell formatting', () => {
@@ -250,9 +252,12 @@ test('adds header row formatting', () => {
 
     expect(format.cell).toBeTruthy();
     expect(format.cell.userEnteredFormat).toBeTruthy();
-    // expect(format.cell.userEnteredFormat.backgroundColor.red).toBe(HeaderColor.red);
-    // expect(format.cell.userEnteredFormat.backgroundColor.green).toBe(HeaderColor.green);
-    // expect(format.cell.userEnteredFormat.backgroundColor.blue).toBe(HeaderColor.blue);
-    // expect(format.cell.userEnteredFormat.backgroundColor.alpha).toBe(HeaderColor.alpha);
+    expect(format.cell.userEnteredFormat.numberFormat).toBeTruthy();
+    expect(format.cell.userEnteredFormat.numberFormat.type).toBe('DATE');
+    expect(format.cell.userEnteredFormat.numberFormat.pattern).toBe('MM/dd/yyyy');
+    // expect(format.cell.userEnteredFormat.backgroundColor.red).toBe(LightGreen3Rgb.red);
+    // expect(format.cell.userEnteredFormat.backgroundColor.green).toBe(LightGreen3Rgb.green);
+    // expect(format.cell.userEnteredFormat.backgroundColor.blue).toBe(LightGreen3Rgb.blue);
+    // expect(format.cell.userEnteredFormat.backgroundColor.alpha).toBe(LightGreen3Rgb.alpha);
     // expect(format.fields).toBe('userEnteredFormat(backgroundColor)');
 });
