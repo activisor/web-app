@@ -255,6 +255,23 @@ function getHeaderRowFormatRequest(sheetId: number, numDates: number): sheets_v4
     };
 }
 
+function getHeaderDatesDimensionRequest(sheetId: number, numDates: number): sheets_v4.Schema$Request {
+    return {
+        updateDimensionProperties: {
+            range: {
+                sheetId: sheetId as number,
+                dimension: 'COLUMNS',
+                startIndex: COLUMN_OFFSET,
+                endIndex: COLUMN_OFFSET + numDates + 1,
+            },
+            properties: {
+                pixelSize: 62,
+            },
+            fields: 'pixelSize',
+        },
+    };
+}
+
 function getBandingFormatRequest(sheetId: number, numDates: number, numParticipants: number): sheets_v4.Schema$Request {
     return {
         addBanding: {
@@ -445,9 +462,8 @@ class ScheduleSpecifier implements SheetSpecification {
 
     addFormatting(sheetId: number, participantMatrix: RandomizeResult): sheets_v4.Schema$Request[] {
         const result = [
-            getAutoResizeDimensionsRequest(sheetId),
             ...this._addConditionalFormatting(sheetId, participantMatrix),
-            ...this._addCellFormatting(sheetId, participantMatrix),
+            ...this._addStaticFormatting(sheetId, participantMatrix),
         ];
 
         return result;
@@ -485,13 +501,15 @@ class ScheduleSpecifier implements SheetSpecification {
         return result;
     }
 
-    _addCellFormatting(sheetId: number, participantMatrix: RandomizeResult): sheets_v4.Schema$Request[] {
+    _addStaticFormatting(sheetId: number, participantMatrix: RandomizeResult): sheets_v4.Schema$Request[] {
         const numDates = getNumDates(participantMatrix);
         const numParticipants = participantMatrix.participants.length;
 
         const result = [
+            getAutoResizeDimensionsRequest(sheetId),
             getCenteredTextCellFormatRequest(sheetId),
             getHeaderRowFormatRequest(sheetId, numDates),
+            getHeaderDatesDimensionRequest(sheetId, numDates),
             getParticipantColumnsFormatRequest(sheetId, numParticipants),
             getTotalsRowFormatRequest(sheetId, numDates, numParticipants),
             getBandingFormatRequest(sheetId, numDates, numParticipants),
