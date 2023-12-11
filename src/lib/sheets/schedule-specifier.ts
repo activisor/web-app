@@ -208,6 +208,18 @@ function getCenteredTextCellFormatRequest(sheetId: number): sheets_v4.Schema$Req
     };
 }
 
+function getAutoResizeDimensionsRequest(sheetId: number): sheets_v4.Schema$Request {
+    return {
+        autoResizeDimensions: {
+            dimensions: {
+                sheetId: sheetId as number,
+                dimension: 'COLUMNS',
+                startIndex: 0,
+            },
+        },
+    };
+}
+
 function getHeaderRowFormatRequest(sheetId: number, numDates: number): sheets_v4.Schema$Request {
     return {
         repeatCell: {
@@ -234,7 +246,7 @@ function getHeaderRowFormatRequest(sheetId: number, numDates: number): sheets_v4
                     },
                     numberFormat: {
                         type: 'DATE',
-                        pattern: 'MM/dd/yyyy',
+                        pattern: 'mm/dd/yy',
                     },
                 },
             },
@@ -294,6 +306,31 @@ function getTotalsRowFormatRequest(sheetId: number, numDates: number, numPartici
                 },
             },
             fields: 'userEnteredFormat(borders, padding)',
+        },
+    };
+}
+
+function getParticipantColumnsFormatRequest(sheetId: number, numParticipants: number): sheets_v4.Schema$Request {
+    return {
+        repeatCell: {
+            range: {
+                sheetId: sheetId as number,
+                startRowIndex: 1,
+                endRowIndex: numParticipants + 1,
+                startColumnIndex: 0,
+                endColumnIndex: COLUMN_OFFSET,
+            },
+            cell: {
+                userEnteredFormat: {
+                    padding: {
+                        // top: 4,
+                        right: 8,
+                        // bottom: 4,
+                        left: 8,
+                    },
+                },
+            },
+            fields: 'userEnteredFormat(padding)',
         },
     };
 }
@@ -408,8 +445,9 @@ class ScheduleSpecifier implements SheetSpecification {
 
     addFormatting(sheetId: number, participantMatrix: RandomizeResult): sheets_v4.Schema$Request[] {
         const result = [
+            getAutoResizeDimensionsRequest(sheetId),
             ...this._addConditionalFormatting(sheetId, participantMatrix),
-            ...this._addCellFormatting(sheetId, participantMatrix)
+            ...this._addCellFormatting(sheetId, participantMatrix),
         ];
 
         return result;
@@ -449,12 +487,14 @@ class ScheduleSpecifier implements SheetSpecification {
 
     _addCellFormatting(sheetId: number, participantMatrix: RandomizeResult): sheets_v4.Schema$Request[] {
         const numDates = getNumDates(participantMatrix);
+        const numParticipants = participantMatrix.participants.length;
 
         const result = [
             getCenteredTextCellFormatRequest(sheetId),
             getHeaderRowFormatRequest(sheetId, numDates),
-            getTotalsRowFormatRequest(sheetId, numDates, participantMatrix.participants.length),
-            getBandingFormatRequest(sheetId, numDates, participantMatrix.participants.length),
+            getParticipantColumnsFormatRequest(sheetId, numParticipants),
+            getTotalsRowFormatRequest(sheetId, numDates, numParticipants),
+            getBandingFormatRequest(sheetId, numDates, numParticipants),
         ];
 
         return result;
@@ -532,6 +572,7 @@ export {
     ScheduleSpecifier,
     getCenteredTextCellFormatRequest,
     getHeaderRowFormatRequest,
+    getParticipantColumnsFormatRequest,
     getDateExpiredConditionalFormatRule,
     getTotalsConditionalFormatRule,
     RedRgb

@@ -2,6 +2,7 @@ import {
     ScheduleSpecifier,
     getCenteredTextCellFormatRequest,
     getHeaderRowFormatRequest,
+    getParticipantColumnsFormatRequest,
     getDateExpiredConditionalFormatRule,
     getTotalsConditionalFormatRule,
     RedRgb
@@ -64,11 +65,9 @@ test('adds title and header row', () => {
 
     expect(row0Values[2].userEnteredValue).toBeTruthy();
     expect(row0Values[2].userEnteredValue.numberValue).toBeTruthy();
-    // expect(row0Values[2].userEnteredValue.numberValue).toBe(1700024400000);
 
     expect(row0Values[3].userEnteredValue).toBeTruthy();
     expect(row0Values[3].userEnteredValue.numberValue).toBeTruthy();
-    // expect(row0Values[3].userEnteredValue.numberValue).toBe(1700629200000);
 });
 
 /**
@@ -254,9 +253,23 @@ test('adds header row formatting', () => {
     expect(format.cell.userEnteredFormat.numberFormat).toBeTruthy();
     expect(format.cell.userEnteredFormat.numberFormat.type).toBe('DATE');
     expect(format.cell.userEnteredFormat.numberFormat.pattern).toBe('MM/dd/yyyy');
-    // expect(format.cell.userEnteredFormat.backgroundColor.red).toBe(LightGreen3Rgb.red);
-    // expect(format.cell.userEnteredFormat.backgroundColor.green).toBe(LightGreen3Rgb.green);
-    // expect(format.cell.userEnteredFormat.backgroundColor.blue).toBe(LightGreen3Rgb.blue);
-    // expect(format.cell.userEnteredFormat.backgroundColor.alpha).toBe(LightGreen3Rgb.alpha);
-    // expect(format.fields).toBe('userEnteredFormat(backgroundColor)');
+});
+
+test('adds participant columns formatting', () => {
+    const sheetId = 0;
+    const numParticipants = 3;
+    const result /* sheets_v4.Schema$Request */ = getParticipantColumnsFormatRequest(sheetId, numParticipants);
+
+    expect(result.repeatCell).toBeTruthy();
+    const format = result.repeatCell;
+    expect(format.range).toBeTruthy();
+    expect(format.range.sheetId).toBe(sheetId);
+    expect(format.range.startRowIndex).toBe(1);
+    expect(format.range.endRowIndex).toBe(1 + numParticipants);
+    expect(format.range.startColumnIndex).toBe(0);
+    expect(format.range.endColumnIndex).toBe(2);
+
+    expect(format.cell).toBeTruthy();
+    expect(format.cell.userEnteredFormat).toBeTruthy();
+    expect(format.cell.userEnteredFormat.padding).toBeTruthy();
 });

@@ -5,7 +5,7 @@ import { injectable, inject } from "inversify";
 import "reflect-metadata";
 import { TYPES } from "@/inversify-types";
 import { Credentials, OAuth2Client } from 'google-auth-library';
-import { google, sheets_v4 } from 'googleapis';
+import { google } from 'googleapis';
 
 import Frequency from '../frequency';
 import type { SheetsManagement } from './sheets-management';
@@ -124,21 +124,11 @@ class SheetsManager implements SheetsManagement {
                 : 0;
 
             const formatRequests = this._sheetSpecifier.addFormatting(firstSheetId as number, result);
-            console.log(`conditionalFormat: ${JSON.stringify(formatRequests[0])}`);
-            const autoResizeDimensionsRequest: sheets_v4.Schema$Request = {
-                autoResizeDimensions: {
-                    dimensions: {
-                        sheetId: firstSheetId,
-                        dimension: 'COLUMNS',
-                        startIndex: 0,
-                    },
-                },
-            };
 
             await service.spreadsheets.batchUpdate({
                 spreadsheetId: spreadsheet.data.spreadsheetId as string,
                 requestBody: {
-                    requests: /*Schema$Request[]*/[...formatRequests, autoResizeDimensionsRequest],
+                    requests: /*Schema$Request[]*/ formatRequests,
                 },
             }, {});
 /*
@@ -147,10 +137,17 @@ class SheetsManager implements SheetsManagement {
                 includeGridData: true,
             }, {});
 
-            if (sheetData.data.sheets && sheetData.data.sheets[0] && sheetData.data.sheets[0].conditionalFormats) {
-                console.log(`{ conditionalFormats: ${JSON.stringify(sheetData.data.sheets[0].conditionalFormats)} }`);
+            if (sheetData.data.sheets && sheetData.data.sheets[0]
+                && sheetData.data.sheets[0].data
+                && sheetData.data.sheets[0].data[0]
+                && sheetData.data.sheets[0].data[0].rowData
+                && sheetData.data.sheets[0].data[0].rowData[1]
+                && sheetData.data.sheets[0].data[0].rowData[1].values
+                && sheetData.data.sheets[0].data[0].rowData[1].values[0]) {
+                console.log(`{ conditionalFormats: ${JSON.stringify(sheetData.data.sheets[0].data[0].rowData[1].values[0])} }`);
             }
 */
+
             return `https://docs.google.com/spreadsheets/d/${spreadsheet.data.spreadsheetId}/edit?usp=sharing`;
         }
 
