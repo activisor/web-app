@@ -246,7 +246,7 @@ function getHeaderRowFormatRequest(sheetId: number, numDates: number): sheets_v4
                     },
                     numberFormat: {
                         type: 'DATE',
-                        pattern: 'mm/dd/yy',
+                        pattern: 'M/d/yy',
                     },
                 },
             },

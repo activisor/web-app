@@ -252,7 +252,7 @@ test('adds header row formatting', () => {
     expect(format.cell.userEnteredFormat).toBeTruthy();
     expect(format.cell.userEnteredFormat.numberFormat).toBeTruthy();
     expect(format.cell.userEnteredFormat.numberFormat.type).toBe('DATE');
-    expect(format.cell.userEnteredFormat.numberFormat.pattern).toBe('MM/dd/yyyy');
+    expect(format.cell.userEnteredFormat.numberFormat.pattern).toBe('M/d/yy');
 });
 
 test('adds participant columns formatting', () => {
