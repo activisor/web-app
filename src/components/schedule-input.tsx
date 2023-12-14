@@ -9,6 +9,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
+import { useTheme } from '@mui/material/styles';
 
 import { signIn } from 'next-auth/react';
 import { ErrorMessage, FormikProvider, useFormik } from 'formik';
@@ -77,6 +78,7 @@ const scheduleSchema = yup.object({
 });
 
 const ScheduleInput: React.FC = () => {
+    const theme = useTheme();
     const initialParticipants: ParticipantInputProps[] = [];
     const [participantKey, setParticipantKey] = useState(0);
 
@@ -189,9 +191,7 @@ const ScheduleInput: React.FC = () => {
                         alignItems: 'flex-start'
                     }
                 }}>
-                    <div css={css`
-                        ${twoColumnChild};
-                    `}>
+                    <div css={css`${twoColumnChild};`}>
                         <h2 css={{
                             /* breakpoint for large screen overrides, 1280px wide */
                             '@media(min-width: 1248px)': {
@@ -317,7 +317,11 @@ const ScheduleInput: React.FC = () => {
                     justifyContent: 'center',
                     marginTop: 16
                 }}>
-                    <Button variant="contained" type="submit">Create Schedule</Button>
+                    <Button
+                        variant="contained"
+                        type="submit"
+                        color="secondary"
+                    >Create Schedule</Button>
                 </div>
             </form>
         </FormikProvider>

@@ -41,6 +41,7 @@ export default function Schedule() {
     });
 
     const buildSkeletonCell1Css = css({
+        backgroundColor: '#BBDEFB',
         width: '10%',
         marginRight: 4,
         '@media(min-width: 1248px)': {
@@ -49,6 +50,7 @@ export default function Schedule() {
     });
 
     const buildSkeletonCell2Css = css({
+        backgroundColor: '#BBDEFB',
         width: '90%'
     });
 

@@ -17,6 +17,13 @@ const DefaultColor = {
     alpha: 1.0
 };
 
+// '#BBDEFB', light blue
+const ThemePrimaryLightRgb = {
+    red: 187 / 255,
+    green: 222 / 255,
+    blue: 251 / 255,
+    alpha: 1.0
+};
 
 // google sheet palette color "light green 3", #D9EAD3
 const LightGreen3Rgb = {
@@ -181,7 +188,7 @@ function getDatePendingConditionalFormatRule(sheetId: number, rowIndex: number, 
             },
             format: {
                 backgroundColorStyle: {
-                    rgbColor: LightGreen3Rgb
+                    rgbColor: ThemePrimaryLightRgb
                 } ,
             },
         },
