@@ -6,6 +6,8 @@ import { css } from '@emotion/react';
 import Grid from '@mui/material/Unstable_Grid2';
 import East from '@mui/icons-material/East';
 import Button from '@mui/material/Button';
+import Paper from '@mui/material/Paper';
+
 import { useTheme } from '@mui/material/styles';
 import { CopyToClipboardButton } from '@/components/copy-to-clipboard-button';
 import { mq } from '@/lib/media-queries';
@@ -52,10 +54,10 @@ export default function Home() {
         <main css={{
         }}>
             <div id="hero-section" css={css`
-                background-image: linear-gradient(to right, rgba(255, 255, 255, 0.9),rgba(255, 255, 255, 0.3)), url(/pickleball-lg.jpg);
+                background-image: linear-gradient(to right, rgba(255, 255, 255, 1.0),rgba(255, 255, 255, 0.5)), url(/pickleball-1920x1200.jpg);
+                background-position: center center;
                 background-repeat: no-repeat;
                 background-size: cover;
-                height: 1020px;
             `}>
 
                 <Grid container spacing={2} css={{
@@ -69,11 +71,16 @@ export default function Home() {
                             padding: 32,
                         }
                     }}>
-
+                        <div>
+                            <Image src="/activisor-logo1-sm.png" width={200} height={200} alt="Activisor logo" />
+                        </div>
                         <h1 css={{
                             color: theme.palette.primary.dark,
                         }}>Effortless Scheduling for Your Group Activities</h1>
-                        <p>Streamline your group scheduling with Activisor. We create Google Sheet schedules that ensure even participation and mixing. Enjoy seamless customization and full control over your schedule, subscription-free. Get up and running instantly – Activisor is designed for organizers who value simplicity and flexibility. Try it now and transform the way you manage your group&apos;s events!</p>
+                        <p css={{
+                            backdropFilter: 'blur(2px)',
+                            fontWeight: 'bold',
+                        }}>Streamline your group scheduling with Activisor. We create Google Sheet schedules that ensure even participation and mixing. Enjoy seamless customization and full control over your schedule, subscription-free. Get up and running instantly – Activisor is designed for organizers who value simplicity and flexibility. Try it now and transform the way you manage your group&apos;s events!</p>
                         <h2 css={{
                             color: theme.palette.primary.dark,
                             marginTop: 32,
@@ -94,12 +101,24 @@ export default function Home() {
                     </Grid>
                     <Grid md={1} xl={2}>
                     </Grid>
-                    <Grid md={5} xl={5}>
-                        <div>
+                    <Grid md={5} xl={5}  css={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'flex-end',
+                            [mq.md]: {
+                                padding: 16,
+                            },
+                            [mq.xl]: {
+                                padding: 24,
+                            }
+                        }}>
+                        <Paper elevation={3} css={css`
+                            padding: 16px;
+                        `}>
                             <img src="/pickleball-schedule-sm.png" css={css`
                                 width: 100%;
                             `} />
-                        </div>
+                        </Paper>
                     </Grid>
                 </Grid>
             </div>
