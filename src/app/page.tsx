@@ -63,7 +63,7 @@ export default function Home() {
                     }}>
 
                         <h1>Effortless Scheduling for Your Group Activities</h1>
-                        <p>Streamline your group scheduling with Activisor. We create Google Sheet schedules that ensure even participation and mixing. Enjoy seamless customization and full control over your schedule, subscription-free. Get up and running instantly – Activisor is designed for organizers who value simplicity and flexibility. Try it now and transform the way you manage your group's events!</p>
+                        <p>Streamline your group scheduling with Activisor. We create Google Sheet schedules that ensure even participation and mixing. Enjoy seamless customization and full control over your schedule, subscription-free. Get up and running instantly – Activisor is designed for organizers who value simplicity and flexibility. Try it now and transform the way you manage your group&apos;s events!</p>
                         <h2 css={{
                             marginTop:32,
                         }}>Pick a way to start</h2>
@@ -81,10 +81,11 @@ export default function Home() {
                             </div>
                         </div>
                     </Grid>
-                    <Grid md={6} xl={7}>
+                    <Grid md={1} xl={2}>
+                    </Grid>
+                    <Grid md={5} xl={5}>
 
                     </Grid>
-
                 </Grid>
 
             </div>
