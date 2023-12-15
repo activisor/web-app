@@ -20,10 +20,10 @@ const heroSectionCss = css({
 });
 
 const ctaRowCss = css({
-    borderStyle: 'solid',
-    borderWidth: 1,
-    borderColor: '#2194F3',
-    backgroundColor: 'rgba(255, 255, 255, 0.4)',
+    /*    borderStyle: 'solid',
+        borderWidth: 1,
+        borderColor: '#2194F3',*/
+    backgroundColor: 'rgba(187, 222, 251, 0.3)',
     display: 'flex',
     alignItems: 'center',
     padding: 16,
@@ -58,12 +58,20 @@ export default function Home() {
                 background-position: center center;
                 background-repeat: no-repeat;
                 background-size: cover;
+                height: 100vh;
             `}>
-
                 <Grid container spacing={2} css={{
+                    height: '100%',
+                    alignItems: 'stretch',
+                    [mq.md]: {
+                        padding: 16,
+                    },
+                    [mq.xl]: {
+                        padding: 24,
+                    }
                 }}>
                     <Grid md={6} xl={5} css={{
-                        padding: 16,
+                        padding: 8,
                         [mq.md]: {
                             padding: 24,
                         },
@@ -74,47 +82,61 @@ export default function Home() {
                         <div>
                             <Image src="/activisor-logo1-sm.png" width={200} height={200} alt="Activisor logo" />
                         </div>
-                        <h1 css={{
-                            color: theme.palette.primary.dark,
-                        }}>Effortless Scheduling for Your Group Activities</h1>
-                        <p css={{
-                            backdropFilter: 'blur(2px)',
-                            fontWeight: 'bold',
-                        }}>Streamline your group scheduling with Activisor. We create Google Sheet schedules that ensure even participation and mixing. Enjoy seamless customization and full control over your schedule, subscription-free. Get up and running instantly – Activisor is designed for organizers who value simplicity and flexibility. Try it now and transform the way you manage your group&apos;s events!</p>
-                        <h2 css={{
-                            color: theme.palette.primary.dark,
-                            marginTop: 32,
-                        }}>Pick a way to start</h2>
                         <div css={{
-                            // backgroundColor: 'rgba(255, 255, 255, 0.4)'
+                            marginTop: 32,
+                            marginBottom: 32,
                         }}>
-                            <div css={css`${ctaRowCss};`}><East color="secondary" /><span>Forward your group email to&nbsp;</span><span css={css`${ctaEmailCss};`}>{schedulerToEmail}</span><CopyToClipboardButton value={schedulerToEmail} color={'secondary'}></CopyToClipboardButton></div>
-                            <div css={css`${ctaRowCss};`}><East color="secondary" />
-                                <Button
-                                    variant='outlined'
-                                    type="submit"
-                                    color="secondary"
-                                    onClick={handleClick}
-                                >enter emails</Button>
-                            </div>
+                            <h1 css={{
+                                color: theme.palette.primary.dark,
+                            }}>Effortlessly Schedule Your Group Activities</h1>
+                            <p css={{
+                                backdropFilter: 'blur(1px)',
+                                fontWeight: 'bold',
+                            }}>Streamline your group scheduling with Activisor. We create Google Sheet schedules that ensure even participation and mixing. Enjoy seamless customization and full control over your schedule, subscription-free. Get up and running instantly – Activisor is designed for organizers who value simplicity and flexibility. Try it now and transform the way you manage your group&apos;s events!</p>
                         </div>
+                        <Paper elevation={3} css={{
+                            padding: 16,
+                            backgroundColor: 'rgba(255, 255, 255, 0.5)',
+                            backdropFilter: 'blur(4px)',
+                        }}>
+                            <h2 css={{
+                                color: theme.palette.primary.dark,
+                                marginTop: 0,
+                            }}>Pick a way to start</h2>
+                            <div css={{
+                                // backgroundColor: 'rgba(255, 255, 255, 0.4)'
+                            }}>
+                                <div css={css`${ctaRowCss};`}><East color="secondary" /><span>Forward your group email to&nbsp;</span><span css={css`${ctaEmailCss};`}>{schedulerToEmail}</span><CopyToClipboardButton value={schedulerToEmail} color={'secondary'}></CopyToClipboardButton></div>
+                                <div css={css`${ctaRowCss};`}><East color="secondary" />
+                                    <Button
+                                        variant='outlined'
+                                        type="submit"
+                                        color="secondary"
+                                        onClick={handleClick}
+                                    >enter emails</Button>
+                                </div>
+                            </div>
+                        </Paper>
+
                     </Grid>
                     <Grid md={1} xl={2}>
                     </Grid>
-                    <Grid md={5} xl={5}  css={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: 'flex-end',
-                            [mq.md]: {
-                                padding: 16,
-                            },
-                            [mq.xl]: {
-                                padding: 24,
-                            }
+                    <Grid md={5} xl={5} css={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'flex-end',
+                        [mq.md]: {
+                            padding: 16,
+                        },
+                        [mq.xl]: {
+                            padding: 24,
+                        }
+                    }}>
+                        <Paper elevation={3} css={{
+                            padding: 16,
+                            backgroundColor: 'rgba(255, 255, 255, 0.5)',
+                            backdropFilter: 'blur(4px)',
                         }}>
-                        <Paper elevation={3} css={css`
-                            padding: 16px;
-                        `}>
                             <img src="/pickleball-schedule-sm.png" css={css`
                                 width: 100%;
                             `} />
