@@ -21,17 +21,7 @@ const heroSectionCss = css({
     height: '100vh'
 });
 
-const ctaRowCss = css({
-    /* theme primary light */
-    backgroundColor: 'rgba(187, 222, 251, 0.3)',
-    display: 'flex',
-    alignItems: 'center',
-    padding: 16,
-    marginBottom: 24,
-    '& > svg': {
-        marginRight: 16,
-    },
-});
+
 
 const handleClick = () => {
     window.location.href = '/schedule';
@@ -48,6 +38,20 @@ export default function Home() {
         color: theme.palette.primary.dark,
         fontWeight: 'bold',
         paddingRight: 8,
+    });
+    const ctaRowCss = css({
+        display: 'flex',
+        alignItems: 'center',
+        '& > svg': {
+            marginRight: 16,
+        },
+    });
+    const ctaSectionCss = css({
+        /* theme primary light */
+        backgroundColor: 'rgba(187, 222, 251, 0.3)',
+        padding: 16,
+        marginBottom: 24,
+        borderRadius: theme.shape.borderRadius,
     });
 
     return (
@@ -98,6 +102,30 @@ export default function Home() {
                                 fontWeight: 'bold',
                             }}>Streamline your group scheduling with Activisor. We create Google Sheet schedules that ensure even participation and mixing. Enjoy seamless customization and full control over your schedule, commitment-free. Get up and running instantly – Activisor is designed for organizers who value simplicity and flexibility. Try it now and transform the way you manage your group&apos;s events!</p>
                         </div>
+                        <Paper elevation={1} css={{
+                            padding: 16,
+                            backgroundColor: 'rgba(255, 255, 255, 0.5)',
+                            backdropFilter: 'blur(4px)',
+                        }}>
+                            <img src="/pickleball-schedule-sm.png" css={{
+                                width: '100%',
+                                borderRadius: theme.shape.borderRadius,
+                            }} />
+                        </Paper>
+                    </Grid>
+                    <Grid md={1} xl={2}>
+                    </Grid>
+                    <Grid md={5} xl={5} css={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'flex-end',
+                        [mq.md]: {
+                            padding: 24,
+                        },
+                        [mq.xl]: {
+                            padding: 32,
+                        }
+                    }}>
                         <Paper elevation={8} css={{
                             padding: 16,
                             backgroundColor: 'rgba(255, 255, 255, 0.5)',
@@ -110,8 +138,16 @@ export default function Home() {
                             <div css={{
                                 // backgroundColor: 'rgba(255, 255, 255, 0.4)'
                             }}>
-                                <div css={css`${ctaRowCss};`}><East color="secondary" /><span>Forward your group email to&nbsp;</span><span css={css`${ctaEmailCss};`}>{schedulerToEmail}</span><CopyToClipboardButton value={schedulerToEmail} color={'secondary'}></CopyToClipboardButton></div>
-                                <div css={css`${ctaRowCss};`}><East color="secondary" />
+                                <div css={ctaSectionCss}>
+                                    <div css={ctaRowCss}>
+                                        <East color="secondary" />
+                                        <span>Forward your group email to&nbsp;</span>
+                                        <span css={ctaEmailCss}>{schedulerToEmail}</span>
+                                        <CopyToClipboardButton value={schedulerToEmail} valueDescription="email" color="secondary"></CopyToClipboardButton>
+                                    </div>
+                                    <span css={{ paddingLeft: 80, fontStyle: 'italic' }}>&nbsp;We&apos;ll get back to you!</span>
+                                </div>
+                                <div css={[ctaRowCss, ctaSectionCss]}><East color="secondary" />
                                     <Button
                                         variant='outlined'
                                         type="submit"
@@ -120,30 +156,6 @@ export default function Home() {
                                     >enter emails</Button>
                                 </div>
                             </div>
-                        </Paper>
-
-                    </Grid>
-                    <Grid md={1} xl={2}>
-                    </Grid>
-                    <Grid md={5} xl={5} css={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'flex-end',
-                        [mq.md]: {
-                            padding: 16,
-                        },
-                        [mq.xl]: {
-                            padding: 24,
-                        }
-                    }}>
-                        <Paper elevation={1} css={{
-                            padding: 16,
-                            backgroundColor: 'rgba(255, 255, 255, 0.5)',
-                            backdropFilter: 'blur(4px)',
-                        }}>
-                            <img src="/pickleball-schedule-sm.png" css={css`
-                                width: 100%;
-                            `} />
                         </Paper>
                     </Grid>
                 </Grid>
@@ -158,7 +170,7 @@ export default function Home() {
                 }
             }}>
                 <p>
-                    Are you tired of spending hours crafting schedules for your group activities? Activisor is the game-changing web app designed to simplify the lives of organizers like you, providing a hassle-free solution to create Google Sheet schedules for your recurring events.
+                    Are you tired of spending hours crafting schedules for your group activities? Activisor is a game-changing service for organizers like you, providing a hassle-free way to create Google Sheet schedules for your recurring events.
                 </p>
                 <ul css={{
                     '& > li': {
@@ -166,16 +178,16 @@ export default function Home() {
                     }
                 }}>
                     <li>
-                        <span css={css`${listItemTitleCss};`}>Effortless Scheduling:</span>Activisor takes the pain out of scheduling by automating the process. No more wrestling with complex algorithms or spending hours trying to ensure everyone gets equal participation time. Our platform intelligently creates a schedule that both balances participation and mixes up the group on each date. With just a few clicks, you can have a perfectly tailored schedule ready for your group.
+                        <span css={css`${listItemTitleCss};`}>Effortless Scheduling:</span>Activisor takes the pain out of scheduling by automating the process. No more spending hours trying to ensure a good experience for everyone in the group. Our platform intelligently creates a schedule that both balances participation and mixes up the group on each date. With just a few clicks, you can have a perfectly tailored schedule ready for your group.
                     </li>
                     <li>
                         <span css={css`${listItemTitleCss};`}>Seamless Customization:</span>We understand that every group is unique, and Activisor gives you the power to customize your schedule effortlessly. As the organizer, you retain full control over the Google Sheet, allowing you to make edits and adjustments according to your group&apos;s specific needs. Whether you want to change playing spots, add special events, or adapt the schedule to evolving requirements, Activisor lets you do it all with ease.
                     </li>
                     <li>
-                        <span css={css`${listItemTitleCss};`}>Zero Commitment, Small Transaction Fee:</span>Say goodbye to the learning curve and subscription fees that come with comprehensive proprietary systems. Activisor believes in empowering organizers without binding them to long-term commitments. Enjoy the flexibility of our service with a small transaction fee, giving you access to the tools you need without the burden of unnecessary features or hidden costs. Activisor ensures you only pay for what you use, making it a cost-effective and efficient solution.
+                        <span css={css`${listItemTitleCss};`}>Low Investment, Zero Commitment:</span>Say goodbye to the learning curve and subscription fees that come with comprehensive solutions. Activisor believes in empowering organizers without binding them to long-term commitments. Enjoy the flexibility of our service with a small purchase fee, giving you access to the tools you need without the burden of unnecessary features or hidden costs. Activisor ensures you only pay for what you use, making it a cost-effective and efficient solution.
                     </li>
                     <li>
-                        <span css={css`${listItemTitleCss};`}>Instantly Up and Running:</span>Already familiar with Google Sheets? Activisor is designed with you in mind. Instantly integrate our platform into your workflow without a steep learning curve. You&apos;ll be up and running in no time, leveraging the full potential of Google Sheets combined with the smart scheduling capabilities of Activisor.
+                        <span css={css`${listItemTitleCss};`}>Instantly Up and Running:</span>Already familiar with Google Sheets? Activisor is designed with you in mind. Instead of learning a new system, you&apos;ll be up and running in no time, leveraging the full potential of Google Sheets combined with the smart scheduling capabilities of Activisor.
                     </li>
                 </ul>
                 <p>

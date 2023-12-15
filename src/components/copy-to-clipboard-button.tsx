@@ -1,13 +1,14 @@
 /** @jsxImportSource @emotion/react */
 'use client'
 
-import { IconButton, Snackbar } from '@mui/material'
+import { IconButton, Snackbar, Tooltip } from '@mui/material'
 import ContentCopy from '@mui/icons-material/ContentCopy';
 import React, { useState } from 'react'
 
 interface CopyToClipboardButtonProps {
     value: string;
     color: string;
+    valueDescription: string;
 }
 
 const CopyToClipboardButton: React.FC<CopyToClipboardButtonProps> = (props) => {
@@ -15,24 +16,26 @@ const CopyToClipboardButton: React.FC<CopyToClipboardButtonProps> = (props) => {
     const [open, setOpen] = useState(false);
 
     const handleClick = () => {
-      setOpen(true);
-      navigator.clipboard.writeText(value_);
+        setOpen(true);
+        navigator.clipboard.writeText(value_);
     };
 
     return (
         <>
-          <IconButton
-            aria-label="copy to clipboard"
-            color={'secondary'}
-            onClick={handleClick}>
-            <ContentCopy />
-          </IconButton>
-          <Snackbar
-            open={open}
-            onClose={() => setOpen(false)}
-            autoHideDuration={2000}
-            message="Copied to clipboard"
-          />
+            <Tooltip title={`Copy ${props.valueDescription} to clipboard`}>
+                <IconButton
+                    aria-label="copy to clipboard"
+                    color={'secondary'}
+                    onClick={handleClick}>
+                    <ContentCopy />
+                </IconButton>
+            </Tooltip>
+            <Snackbar
+                open={open}
+                onClose={() => setOpen(false)}
+                autoHideDuration={2000}
+                message={`${props.valueDescription} copied to clipboard`}
+            />
         </>
     )
 }
