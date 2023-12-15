@@ -7,6 +7,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import East from '@mui/icons-material/East';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
+import Tooltip from '@mui/material/Tooltip';
 
 import { useTheme } from '@mui/material/styles';
 import { CopyToClipboardButton } from '@/components/copy-to-clipboard-button';
@@ -129,7 +130,7 @@ export default function Home() {
                         <Paper elevation={8} css={{
                             padding: 16,
                             backgroundColor: 'rgba(255, 255, 255, 0.5)',
-                            backdropFilter: 'blur(4px)',
+                            backdropFilter: 'blur(5px)',
                         }}>
                             <h2 css={{
                                 color: theme.palette.primary.main,
@@ -140,14 +141,17 @@ export default function Home() {
                             }}>
                                 <div css={ctaSectionCss}>
                                     <div css={ctaRowCss}>
-                                        <East color="secondary" />
-                                        <span>Forward your group email to&nbsp;</span>
-                                        <span css={ctaEmailCss}>{schedulerToEmail}</span>
+                                        <East color="primary" />
+                                        <span>Forward your group email to our&nbsp;</span>
+                                        <Tooltip title={schedulerToEmail}>
+                                            <span css={ctaEmailCss}>scheduler mailbox</span>
+                                        </Tooltip>
                                         <CopyToClipboardButton value={schedulerToEmail} valueDescription="email" color="secondary"></CopyToClipboardButton>
                                     </div>
                                     <span css={{ paddingLeft: 80, fontStyle: 'italic' }}>&nbsp;We&apos;ll get back to you!</span>
                                 </div>
-                                <div css={[ctaRowCss, ctaSectionCss]}><East color="secondary" />
+                                <div css={[ctaRowCss, ctaSectionCss]}>
+                                    <East color="primary" />
                                     <Button
                                         variant='outlined'
                                         type="submit"

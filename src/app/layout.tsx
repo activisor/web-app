@@ -20,6 +20,11 @@ export default function RootLayout({
         <html lang="en">
             <body>
                 <Providers>{children}</Providers>
+                <footer>
+                    <p><a href="/privacy">Privacy Policy</a></p>
+                    <p><a href="/tos">Terms of Service</a></p>
+                    <p>© 2023 Activisor</p>
+                </footer>
             </body>
         </html>
     )
