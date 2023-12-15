@@ -27,7 +27,7 @@ const ctaRowCss = css({
     display: 'flex',
     alignItems: 'center',
     padding: 16,
-    marginBottom: 16,
+    marginBottom: 24,
     '& > svg': {
         marginRight: 16,
     },
