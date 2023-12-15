@@ -14,15 +14,15 @@ import { mq } from '@/lib/media-queries';
 
 const schedulerToEmail = 'schedule@mail.activisor.com';
 const heroSectionCss = css({
-    backgroundImage: 'url(/pickleball-lg.jpg)',
+    backgroundImage: 'linear-gradient(to right, rgba(255, 255, 255, 1.0),rgba(255, 255, 255, 0.5)), url(/pickleball-1920x1200.jpg)',
+    backgroundPosition: 'center center',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
+    height: '100vh'
 });
 
 const ctaRowCss = css({
-    /*    borderStyle: 'solid',
-        borderWidth: 1,
-        borderColor: '#2194F3',*/
+    /* theme primary light */
     backgroundColor: 'rgba(187, 222, 251, 0.3)',
     display: 'flex',
     alignItems: 'center',
@@ -71,6 +71,9 @@ export default function Home() {
                     }
                 }}>
                     <Grid md={6} xl={5} css={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'space-between',
                         padding: 8,
                         [mq.md]: {
                             padding: 24,
@@ -80,27 +83,28 @@ export default function Home() {
                         }
                     }}>
                         <div>
-                            <Image src="/activisor-logo1-sm.png" width={200} height={200} alt="Activisor logo" />
+                            <Image src="/ShortLogo_Transparent.png" width={200} height={90} alt="Activisor logo" />
                         </div>
                         <div css={{
-                            marginTop: 32,
-                            marginBottom: 32,
+                            // marginTop: 32,
+                            // marginBottom: 32,
                         }}>
                             <h1 css={{
-                                color: theme.palette.primary.dark,
+                                color: theme.palette.primary.main,
+                                backdropFilter: 'blur(1px)',
                             }}>Effortlessly Schedule Your Group Activities</h1>
                             <p css={{
                                 backdropFilter: 'blur(1px)',
                                 fontWeight: 'bold',
-                            }}>Streamline your group scheduling with Activisor. We create Google Sheet schedules that ensure even participation and mixing. Enjoy seamless customization and full control over your schedule, subscription-free. Get up and running instantly – Activisor is designed for organizers who value simplicity and flexibility. Try it now and transform the way you manage your group&apos;s events!</p>
+                            }}>Streamline your group scheduling with Activisor. We create Google Sheet schedules that ensure even participation and mixing. Enjoy seamless customization and full control over your schedule, commitment-free. Get up and running instantly – Activisor is designed for organizers who value simplicity and flexibility. Try it now and transform the way you manage your group&apos;s events!</p>
                         </div>
-                        <Paper elevation={3} css={{
+                        <Paper elevation={8} css={{
                             padding: 16,
                             backgroundColor: 'rgba(255, 255, 255, 0.5)',
                             backdropFilter: 'blur(4px)',
                         }}>
                             <h2 css={{
-                                color: theme.palette.primary.dark,
+                                color: theme.palette.primary.main,
                                 marginTop: 0,
                             }}>Pick a way to start</h2>
                             <div css={{
@@ -132,7 +136,7 @@ export default function Home() {
                             padding: 24,
                         }
                     }}>
-                        <Paper elevation={3} css={{
+                        <Paper elevation={1} css={{
                             padding: 16,
                             backgroundColor: 'rgba(255, 255, 255, 0.5)',
                             backdropFilter: 'blur(4px)',
