@@ -38,7 +38,14 @@ export default function Home() {
     const theme = useTheme();
 
     const ctaEmailBlockCss = css({
+        [mq.sm]: {
+            display: 'flex',
+            alignItems: 'center',
+        },
         [mq.md]: {
+            display: 'block',
+        },
+        [mq.xl]: {
             display: 'flex',
             alignItems: 'center',
         },
@@ -58,7 +65,12 @@ export default function Home() {
         display: 'flex',
         alignItems: 'center',
         '& > svg': {
-            marginRight: 16,
+            marginRight: 12,
+        },
+        [mq.md]: {
+            '& > svg': {
+                marginRight: 16,
+            },
         },
     });
     const ctaSectionCss = css({
@@ -83,19 +95,12 @@ export default function Home() {
     };
 
     return (
-        <main css={{
-            padding: 16,
-            [mq.md]: {
-                padding: 0,
-            },
-        }}>
+        <main>
             <div id="hero-section" css={heroSectionCss}>
                 <Grid container spacing={2} css={{
                     height: '100%',
                     alignItems: 'stretch',
-                    [mq.md]: {
-                        padding: 16,
-                    },
+                    padding: 16,
                     [mq.xl]: {
                         padding: 24,
                     }
@@ -128,7 +133,12 @@ export default function Home() {
                                 fontWeight: 'bold',
                             }}>Streamline your group scheduling with Activisor. We create Google Sheet schedules that ensure even participation and mixing. Enjoy seamless customization and full control over your schedule, commitment-free. Get up and running instantly – Activisor is designed for organizers who value simplicity and flexibility. Try it now and transform the way you manage your group&apos;s events!</p>
                         </div>
-                        <Paper elevation={1} css={paperCss}>
+                        <Paper elevation={1} css={[paperCss, {
+                            padding: 8,
+                            [mq.md]: {
+                                padding: 16,
+                            },
+                        }]}>
                             <img src="/pickleball-schedule-sm.png"
                                 alt="four people playing pickleball"
                                 css={{
@@ -155,56 +165,55 @@ export default function Home() {
                                 color: theme.palette.primary.main,
                                 marginTop: 0,
                             }}>Pick A Way To Start</h1>
-                            <div css={{
-                                // backgroundColor: 'rgba(255, 255, 255, 0.4)'
-                            }}>
-                                <div css={ctaSectionCss}>
-                                    <div css={ctaRowCss}>
-                                        <East color="primary" />
-                                        <div css={ctaEmailBlockCss}>
-                                            <span>Forward your group email to&nbsp;</span>
-                                            <div css={{
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                            }}>
-                                                <span >{schedulerToEmail}</span>
-                                                <CopyToClipboardButton value={schedulerToEmail} valueName="email" color="secondary"></CopyToClipboardButton>
-                                            </div>
+                            <div css={ctaSectionCss}>
+                                <div css={ctaRowCss}>
+                                    <East color="primary" />
+                                    <div css={ctaEmailBlockCss}>
+                                        <span>Forward your group email to&nbsp;</span>
+                                        <div css={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                        }}>
+                                            <span >{schedulerToEmail}</span>
+                                            <CopyToClipboardButton value={schedulerToEmail} valueName="email" color="secondary"></CopyToClipboardButton>
                                         </div>
                                     </div>
-                                    <div>
-                                        <span css={{
+                                </div>
+                                <div>
+                                    <span css={{
+                                        paddingLeft: 56,
+                                        [mq.md]: {
                                             paddingLeft: 80,
-                                            paddingRight: 8,
-                                            fontStyle: 'italic'
-                                        }}>We&apos;ll get back to you!</span>
-                                        <Tooltip title="see how to forward">
-                                            <IconButton
-                                                aria-label="info"
-                                                color={'primary'}
-                                                onClick={handleForwardInfoClick}>
-                                                <Info />
-                                            </IconButton>
-                                        </Tooltip>
-                                        <ImageDialog
-                                            name="Forwarding Your Group Email"
-                                            open={dialogOpen}
-                                            src="/activisor-forward-email.gif"
-                                            alt="show how to forward email"
-                                            height={540}
-                                            width={1080}
-                                            onClose={handleDialogClose} />
-                                    </div>
+                                        },
+                                        paddingRight: 8,
+                                        fontStyle: 'italic'
+                                    }}>We&apos;ll get back to you!</span>
+                                    <Tooltip title="see how to forward">
+                                        <IconButton
+                                            aria-label="info"
+                                            color={'primary'}
+                                            onClick={handleForwardInfoClick}>
+                                            <Info />
+                                        </IconButton>
+                                    </Tooltip>
+                                    <ImageDialog
+                                        name="Forwarding Your Group Email"
+                                        open={dialogOpen}
+                                        src="/activisor-forward-email.gif"
+                                        alt="show how to forward email"
+                                        height={540}
+                                        width={1080}
+                                        onClose={handleDialogClose} />
                                 </div>
-                                <div css={[ctaRowCss, ctaSectionCss]}>
-                                    <East color="primary" />
-                                    <Button
-                                        variant='outlined'
-                                        type="submit"
-                                        color="secondary"
-                                        onClick={handleClick}
-                                    >enter emails</Button>
-                                </div>
+                            </div>
+                            <div css={[ctaRowCss, ctaSectionCss]}>
+                                <East color="primary" />
+                                <Button
+                                    variant='outlined'
+                                    type="submit"
+                                    color="secondary"
+                                    onClick={handleClick}
+                                >enter emails</Button>
                             </div>
                         </Paper>
                     </Grid>

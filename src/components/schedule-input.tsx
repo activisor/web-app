@@ -298,6 +298,7 @@ const ScheduleInput: React.FC = () => {
                             }
                         }}>Participants</h2>
                         <div id="existing-participants" css={{
+                            marginBottom: 8,
                             '& > *': {
                                 marginBottom: 8,
                             }
@@ -307,9 +308,6 @@ const ScheduleInput: React.FC = () => {
                                 <ErrorMessage name="participants" />
                             </div>
                         </div>
-                        <h3 css={{
-                            marginTop: 16
-                        }}>Add</h3>
                         <ParticipantInput name="" email="" saved={false} />
                     </div>
                 </div>
