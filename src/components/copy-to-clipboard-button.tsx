@@ -24,7 +24,7 @@ const CopyToClipboardButton: React.FC<CopyToClipboardButtonProps> = (props) => {
 
     return (
         <>
-            <Tooltip title={`Copy ${props.valueName} to clipboard`}>
+            <Tooltip title={`copy ${props.valueName} to clipboard`}>
                 <IconButton
                     aria-label="copy to clipboard"
                     color={'secondary'}

@@ -149,21 +149,23 @@ export default function Home() {
                             <h1 css={{
                                 color: theme.palette.primary.main,
                                 marginTop: 0,
-                            }}>Pick A Way To Start</h1>
+                            }}>Choose A Way To Start</h1>
                             <div css={{
                                 // backgroundColor: 'rgba(255, 255, 255, 0.4)'
                             }}>
                                 <div css={ctaSectionCss}>
                                     <div css={ctaRowCss}>
                                         <East color="primary" />
-                                        <span>Forward your group email to our&nbsp;</span>
-                                        <Tooltip title={schedulerToEmail}>
-                                            <span css={ctaEmailCss}>scheduler mailbox</span>
-                                        </Tooltip>
+                                        <span>Forward your group email to&nbsp;</span>
+                                        <span css={ctaEmailCss}>{schedulerToEmail}</span>
                                         <CopyToClipboardButton value={schedulerToEmail} valueName="email" color="secondary"></CopyToClipboardButton>
                                     </div>
                                     <div>
-                                        <span css={{ paddingLeft: 80, fontStyle: 'italic' }}>&nbsp;We&apos;ll get back to you!</span>
+                                        <span css={{
+                                            paddingLeft: 80,
+                                            paddingRight: 8,
+                                            fontStyle: 'italic'
+                                        }}>We&apos;ll get back to you!</span>
                                         <Tooltip title="see how to forward">
                                             <IconButton
                                                 aria-label="info"
