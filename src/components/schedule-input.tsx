@@ -22,6 +22,7 @@ import type { Participant } from '@/lib/participant';
 import type { ScheduleData } from '@/lib/schedule-data';
 import { subscribe } from '@/client-lib/events';
 import { readItem, saveItem, hasStorage, GENERATION_REQUESTED, SCHEDULE_DATA } from '@/client-lib/local-storage';
+import { mq } from '@/lib/media-queries';
 
 const twoColumnChild = css({
     margin: 8,
@@ -315,7 +316,13 @@ const ScheduleInput: React.FC = () => {
                 <div css={{
                     display: 'flex',
                     justifyContent: 'center',
-                    marginTop: 16
+                    padding: 16,
+                    [mq.md]: {
+                        padding: 24,
+                    },
+                    [mq.xl]: {
+                        padding: 32,
+                    }
                 }}>
                     <Button
                         variant="contained"

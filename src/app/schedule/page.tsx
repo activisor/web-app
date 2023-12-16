@@ -5,6 +5,7 @@ import { css } from '@emotion/react'
 import { useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import Skeleton from '@mui/material/Skeleton';
+import LogoButton from '@/components/logo-button';
 import ScheduleInput from '@/components/schedule-input';
 import { readItem, saveItem, hasStorage, GENERATION_REQUESTED, SCHEDULE_DATA } from '@/client-lib/local-storage';
 import type { Participant } from '@/lib/participant';
@@ -156,7 +157,6 @@ export default function Schedule() {
         <main css={{
             display: 'flex',
             justifyContent: 'center',
-            minHeight: '100vh',
             minWidth: '100vw',
             /* breakpoint for large screen overrides, 1280px wide */
             '@media(min-width: 1248px)': {
@@ -164,14 +164,7 @@ export default function Schedule() {
             }
         }}>
             <div>
-                <h1 css={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    '@media(max-width: 1247px)': {
-                        marginTop: 8
-                    }
-                }}>Activisor</h1>
+                <LogoButton />
                 <ScheduleInput />
             </div>
             <div id="scrim" css={scrimCss}></div>
