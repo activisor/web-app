@@ -26,8 +26,6 @@ const heroSectionCss = css({
     height: '100vh'
 });
 
-
-
 const handleClick = () => {
     window.location.href = '/schedule';
 };
@@ -59,6 +57,11 @@ export default function Home() {
         padding: 16,
         marginBottom: 24,
         borderRadius: theme.shape.borderRadius,
+    });
+    const paperCss = css({
+        padding: 16,
+        backgroundColor: 'rgba(255, 255, 255, 0.5)',
+        backdropFilter: 'blur(5px)',
     });
 
     const handleForwardInfoClick = () => {
@@ -117,12 +120,10 @@ export default function Home() {
                                 fontWeight: 'bold',
                             }}>Streamline your group scheduling with Activisor. We create Google Sheet schedules that ensure even participation and mixing. Enjoy seamless customization and full control over your schedule, commitment-free. Get up and running instantly – Activisor is designed for organizers who value simplicity and flexibility. Try it now and transform the way you manage your group&apos;s events!</p>
                         </div>
-                        <Paper elevation={1} css={{
-                            padding: 16,
-                            backgroundColor: 'rgba(255, 255, 255, 0.5)',
-                            backdropFilter: 'blur(4px)',
-                        }}>
-                            <img src="/pickleball-schedule-sm.png" css={{
+                        <Paper elevation={1} css={paperCss}>
+                            <img src="/pickleball-schedule-sm.png"
+                                alt="four people playing pickleball"
+                                css={{
                                 width: '100%',
                                 borderRadius: theme.shape.borderRadius,
                             }} />
@@ -141,11 +142,7 @@ export default function Home() {
                             padding: 32,
                         }
                     }}>
-                        <Paper elevation={8} css={{
-                            padding: 16,
-                            backgroundColor: 'rgba(255, 255, 255, 0.5)',
-                            backdropFilter: 'blur(5px)',
-                        }}>
+                        <Paper elevation={8} css={paperCss}>
                             <h1 css={{
                                 color: theme.palette.primary.main,
                                 marginTop: 0,
@@ -222,7 +219,7 @@ export default function Home() {
                         <span css={css`${listItemTitleCss};`}>Seamless Customization:</span>We understand that every group is unique, and Activisor gives you the power to customize your schedule effortlessly. As the organizer, you retain full control over the Google Sheet, allowing you to make edits and adjustments according to your group&apos;s specific needs. Whether you want to change playing spots, add special events, or adapt the schedule to evolving requirements, Activisor lets you do it all with ease.
                     </li>
                     <li>
-                        <span css={css`${listItemTitleCss};`}>Low Investment, Zero Commitment:</span>Say goodbye to the learning curve and subscription fees that come with comprehensive solutions. Activisor believes in empowering organizers without binding them to long-term commitments. Enjoy the flexibility of our service with a small purchase fee, giving you access to the tools you need without the burden of unnecessary features or hidden costs. Activisor ensures you only pay for what you use, making it a cost-effective and efficient solution.
+                        <span css={css`${listItemTitleCss};`}>Low Investment, No Commitment:</span>Say goodbye to the learning curve and subscription fees that come with comprehensive solutions. Activisor believes in empowering organizers without binding them to long-term commitments. Enjoy the flexibility of our service with a small purchase fee, giving you access to the tools you need without the burden of unnecessary features or hidden costs. Activisor ensures you only pay for what you use, making it a cost-effective and efficient solution.
                     </li>
                     <li>
                         <span css={css`${listItemTitleCss};`}>Instantly Up and Running:</span>Already familiar with Google Sheets? Activisor is designed with you in mind. Instead of learning a new system, you&apos;ll be up and running in no time, leveraging the full potential of Google Sheets combined with the smart scheduling capabilities of Activisor.
