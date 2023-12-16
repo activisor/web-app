@@ -2,11 +2,20 @@
 'use client'
 
 import { css } from '@emotion/react'
+import LogoButton from '@/components/logo-button';
+import { mq } from '@/lib/media-queries';
 
 export default function Privacy() {
     return (
         <main>
             <div css={{
+                padding: 16,
+                [mq.md]: {
+                    padding: 24,
+                },
+                [mq.xl]: {
+                    padding: 32,
+                },
                 h2: {
                     marginBottom: 16,
                     marginTop: 24
@@ -29,6 +38,7 @@ export default function Privacy() {
                     }
                 }
             }}>
+                <LogoButton />
                 <h1>Privacy Policy for Activisor</h1>
                 <p css={{ fontStyle: 'italic' }}>Last Updated: December 1, 2023</p>
                 <h2>1. Introduction</h2>
