@@ -23,7 +23,9 @@ const heroSectionCss = css({
     backgroundPosition: 'center center',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
-    height: '100vh'
+    [mq.md]: {
+        height: '100vh'
+    },
 });
 
 const handleClick = () => {
@@ -34,6 +36,14 @@ export default function Home() {
     const [dialogOpen, setDialogOpen] = useState(false);
 
     const theme = useTheme();
+
+    const ctaEmailBlockCss = css({
+        [mq.md]: {
+            display: 'flex',
+            alignItems: 'center',
+        },
+    });
+
     const ctaEmailCss = css({
         color: theme.palette.secondary.main,
         paddingRight: 8,
@@ -74,14 +84,12 @@ export default function Home() {
 
     return (
         <main css={{
+            padding: 16,
+            [mq.md]: {
+                padding: 0,
+            },
         }}>
-            <div id="hero-section" css={css`
-                background-image: linear-gradient(to right, rgba(255, 255, 255, 1.0),rgba(255, 255, 255, 0.5)), url(/pickleball-1920x1200.jpg);
-                background-position: center center;
-                background-repeat: no-repeat;
-                background-size: cover;
-                height: 100vh;
-            `}>
+            <div id="hero-section" css={heroSectionCss}>
                 <Grid container spacing={2} css={{
                     height: '100%',
                     alignItems: 'stretch',
@@ -92,7 +100,7 @@ export default function Home() {
                         padding: 24,
                     }
                 }}>
-                    <Grid md={6} xl={5} css={{
+                    <Grid xs={12} md={6} xl={5} css={{
                         display: 'flex',
                         flexDirection: 'column',
                         justifyContent: 'space-between',
@@ -124,14 +132,14 @@ export default function Home() {
                             <img src="/pickleball-schedule-sm.png"
                                 alt="four people playing pickleball"
                                 css={{
-                                width: '100%',
-                                borderRadius: theme.shape.borderRadius,
-                            }} />
+                                    width: '100%',
+                                    borderRadius: theme.shape.borderRadius,
+                                }} />
                         </Paper>
                     </Grid>
-                    <Grid md={1} xl={2}>
+                    <Grid xs={0} md={1} xl={2}>
                     </Grid>
-                    <Grid md={5} xl={5} css={{
+                    <Grid xs={12} md={5} xl={5} css={{
                         display: 'flex',
                         flexDirection: 'column',
                         justifyContent: 'flex-end',
@@ -146,16 +154,23 @@ export default function Home() {
                             <h1 css={{
                                 color: theme.palette.primary.main,
                                 marginTop: 0,
-                            }}>Choose A Way To Start</h1>
+                            }}>Pick A Way To Start</h1>
                             <div css={{
                                 // backgroundColor: 'rgba(255, 255, 255, 0.4)'
                             }}>
                                 <div css={ctaSectionCss}>
                                     <div css={ctaRowCss}>
                                         <East color="primary" />
-                                        <span>Forward your group email to&nbsp;</span>
-                                        <span css={ctaEmailCss}>{schedulerToEmail}</span>
-                                        <CopyToClipboardButton value={schedulerToEmail} valueName="email" color="secondary"></CopyToClipboardButton>
+                                        <div css={ctaEmailBlockCss}>
+                                            <span>Forward your group email to&nbsp;</span>
+                                            <div css={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                            }}>
+                                                <span >{schedulerToEmail}</span>
+                                                <CopyToClipboardButton value={schedulerToEmail} valueName="email" color="secondary"></CopyToClipboardButton>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div>
                                         <span css={{
