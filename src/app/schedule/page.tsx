@@ -14,8 +14,6 @@ import { decode, isNodeJs } from '@/lib/base64-convert';
 export default function Schedule() {
     const { data: session, status } = useSession();
     const generationRequested: boolean = readItem(GENERATION_REQUESTED) as boolean;
-    const testFlag: boolean = generationRequested && true;
-    const sampleData = 'test_data';
 
     const scrimCss = generationRequested ? css({
         position: 'absolute',

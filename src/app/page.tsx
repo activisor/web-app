@@ -3,14 +3,18 @@
 
 import Image from 'next/image';
 import { css } from '@emotion/react';
+import { useState } from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
 import East from '@mui/icons-material/East';
+import Info from '@mui/icons-material/Info';
 import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
 import Tooltip from '@mui/material/Tooltip';
 
 import { useTheme } from '@mui/material/styles';
-import { CopyToClipboardButton } from '@/components/copy-to-clipboard-button';
+import CopyToClipboardButton from '@/components/copy-to-clipboard-button';
+import ImageDialog from '@/components/image-dialog';
 import { mq } from '@/lib/media-queries';
 
 const schedulerToEmail = 'schedule@mail.activisor.com';
@@ -29,10 +33,11 @@ const handleClick = () => {
 };
 
 export default function Home() {
+    const [dialogOpen, setDialogOpen] = useState(false);
+
     const theme = useTheme();
     const ctaEmailCss = css({
         color: theme.palette.secondary.main,
-        fontWeight: 'bold',
         paddingRight: 8,
     });
     const listItemTitleCss = css({
@@ -41,6 +46,7 @@ export default function Home() {
         paddingRight: 8,
     });
     const ctaRowCss = css({
+        fontWeight: 'bold',
         display: 'flex',
         alignItems: 'center',
         '& > svg': {
@@ -54,6 +60,14 @@ export default function Home() {
         marginBottom: 24,
         borderRadius: theme.shape.borderRadius,
     });
+
+    const handleForwardInfoClick = () => {
+        setDialogOpen(true);
+    };
+
+    const handleDialogClose = () => {
+        setDialogOpen(false);
+    };
 
     return (
         <main css={{
@@ -132,10 +146,10 @@ export default function Home() {
                             backgroundColor: 'rgba(255, 255, 255, 0.5)',
                             backdropFilter: 'blur(5px)',
                         }}>
-                            <h2 css={{
+                            <h1 css={{
                                 color: theme.palette.primary.main,
                                 marginTop: 0,
-                            }}>Pick a way to start</h2>
+                            }}>Pick A Way To Start</h1>
                             <div css={{
                                 // backgroundColor: 'rgba(255, 255, 255, 0.4)'
                             }}>
@@ -146,9 +160,27 @@ export default function Home() {
                                         <Tooltip title={schedulerToEmail}>
                                             <span css={ctaEmailCss}>scheduler mailbox</span>
                                         </Tooltip>
-                                        <CopyToClipboardButton value={schedulerToEmail} valueDescription="email" color="secondary"></CopyToClipboardButton>
+                                        <CopyToClipboardButton value={schedulerToEmail} valueName="email" color="secondary"></CopyToClipboardButton>
                                     </div>
-                                    <span css={{ paddingLeft: 80, fontStyle: 'italic' }}>&nbsp;We&apos;ll get back to you!</span>
+                                    <div>
+                                        <span css={{ paddingLeft: 80, fontStyle: 'italic' }}>&nbsp;We&apos;ll get back to you!</span>
+                                        <Tooltip title="see how to forward">
+                                            <IconButton
+                                                aria-label="info"
+                                                color={'primary'}
+                                                onClick={handleForwardInfoClick}>
+                                                <Info />
+                                            </IconButton>
+                                        </Tooltip>
+                                        <ImageDialog
+                                            name="Forwarding Your Group Email"
+                                            open={dialogOpen}
+                                            src="/activisor-forward-email.gif"
+                                            alt="show how to forward email"
+                                            height={540}
+                                            width={1080}
+                                            onClose={handleDialogClose} />
+                                    </div>
                                 </div>
                                 <div css={[ctaRowCss, ctaSectionCss]}>
                                     <East color="primary" />

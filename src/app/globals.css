@@ -15,12 +15,6 @@
 body {
     color: rgb(var(--foreground-rgb));
     --error-color: #D32F2F;
-    /* padding: 16px;*/
-    /*
-  background: linear-gradient(to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
-      */
 }
 
 footer {
@@ -32,12 +26,7 @@ footer {
     align-items: center;
     border-top: 2px solid #1769AA;
     width: 100%;
-    /*position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;*/
     background-color: #2196F3;
-    z-index: 1000;
 }
 
 footer, footer a {
