@@ -2,7 +2,7 @@ import NextAuth, { Account, DefaultSession, NextAuthOptions, Profile, Session } 
 import GoogleProvider from 'next-auth/providers/google';
 import type { JWT } from 'next-auth/jwt';
 
-const scope = 'openid https://www.googleapis.com/auth/spreadsheets';
+const scope = 'openid https://www.googleapis.com/auth/drive.file';
 
 export const authOptions: NextAuthOptions = {
     // Configure one or more authentication providers
