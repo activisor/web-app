@@ -131,7 +131,7 @@ export default function Home() {
                             <p css={{
                                 backdropFilter: 'blur(1px)',
                                 fontWeight: 'bold',
-                            }}>Streamline your group scheduling with Activisor. We create Google Sheet schedules that ensure even participation and mixing. Enjoy seamless customization and full control over your schedule, commitment-free. Get up and running instantly – Activisor is designed for organizers who value simplicity and flexibility. Try it now and transform the way you manage your group&apos;s events!</p>
+                            }}>Streamline your group scheduling with Activisor. We create Google Sheets schedules that ensure even participation and mixing. Enjoy seamless customization and full control over your schedule, commitment-free. Get up and running instantly – Activisor is designed for organizers who value simplicity and flexibility. Try it now and transform the way you manage your group&apos;s events!</p>
                         </div>
                         <Paper elevation={1} css={[paperCss, {
                             padding: 8,
@@ -229,7 +229,7 @@ export default function Home() {
                 }
             }}>
                 <p>
-                    Are you tired of spending hours crafting schedules for your group activities? Activisor is a game-changing service for organizers like you, providing a hassle-free way to create Google Sheet schedules for your recurring events.
+                    Are you tired of spending hours crafting schedules for your group activities? Activisor is a game-changing service for organizers like you, providing a hassle-free way to create Google Sheets schedules for your recurring events.
                 </p>
                 <ul css={{
                     '& > li': {
@@ -237,16 +237,13 @@ export default function Home() {
                     }
                 }}>
                     <li>
-                        <span css={css`${listItemTitleCss};`}>Effortless Scheduling:</span>Activisor takes the pain out of scheduling by automating the process. No more spending hours trying to ensure a good experience for everyone in the group. Our platform intelligently creates a schedule that both balances participation and mixes up the group on each date. With just a few clicks, you can have a perfectly tailored schedule ready for your group.
+                        <span css={css`${listItemTitleCss};`}>Effortless Scheduling:</span>Activisor takes the pain out of scheduling by automating the process. No more spending hours trying to ensure a good experience for everyone in the group. Our platform intelligently creates a schedule that both balances participation and mixes up the group on each date. In a couple of minutes, you can have a perfectly tailored schedule ready for your group.
                     </li>
                     <li>
-                        <span css={css`${listItemTitleCss};`}>Seamless Customization:</span>We understand that every group is unique, and Activisor gives you the power to customize your schedule effortlessly. As the organizer, you retain full control over the Google Sheet, allowing you to make edits and adjustments according to your group&apos;s specific needs. Whether you want to change playing spots, add special events, or adapt the schedule to evolving requirements, Activisor lets you do it all with ease.
+                        <span css={css`${listItemTitleCss};`}>Low Investment, No Commitment:</span>Say goodbye to the baggage and subscription fees that come with conventional solutions. Enjoy the flexibility of our service with a small one-time fee, giving you access to the tools you need without the burden of unnecessary features or hidden costs. Activisor ensures you only pay for what you use, making it a cost-effective and efficient solution.
                     </li>
                     <li>
-                        <span css={css`${listItemTitleCss};`}>Low Investment, No Commitment:</span>Say goodbye to the learning curve and subscription fees that come with comprehensive solutions. Activisor believes in empowering organizers without binding them to long-term commitments. Enjoy the flexibility of our service with a small purchase fee, giving you access to the tools you need without the burden of unnecessary features or hidden costs. Activisor ensures you only pay for what you use, making it a cost-effective and efficient solution.
-                    </li>
-                    <li>
-                        <span css={css`${listItemTitleCss};`}>Instantly Up and Running:</span>Already familiar with Google Sheets? Activisor is designed with you in mind. Instead of learning a new system, you&apos;ll be up and running in no time, leveraging the full potential of Google Sheets combined with the smart scheduling capabilities of Activisor.
+                        <span css={css`${listItemTitleCss};`}>Instantly Up and Running:</span>Already familiar with Google Sheets? Activisor is designed with you in mind. Instead of learning a new system, you&apos;ll be up and running in no time, leveraging the full potential of Google Sheets combined with the smart scheduling capabilities of Activisor. As you own your schedule, you can easily customize it according to your group&apos;s specific needs. Whether you want to change playing spots, add special events, or adapt the schedule to evolving circumstances, you can do it all with ease.
                     </li>
                 </ul>
                 <p>

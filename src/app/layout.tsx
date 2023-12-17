@@ -24,6 +24,7 @@ export default function RootLayout({
                     <p><a href="/privacy">Privacy Policy</a></p>
                     <p><a href="/tos">Terms of Service</a></p>
                     <p><a href="mailto:info@activisor.com" target="_blank" rel="noopener noreferrer">info@activisor.com</a></p>
+                    <p><a href="https://www.google.com/sheets/about/" target="_blank" rel="noreferrer noopener">Google Sheets is a trademark of Google LLC</a></p>
                 </footer>
             </body>
         </html>
