@@ -139,7 +139,7 @@ export default function Home() {
                                 padding: 16,
                             },
                         }]}>
-                            <img src="/pickleball-schedule-sm.png"
+                            <img src="/pickleball-schedule-sm2.png"
                                 alt="four people playing pickleball"
                                 css={{
                                     width: '100%',
