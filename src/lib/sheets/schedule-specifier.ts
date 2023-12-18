@@ -548,6 +548,9 @@ class ScheduleSpecifier implements SheetSpecification {
         return {
             properties: {
                 title: 'Schedule',
+                gridProperties: {
+                    frozenColumnCount: 2
+                }
             },
             data: [
                 {
@@ -608,11 +611,9 @@ class ScheduleSpecifier implements SheetSpecification {
             getAutoResizeDimensionsRequest(sheetId),
             getCenteredTextCellFormatRequest(sheetId),
             getHeaderRowFormatRequest(sheetId, numDates),
-            // getHeaderTotalFormatRequest(sheetId, numDates),
             getHeaderDatesDimensionRequest(sheetId, numDates),
             getParticipantColumnsFormatRequest(sheetId, numParticipants),
             getTotalsRowFormatRequest(sheetId, numDates, numParticipants),
-            // getDailyTotalFormatRequest(sheetId, numParticipants),
             getBandingFormatRequest(sheetId, numDates, numParticipants),
         ];
 
