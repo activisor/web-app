@@ -5,6 +5,7 @@ import { css } from '@emotion/react'
 import { useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import Skeleton from '@mui/material/Skeleton';
+import { useTheme } from '@mui/material/styles';
 import LogoButton from '@/components/logo-button';
 import ScheduleInput from '@/components/schedule-input';
 import { readItem, saveItem, hasStorage, GENERATION_REQUESTED, SCHEDULE_DATA } from '@/client-lib/local-storage';
@@ -13,6 +14,7 @@ import type { ScheduleData } from '@/lib/schedule-data';
 import { decode, isNodeJs } from '@/lib/base64-convert';
 
 export default function Schedule() {
+    const theme = useTheme();
     const { data: session, status } = useSession();
     const generationRequested: boolean = readItem(GENERATION_REQUESTED) as boolean;
 
@@ -40,7 +42,7 @@ export default function Schedule() {
     });
 
     const buildSkeletonCell1Css = css({
-        backgroundColor: '#BBDEFB',
+        backgroundColor: theme.palette.primary.light,
         width: '10%',
         marginRight: 4,
         '@media(min-width: 1248px)': {
@@ -49,7 +51,7 @@ export default function Schedule() {
     });
 
     const buildSkeletonCell2Css = css({
-        backgroundColor: '#BBDEFB',
+        backgroundColor: theme.palette.primary.light,
         width: '90%'
     });
 
@@ -121,13 +123,18 @@ export default function Schedule() {
                         width: '50%'
                     }
                 }}>
+                    <LogoButton />
                     <h1 css={{
+                        color: theme.palette.primary.main,
                         textAlign: 'center',
                         marginBottom: '10vh',
                         '@media(max-width: 1247px)': {
                             marginTop: 8
                         }
                     }}>Building Your Schedule</h1>
+                    <div css={{
+                        padding: 16,
+                    }}>
                     <div css={buildSkeletonRowCss}>
                         <Skeleton variant="rectangular" height={'5vh'} css={buildSkeletonCell1Css} />
                         <Skeleton variant="rectangular" height={'5vh'} css={buildSkeletonCell2Css} />
@@ -147,6 +154,7 @@ export default function Schedule() {
                     <div css={buildSkeletonRowCss}>
                         <Skeleton variant="rectangular" height={'5vh'} css={buildSkeletonCell1Css} />
                         <Skeleton variant="rectangular" height={'5vh'} css={buildSkeletonCell2Css} />
+                    </div>
                     </div>
                 </div>
             </main>
