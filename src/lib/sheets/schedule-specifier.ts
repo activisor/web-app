@@ -17,7 +17,7 @@ const DefaultColor = {
     alpha: 1.0
 };
 
-// '#BBDEFB', light blue
+// '#BBDEFB', light blue 100
 const ThemePrimaryLightRgb = {
     red: 187 / 255,
     green: 222 / 255,
@@ -25,11 +25,35 @@ const ThemePrimaryLightRgb = {
     alpha: 1.0
 };
 
-// google sheet palette color "light green 3", #D9EAD3
-const LightGreen3Rgb = {
-    red: 217 / 255,
-    green: 234 / 255,
-    blue: 211 / 255,
+// '#2194F3', blue 500
+const ThemePrimaryMainRgb = {
+    red: 33 / 255,
+    green: 148 / 255,
+    blue: 243 / 255,
+    alpha: 1.0
+};
+
+// '#1769AA', dark blue
+const ThemePrimaryDarkRgb = {
+    red: 26 / 255,
+    green: 117 / 255,
+    blue: 210 / 255,
+    alpha: 1.0
+};
+
+// '#FFAC33', light orange
+const ThemeSecondaryLightRgb = {
+    red: 255 / 255,
+    green: 224 / 255,
+    blue: 178 / 255,
+    alpha: 1.0
+};
+
+// '#B26A00', dark orange
+const ThemeSecondaryDarkRgb = {
+    red: 245 / 255,
+    green: 125 / 255,
+    blue: 0 / 255,
     alpha: 1.0
 };
 
@@ -366,11 +390,21 @@ function getHeaderRow(dates: Date[]): sheets_v4.Schema$RowData {
                 userEnteredValue: {
                     stringValue: 'Name',
                 },
+                userEnteredFormat: {
+                    backgroundColorStyle: {
+                        rgbColor: ThemeSecondaryLightRgb
+                    },
+                }
             },
             {
                 userEnteredValue: {
                     stringValue: 'Email',
                 },
+                userEnteredFormat: {
+                    backgroundColorStyle: {
+                        rgbColor: ThemeSecondaryLightRgb
+                    },
+                }
             },
         ],
     };
@@ -391,6 +425,11 @@ function getHeaderRow(dates: Date[]): sheets_v4.Schema$RowData {
         userEnteredValue: {
             stringValue: 'Total',
         },
+        userEnteredFormat: {
+            backgroundColorStyle: {
+                rgbColor: ThemeSecondaryLightRgb
+            },
+        }
     });
 
     return headerRow;
@@ -408,6 +447,11 @@ function getTotalsRow(numParticipants: number, numDates: number, rowOffset: numb
                 userEnteredValue: {
                     stringValue: 'Total',
                 },
+                userEnteredFormat: {
+                    backgroundColorStyle: {
+                        rgbColor: ThemeSecondaryLightRgb
+                    },
+                }
             },
         ],
     };
@@ -440,6 +484,54 @@ function getTotalsRow(numParticipants: number, numDates: number, rowOffset: numb
             });
         }
     }
+
+    return row;
+}
+
+function getBlankRow(): sheets_v4.Schema$RowData {
+    const row: sheets_v4.Schema$RowData = {
+        values: [
+            {
+                userEnteredValue: {
+                    stringValue: '',
+                },
+            },
+        ],
+    };
+
+    return row;
+}
+
+function getBrandingRow(): sheets_v4.Schema$RowData {
+    const url = 'https://activisor.com';
+    const row: sheets_v4.Schema$RowData = {
+        values: [
+            {
+                userEnteredValue: {
+                    stringValue: 'created using',
+                },
+                userEnteredFormat: {
+                    textFormat: {
+                        foregroundColorStyle:{
+                            rgbColor: ThemeSecondaryDarkRgb
+                        },
+                    },
+                },
+            },
+            {
+                userEnteredValue: {
+                    formulaValue: `=HYPERLINK("${url}", "Activisor")`,
+                },
+                userEnteredFormat: {
+                    textFormat: {
+                        foregroundColorStyle:{
+                            rgbColor: ThemePrimaryMainRgb
+                        },
+                    },
+                },
+            },
+        ],
+    };
 
     return row;
 }
@@ -516,9 +608,11 @@ class ScheduleSpecifier implements SheetSpecification {
             getAutoResizeDimensionsRequest(sheetId),
             getCenteredTextCellFormatRequest(sheetId),
             getHeaderRowFormatRequest(sheetId, numDates),
+            // getHeaderTotalFormatRequest(sheetId, numDates),
             getHeaderDatesDimensionRequest(sheetId, numDates),
             getParticipantColumnsFormatRequest(sheetId, numParticipants),
             getTotalsRowFormatRequest(sheetId, numDates, numParticipants),
+            // getDailyTotalFormatRequest(sheetId, numParticipants),
             getBandingFormatRequest(sheetId, numDates, numParticipants),
         ];
 
@@ -588,6 +682,12 @@ class ScheduleSpecifier implements SheetSpecification {
 
         const totalsRow = getTotalsRow(participantMatrix.participants.length, numDates, rowOffset);
         result.push(totalsRow);
+
+        const blankRow = getBlankRow();
+        result.push(blankRow);
+        result.push(blankRow);
+        const brandingRow = getBrandingRow();
+        result.push(brandingRow);
 
         return result;
     }
