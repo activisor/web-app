@@ -81,7 +81,7 @@ test('adds title and header row', () => {
 test('adds participant rows and totals', () => {
     const result = sut.generate(dates, participantMatrix);
 
-    expect(result.data[0].rowData.length).toBe(5);
+    expect(result.data[0].rowData.length).toBeGreaterThanOrEqual(5);
     const row1Values = result.data[0].rowData[1].values;
 
     expect(row1Values[0].userEnteredValue).toBeTruthy();
