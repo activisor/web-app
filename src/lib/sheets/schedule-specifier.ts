@@ -265,6 +265,9 @@ function getHeaderRowFormatRequest(sheetId: number, numDates: number): sheets_v4
                 userEnteredFormat: {
                     borders: {
                         bottom: {
+                            colorStyle: {
+                                rgbColor: ThemePrimaryDarkRgb
+                            },
                             style: 'SOLID',
                             width: 1,
                         },
@@ -341,6 +344,9 @@ function getTotalsRowFormatRequest(sheetId: number, numDates: number, numPartici
                 userEnteredFormat: {
                     borders: {
                         top: {
+                            colorStyle: {
+                                rgbColor: ThemePrimaryDarkRgb
+                            },
                             style: 'SOLID',
                             width: 1,
                         },
@@ -513,7 +519,7 @@ function getBrandingRow(): sheets_v4.Schema$RowData {
                 userEnteredFormat: {
                     textFormat: {
                         foregroundColorStyle:{
-                            rgbColor: ThemeSecondaryDarkRgb
+                            rgbColor: ThemePrimaryMainRgb
                         },
                     },
                 },
