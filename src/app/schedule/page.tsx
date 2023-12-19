@@ -97,7 +97,6 @@ export default function Schedule() {
                     console.log(data);
                     const encodedData = encode(data);
                     window.location.href = `/result?data=${encodedData}`;
-                    // window.open(data.url, '_self');
                 })
                 .catch(error => {
                     // Handle errors here
