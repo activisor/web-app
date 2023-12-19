@@ -147,8 +147,8 @@ class SheetsManager implements SheetsManagement {
                 console.log(`{ conditionalFormats: ${JSON.stringify(sheetData.data.sheets[0].data[0].rowData[1].values[0])} }`);
             }
 */
-
-            return `https://docs.google.com/spreadsheets/d/${spreadsheet.data.spreadsheetId}/edit?usp=sharing`;
+            return `${spreadsheet.data.spreadsheetId}`;
+            // return `https://docs.google.com/spreadsheets/d/${spreadsheet.data.spreadsheetId}/edit?usp=sharing`;
         }
 
         return '';

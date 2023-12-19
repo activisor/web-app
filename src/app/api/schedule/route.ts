@@ -5,6 +5,12 @@ import { SheetsManagement } from '@/lib/sheets/sheets-management';
 import { appContainer } from '@/inversify.config';
 import { TYPES } from "@/inversify-types";
 
+// DTO returned to client
+interface SheetResult {
+    sheetId: string;
+    key: string;
+}
+
 export async function POST(request: NextRequest) {
     const token = await getToken({
         req: request,
@@ -19,10 +25,14 @@ export async function POST(request: NextRequest) {
             refresh_token: token.refreshToken as string,
             expiry_date: token.exp as number
         });
-        
-        const sheetUrl = await sheetsManager.createSheet(dto);
-        if (sheetUrl) {
-            const obj = { url: sheetUrl };
+
+        const sheetId = await sheetsManager.createSheet(dto);
+
+        if (sheetId) {
+            const obj: SheetResult = {
+                sheetId: sheetId,
+                key: process.env.DISCOUNT_CODE as string
+             };
             const blob = new Blob([JSON.stringify(obj, null, 2)], {
                 type: "application/json",
             });

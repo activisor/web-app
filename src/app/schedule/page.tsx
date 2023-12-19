@@ -11,7 +11,7 @@ import ScheduleInput from '@/components/schedule-input';
 import { readItem, saveItem, hasStorage, GENERATION_REQUESTED, SCHEDULE_DATA } from '@/client-lib/local-storage';
 import type { Participant } from '@/lib/participant';
 import type { ScheduleData } from '@/lib/schedule-data';
-import { decode, isNodeJs } from '@/lib/base64-convert';
+import { decode, encode, isNodeJs } from '@/lib/base64-convert';
 
 export default function Schedule() {
     const theme = useTheme();
@@ -97,8 +97,9 @@ export default function Schedule() {
                 .then(data => {
                     // Handle API response data here
                     console.log(data);
-
-                    window.open(data.url, '_self');
+                    const encodedData = encode(data);
+                    window.location.href = `/result?data=${encodedData}`;
+                    // window.open(data.url, '_self');
                 })
                 .catch(error => {
                     // Handle errors here

@@ -14,7 +14,7 @@ interface SheetsManagement {
     /**
      * create google sheet
      * @param scheduleData
-     * @returns string, sheet URL
+     * @returns string, sheet ID
      */
     createSheet: (scheduleData: ScheduleData) => Promise<string>;
 }

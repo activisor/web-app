@@ -29,3 +29,9 @@ test('encodes and decodes email extract', () => {
   const decoded = decode(encoded);
   expect(decoded).toEqual(emailExtract);
 });
+
+test('decode empty string', () => {
+  const decoded = decode('');
+  expect(decoded).toEqual('');
+});
+
