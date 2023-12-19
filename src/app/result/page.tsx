@@ -9,12 +9,19 @@ import { decode } from '@/lib/base64-convert';
 
 export default function ResultPage() {
     const [previewUrl, setPreviewUrl] = useState('');
+    const [key, setKey] = useState('');
 
     useEffect(() => {
         const sheetResult = (new URLSearchParams(window.location.search)).get('data') as string;
         const data = decode(sheetResult);
         setPreviewUrl(`https://docs.google.com/spreadsheets/d/${data.sheetId}/preview`);
-        const key = data.key;
+        setKey(data.key);
+
+        const sheetFrame = document.querySelector('iframe');
+        if (sheetFrame && sheetFrame.contentWindow) {
+            sheetFrame.width = sheetFrame.contentWindow.document.body.scrollWidth + 'px';
+            sheetFrame.height = sheetFrame.contentWindow.document.body.scrollHeight + 'px';
+        }
     }, []);
 
     return (
@@ -22,8 +29,6 @@ export default function ResultPage() {
             <div>ResultPage</div>
             <div>
                 <iframe src={previewUrl} css={{
-                    width: '100%',
-                    height: '100vh',
                     border: 'none',
                 }}></iframe>
             </div>
