@@ -237,7 +237,7 @@ export default function Home() {
                     }
                 }}>
                     <li>
-                        <span css={css`${listItemTitleCss};`}>Effortless Scheduling:</span>Activisor takes the pain out of scheduling by automating the process. No more spending hours trying to ensure a good experience for everyone in the group. Our platform intelligently creates a schedule that both balances participation and mixes up the group on each date. In a couple of minutes, you can have a perfectly tailored schedule ready for your group.
+                        <span css={css`${listItemTitleCss};`}>Effortless Scheduling:</span>Activisor takes the pain out of scheduling by automating the process. Some members seeing certain ones too often and others hardly at all?  No more spending hours trying to ensure a good experience for everyone in the group. Our platform intelligently creates a schedule that both balances participation and mixes up the group on each date. In a couple of minutes, you can have a perfectly tailored schedule ready for your group.
                     </li>
                     <li>
                         <span css={css`${listItemTitleCss};`}>Low Investment, No Commitment:</span>Say goodbye to the baggage and subscription fees that come with conventional solutions. Enjoy the flexibility of our service with a small one-time fee, giving you access to the tools you need without the burden of unnecessary features or hidden costs. Activisor ensures you only pay for what you use, making it a cost-effective and efficient solution.
