@@ -148,7 +148,6 @@ class SheetsManager implements SheetsManagement {
             }
 */
             return `${spreadsheet.data.spreadsheetId}`;
-            // return `https://docs.google.com/spreadsheets/d/${spreadsheet.data.spreadsheetId}/edit?usp=sharing`;
         }
 
         return '';

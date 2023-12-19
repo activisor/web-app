@@ -33,4 +33,4 @@ function decode(encoded: string): any {
     return encoded;
 }
 
-export { decode, encode, isNodeJs };
+export { decode, encode };

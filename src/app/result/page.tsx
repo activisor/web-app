@@ -2,14 +2,20 @@
 'use client'
 
 import { css } from '@emotion/react';
-import { decode, isNodeJs } from '@/lib/base64-convert';
+import { useEffect, useState } from 'react';
+import { decode } from '@/lib/base64-convert';
+
+// editable URL: `https://docs.google.com/spreadsheets/d/${spreadsheet.data.spreadsheetId}/edit?usp=sharing`;
 
 export default function ResultPage() {
-    const sheetResult = isNodeJs()? '' : (new URLSearchParams(window.location.search)).get('data') as string;
-    const data = decode(sheetResult);
-    const previewUrl = `https://docs.google.com/spreadsheets/d/${data.sheetId}/preview`;
-    const key = data.key;
-    // console.log(`key: ${key}, sheetId: ${data.sheetId}`);
+    const [previewUrl, setPreviewUrl] = useState('');
+
+    useEffect(() => {
+        const sheetResult = (new URLSearchParams(window.location.search)).get('data') as string;
+        const data = decode(sheetResult);
+        setPreviewUrl(`https://docs.google.com/spreadsheets/d/${data.sheetId}/preview`);
+        const key = data.key;
+    }, []);
 
     return (
         <main>

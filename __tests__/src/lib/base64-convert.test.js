@@ -1,8 +1,6 @@
-import { EmailExtract } from '@/lib/email-extract';
-import { Participant } from '@/lib/participant';
 import { encode, decode } from '@/lib/base64-convert';
 
-const emailExtract = {
+const emailExtract /*: EmailExtract */ = {
   participants: [
     {
       name: 'Art Test',
@@ -22,7 +20,7 @@ const emailExtract = {
   subject: 'Test Subject',
 };
 
-test('encodes and decodes email extract', () => {
+test('encodes and decodes object', () => {
   const encoded = encode(emailExtract);
   console.log(`encoded: ${encoded}`);
 
@@ -34,4 +32,3 @@ test('decode empty string', () => {
   const decoded = decode('');
   expect(decoded).toEqual('');
 });
-

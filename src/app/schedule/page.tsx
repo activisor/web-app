@@ -11,7 +11,7 @@ import ScheduleInput from '@/components/schedule-input';
 import { readItem, saveItem, hasStorage, GENERATION_REQUESTED, SCHEDULE_DATA } from '@/client-lib/local-storage';
 import type { Participant } from '@/lib/participant';
 import type { ScheduleData } from '@/lib/schedule-data';
-import { decode, encode, isNodeJs } from '@/lib/base64-convert';
+import { decode, encode } from '@/lib/base64-convert';
 
 export default function Schedule() {
     const theme = useTheme();
@@ -57,25 +57,23 @@ export default function Schedule() {
 
     useEffect(() => {
         // get 'data' query param, if present
-        if (!isNodeJs()) {
-            const params = new URLSearchParams(window.location.search);
-            let data = params.get('data');
-            // then base64 decode and save to local storage if not already present
-            if (data && hasStorage() && !readItem(SCHEDULE_DATA)) {
-                const emailExtract = decode(data);
+        const params = new URLSearchParams(window.location.search);
+        let data = params.get('data');
+        // then base64 decode and save to local storage if not already present
+        if (data && hasStorage() && !readItem(SCHEDULE_DATA)) {
+            const emailExtract = decode(data);
 
-                let participantIndex = 1;
-                emailExtract.participants.forEach((participant: Participant) => {
-                    participant.id = participantIndex;
-                    participantIndex++;
-                });
+            let participantIndex = 1;
+            emailExtract.participants.forEach((participant: Participant) => {
+                participant.id = participantIndex;
+                participantIndex++;
+            });
 
-                const scheduleData: ScheduleData = {
-                    participants: emailExtract.participants,
-                    scheduleName: emailExtract.subject,
-                };
-                saveItem(SCHEDULE_DATA, scheduleData);
-            }
+            const scheduleData: ScheduleData = {
+                participants: emailExtract.participants,
+                scheduleName: emailExtract.subject,
+            };
+            saveItem(SCHEDULE_DATA, scheduleData);
         }
     }, []);
 
@@ -136,26 +134,26 @@ export default function Schedule() {
                     <div css={{
                         padding: 16,
                     }}>
-                    <div css={buildSkeletonRowCss}>
-                        <Skeleton variant="rectangular" height={'5vh'} css={buildSkeletonCell1Css} />
-                        <Skeleton variant="rectangular" height={'5vh'} css={buildSkeletonCell2Css} />
-                    </div>
-                    <div css={buildSkeletonRowCss}>
-                        <Skeleton variant="rectangular" height={'5vh'} css={buildSkeletonCell1Css} />
-                        <Skeleton variant="rectangular" height={'5vh'} css={buildSkeletonCell2Css} />
-                    </div>
-                    <div css={buildSkeletonRowCss}>
-                        <Skeleton variant="rectangular" height={'5vh'} css={buildSkeletonCell1Css} />
-                        <Skeleton variant="rectangular" height={'5vh'} css={buildSkeletonCell2Css} />
-                    </div>
-                    <div css={buildSkeletonRowCss}>
-                        <Skeleton variant="rectangular" height={'5vh'} css={buildSkeletonCell1Css} />
-                        <Skeleton variant="rectangular" height={'5vh'} css={buildSkeletonCell2Css} />
-                    </div>
-                    <div css={buildSkeletonRowCss}>
-                        <Skeleton variant="rectangular" height={'5vh'} css={buildSkeletonCell1Css} />
-                        <Skeleton variant="rectangular" height={'5vh'} css={buildSkeletonCell2Css} />
-                    </div>
+                        <div css={buildSkeletonRowCss}>
+                            <Skeleton variant="rectangular" height={'5vh'} css={buildSkeletonCell1Css} />
+                            <Skeleton variant="rectangular" height={'5vh'} css={buildSkeletonCell2Css} />
+                        </div>
+                        <div css={buildSkeletonRowCss}>
+                            <Skeleton variant="rectangular" height={'5vh'} css={buildSkeletonCell1Css} />
+                            <Skeleton variant="rectangular" height={'5vh'} css={buildSkeletonCell2Css} />
+                        </div>
+                        <div css={buildSkeletonRowCss}>
+                            <Skeleton variant="rectangular" height={'5vh'} css={buildSkeletonCell1Css} />
+                            <Skeleton variant="rectangular" height={'5vh'} css={buildSkeletonCell2Css} />
+                        </div>
+                        <div css={buildSkeletonRowCss}>
+                            <Skeleton variant="rectangular" height={'5vh'} css={buildSkeletonCell1Css} />
+                            <Skeleton variant="rectangular" height={'5vh'} css={buildSkeletonCell2Css} />
+                        </div>
+                        <div css={buildSkeletonRowCss}>
+                            <Skeleton variant="rectangular" height={'5vh'} css={buildSkeletonCell1Css} />
+                            <Skeleton variant="rectangular" height={'5vh'} css={buildSkeletonCell2Css} />
+                        </div>
                     </div>
                 </div>
             </main>
