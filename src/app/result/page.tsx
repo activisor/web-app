@@ -5,8 +5,13 @@ import { css } from '@emotion/react';
 import { useEffect, useState } from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
 import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
 import Paper from '@mui/material/Paper';
+import TextField from '@mui/material/TextField';
 import { useTheme } from '@mui/material/styles';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 import LogoButton from '@/components/logo-button';
 import { decode } from '@/lib/base64-convert';
 import { mq } from '@/lib/media-queries';
@@ -18,11 +23,52 @@ const handleCancelClick = () => {
 };
 
 
+const handleDialogClose = () => {
+
+};
+
 export default function ResultPage() {
     const [sheetId, setSheetId] = useState('');
     const [key, setKey] = useState('');
+    const [dialogOpen, setDialogOpen] = useState(false);
 
     const theme = useTheme();
+    const discountSchema = yup.object({
+        email1: yup.string().email('Invalid email address'),
+        discountCode: yup.string(),
+    });
+    const formik = useFormik({
+        initialValues: {
+            email1: '',
+            discountCode: '',
+        },
+
+        validationSchema: discountSchema,
+
+        onSubmit: values => {
+            // make API call to validate discount code
+            const url = `/api/code-validation?code=${values.discountCode}`;
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Handle API response data here
+                    console.log(data);
+                    if (data.valid) {
+                        const sheetUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/edit?usp=sharing`;
+                        window.open(sheetUrl, '_self');
+                    }
+                })
+                .catch(error => {
+                    // Handle errors here
+                    console.error('Error:', error);
+                });
+        },
+    });
 
     useEffect(() => {
         const sheetResult = (new URLSearchParams(window.location.search)).get('data') as string;
@@ -38,8 +84,19 @@ export default function ResultPage() {
     }, []);
 
     const handleAcceptClick = () => {
-        const sheetUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/edit?usp=sharing`;
-        window.open(sheetUrl, '_self');
+        setDialogOpen(true);
+    };
+
+    const handleDiscountCodeKeyDown = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+        if (event.key === 'Enter') {
+            formik.handleSubmit();
+            // prevent form submission
+            event.preventDefault();
+        }
+    };
+
+    const handleDiscountCodeBlur = (event: React.FocusEvent<HTMLInputElement>): void => {
+        formik.handleSubmit();
     };
 
     const previewUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/preview`;
@@ -98,6 +155,25 @@ export default function ResultPage() {
                     width: '100%',
                 }}></iframe>
             </div>
+            <Dialog onClose={handleDialogClose} open={dialogOpen}>
+                <DialogTitle sx={{ m: 0, p: 2 }}>
+                    {`Save Your Schedule`}
+                </DialogTitle>
+                <div css={{ padding: 16 }}>
+                    <TextField name="discountCode"
+                        id="discountCode"
+                        label="Discount Code"
+                        type={"text"}
+                        value={formik.values.discountCode}
+                        onChange={formik.handleChange}
+                        onBlur={handleDiscountCodeBlur}
+                        onKeyDown={handleDiscountCodeKeyDown}
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        />
+                </div>
+            </Dialog>
         </main>
     );
 }
