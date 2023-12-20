@@ -6,31 +6,33 @@ import { useEffect, useState } from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import { useTheme } from '@mui/material/styles';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { readItem, hasStorage, SCHEDULE_DATA } from '@/client-lib/local-storage';
 import LogoButton from '@/components/logo-button';
 import { decode } from '@/lib/base64-convert';
 import { mq } from '@/lib/media-queries';
+import type { ScheduleData } from '@/lib/schedule-data';
 
 // editable URL: `https://docs.google.com/spreadsheets/d/${spreadsheet.data.spreadsheetId}/edit?usp=sharing`;
 
-const handleCancelClick = () => {
+const handleSaveCancelClick = () => {
     window.location.href = '/schedule';
 };
 
-
-const handleDialogClose = () => {
-
-};
+const handleSaveDialogClose = () => { };
 
 export default function ResultPage() {
     const [sheetId, setSheetId] = useState('');
     const [key, setKey] = useState('');
-    const [dialogOpen, setDialogOpen] = useState(false);
+    const [saveDialogOpen, setSaveDialogOpen] = useState(false);
+    const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
+    const [scheduleData, setScheduleData] = useState<ScheduleData | null>(null);
 
     const theme = useTheme();
     const discountSchema = yup.object({
@@ -57,10 +59,9 @@ export default function ResultPage() {
                 .then(response => response.json())
                 .then(data => {
                     // Handle API response data here
-                    console.log(data);
+                    // console.log(data);
                     if (data.valid) {
-                        const sheetUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/edit?usp=sharing`;
-                        window.open(sheetUrl, '_self');
+                        setConfirmDialogOpen(true);
                     }
                 })
                 .catch(error => {
@@ -74,7 +75,9 @@ export default function ResultPage() {
         const sheetResult = (new URLSearchParams(window.location.search)).get('data') as string;
         const data = decode(sheetResult);
         setSheetId(data.sheetId);
-        setKey(data.key);
+        // setKey(data.key);
+        const sData: ScheduleData = readItem(SCHEDULE_DATA);
+        setScheduleData(sData);
 
         const sheetFrame = document.querySelector('iframe');
         if (sheetFrame && sheetFrame.contentWindow) {
@@ -84,7 +87,7 @@ export default function ResultPage() {
     }, []);
 
     const handleAcceptClick = () => {
-        setDialogOpen(true);
+        setSaveDialogOpen(true);
     };
 
     const handleDiscountCodeKeyDown = (event: React.KeyboardEvent<HTMLInputElement>): void => {
@@ -97,6 +100,11 @@ export default function ResultPage() {
 
     const handleDiscountCodeBlur = (event: React.FocusEvent<HTMLInputElement>): void => {
         formik.handleSubmit();
+    };
+
+    const handleConfirmDialogClose = () => {
+        const sheetUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/edit?usp=sharing`;
+        window.open(sheetUrl, '_self');
     };
 
     const previewUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/preview`;
@@ -132,7 +140,7 @@ export default function ResultPage() {
                                 variant='outlined'
                                 type="submit"
                                 color="secondary"
-                                onClick={handleCancelClick}
+                                onClick={handleSaveCancelClick}
                                 css={{
                                     marginRight: 16
                                 }}
@@ -155,9 +163,9 @@ export default function ResultPage() {
                     width: '100%',
                 }}></iframe>
             </div>
-            <Dialog onClose={handleDialogClose} open={dialogOpen}>
+            <Dialog id="saveDialog" onClose={handleSaveDialogClose} open={saveDialogOpen}>
                 <DialogTitle sx={{ m: 0, p: 2 }}>
-                    {`Save Your Schedule`}
+                    {`Get Your Schedule`}
                 </DialogTitle>
                 <div css={{ padding: 16 }}>
                     <TextField name="discountCode"
@@ -171,7 +179,31 @@ export default function ResultPage() {
                         InputLabelProps={{
                             shrink: true,
                         }}
-                        />
+                    />
+                </div>
+            </Dialog>
+            <Dialog id="confirmDialog" onClose={handleConfirmDialogClose} open={confirmDialogOpen}>
+                <DialogTitle sx={{ m: 0, p: 2 }}>Thanks for using Activisor</DialogTitle>
+                <DialogContent dividers={true} sx={{ m: 0, p: 2 }}>
+                    <p>We&apos;ve added your schedule as a Google Sheets file named&nbsp;
+                        <span css={{
+                            color: theme.palette.primary.dark,
+                            fontWeight: 'bold',
+                        }}>{scheduleData?.scheduleName}</span>
+                        &nbsp;to your Google Drive&apos;s root folder.</p>
+
+                </DialogContent>
+                <div css={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    padding: 16,
+                                }}>
+                    <Button
+                        variant='contained'
+                        type="submit"
+                        color="secondary"
+                        onClick={handleConfirmDialogClose}
+                    >Open Schedule</Button>
                 </div>
             </Dialog>
         </main>
