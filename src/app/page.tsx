@@ -41,6 +41,15 @@ const ctaRowCss = css({
     '& > svg': {
         marginRight: 12,
     },
+    '@media (max-width: 400px)': {
+        // hide arrouws on smallest screens
+        '& > svg': {
+            display: 'none',
+        },
+        '& > button': {
+            marginLeft: 56,
+        },
+    },
     [mq.md]: {
         '& > svg': {
             marginRight: 16,
@@ -195,7 +204,7 @@ export default function Home() {
                                         paddingRight: 8,
                                         fontStyle: 'italic'
                                     }}>We&apos;ll get back to you!</span>
-                                    <Tooltip title="see how to forward">
+                                    <Tooltip title="show how to forward a group email">
                                         <IconButton
                                             aria-label="info"
                                             color={'primary'}
@@ -217,12 +226,15 @@ export default function Home() {
                                 <East sx={{
                                     color: theme.palette.primary.dark,
                                 }} />
-                                <Button
-                                    variant='outlined'
-                                    type="submit"
-                                    color="secondary"
-                                    onClick={handleClick}
-                                >enter emails</Button>
+                                <Tooltip title="open the schedule maker">
+                                    <Button
+                                        variant='outlined'
+                                        type="submit"
+                                        color="secondary"
+                                        onClick={handleClick}
+                                    >enter emails</Button>
+                                </Tooltip>
+
                             </div>
                         </Paper>
                     </Grid>
@@ -246,7 +258,7 @@ export default function Home() {
                     }
                 }}>
                     <li>
-                        <span css={css`${itemTitleCss};`}>Effortless Scheduling:</span>Some members seeing certain ones too often and others hardly at all?  No more hours spent trying to ensure a good experience for everyone on the roster; Activisor intelligently creates a schedule that both balances participation and evenly mixes up the lineups for all dates. In a couple of minutes, you can have a perfectly tailored schedule ready for your group.
+                        <span css={css`${itemTitleCss};`}>Effortless Scheduling:</span>Some members seeing certain ones too often and others hardly at all?  No more hours spent trying to ensure a good experience for everyone on the roster; Activisor intelligently creates a schedule that both balances participation and evenly mixes up the lineups across all dates. In a couple of minutes, you can have a perfectly tailored schedule ready for your group.
                     </li>
                     <li>
                         <span css={css`${itemTitleCss};`}>Low Investment, No Commitment:</span>Don&apos;t need a website, social network, and merchandise store bundled with your schedule? Say goodbye to the baggage and subscription fees that come with conventional solutions. With a small one-time fee, you get a schedule without the bloat and hidden costs.
