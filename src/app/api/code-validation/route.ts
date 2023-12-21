@@ -11,25 +11,24 @@ export async function GET(request: NextRequest) {
         req: request,
         secret: process.env.NEXTAUTH_SECRET as string
     })
+
     if (token) {
+        const unlocked = process.env.UNLOCKED as string;
         const code = request.nextUrl.searchParams.get('code');
-        if (code) {
-            const dto = {
-                valid: false
-             };
 
-            const referenceCode: string = process.env.DISCOUNT_CODE as string;
-            if (code.toLowerCase() === referenceCode.toLowerCase()) {
-                dto.valid = true;
-            }
+        const dto = {
+            valid: false
+        };
 
-            const blob = new Blob([JSON.stringify(dto, null, 2)], {
-                type: "application/json",
-            });
-            return new Response(blob);
+        const referenceCode: string = process.env.DISCOUNT_CODE as string;
+        if (unlocked==='true' || (code && (code.toLowerCase() === referenceCode.toLowerCase()))) {
+            dto.valid = true;
         }
 
-        return new Response('', { status: 400 });
+        const blob = new Blob([JSON.stringify(dto, null, 2)], {
+            type: "application/json",
+        });
+        return new Response(blob);
     }
 
     return new Response('', { status: 401 });

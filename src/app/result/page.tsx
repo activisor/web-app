@@ -79,11 +79,15 @@ export default function ResultPage() {
         const sData: ScheduleData = readItem(SCHEDULE_DATA);
         setScheduleData(sData);
 
+        // check if server is unlocked (immediately open confirmation dialog if so)
+        formik.handleSubmit();
+        /*
         const sheetFrame = document.querySelector('iframe');
         if (sheetFrame && sheetFrame.contentWindow) {
-            // sheetFrame.width = sheetFrame.contentWindow.document.body.scrollWidth + 'px';
-            // sheetFrame.height = sheetFrame.contentWindow.document.body.scrollHeight + 'px';
+            sheetFrame.width = sheetFrame.contentWindow.document.body.scrollWidth + 'px';
+            sheetFrame.height = sheetFrame.contentWindow.document.body.scrollHeight + 'px';
         }
+        */
     }, []);
 
     const handleAcceptClick = () => {
