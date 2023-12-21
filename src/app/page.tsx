@@ -80,9 +80,12 @@ export default function Home() {
     const ctaSectionCss = css({
         /* theme primary light */
         backgroundColor: 'rgba(187, 222, 251, 0.3)',
+        borderStyle: 'solid',
+        borderWidth: 1,
+        borderColor: theme.palette.primary.dark,
+        borderRadius: theme.shape.borderRadius,
         padding: 16,
         marginBottom: 24,
-        borderRadius: theme.shape.borderRadius,
     });
 
     const handleForwardInfoClick = () => {
