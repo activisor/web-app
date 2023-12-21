@@ -18,6 +18,7 @@ import ImageDialog from '@/components/image-dialog';
 import { mq } from '@/lib/media-queries';
 
 const schedulerToEmail = 'schedule@mail.activisor.com';
+
 const heroSectionCss = css({
     backgroundImage: 'linear-gradient(to right, rgba(255, 255, 255, 1.0),rgba(255, 255, 255, 0.5)), url(/pickleball-1920x1200.jpg)',
     backgroundPosition: 'center center',
@@ -25,6 +26,39 @@ const heroSectionCss = css({
     backgroundSize: 'cover',
     [mq.md]: {
         height: '100vh'
+    },
+});
+
+const paperCss = css({
+    padding: 16,
+    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    backdropFilter: 'blur(5px)',
+});
+
+const ctaRowCss = css({
+    display: 'flex',
+    alignItems: 'center',
+    '& > svg': {
+        marginRight: 12,
+    },
+    [mq.md]: {
+        '& > svg': {
+            marginRight: 16,
+        },
+    },
+});
+
+const ctaEmailBlockCss = css({
+    [mq.sm]: {
+        display: 'flex',
+        alignItems: 'center',
+    },
+    [mq.md]: {
+        display: 'block',
+    },
+    [mq.xl]: {
+        display: 'flex',
+        alignItems: 'center',
     },
 });
 
@@ -37,53 +71,18 @@ export default function Home() {
 
     const theme = useTheme();
 
-    const ctaEmailBlockCss = css({
-        [mq.sm]: {
-            display: 'flex',
-            alignItems: 'center',
-        },
-        [mq.md]: {
-            display: 'block',
-        },
-        [mq.xl]: {
-            display: 'flex',
-            alignItems: 'center',
-        },
-    });
-
-    const ctaEmailCss = css({
-        color: theme.palette.secondary.main,
-        paddingRight: 8,
-    });
-    const listItemTitleCss = css({
+    const itemTitleCss = css({
         color: theme.palette.primary.dark,
         fontWeight: 'bold',
         paddingRight: 8,
     });
-    const ctaRowCss = css({
-        fontWeight: 'bold',
-        display: 'flex',
-        alignItems: 'center',
-        '& > svg': {
-            marginRight: 12,
-        },
-        [mq.md]: {
-            '& > svg': {
-                marginRight: 16,
-            },
-        },
-    });
+
     const ctaSectionCss = css({
         /* theme primary light */
         backgroundColor: 'rgba(187, 222, 251, 0.3)',
         padding: 16,
         marginBottom: 24,
         borderRadius: theme.shape.borderRadius,
-    });
-    const paperCss = css({
-        padding: 16,
-        backgroundColor: 'rgba(255, 255, 255, 0.5)',
-        backdropFilter: 'blur(5px)',
     });
 
     const handleForwardInfoClick = () => {
@@ -167,14 +166,16 @@ export default function Home() {
                             }}>Pick A Way To Start</h1>
                             <div css={ctaSectionCss}>
                                 <div css={ctaRowCss}>
-                                    <East color="primary" />
+                                    <East sx={{
+                                        color: theme.palette.primary.dark,
+                                    }} />
                                     <div css={ctaEmailBlockCss}>
                                         <span>Forward your group email to&nbsp;</span>
                                         <div css={{
                                             display: 'flex',
                                             alignItems: 'center',
                                         }}>
-                                            <span >{schedulerToEmail}</span>
+                                            <span css={itemTitleCss}>{schedulerToEmail}</span>
                                             <CopyToClipboardButton value={schedulerToEmail} valueName="email" color="secondary"></CopyToClipboardButton>
                                         </div>
                                     </div>
@@ -207,7 +208,9 @@ export default function Home() {
                                 </div>
                             </div>
                             <div css={[ctaRowCss, ctaSectionCss]}>
-                                <East color="primary" />
+                                <East sx={{
+                                    color: theme.palette.primary.dark,
+                                }} />
                                 <Button
                                     variant='outlined'
                                     type="submit"
@@ -237,13 +240,13 @@ export default function Home() {
                     }
                 }}>
                     <li>
-                        <span css={css`${listItemTitleCss};`}>Effortless Scheduling:</span>Activisor takes the pain out of scheduling by automating the process. Some members seeing certain ones too often and others hardly at all?  No more spending hours trying to ensure a good experience for everyone in the group. Our platform intelligently creates a schedule that both balances participation and mixes up the group on each date. In a couple of minutes, you can have a perfectly tailored schedule ready for your group.
+                        <span css={css`${itemTitleCss};`}>Effortless Scheduling:</span>Activisor takes the pain out of scheduling by automating the process. Some members seeing certain ones too often and others hardly at all?  No more spending hours trying to ensure a good experience for everyone in the group. Our platform intelligently creates a schedule that both balances participation and mixes up the group on each date. In a couple of minutes, you can have a perfectly tailored schedule ready for your group.
                     </li>
                     <li>
-                        <span css={css`${listItemTitleCss};`}>Low Investment, No Commitment:</span>Say goodbye to the baggage and subscription fees that come with conventional solutions. Enjoy the flexibility of our service with a small one-time fee, giving you access to the tools you need without the burden of unnecessary features or hidden costs. Activisor ensures you only pay for what you use, making it a cost-effective and efficient solution.
+                        <span css={css`${itemTitleCss};`}>Low Investment, No Commitment:</span>Say goodbye to the baggage and subscription fees that come with conventional solutions. Enjoy the flexibility of our service with a small one-time fee, giving you access to the tools you need without the burden of unnecessary features or hidden costs. Activisor ensures you only pay for what you use, making it a cost-effective and efficient solution.
                     </li>
                     <li>
-                        <span css={css`${listItemTitleCss};`}>Instantly Up and Running:</span>Already familiar with Google Sheets? Activisor is designed with you in mind. Instead of learning a new system, you&apos;ll be up and running in no time, leveraging the full potential of Google Sheets combined with the smart scheduling capabilities of Activisor. As you own your schedule, you can easily customize it according to your group&apos;s specific needs. Whether you want to change playing spots, add special events, or adapt the schedule to evolving circumstances, you can do it all with ease.
+                        <span css={css`${itemTitleCss};`}>Instantly Up and Running:</span>Already familiar with Google Sheets? Activisor is designed with you in mind. Instead of learning a new system, you&apos;ll be up and running in no time, leveraging the full potential of Google Sheets combined with the smart scheduling capabilities of Activisor. As you own your schedule, you can easily customize it according to your group&apos;s specific needs. Whether you want to change playing spots, add special events, or adapt the schedule to evolving circumstances, you can do it all with ease.
                     </li>
                 </ul>
                 <p>
