@@ -17,12 +17,14 @@ export async function GET(request: NextRequest) {
         const code = request.nextUrl.searchParams.get('code');
 
         const dto = {
-            valid: false
+            validCode: false,
+            paymentClientId: process.env.PAYPAL_CLIENT_ID,
+            currency: 'USD',
         };
 
         const referenceCode: string = process.env.DISCOUNT_CODE as string;
         if (unlocked==='true' || (code && (code.toLowerCase() === referenceCode.toLowerCase()))) {
-            dto.valid = true;
+            dto.validCode = true;
         }
 
         const blob = new Blob([JSON.stringify(dto, null, 2)], {

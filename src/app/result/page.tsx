@@ -2,7 +2,7 @@
 'use client'
 
 import { css } from '@emotion/react';
-import { useEffect, useState } from 'react';
+import React, { ReactDOM, useEffect, useState } from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -13,7 +13,8 @@ import TextField from '@mui/material/TextField';
 import { useTheme } from '@mui/material/styles';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { readItem, hasStorage, SCHEDULE_DATA } from '@/client-lib/local-storage';
+import { readItem, SCHEDULE_DATA } from '@/client-lib/local-storage';
+import Checkout from '@/components/checkout';
 import LogoButton from '@/components/logo-button';
 import { decode } from '@/lib/base64-convert';
 import { mq } from '@/lib/media-queries';
@@ -25,14 +26,14 @@ const handleSaveCancelClick = () => {
     window.location.href = '/schedule';
 };
 
-const handleSaveDialogClose = () => { };
-
 export default function ResultPage() {
     const [sheetId, setSheetId] = useState('');
-    const [key, setKey] = useState('');
     const [saveDialogOpen, setSaveDialogOpen] = useState(false);
+    const [saveDialogOpened, setSaveDialogOpened] = useState(false);
     const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
     const [scheduleData, setScheduleData] = useState<ScheduleData | null>(null);
+    const [paymentClientId, setPaymentClientId] = useState('');
+    const [currency, setCurrency] = useState('USD');
 
     const theme = useTheme();
     const discountSchema = yup.object({
@@ -60,8 +61,11 @@ export default function ResultPage() {
                 .then(data => {
                     // Handle API response data here
                     // console.log(data);
-                    if (data.valid) {
+                    if (data.validCode) {
                         setConfirmDialogOpen(true);
+                    } else {
+                        setPaymentClientId(data.paymentClientId);
+                        setCurrency(data.currency);
                     }
                 })
                 .catch(error => {
@@ -75,7 +79,6 @@ export default function ResultPage() {
         const sheetResult = (new URLSearchParams(window.location.search)).get('data') as string;
         const data = decode(sheetResult);
         setSheetId(data.sheetId);
-        // setKey(data.key);
         const sData: ScheduleData = readItem(SCHEDULE_DATA);
         setScheduleData(sData);
 
@@ -105,6 +108,27 @@ export default function ResultPage() {
     const handleDiscountCodeBlur = (event: React.FocusEvent<HTMLInputElement>): void => {
         formik.handleSubmit();
     };
+
+    const handleSaveDialogTransitionEnter = () => {
+        // render Checkout component now that dialog DOM exists
+        setSaveDialogOpened(true);
+    };
+
+    const handleSaveDialogClose = () => {
+        setSaveDialogOpened(false);
+        setSaveDialogOpen(false);
+    };
+
+    const handleCheckoutSuccess = () => {
+        setSaveDialogOpened(false);
+        setSaveDialogOpen(false);
+        setConfirmDialogOpen(true);
+    }
+
+    const handleCheckoutFailure = () => {
+        setSaveDialogOpened(false);
+        setSaveDialogOpen(false);
+    }
 
     const handleConfirmDialogClose = () => {
         const sheetUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/edit?usp=sharing`;
@@ -167,7 +191,10 @@ export default function ResultPage() {
                     width: '100%',
                 }}></iframe>
             </div>
-            <Dialog id="saveDialog" onClose={handleSaveDialogClose} open={saveDialogOpen}>
+            <Dialog id="saveDialog"
+                onClose={handleSaveDialogClose}
+                open={saveDialogOpen}
+                onTransitionEnter={handleSaveDialogTransitionEnter}>
                 <DialogTitle sx={{ m: 0, p: 2 }}>
                     {`Get Your Schedule`}
                 </DialogTitle>
@@ -185,6 +212,7 @@ export default function ResultPage() {
                         }}
                     />
                 </div>
+                {saveDialogOpened? <Checkout onSuccess={handleCheckoutSuccess} onFailure={handleCheckoutFailure} clientId={paymentClientId}/> : null}
             </Dialog>
             <Dialog id="confirmDialog" onClose={handleConfirmDialogClose} open={confirmDialogOpen}>
                 <DialogTitle sx={{ m: 0, p: 2 }}>Thanks for using Activisor</DialogTitle>
@@ -201,7 +229,7 @@ export default function ResultPage() {
                     display: 'flex',
                     justifyContent: 'center',
                     padding: 16,
-                                }}>
+                }}>
                     <Button
                         variant='contained'
                         type="submit"
