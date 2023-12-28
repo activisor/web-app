@@ -6,6 +6,7 @@ import Snackbar from '@mui/material/Snackbar';
 import Tooltip from '@mui/material/Tooltip';
 import ContentCopy from '@mui/icons-material/ContentCopy';
 import React, { useState } from 'react';
+import { useMixPanel } from '@/client-lib/mixpanel';
 
 export interface CopyToClipboardButtonProps {
     value: string;
@@ -14,12 +15,14 @@ export interface CopyToClipboardButtonProps {
 }
 
 const CopyToClipboardButton: React.FC<CopyToClipboardButtonProps> = (props) => {
+    const mixpanel = useMixPanel();
     const [value_, setValue_] = useState(props.value);
     const [open, setOpen] = useState(false);
 
     const handleClick = () => {
         setOpen(true);
         navigator.clipboard.writeText(value_);
+        mixpanel.track(`${props.valueName} copied`, { value: value_ });
     };
 
     return (

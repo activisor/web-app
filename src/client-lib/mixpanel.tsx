@@ -1,8 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
 import mixpanel, { OverridedMixpanel } from 'mixpanel-browser';
-import { useRouter, usePathname, useSearchParams } from 'next/navigation';
-//import { useRouter } from 'next/router';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { createContext, ReactNode, useContext, useEffect } from 'react';
 
 //the current version of the mixpanel types does not include the track_pageview method. Let's add it
@@ -22,7 +21,6 @@ type Props = {
 };
 
 const MixPanelProvider = ({ children }: Props) => {
-    // const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
 
