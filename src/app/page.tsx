@@ -13,6 +13,7 @@ import Paper from '@mui/material/Paper';
 import Tooltip from '@mui/material/Tooltip';
 
 import { useTheme } from '@mui/material/styles';
+import { useMixPanel } from '@/client-lib/mixpanel';
 import CopyToClipboardButton from '@/components/copy-to-clipboard-button';
 import ImageDialog from '@/components/image-dialog';
 import { mq } from '@/lib/media-queries';
@@ -104,6 +105,9 @@ export default function Home() {
     const handleDialogClose = () => {
         setDialogOpen(false);
     };
+
+    const mixpanel = useMixPanel();
+    mixpanel.track('Home page', { 'page': 'home' });
 
     return (
         <main>

@@ -6,6 +6,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { MixPanelProvider } from "./mixpanel";
 
 const theme = createTheme({
     palette: {
@@ -28,10 +29,12 @@ export function Providers({ children }: { children: React.ReactNode }) {
     return (
         <ThemeProvider theme={theme}>
             <SessionProvider>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <CssBaseline />
-                    {children}
-                </LocalizationProvider>
+                <MixPanelProvider>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <CssBaseline />
+                        {children}
+                    </LocalizationProvider>
+                </MixPanelProvider>
             </SessionProvider>
         </ThemeProvider>
     );
