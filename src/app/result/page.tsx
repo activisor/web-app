@@ -60,7 +60,6 @@ export default function ResultPage() {
                 .then(response => response.json())
                 .then(data => {
                     // Handle API response data here
-                    // console.log(data);
                     if (data.validCode) {
                         setConfirmDialogOpen(true);
                     } else {

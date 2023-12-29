@@ -8,7 +8,6 @@ import { TYPES } from "@/inversify-types";
 // DTO returned to client
 interface SheetResult {
     sheetId: string;
-    key: string;
 }
 
 export async function POST(request: NextRequest) {
@@ -31,7 +30,6 @@ export async function POST(request: NextRequest) {
         if (sheetId) {
             const obj: SheetResult = {
                 sheetId: sheetId,
-                key: process.env.DISCOUNT_CODE as string
              };
             const blob = new Blob([JSON.stringify(obj, null, 2)], {
                 type: "application/json",
