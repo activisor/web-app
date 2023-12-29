@@ -9,11 +9,13 @@ import { useTheme } from '@mui/material/styles';
 import LogoButton from '@/components/logo-button';
 import ScheduleInput from '@/components/schedule-input';
 import { readItem, saveItem, hasStorage, GENERATION_REQUESTED, SCHEDULE_DATA } from '@/client-lib/local-storage';
+import { useMixPanel } from '@/client-lib/mixpanel';
 import type { Participant } from '@/lib/participant';
 import type { ScheduleData } from '@/lib/schedule-data';
 import { decode, encode } from '@/lib/base64-convert';
 
 export default function Schedule() {
+    const mixpanel = useMixPanel();
     const theme = useTheme();
     const { data: session, status } = useSession();
     const generationRequested: boolean = readItem(GENERATION_REQUESTED) as boolean;
@@ -58,10 +60,10 @@ export default function Schedule() {
     useEffect(() => {
         // get 'data' query param, if present
         const params = new URLSearchParams(window.location.search);
-        let data = params.get('data');
+        let paramData = params.get('data');
         // then base64 decode and save to local storage if not already present
-        if (data && hasStorage() && !readItem(SCHEDULE_DATA)) {
-            const emailExtract = decode(data);
+        if (paramData && hasStorage() && !readItem(SCHEDULE_DATA)) {
+            const emailExtract = decode(paramData);
 
             let participantIndex = 1;
             emailExtract.participants.forEach((participant: Participant) => {
@@ -79,6 +81,10 @@ export default function Schedule() {
 
     // if token detected, get DTO, compress & redirect to /api/schedule with payload
     if (status === "authenticated") {
+        if (session.user?.email) {
+            mixpanel.identify(session.user.email);
+        }
+
         if (!generationRequested) {
             saveItem(GENERATION_REQUESTED, true);
             const dto: ScheduleData = readItem(SCHEDULE_DATA);
