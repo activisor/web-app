@@ -142,8 +142,8 @@ export default function Home() {
                                 backdropFilter: 'blur(1px)',
                                 fontWeight: 'bold',
                             }}>
-                                <p>Activisor creates Google Sheets group activity schedules that ensure balanced participation and mingling. Enjoy seamless customization and full control over your schedule – commitment-free.</p>
-                                <p>Activisor is designed for organizers who value simplicity and flexibility; get up and running instantly. Try it now to transform the way you manage your group&apos;s events!</p>
+                                <p>Nine players sharing one pickleball court for the season? Activisor creates Google Sheets schedules that ensure balanced participation and mingling among your pickleball (or any other) roster.</p>
+                                <p>Activisor is designed for organizers who value simplicity and flexibility; get up and running instantly. Enjoy seamless customization and full control over your schedule – commitment-free. Try it now to transform the way you manage your group&apos;s dates!</p>
                             </div>
                         </div>
                         <Paper elevation={1} css={[paperCss, {
@@ -248,26 +248,24 @@ export default function Home() {
                     padding: 32,
                 }
             }}>
-                <p>
-                    Are you tired of spending hours crafting schedules for your group activities? Activisor is a game-changing service for organizers like you, providing a hassle-free way to create Google Sheets schedules for your recurring events.
-                </p>
+                <p>Are you tired of spending hours managing your group events? Activisor is a quick and easy way to create Google Sheets schedules for your recurring events.</p>
                 <ul css={{
                     '& > li': {
                         marginBottom: 16
                     }
                 }}>
                     <li>
-                        <span css={css`${itemTitleCss};`}>Effortless Scheduling:</span>Some members seeing certain ones too often and others hardly at all?  No more hours spent trying to ensure a good experience for everyone on the roster; Activisor intelligently creates a schedule that both balances participation and evenly mixes up the lineups across all dates. In a couple of minutes, you can have a perfectly tailored schedule ready for your group.
+                        <span css={css`${itemTitleCss};`}>Effortless Scheduling:</span>Some members seeing certain ones too often and others hardly at all?  No more hours spent trying to ensure a good experience for everyone on the roster; Activisor both balances participation and evenly mixes up the lineups across all your dates. In a couple of minutes, you can have a perfectly tailored schedule ready for your group.
                     </li>
                     <li>
-                        <span css={css`${itemTitleCss};`}>Low Investment, No Commitment:</span>Don&apos;t need a website, social network, and merchandise store bundled with your schedule? Say goodbye to the baggage and subscription fees that come with conventional solutions. With a small one-time fee, you get a schedule without the bloat and hidden costs.
+                        <span css={css`${itemTitleCss};`}>Low Investment, No Commitment:</span>Don&apos;t need a registration service, website, and merchandise store bundled with your schedule? Say goodbye to the baggage and subscription fees. With a small one-time fee, you get just the schedule you want. No strings attached.
                     </li>
                     <li>
                         <span css={css`${itemTitleCss};`}>Instantly Up and Running:</span>Already familiar with Google Sheets? Then, Activisor is designed for you. Instead of learning a new system, you&apos;ll be up and running in no time, leveraging the full potential of Google Sheets combined with Activisor&apos;s smart scheduling. As you own your schedule, you can easily customize it according to your group&apos;s specific needs. Whether you want to change playing spots, add special events, or adapt the schedule to evolving circumstances, you can do it all with ease.
                     </li>
                 </ul>
                 <p>
-                    Activisor is the ultimate solution for group organizers who seek a straightforward, customizable, and commitment-free way to create and manage schedules. With Activisor, you&apos;re in control, allowing you to focus on what matters most – enjoying your group activities. Try Activisor today to experience scheduling simplicity like never before.
+                    If you&apos;re seeking a straightforward, customizable, and commitment-free way to create and manage your group&apos;s schedule, Activisor is for you. With Activisor, you&apos;re in control, allowing you to focus on what matters most – enjoying your group activities. Try it today to experience scheduling simplicity like never before.
                 </p>
             </div>
         </main>
