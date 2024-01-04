@@ -139,7 +139,7 @@ export default function Home() {
                                 backdropFilter: 'blur(1px)',
                             }}>Effortlessly Schedule Your Group Activities</h1>
                             <div css={{
-                                backdropFilter: 'blur(1px)',
+                                backdropFilter: 'blur(2px)',
                                 fontWeight: 'bold',
                                 lineHeight: 2.0,
                             }}>
