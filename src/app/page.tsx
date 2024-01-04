@@ -231,7 +231,7 @@ export default function Home() {
                                         type="submit"
                                         color="secondary"
                                         onClick={handleClick}
-                                    >enter emails</Button>
+                                    >enter emails yourself</Button>
                                 </Tooltip>
 
                             </div>
