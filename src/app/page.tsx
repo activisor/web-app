@@ -143,7 +143,7 @@ export default function Home() {
                                 fontWeight: 'bold',
                                 lineHeight: 2.0,
                             }}>
-                                <p>Nine players sharing one pickleball court for the season? Activisor creates Google Sheets schedules that ensure balanced participation and mingling among your pickleball (or any other) roster.</p>
+                                <p>Nine players sharing one pickleball court for the season? We know it’s hard to create a schedule that provides a good experience for all - but it doesn&apos;t have to be. Activisor creates Google Sheets schedules that ensure balanced participation and mingling among your pickleball (or any other) roster.</p>
                             </div>
                         </div>
                         <Paper elevation={1} css={[paperCss, {
@@ -203,7 +203,7 @@ export default function Home() {
                                         paddingRight: 8,
                                         fontStyle: 'italic'
                                     }}>We&apos;ll get back to you!</span>
-                                    <Tooltip title="show how to forward a group email">
+                                    <Tooltip title="see how to forward a group email">
                                         <IconButton
                                             aria-label="info"
                                             color={'primary'}
