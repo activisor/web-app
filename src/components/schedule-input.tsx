@@ -179,6 +179,19 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
             if (dto && !formikProps.values.scheduleName && !formikProps.values.participants.length) {
                 formikProps.setFieldValue('scheduleName', dto.scheduleName);
                 formikProps.setFieldValue('participants', dto.participants.map(toParticipantInputProps));
+
+                if (dto.startDate) {
+                    formikProps.setFieldValue('startDate', new Date(dto.startDate));
+                }
+                if (dto.endDate) {
+                    formikProps.setFieldValue('endDate', new Date(dto.endDate));
+                }
+                if (dto.groupSize) {
+                    formikProps.setFieldValue('groupSize', dto.groupSize);
+                }
+                if (dto.frequency) {
+                    formikProps.setFieldValue('frequency', dto.frequency);
+                }
             }
         }
     });
