@@ -20,7 +20,7 @@ import Frequency from '@/lib/frequency';
 import type { Participant } from '@/lib/participant';
 import type { ScheduleData } from '@/lib/schedule-data';
 import { subscribe } from '@/client-lib/events';
-import { readItem, saveItem, hasStorage, GENERATION_REQUESTED, SCHEDULE_DATA } from '@/client-lib/local-storage';
+import { readItem, saveItem, hasStorage, SCHEDULE_DATA } from '@/client-lib/local-storage';
 import { mq } from '@/lib/media-queries';
 
 const twoColumnChild = css({

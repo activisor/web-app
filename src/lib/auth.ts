@@ -1,6 +1,7 @@
 import NextAuth, { Account, DefaultSession, NextAuthOptions, Profile, Session } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import type { JWT } from 'next-auth/jwt';
+import { AUTH_REDIRECT_PATH } from './app-constants';
 
 const scope = 'openid email https://www.googleapis.com/auth/drive.file';
 const redirectPath = '/building';
@@ -29,7 +30,7 @@ export const authOptions: NextAuthOptions = {
             /** Default base URL of site (can be used as fallback) */
             baseUrl: string
           }): Promise<string> {
-            return params.baseUrl + redirectPath;
+            return params.baseUrl + AUTH_REDIRECT_PATH;
           },
         async jwt(params: {
             token: JWT,
