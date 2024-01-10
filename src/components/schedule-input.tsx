@@ -11,7 +11,6 @@ import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 import { useTheme } from '@mui/material/styles';
 
-import { signIn } from 'next-auth/react';
 import { ErrorMessage, FormikProvider, useFormik } from 'formik';
 import * as yup from 'yup';
 
@@ -78,7 +77,11 @@ const scheduleSchema = yup.object({
     frequency: yup.number().transform(forceInt)
 });
 
-const ScheduleInput: React.FC = () => {
+export interface ScheduleInputProps {
+    handleSubmit: () => void;
+}
+
+const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
     const theme = useTheme();
     const initialParticipants: ParticipantInputProps[] = [];
     const [participantKey, setParticipantKey] = useState(0);
@@ -108,10 +111,8 @@ const ScheduleInput: React.FC = () => {
                     frequency: forceInt(values.frequency)
                 };
                 saveItem(SCHEDULE_DATA, scheduleData);
-                saveItem(GENERATION_REQUESTED, false);
+                props.handleSubmit();
 
-                // Nextauth OpenID Connect
-                signIn('google');
             } else {
                 alert('You must enable Local Storage to allow Activisor to build your schedule.');
             }

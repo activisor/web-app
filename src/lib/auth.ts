@@ -3,6 +3,7 @@ import GoogleProvider from 'next-auth/providers/google';
 import type { JWT } from 'next-auth/jwt';
 
 const scope = 'openid email https://www.googleapis.com/auth/drive.file';
+const redirectPath = '/building';
 
 export const authOptions: NextAuthOptions = {
     // Configure one or more authentication providers
@@ -22,6 +23,14 @@ export const authOptions: NextAuthOptions = {
     ],
     secret: process.env.NEXTAUTH_SECRET as string,
     callbacks: {
+        async redirect(params: {
+            /** URL provided as callback URL by the client */
+            url: string
+            /** Default base URL of site (can be used as fallback) */
+            baseUrl: string
+          }): Promise<string> {
+            return params.baseUrl + redirectPath;
+          },
         async jwt(params: {
             token: JWT,
             account: Account | null,
