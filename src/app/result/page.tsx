@@ -138,7 +138,7 @@ export default function ResultPage() {
                 'Content-Type': 'application/json',
             },
         })
-            .then(() => {})
+            .then(() => { })
             .catch(error => {
                 // Handle errors here
                 console.error('Error:', error);
@@ -212,20 +212,22 @@ export default function ResultPage() {
                     {`Get Your Schedule`}
                 </DialogTitle>
                 <div css={{ padding: 16 }}>
-                    <TextField name="discountCode"
-                        id="discountCode"
-                        label="Discount Code"
-                        type={"text"}
-                        value={formik.values.discountCode}
-                        onChange={formik.handleChange}
-                        onBlur={handleDiscountCodeBlur}
-                        onKeyDown={handleDiscountCodeKeyDown}
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                    />
+                    <div css={{ paddingBottom: 16 }}>
+                        <TextField name="discountCode"
+                            id="discountCode"
+                            label="Discount Code"
+                            type={"text"}
+                            value={formik.values.discountCode}
+                            onChange={formik.handleChange}
+                            onBlur={handleDiscountCodeBlur}
+                            onKeyDown={handleDiscountCodeKeyDown}
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                        />
+                    </div>
+                    {saveDialogOpened ? <Checkout onSuccess={handleCheckoutSuccess} onFailure={handleCheckoutFailure} clientId={paymentClientId} /> : null}
                 </div>
-                {saveDialogOpened ? <Checkout onSuccess={handleCheckoutSuccess} onFailure={handleCheckoutFailure} clientId={paymentClientId} /> : null}
             </Dialog>
             <Dialog id="confirmDialog" onClose={handleConfirmDialogClose} open={confirmDialogOpen}>
                 <DialogTitle sx={{ m: 0, p: 2 }}>Thanks for using Activisor</DialogTitle>
