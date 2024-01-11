@@ -215,7 +215,7 @@ export default function ResultPage() {
                 open={saveDialogOpen}
                 onTransitionEnter={handleSaveDialogTransitionEnter}>
                 <DialogTitle sx={{ m: 0, p: 2 }}>
-                    {`Get Your Schedule`}
+                    {`Get Your Schedule for $1`}
                 </DialogTitle>
                 <div css={{ padding: 16 }}>
                     <div css={{ paddingBottom: 16 }}>
