@@ -30,6 +30,7 @@ export default function ResultPage() {
     const [scheduleData, setScheduleData] = useState<ScheduleData | null>(null);
     const [paymentClientId, setPaymentClientId] = useState('');
     const [currency, setCurrency] = useState('USD');
+    const [discountCodeHelperText, setDiscountCodeHelperText] = useState('');
 
     const theme = useTheme();
     const discountSchema = yup.object({
@@ -57,8 +58,13 @@ export default function ResultPage() {
                 .then(data => {
                     // Handle API response data here
                     if (data.validCode) {
+                        setDiscountCodeHelperText('');
+                        setSaveDialogOpen(false);
                         setConfirmDialogOpen(true);
                     } else {
+                        if (values.discountCode) {
+                            setDiscountCodeHelperText('Invalid discount code');
+                        }
                         setPaymentClientId(data.paymentClientId);
                         setCurrency(data.currency);
                     }
@@ -217,6 +223,7 @@ export default function ResultPage() {
                             id="discountCode"
                             label="Discount Code"
                             type={"text"}
+                            helperText={discountCodeHelperText}
                             value={formik.values.discountCode}
                             onChange={formik.handleChange}
                             onBlur={handleDiscountCodeBlur}
