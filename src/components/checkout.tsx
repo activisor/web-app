@@ -19,6 +19,8 @@ export interface CheckoutProps {
 const Checkout: React.FC<CheckoutProps> = (props) => {
     const initialOptions = {
         clientId: props.clientId,
+        currency: "USD",
+        intent: "capture",
         enableFunding: "venmo,card,credit",
         disableFunding: "paylater",
         dataSdkIntegrationSource: "integrationbuilder_sc",
@@ -46,7 +48,8 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
                                 body: JSON.stringify({
                                     cart: [
                                         {
-                                            id: "1"
+                                            id: "1",
+                                            quantity: 1,
                                         },
                                     ],
                                 }),

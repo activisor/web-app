@@ -4,7 +4,8 @@
 import fetch from 'node-fetch';
 import { OAuthToken } from '@/lib/oauth-token';
 
-const baseUrl = 'https://api-m.sandbox.paypal.com';
+const sandboxSubdomain = process.env.PAYPAL_ENVIRONMENT === 'sandbox'? '.sandbox' : '';
+const baseUrl =  `https://api-m${sandboxSubdomain}.paypal.com`;
 
 const generateAccessToken = async () => {
     try {
