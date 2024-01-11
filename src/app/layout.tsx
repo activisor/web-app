@@ -6,8 +6,8 @@ import './globals.css'
 // const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-    title: 'Activisor',
-    description: 'Generates schedules for your team.',
+    title: 'Activisor Effortlessly Schedules Your Recreational and Sports Group Activities',
+    description: 'Activisor creates Google Sheets schedules that ensure balanced participation and mingling among your group members.',
     applicationName: 'Activisor'
 }
 
