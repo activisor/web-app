@@ -5,9 +5,9 @@ import { Credentials } from 'google-auth-library';
 import type { ScheduleData } from '../schedule-data';
 
 interface SheetsManagement {
-    getAuthUrl: (scopes: string[]) => string;
-
-    retrieveTokens: (code: string) => Promise<boolean>;
+    // *** For subsequent OAuth2 requests ***
+    // getAuthUrl: (scopes: string[]) => string;
+    // retrieveTokens: (code: string) => Promise<boolean>;
 
     setCredentials: (credentials: Credentials) => void;
 
