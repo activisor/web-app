@@ -5,19 +5,13 @@ import { SheetsManagement } from '@/lib/sheets/sheets-management';
 import { appContainer } from '@/inversify.config';
 import { TYPES } from "@/inversify-types";
 
-// DTO returned to client
-interface SheetResult {
-    sheetId: string;
-}
-
-export async function POST(request: NextRequest) {
+export async function DELETE(request: NextRequest, { params }: { params: { sheetId: string } }) {
     const token = await getToken({
         req: request,
         secret: process.env.NEXTAUTH_SECRET as string
     })
     if (token) {
         // Signed in
-        const dto: ScheduleData = await request.json();
         const sheetsManager = appContainer.get<SheetsManagement>(TYPES.SheetsManagement);
         sheetsManager.setCredentials({
             access_token: token.accessToken as string,
@@ -25,19 +19,8 @@ export async function POST(request: NextRequest) {
             expiry_date: token.exp as number
         });
 
-        const sheetId = await sheetsManager.createSpreadsheet(dto);
-
-        if (sheetId) {
-            const obj: SheetResult = {
-                sheetId: sheetId,
-             };
-            const blob = new Blob([JSON.stringify(obj, null, 2)], {
-                type: "application/json",
-            });
-            return new Response(blob);
-        }
-
-        return new Response('', { status: 400 });
+        const success = await sheetsManager.deleteSpreadsheet(params.sheetId);
+        return success? new Response('', { status: 200 }) : new Response('', { status: 400 });
     }
 
     return new Response('', { status: 401 });

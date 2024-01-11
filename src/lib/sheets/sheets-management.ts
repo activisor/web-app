@@ -14,9 +14,16 @@ interface SheetsManagement {
     /**
      * create google sheet
      * @param scheduleData
-     * @returns string, sheet ID
+     * @returns string, spreadsheet ID
      */
-    createSheet: (scheduleData: ScheduleData) => Promise<string>;
+    createSpreadsheet: (scheduleData: ScheduleData) => Promise<string>;
+
+    /**
+     * delete spreadsheet
+     * @param spreadsheetId
+     * @returns boolean, true if deleted
+     */
+    deleteSpreadsheet: (spreadsheetId: string) => Promise<boolean>;
 }
 
 export type { SheetsManagement };

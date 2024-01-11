@@ -22,10 +22,6 @@ import type { ScheduleData } from '@/lib/schedule-data';
 
 // editable URL: `https://docs.google.com/spreadsheets/d/${spreadsheet.data.spreadsheetId}/edit?usp=sharing`;
 
-const handleSaveCancelClick = () => {
-    window.location.href = '/schedule';
-};
-
 export default function ResultPage() {
     const [sheetId, setSheetId] = useState('');
     const [saveDialogOpen, setSaveDialogOpen] = useState(false);
@@ -134,6 +130,24 @@ export default function ResultPage() {
         window.open(sheetUrl, '_self');
     };
 
+    const handleSaveCancelClick = () => {
+        const url = `/api/schedule/${sheetId}`;
+        fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(() => {})
+            .catch(error => {
+                // Handle errors here
+                console.error('Error:', error);
+            })
+            .finally(() => {
+                window.location.href = '/schedule';
+            });
+    };
+
     const previewUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/preview`;
 
     return (
@@ -211,7 +225,7 @@ export default function ResultPage() {
                         }}
                     />
                 </div>
-                {saveDialogOpened? <Checkout onSuccess={handleCheckoutSuccess} onFailure={handleCheckoutFailure} clientId={paymentClientId}/> : null}
+                {saveDialogOpened ? <Checkout onSuccess={handleCheckoutSuccess} onFailure={handleCheckoutFailure} clientId={paymentClientId} /> : null}
             </Dialog>
             <Dialog id="confirmDialog" onClose={handleConfirmDialogClose} open={confirmDialogOpen}>
                 <DialogTitle sx={{ m: 0, p: 2 }}>Thanks for using Activisor</DialogTitle>

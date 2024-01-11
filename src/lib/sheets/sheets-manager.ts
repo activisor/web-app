@@ -87,7 +87,7 @@ class SheetsManager implements SheetsManagement {
         this.oauth2Client.setCredentials(credentials);
     }
 
-    async createSheet(scheduleData: ScheduleData) {
+    async createSpreadsheet(scheduleData: ScheduleData) {
         if (isValidSchedulData(scheduleData)) {
             const startDate = new Date(scheduleData.startDate as Date);
             const endDate = new Date(scheduleData.endDate as Date);
@@ -131,26 +131,39 @@ class SheetsManager implements SheetsManagement {
                     requests: /*Schema$Request[]*/ formatRequests,
                 },
             }, {});
-/*
-            const sheetData = await service.spreadsheets.get({
-                spreadsheetId: spreadsheet.data.spreadsheetId as string,
-                includeGridData: true,
-            }, {});
+            /*
+                        const sheetData = await service.spreadsheets.get({
+                            spreadsheetId: spreadsheet.data.spreadsheetId as string,
+                            includeGridData: true,
+                        }, {});
 
-            if (sheetData.data.sheets && sheetData.data.sheets[0]
-                && sheetData.data.sheets[0].data
-                && sheetData.data.sheets[0].data[0]
-                && sheetData.data.sheets[0].data[0].rowData
-                && sheetData.data.sheets[0].data[0].rowData[1]
-                && sheetData.data.sheets[0].data[0].rowData[1].values
-                && sheetData.data.sheets[0].data[0].rowData[1].values[0]) {
-                console.log(`{ conditionalFormats: ${JSON.stringify(sheetData.data.sheets[0].data[0].rowData[1].values[0])} }`);
-            }
-*/
+                        if (sheetData.data.sheets && sheetData.data.sheets[0]
+                            && sheetData.data.sheets[0].data
+                            && sheetData.data.sheets[0].data[0]
+                            && sheetData.data.sheets[0].data[0].rowData
+                            && sheetData.data.sheets[0].data[0].rowData[1]
+                            && sheetData.data.sheets[0].data[0].rowData[1].values
+                            && sheetData.data.sheets[0].data[0].rowData[1].values[0]) {
+                            console.log(`{ conditionalFormats: ${JSON.stringify(sheetData.data.sheets[0].data[0].rowData[1].values[0])} }`);
+                        }
+            */
             return `${spreadsheet.data.spreadsheetId}`;
         }
 
         return '';
+    }
+
+    async deleteSpreadsheet(spreadsheetId: string) {
+        if (this.oauth2Client) {
+            const service = google.drive({ version: 'v3', auth: this.oauth2Client as OAuth2Client });
+            await service.files.delete({
+                fileId: spreadsheetId,
+            });
+            
+            return true;
+        }
+
+        return false;
     }
 }
 
