@@ -4,22 +4,26 @@
 // import { css } from '@emotion/react'
 import { useEffect } from 'react';
 import { useSession } from 'next-auth/react';
-// import { useTheme } from '@mui/material/styles';
 import { signIn } from 'next-auth/react';
 import LogoButton from '@/components/logo-button';
 import ScheduleInput from '@/components/schedule-input';
 import { readItem, saveItem, hasStorage, GENERATION_REQUESTED, SCHEDULE_DATA } from '@/client-lib/local-storage';
+import { AUTH_REDIRECT_PATH } from '@/lib/app-constants';
 import type { Participant } from '@/lib/participant';
 import type { ScheduleData } from '@/lib/schedule-data';
 import { decode } from '@/lib/base64-convert';
 
-const handleSubmit = () => {
-    // Nextauth OpenID Connect
-    signIn('google');
-}
-
 export default function Schedule() {
     const { data: session, status } = useSession();
+
+    const handleSubmit = () => {
+        if (status === 'authenticated') {
+            window.location.href = AUTH_REDIRECT_PATH;
+        } else {
+            // Nextauth OpenID Connect
+            signIn('google');
+        }
+    }
 
     useEffect(() => {
         if (hasStorage()) {

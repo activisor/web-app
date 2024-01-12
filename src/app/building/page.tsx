@@ -2,17 +2,14 @@
 'use client'
 
 import { css } from '@emotion/react'
-import { useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import Skeleton from '@mui/material/Skeleton';
 import { useTheme } from '@mui/material/styles';
 import LogoButton from '@/components/logo-button';
-import ScheduleInput from '@/components/schedule-input';
 import { readItem, saveItem, hasStorage, GENERATION_REQUESTED, SCHEDULE_DATA } from '@/client-lib/local-storage';
 import { useMixPanel } from '@/client-lib/mixpanel';
-import type { Participant } from '@/lib/participant';
 import type { ScheduleData } from '@/lib/schedule-data';
-import { decode, encode } from '@/lib/base64-convert';
+import { encode } from '@/lib/base64-convert';
 
 export default function Building() {
     const mixpanel = useMixPanel();
