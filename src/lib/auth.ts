@@ -4,7 +4,6 @@ import type { JWT } from 'next-auth/jwt';
 import { AUTH_REDIRECT_PATH } from './app-constants';
 
 const scope = 'openid email https://www.googleapis.com/auth/drive.file';
-const redirectPath = '/building';
 
 export const authOptions: NextAuthOptions = {
     // Configure one or more authentication providers

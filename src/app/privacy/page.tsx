@@ -51,16 +51,16 @@ export default function Privacy() {
                 <p>
                     To provide our services, we use Google OAuth2 for user authentication and authorization. When you log in using Google OAuth2, we collect the basic profile information provided by Google, including but not limited to your name, email address, and profile picture.
                 </p>
-                <h3>b. Google Sheet Creation:</h3>
+                <h3>b. Google Sheets Schedule Creation:</h3>
                 <p>
-                    In order to create a Google Sheet for you, we may access and store basic information related to the Google Sheet, such as the title and other metadata associated with the sheet.
+                    In order to create a Google Sheets schedule for you, we may access and store basic information related to the schedule, such as the title and other metadata associated with the schedule.
                 </p>
 
                 <h2>3. How We Use Your Information</h2>
                 <h3>a. User Authentication:</h3>
-                <p>We use the information collected through Google OAuth2 for user authentication, allowing you to securely access and use our services.</p>
-                <h3>b. Google Sheet Creation and Management:</h3>
-                <p>The information collected during the Google OAuth2 authorization process is used to create and manage Google Sheets on your behalf.</p>
+                <p>We use the information collected through Google OAuth2 (Login with Google) for user authentication, allowing you to securely access and use our services.</p>
+                <h3>b. Google Sheets Spreadsheet Creation and Management:</h3>
+                <p>The information collected during the Google OAuth2 authorization process is used to create and manage your Google Sheets schedule on your behalf.</p>
                 <h3>c. Service Improvement:</h3>
                 <p>We may analyze usage patterns and trends to improve our services, troubleshoot issues, and enhance user experience.</p>
 
@@ -74,9 +74,9 @@ export default function Privacy() {
 
                 <h2>5. Your Choices</h2>
                 <h3>a. Account Information:</h3>
-                <p>You can review and update your account information by logging into your account on our website.</p>
+                <p>Because you logged in with Google, you can review and update your account information, including removing Activisor&apos;s access, through your Google Account Management.</p>
                 <h3>b. Data Access and Deletion:</h3>
-                <p>You may contact us at help@activisor.com to request access to the personal information we have collected about you or to request its deletion.</p>
+                <p>We do not store your personal information on our servers. You may contact us at help@activisor.com regarding the personal information we collected in order to create your schedule.</p>
 
                 <h2>6. Security</h2>
                 <p>
