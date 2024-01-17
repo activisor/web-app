@@ -9,6 +9,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
+// import NumberInputBasic from '@/components/number-input';
 import { useTheme } from '@mui/material/styles';
 
 import { ErrorMessage, FormikProvider, useFormik } from 'formik';
@@ -61,7 +62,7 @@ const forceInt = (value: any): any => {
 }
 
 const toParticipantInputProps = (participant: Participant): ParticipantInputProps => {
-    return {...participant, saved: true };
+    return { ...participant, saved: true };
 }
 
 const scheduleSchema = yup.object({
@@ -74,7 +75,8 @@ const scheduleSchema = yup.object({
     endDate: yup.date()
         .min(yup.ref('startDate'), "Start date can't be after end date"),
     groupSize: yup.number().transform(forceInt),
-    frequency: yup.number().transform(forceInt)
+    frequency: yup.number().transform(forceInt),
+    total: yup.number()
 });
 
 export interface ScheduleInputProps {
@@ -93,7 +95,8 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
             groupSize: 1,
             frequency: Frequency.Weekly,
             startDate: today(),
-            endDate: today()
+            endDate: today(),
+            total: 0
         },
 
         validationSchema: scheduleSchema,
@@ -108,7 +111,8 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                     startDate: values.startDate,
                     endDate: values.endDate,
                     groupSize: forceInt(values.groupSize),
-                    frequency: forceInt(values.frequency)
+                    frequency: forceInt(values.frequency),
+                    total: Number(values.total)
                 };
                 saveItem(SCHEDULE_DATA, scheduleData);
                 props.handleSubmit();
@@ -231,10 +235,9 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                                 }}
                             />
                         </div>
-                        <div css={css`
-                            display: flex;
-
-                        `}>
+                        <div css={{
+                            display: 'flex'
+                        }}>
                             <FormikMuiDatePicker
                                 name="startDate"
                                 label="Start on"
@@ -299,6 +302,23 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                                     <MenuItem value="6">custom</MenuItem>
                                 </Select>
                             </FormControl>
+                        </div>
+                        <div>
+                            <TextField
+                                id="total"
+                                label="Overall Cost"
+                                name="total"
+                                type="text"
+                                value={formikProps.values.total}
+                                onChange={formikProps.handleChange}
+                                onBlur={formikProps.handleBlur}
+                                onKeyDown={(event) => { if (event.key === 'Enter') { event.preventDefault(); } }}
+                                error={Boolean(formikProps.errors.total)}
+                                helperText={formikProps.errors.total? 'This must be a number, such as 123.45' : ''}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                            />
                         </div>
                     </div>
                     <div css={css`

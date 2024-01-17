@@ -1,5 +1,6 @@
 import type { NextRequest } from "next/server"
 import { getToken } from 'next-auth/jwt';
+import { publicRuntimeConfig } from '@/lib/app-constants';
 
 /**
  * validates received discount code
@@ -13,7 +14,6 @@ export async function GET(request: NextRequest) {
     })
 
     if (token) {
-        const unlocked = process.env.UNLOCKED as string;
         const code = request.nextUrl.searchParams.get('code');
 
         const dto = {
@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
         };
 
         const referenceCode: string = process.env.DISCOUNT_CODE as string;
-        if (unlocked==='true' || (code && (code.toLowerCase() === referenceCode.toLowerCase()))) {
+        if (publicRuntimeConfig.UNLOCKED || (code && (code.toLowerCase() === referenceCode.toLowerCase()))) {
             dto.validCode = true;
         }
 

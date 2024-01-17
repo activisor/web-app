@@ -8,7 +8,7 @@ import { signIn } from 'next-auth/react';
 import LogoButton from '@/components/logo-button';
 import ScheduleInput from '@/components/schedule-input';
 import { readItem, saveItem, hasStorage, GENERATION_REQUESTED, SCHEDULE_DATA } from '@/client-lib/local-storage';
-import { AUTH_REDIRECT_PATH } from '@/lib/app-constants';
+import { publicRuntimeConfig } from '@/lib/app-constants';
 import type { Participant } from '@/lib/participant';
 import type { ScheduleData } from '@/lib/schedule-data';
 import { decode } from '@/lib/base64-convert';
@@ -18,7 +18,7 @@ export default function Schedule() {
 
     const handleSubmit = () => {
         if (status === 'authenticated') {
-            window.location.href = AUTH_REDIRECT_PATH;
+            window.location.href = publicRuntimeConfig.AUTH_REDIRECT_PATH;
         } else {
             // Nextauth OpenID Connect
             signIn('google');

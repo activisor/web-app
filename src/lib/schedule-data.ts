@@ -11,6 +11,7 @@ interface ScheduleData {
     endDate?: Date;
     groupSize?: number;
     frequency?: Frequency;
+    total?: number;
 }
 
 export type { ScheduleData };

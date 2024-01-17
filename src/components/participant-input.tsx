@@ -118,9 +118,9 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
     };
 
     return (
-        <div css={css`
-            display: flex;
-        `}>
+        <div css={{
+            display: 'flex'
+        }}>
             <TextField name="email"
                 id="participant-email"
                 type={"email"}

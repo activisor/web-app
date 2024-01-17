@@ -154,7 +154,7 @@ export default function ResultPage() {
             });
     };
 
-    const previewUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/preview`;
+    const previewUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/preview?storage_access_granted=true`;
 
     return (
         <main css={{
