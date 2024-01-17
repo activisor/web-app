@@ -107,13 +107,14 @@ class SheetsManager implements SheetsManagement {
                 console.log(`variance: ${variance}`);
             }
 
-            const service = google.sheets({ version: 'v4', auth: this.oauth2Client as OAuth2Client });
+            const totalCost = scheduleData.totalCost ? scheduleData.totalCost as number : 0;
             const requestBody = {
                 properties: {
                     title: scheduleData.scheduleName,
                 },
-                sheets: [this._sheetSpecifier.generate(dates, result)]
+                sheets: [this._sheetSpecifier.generate(dates, result, totalCost)]
             };
+            const service = google.sheets({ version: 'v4', auth: this.oauth2Client as OAuth2Client });
             const spreadsheet = await service.spreadsheets.create({
                 requestBody,
                 fields: 'spreadsheetId,sheets(properties(sheetId))',
@@ -159,7 +160,7 @@ class SheetsManager implements SheetsManagement {
             await service.files.delete({
                 fileId: spreadsheetId,
             });
-            
+
             return true;
         }
 

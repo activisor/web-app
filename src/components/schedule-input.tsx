@@ -112,7 +112,7 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                     endDate: values.endDate,
                     groupSize: forceInt(values.groupSize),
                     frequency: forceInt(values.frequency),
-                    total: Number(values.total)
+                    totalCost: Number(values.total)
                 };
                 saveItem(SCHEDULE_DATA, scheduleData);
                 props.handleSubmit();

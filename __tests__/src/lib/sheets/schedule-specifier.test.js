@@ -29,7 +29,6 @@ const participantC = {
     total: 0
 };
 
-
 const participantMatrix = {
     participants: [
         participantA,
@@ -42,10 +41,11 @@ const participantMatrix = {
     ]
 };
 
+const TOTAL = 100;
 const sut = new ScheduleSpecifier();
 
 test('adds title and header row', () => {
-    const result = sut.generate(dates, participantMatrix);
+    const result = sut.generate(dates, participantMatrix, TOTAL);
 
     expect(result.properties.title).toBe('Schedule');
 
@@ -72,18 +72,20 @@ test('adds title and header row', () => {
 
 /**
  * expected output: sheets_v4.Schema$Sheet
+ * 0          1               2            3             4                      5
  * [ header row... ]
- * [ A Test ] [ a@test.com ] [ x ]         [   ]         [=COUNTIF(C2:D2, "x"]
- * [ B Test ] [ b@test.com ] [ x ]         [ x ]         [=COUNTIF(C3:D3, "x")]
- * [ C Test ] [ c@test.com ] [   ]         [ x ]         [=COUNTIF(C4:D4, "x")]
- * [        ] [ Total      ] [=SUM(C2:C4)] [=SUM(D2:D4)] [=SUM(E2:E4)]
+ * [ A Test ] [ a@test.com ] [ x ]         [   ]         [=COUNTIF(C2:D2, "x"]  [=F5*E2/G5]
+ * [ B Test ] [ b@test.com ] [ x ]         [ x ]         [=COUNTIF(C3:D3, "x")] [=F5*E3/G5]
+ * [ C Test ] [ c@test.com ] [   ]         [ x ]         [=COUNTIF(C4:D4, "x")] [=F5*E4/G5]
+ * [        ] [ Total      ] [=SUM(C2:C4)] [=SUM(D2:D4)] [=SUM(E2:E4)]          [100.00]
  */
 test('adds participant rows and totals', () => {
-    const result = sut.generate(dates, participantMatrix);
+    const result = sut.generate(dates, participantMatrix, TOTAL);
 
     expect(result.data[0].rowData.length).toBeGreaterThanOrEqual(5);
-    const row1Values = result.data[0].rowData[1].values;
 
+    // A Test
+    const row1Values = result.data[0].rowData[1].values;
     expect(row1Values[0].userEnteredValue).toBeTruthy();
     expect(row1Values[0].userEnteredValue.stringValue).toBe(participantA.name);
     expect(row1Values[1].userEnteredValue).toBeTruthy();
@@ -92,7 +94,9 @@ test('adds participant rows and totals', () => {
     expect(row1Values[2].userEnteredValue.stringValue).toMatch(/[xX]/);
     expect(row1Values[3].userEnteredValue.stringValue).toBeFalsy();
     expect(row1Values[4].userEnteredValue.formulaValue).toBe('=COUNTIF(C2:D2, "X")');
+    expect(row1Values[5].userEnteredValue.formulaValue).toBe('=F5*E2/E5');
 
+    // B Test
     const row2Values = result.data[0].rowData[2].values;
     expect(row2Values[0].userEnteredValue).toBeTruthy();
     expect(row2Values[0].userEnteredValue.stringValue).toBe(participantB.name);
@@ -103,7 +107,9 @@ test('adds participant rows and totals', () => {
     expect(row2Values[3].userEnteredValue).toBeTruthy();
     expect(row2Values[3].userEnteredValue.stringValue).toMatch(/[xX]/);
     expect(row2Values[4].userEnteredValue.formulaValue).toBe('=COUNTIF(C3:D3, "X")');
+    expect(row2Values[5].userEnteredValue.formulaValue).toBe('=F5*E3/E5');
 
+    // C Test
     const row3Values = result.data[0].rowData[3].values;
     expect(row3Values[0].userEnteredValue).toBeTruthy();
     expect(row3Values[0].userEnteredValue.stringValue).toBe(participantC.name);
@@ -113,13 +119,16 @@ test('adds participant rows and totals', () => {
     expect(row3Values[3].userEnteredValue).toBeTruthy();
     expect(row3Values[3].userEnteredValue.stringValue).toMatch(/[xX]/);
     expect(row3Values[4].userEnteredValue.formulaValue).toBe('=COUNTIF(C4:D4, "X")');
+    expect(row3Values[5].userEnteredValue.formulaValue).toBe('=F5*E4/E5');
 
+    // Totals
     const row4Values = result.data[0].rowData[4].values;
     expect(row4Values[0].userEnteredValue.stringValue).toBeFalsy();
     expect(row4Values[1].userEnteredValue.stringValue).toBe('Total');
     expect(row4Values[2].userEnteredValue.formulaValue).toBe('=COUNTIF(C2:C4, "X")');
     expect(row4Values[3].userEnteredValue.formulaValue).toBe('=COUNTIF(D2:D4, "X")');
     expect(row4Values[4].userEnteredValue.formulaValue).toBe('=SUM(E2:E4)');
+    expect(row4Values[5].userEnteredValue.stringValue).toBe(`${TOTAL}`);
 });
 
 /**
@@ -213,9 +222,9 @@ test('adds header expired conditional formatting', () => {
     expect(rule.booleanRule.format).toBeTruthy();
     expect(rule.booleanRule.format.backgroundColorStyle).toBeTruthy();
     expect(rule.booleanRule.format.backgroundColorStyle.rgbColor).toBeTruthy();
-//    expect(rule.booleanRule.format.backgroundColorStyle.rgbColor.red).toBe(GreyRgb.red);
-//    expect(rule.booleanRule.format.backgroundColorStyle.rgbColor.green).toBe(GreyRgb.green);
-//    expect(rule.booleanRule.format.backgroundColorStyle.rgbColor.blue).toBe(GreyRgb.blue);
+    //    expect(rule.booleanRule.format.backgroundColorStyle.rgbColor.red).toBe(GreyRgb.red);
+    //    expect(rule.booleanRule.format.backgroundColorStyle.rgbColor.green).toBe(GreyRgb.green);
+    //    expect(rule.booleanRule.format.backgroundColorStyle.rgbColor.blue).toBe(GreyRgb.blue);
 });
 
 test('adds center-justified cell formatting', () => {
