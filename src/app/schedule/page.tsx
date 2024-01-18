@@ -3,8 +3,7 @@
 
 // import { css } from '@emotion/react'
 import { useEffect } from 'react';
-import { useSession } from 'next-auth/react';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import LogoButton from '@/components/logo-button';
 import ScheduleInput from '@/components/schedule-input';
 import { readItem, saveItem, hasStorage, GENERATION_REQUESTED, SCHEDULE_DATA } from '@/client-lib/local-storage';
@@ -18,10 +17,10 @@ export default function Schedule() {
 
     const handleSubmit = () => {
         if (status === 'authenticated') {
-            window.location.href = publicRuntimeConfig.AUTH_REDIRECT_PATH;
+            window.location.href = publicRuntimeConfig.SIGNIN_REDIRECT_PATH;
         } else {
             // Nextauth OpenID Connect
-            signIn('google');
+            signIn('google', { callbackUrl: publicRuntimeConfig.SIGNIN_REDIRECT_PATH });
         }
     }
 

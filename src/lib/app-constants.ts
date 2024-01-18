@@ -5,7 +5,10 @@
 // Will be available on both server and client
 export const publicRuntimeConfig = {
     // redirect path on authentication success
-    AUTH_REDIRECT_PATH: '/building',
+    SIGNIN_REDIRECT_PATH: '/building',
+
+    // redirect path on authentication failure
+    SIGNOUT_REDIRECT_PATH: '/schedule',
 
     // enable dev features if true
     DEV_FEATURES: process.env.DEV_FEATURES === 'true',

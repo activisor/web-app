@@ -28,9 +28,19 @@ export const authOptions: NextAuthOptions = {
             url: string
             /** Default base URL of site (can be used as fallback) */
             baseUrl: string
-          }): Promise<string> {
-            return params.baseUrl + publicRuntimeConfig.AUTH_REDIRECT_PATH;
-          },
+        }): Promise<string> {
+            // Allows relative callback URLs
+            if (params.url.startsWith("/")) {
+                return `${params.baseUrl}${params.url}`;
+            }
+
+            // Allows callback URLs on the same origin
+            else if (new URL(params.url).origin === params.baseUrl) {
+                return params.url;
+            }
+
+            return params.baseUrl;
+        },
         async jwt(params: {
             token: JWT,
             account: Account | null,

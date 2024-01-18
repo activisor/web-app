@@ -2,12 +2,13 @@
 'use client'
 
 import { css } from '@emotion/react'
-import { useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import Skeleton from '@mui/material/Skeleton';
 import { useTheme } from '@mui/material/styles';
 import LogoButton from '@/components/logo-button';
-import { readItem, saveItem, hasStorage, GENERATION_REQUESTED, SCHEDULE_DATA } from '@/client-lib/local-storage';
+import { readItem, saveItem, GENERATION_REQUESTED, SCHEDULE_DATA } from '@/client-lib/local-storage';
 import { useMixPanel } from '@/client-lib/mixpanel';
+import { publicRuntimeConfig } from '@/lib/app-constants';
 import type { ScheduleData } from '@/lib/schedule-data';
 import { encode } from '@/lib/base64-convert';
 
@@ -68,8 +69,9 @@ export default function Building() {
                     window.location.href = `/result?data=${encodedData}`;
                 })
                 .catch(error => {
-                    // Handle errors here
+                    // Handle errors here, including insufficient auth scope
                     console.error('Error:', error);
+                    signOut({ callbackUrl: publicRuntimeConfig.SIGNOUT_REDIRECT_PATH });
                 });
         }
     }
