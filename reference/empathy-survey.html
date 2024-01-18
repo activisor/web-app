@@ -32,68 +32,72 @@
     <div>
         <p>How old are you?</p>
         <crowd-radio-group>
-            <crowd-radio-button name="A:age" value="10">Under 20</crowd-radio-button>
-            <crowd-radio-button name="A:age" value="20">20 - 29</crowd-radio-button>
-            <crowd-radio-button name="A:age" value="30">30 - 39</crowd-radio-button>
-            <crowd-radio-button name="A:age" value="40">40 - 49</crowd-radio-button>
-            <crowd-radio-button name="A:age" value="50">50 - 59</crowd-radio-button>
-            <crowd-radio-button name="A:age" value="60">60 - 69</crowd-radio-button>
-            <crowd-radio-button name="A:age" value="70">70 - 79</crowd-radio-button>
-            <crowd-radio-button name="A:age" value="80">80+</crowd-radio-button>
+            <crowd-radio-button name="A:age1" value="10">Under 20</crowd-radio-button>
+            <crowd-radio-button name="A:age2" value="20">20 - 29</crowd-radio-button>
+            <crowd-radio-button name="A:age3" value="30">30 - 39</crowd-radio-button>
+            <crowd-radio-button name="A:age4" value="40">40 - 49</crowd-radio-button>
+            <crowd-radio-button name="A:age5" value="50">50 - 59</crowd-radio-button>
+            <crowd-radio-button name="A:age6" value="60">60 - 69</crowd-radio-button>
+            <crowd-radio-button name="A:age7" value="70">70 - 79</crowd-radio-button>
+            <crowd-radio-button name="A:age8" value="80">80+</crowd-radio-button>
         </crowd-radio-group>
     </div>
     <br>
     <div>
         <p>Do you have children and how old are they?</p>
         <crowd-radio-group>
-            <crowd-radio-button name="B:children" value="0">no children</crowd-radio-button>
-            <crowd-radio-button name="B:children" value="1">all under 18</crowd-radio-button>
-            <crowd-radio-button name="B:children" value="2">at least one under 18 and one older</crowd-radio-button>
-            <crowd-radio-button name="B:children" value="3">all 18 and over</crowd-radio-button>
+            <crowd-radio-button name="B:child0" value="0">no children</crowd-radio-button>
+            <crowd-radio-button name="B:child1" value="1">all under 18</crowd-radio-button>
+            <crowd-radio-button name="B:child2" value="2">at least one under 18 and one older</crowd-radio-button>
+            <crowd-radio-button name="B:child3" value="3">all 18 and over</crowd-radio-button>
         </crowd-radio-group>
     </div>
     <br>
     <div>
-        <p>Have you ever been involved in recreational activities that met regularly? If yes, list them. If no, you may
-            skip the remaining questions.</p>
+        <p>Have you or a household member ever been involved in recreational activities, such as sports or cards, that met regularly? If yes, list them.</p>
         <crowd-text-area name="C:activity-names" rows="4" placeholder="pickleball, cards,..."></crowd-text-area>
     </div>
     <br>
     <div>
-        <p>Did you organize or lead any of these? If so, list each activity and your role.</p>
+        <p>Did you/they organize or lead any of these? If so, list each activity and role.</p>
         <crowd-text-area name="D:activity-roles" rows="4" placeholder="pickleball: organizer"></crowd-text-area>
     </div>
     <br>
     <div>
-        <p>Which is your top activity, regardless of your role, and how many are in your group?</p>
+        <p>Which is your top activity, regardless of your role, and how many are in that group?</p>
         <crowd-text-area name="E:activity-top" rows="4" placeholder="pickleball: 9"></crowd-text-area>
     </div>
     <br>
     <div>
-        <p>How frequently does the organizer set up schedules for this group?</p>
-        <crowd-text-area name="F:schedule-frequency" rows="4" placeholder="once every three months"></crowd-text-area>
+        <p>How frequently does the group meet?</p>
+        <crowd-text-area name="F:schedule-frequency" rows="4" placeholder="once a week"></crowd-text-area>
     </div>
     <br>
     <div>
-        <p>List the hassles of managing this recreational group, starting with the most important.</p>
-        <crowd-text-area name="G:activity-hassles" rows="4"></crowd-text-area>
+        <p>How long is the season?</p>
+        <crowd-text-area name="G:schedule-length" rows="4" placeholder="three months"></crowd-text-area>
+    </div>
+    <br>
+    <div>
+        <p>List the hassles of managing this recreational group, starting with the biggest pain.</p>
+        <crowd-text-area name="H:activity-hassles" rows="4"></crowd-text-area>
     </div>
     <br>
     <div>
         <p>What does the organizer use to create schedules and then manage attendance and substitutions?</p>
-        <crowd-text-area name="H:activity-process" rows="4"></crowd-text-area>
+        <crowd-text-area name="I:activity-process" rows="4"></crowd-text-area>
     </div>
     <br>
     <div>
         <p>How much would you pay once to have this all done for you?</p>
         <crowd-radio-group>
-            <crowd-radio-button name="I:pay" value="0">$0</crowd-radio-button>
-            <crowd-radio-button name="I:pay" value="1">$1</crowd-radio-button>
-            <crowd-radio-button name="I:pay" value="2">$2</crowd-radio-button>
-            <crowd-radio-button name="I:pay" value="3">$3</crowd-radio-button>
-            <crowd-radio-button name="I:pay" value="4">$4</crowd-radio-button>
-            <crowd-radio-button name="I:pay" value="5">$5</crowd-radio-button>
-            <crowd-radio-button name="I:pay" value="10">$10+</crowd-radio-button>
+            <crowd-radio-button name="J:pay0" value="0">$0</crowd-radio-button>
+            <crowd-radio-button name="J:pay1" value="1">$1</crowd-radio-button>
+            <crowd-radio-button name="J:pay2" value="2">$2</crowd-radio-button>
+            <crowd-radio-button name="J:pay3" value="3">$3</crowd-radio-button>
+            <crowd-radio-button name="J:pay4" value="4">$4</crowd-radio-button>
+            <crowd-radio-button name="J:pay5" value="5">$5</crowd-radio-button>
+            <crowd-radio-button name="J:pay6" value="10">$10+</crowd-radio-button>
         </crowd-radio-group>
     </div>
 
