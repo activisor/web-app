@@ -133,6 +133,13 @@ function getCostFormula(totalCost: Cell, userDates: Cell, totalDates: Cell): str
     return `=${totalCostLocation}*${userDatesLocation}/${totalDatesLocation}`;
 }
 
+function getBalanceFormula(cost: Cell, paid: Cell): string {
+    const costLocation = toA1Notation(cost.row, cost.column);
+    const paidLocation = toA1Notation(paid.row, paid.column);
+
+    return `=${costLocation}-${paidLocation}`;
+}
+
 function getTotalsConditionalFormatRule(sheetId: number, rowIndex: number, numDates: number, groupNum: number): sheets_v4.Schema$ConditionalFormatRule {
     return {
         ranges: [
@@ -233,7 +240,7 @@ function getCenteredTextCellFormatRequest(sheetId: number, numDates: number): sh
         repeatCell: {
             range: {
                 sheetId: sheetId as number,
-                startRowIndex: 0,
+                startRowIndex: 1,
                 //                endRowIndex: 1000,
                 startColumnIndex: 2,
                 endColumnIndex: COLUMN_OFFSET + numDates + 1,
@@ -268,10 +275,11 @@ function getHeaderRowFormatRequest(sheetId: number, numDates: number): sheets_v4
                 startRowIndex: 0,
                 endRowIndex: 1,
                 startColumnIndex: 0,
-                endColumnIndex: COLUMN_OFFSET + numDates + 2,
+                endColumnIndex: COLUMN_OFFSET + numDates + 4,
             },
             cell: {
                 userEnteredFormat: {
+                    horizontalAlignment: 'CENTER',
                     borders: {
                         bottom: {
                             colorStyle: {
@@ -293,19 +301,19 @@ function getHeaderRowFormatRequest(sheetId: number, numDates: number): sheets_v4
                     },
                 },
             },
-            fields: 'userEnteredFormat(borders, padding, numberFormat)',
+            fields: 'userEnteredFormat(borders, horizontalAlignment, padding, numberFormat)',
         },
     };
 }
 
-function getHeaderDimensionRequest(sheetId: number, numDates: number): sheets_v4.Schema$Request {
+function getColumnDimensionRequest(sheetId: number, numDates: number): sheets_v4.Schema$Request {
     return {
         updateDimensionProperties: {
             range: {
                 sheetId: sheetId as number,
                 dimension: 'COLUMNS',
                 startIndex: COLUMN_OFFSET,
-                endIndex: COLUMN_OFFSET + numDates + 2,
+                endIndex: COLUMN_OFFSET + numDates + 4,
             },
             properties: {
                 pixelSize: 62,
@@ -347,7 +355,7 @@ function getTotalsRowFormatRequest(sheetId: number, numDates: number, numPartici
                 startRowIndex: ROW_OFFSET + numParticipants,
                 endRowIndex: ROW_OFFSET + numParticipants + 1,
                 startColumnIndex: 0,
-                endColumnIndex: COLUMN_OFFSET + numDates + 2,
+                endColumnIndex: COLUMN_OFFSET + numDates + 4,
             },
             cell: {
                 userEnteredFormat: {
@@ -409,7 +417,7 @@ function getCostColumnFormatRequest(sheetId: number, numDates: number, numPartic
                 startRowIndex: ROW_OFFSET,
                 endRowIndex: ROW_OFFSET + numParticipants + 1,
                 startColumnIndex: COLUMN_OFFSET + numDates + 1,
-                endColumnIndex: COLUMN_OFFSET + numDates + 2,
+                endColumnIndex: COLUMN_OFFSET + numDates + 4,
             },
             cell: {
                 userEnteredFormat: {
@@ -505,6 +513,26 @@ function getHeaderRow(dates: Date[]): sheets_v4.Schema$RowData {
     headerRow.values.push({
         userEnteredValue: {
             stringValue: 'Cost',
+        },
+        userEnteredFormat: {
+            backgroundColorStyle: {
+                rgbColor: ThemeSecondaryLightRgb
+            },
+        }
+    });
+    headerRow.values.push({
+        userEnteredValue: {
+            stringValue: 'Paid',
+        },
+        userEnteredFormat: {
+            backgroundColorStyle: {
+                rgbColor: ThemeSecondaryLightRgb
+            },
+        }
+    });
+    headerRow.values.push({
+        userEnteredValue: {
+            stringValue: 'Balance',
         },
         userEnteredFormat: {
             backgroundColorStyle: {
@@ -697,7 +725,7 @@ class ScheduleSpecifier implements SheetSpecification {
             getBandingFormatRequest(sheetId, numDates, numParticipants),
             getCenteredTextCellFormatRequest(sheetId, numDates),
             getCostColumnFormatRequest(sheetId, numDates, numParticipants),
-            getHeaderDimensionRequest(sheetId, numDates),
+            getColumnDimensionRequest(sheetId, numDates),
             getHeaderRowFormatRequest(sheetId, numDates),
             getParticipantColumnsFormatRequest(sheetId, numParticipants),
             getTableBorderFormatRequest(sheetId, numDates, numParticipants),
@@ -782,6 +810,28 @@ class ScheduleSpecifier implements SheetSpecification {
             row.values.push({
                 userEnteredValue: {
                     formulaValue: getCostFormula(totalCostCell, userDatesCell, totalDatesCell),
+                },
+            });
+
+            // add paid cell to row
+            row.values.push({
+                userEnteredValue: {
+                    numberValue: 0,
+                },
+            });
+
+            // add balance formula to row
+            const costCell = {
+                row: ROW_OFFSET + i,
+                column: COLUMN_OFFSET + numDates + 1,
+            };
+            const paidCell = {
+                row: ROW_OFFSET + i,
+                column: COLUMN_OFFSET + numDates + 2,
+            };
+            row.values.push({
+                userEnteredValue: {
+                    formulaValue: getBalanceFormula(costCell, paidCell),
                 },
             });
 

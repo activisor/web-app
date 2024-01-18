@@ -72,11 +72,11 @@ test('adds title and header row', () => {
 
 /**
  * expected output: sheets_v4.Schema$Sheet
- * 0          1               2            3             4                      5
+ * 0          1               2            3             4                      5           6        7
  * [ header row... ]
- * [ A Test ] [ a@test.com ] [ x ]         [   ]         [=COUNTIF(C2:D2, "x"]  [=F5*E2/G5]
- * [ B Test ] [ b@test.com ] [ x ]         [ x ]         [=COUNTIF(C3:D3, "x")] [=F5*E3/G5]
- * [ C Test ] [ c@test.com ] [   ]         [ x ]         [=COUNTIF(C4:D4, "x")] [=F5*E4/G5]
+ * [ A Test ] [ a@test.com ] [ x ]         [   ]         [=COUNTIF(C2:D2, "x"]  [=F5*E2/G5] 0.00     [=F1-G1]
+ * [ B Test ] [ b@test.com ] [ x ]         [ x ]         [=COUNTIF(C3:D3, "x")] [=F5*E3/G5] 0.00     [=F2-G2]
+ * [ C Test ] [ c@test.com ] [   ]         [ x ]         [=COUNTIF(C4:D4, "x")] [=F5*E4/G5] 0.00     [=F3-G3]
  * [        ] [ Total      ] [=SUM(C2:C4)] [=SUM(D2:D4)] [=SUM(E2:E4)]          [100.00]
  */
 test('adds participant rows and totals', () => {

@@ -196,6 +196,9 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                 if (dto.frequency) {
                     formikProps.setFieldValue('frequency', dto.frequency);
                 }
+                if (dto.totalCost) {
+                    formikProps.setFieldValue('total', dto.totalCost);
+                }
             }
         }
     });
