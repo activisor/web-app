@@ -133,7 +133,8 @@ export default function ResultPage() {
 
     const handleConfirmDialogClose = () => {
         const sheetUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/edit?usp=sharing`;
-        window.open(sheetUrl, '_self');
+        window.open(sheetUrl, '_blank');
+        window.location.href = '/schedule';
     };
 
     const handleSaveCancelClick = () => {
@@ -174,31 +175,30 @@ export default function ResultPage() {
                 }}>
                     <Grid xs={2}><LogoButton /></Grid>
                     <Grid xs={2}></Grid>
-                    <Grid xs={8}>
-                        <div css={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            '& > *': {
-                                margin: 16
-                            }
-                        }}>
+                    <Grid container xs={12} md={8}>
+                        <Grid xs={12} md={4} display="flex" justifyContent="center" alignItems="center">
                             <h3>Here is a preview of your schedule</h3>
-                            <Button
-                                variant='outlined'
-                                type="submit"
-                                color="secondary"
-                                onClick={handleSaveCancelClick}
-                                css={{
-                                    marginRight: 16
-                                }}
-                            >cancel</Button>
-                            <Button
-                                variant='contained'
-                                type="submit"
-                                color="secondary"
-                                onClick={handleAcceptClick}
-                            >accept</Button>
-                        </div>
+                        </Grid>
+                        <Grid xs={12} md={4} display="flex" justifyContent="center" alignItems="center">
+                                <Button
+                                    variant='outlined'
+                                    type="submit"
+                                    color="secondary"
+                                    onClick={handleSaveCancelClick}
+                                    css={{
+                                        marginRight: 16,
+                                        [mq.xl]: {
+                                            marginRight: 24,
+                                        }
+                                    }}
+                                >cancel</Button>
+                                <Button
+                                    variant='contained'
+                                    type="submit"
+                                    color="secondary"
+                                    onClick={handleAcceptClick}
+                                >accept</Button>
+                        </Grid>
                     </Grid>
                 </Grid>
             </Paper>
