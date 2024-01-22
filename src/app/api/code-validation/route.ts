@@ -23,7 +23,8 @@ export async function GET(request: NextRequest) {
         };
 
         const referenceCode: string = process.env.DISCOUNT_CODE as string;
-        if (publicRuntimeConfig.UNLOCKED || (code && (code.toLowerCase() === referenceCode.toLowerCase()))) {
+        const unlocked = process.env.UNLOCKED === 'true';
+        if (unlocked || (code && (code.toLowerCase() === referenceCode.toLowerCase()))) {
             dto.validCode = true;
         }
 

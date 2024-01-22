@@ -17,6 +17,7 @@ import * as yup from 'yup';
 
 import FormikMuiDatePicker from '@/components/formik-mui-date-picker';
 import ParticipantInput, { ParticipantInputProps, ADD_EVENT, CHANGE_EVENT, DELETE_EVENT } from './participant-input';
+import { publicRuntimeConfig } from '@/lib/app-constants';
 import Frequency from '@/lib/frequency';
 import type { Participant } from '@/lib/participant';
 import type { ScheduleData } from '@/lib/schedule-data';
@@ -172,6 +173,7 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
         });
     }
 
+    //let allowAddMarticipants = true;
     useEffect(() => {
         subscribe(ADD_EVENT, handleAddParticipant);
         subscribe(CHANGE_EVENT, handleChangeParticipant);
@@ -201,7 +203,11 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                 }
             }
         }
+
+
     });
+
+    const allowAddMarticipants = formikProps.values.participants.length < publicRuntimeConfig.MAX_PARTICIPANTS;
 
     return (
         <FormikProvider value={formikProps}>
@@ -325,7 +331,7 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                                 onBlur={formikProps.handleBlur}
                                 onKeyDown={(event) => { if (event.key === 'Enter') { event.preventDefault(); } }}
                                 error={Boolean(formikProps.errors.total)}
-                                helperText={formikProps.errors.total? 'This must be a number, such as 123.45' : ''}
+                                helperText={formikProps.errors.total ? 'This must be a number, such as 123.45' : ''}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
@@ -353,7 +359,12 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                                 <ErrorMessage name="participants" />
                             </div>
                         </div>
-                        <ParticipantInput name="" email="" saved={false} />
+                        {allowAddMarticipants ? (
+                            <ParticipantInput name="" email="" saved={false}/>
+                        ) : (
+                            <p>You can have up to {publicRuntimeConfig.MAX_PARTICIPANTS} participants</p>
+                        )
+                        }
                     </div>
                 </div>
                 <div css={{

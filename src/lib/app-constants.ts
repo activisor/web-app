@@ -11,8 +11,8 @@ export const publicRuntimeConfig = {
     SIGNOUT_REDIRECT_PATH: '/schedule',
 
     // enable dev features if true
-    DEV_FEATURES: process.env.DEV_FEATURES === 'true',
+    DEV_FEATURES: process.env.NEXT_PUBLIC_DEV_FEATURES === 'true',
 
-    // bypass checkout dialog if true
-    UNLOCKED: process.env.UNLOCKED === 'true',
+    // max number of participants
+    MAX_PARTICIPANTS: parseInt(process.env.NEXT_PUBLIC_MAX_PARTICIPANTS as string, 10),
 };
