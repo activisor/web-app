@@ -274,6 +274,9 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                                     InputLabelProps={{
                                         shrink: true,
                                     }}
+                                    sx={{
+                                        width: '100%'
+                                    }}
                                 />
                             </div>
                             <div css={{
