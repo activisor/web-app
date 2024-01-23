@@ -18,7 +18,7 @@ export interface ImageDialogProps {
     height: number;
     width: number;
     onClose: () => void;
-}
+};
 
 const ImageDialog: React.FC<ImageDialogProps> = (props) => {
     const handleClose = () => {
@@ -60,6 +60,6 @@ const ImageDialog: React.FC<ImageDialogProps> = (props) => {
             </div>
         </Dialog>
     );
-}
+};
 
 export default ImageDialog;

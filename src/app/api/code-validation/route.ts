@@ -1,6 +1,5 @@
 import type { NextRequest } from "next/server"
 import { getToken } from 'next-auth/jwt';
-import { publicRuntimeConfig } from '@/lib/app-constants';
 
 /**
  * validates received discount code

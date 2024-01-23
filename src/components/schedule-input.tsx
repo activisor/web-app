@@ -3,13 +3,15 @@
 
 import { css } from '@emotion/react';
 import React, { useState, useEffect } from 'react';
+import CloseIcon from '@mui/icons-material/Close';
 import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import Snackbar from '@mui/material/Snackbar';
 import TextField from '@mui/material/TextField';
-// import NumberInputBasic from '@/components/number-input';
 import { useTheme } from '@mui/material/styles';
 
 import { ErrorMessage, FormikProvider, useFormik } from 'formik';
@@ -48,8 +50,7 @@ const twoColumnChild = css({
 const today = (): Date => {
     const now = new Date();
     return new Date(now.getFullYear(), now.getMonth(), now.getDate());
-}
-
+};
 /**
  * converts a string to an integer
  * @param value
@@ -60,11 +61,11 @@ const forceInt = (value: any): any => {
         return parseInt(value);
     }
     return value;
-}
+};
 
 const toParticipantInputProps = (participant: Participant): ParticipantInputProps => {
     return { ...participant, saved: true };
-}
+};
 
 const scheduleSchema = yup.object({
     participants: yup.array<ParticipantInputProps>()
@@ -82,12 +83,16 @@ const scheduleSchema = yup.object({
 
 export interface ScheduleInputProps {
     handleSubmit: () => void;
-}
+};
 
 const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
-    const theme = useTheme();
+    // alert the user once they have 8 participants if group size is still 1
+    const participantNotificationNumber = 7;
+    // const theme = useTheme();
     const initialParticipants: ParticipantInputProps[] = [];
-    const [participantKey, setParticipantKey] = useState(0);
+    const [participantKey, setParticipantKey] = useState(1);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [snackbarOpened, setSnackbarOpened] = useState(false);
 
     const formikProps = useFormik({
         initialValues: {
@@ -127,15 +132,20 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
     const handleAddParticipant = (event: CustomEvent) => {
         setParticipantKey(participantKey + 1);
 
+        const participants = [...formikProps.values.participants];
+        // if many participants and group size is still 1, open snackbar notice
+        if (!snackbarOpened && (formikProps.values.groupSize === 1) && (participants.length === participantNotificationNumber)) {
+            setOpenSnackbar(true);
+            setSnackbarOpened(true);
+        }
+
         const participant: ParticipantInputProps = {
             ...event.detail,
             saved: true,
             id: participantKey
         };
-
-        const participants = [...formikProps.values.participants];
         formikProps.setFieldValue('participants', [...participants, participant]);
-    }
+    };
 
     const handleChangeParticipant = (event: CustomEvent) => {
         const participants = [...formikProps.values.participants];
@@ -149,7 +159,7 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
 
             formikProps.setFieldValue('participants', participants);
         }
-    }
+    };
 
     const handleDeleteParticipant = (event: CustomEvent) => {
         const participants = [...formikProps.values.participants];
@@ -157,7 +167,7 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
             return participant.id !== event.detail.id;
         });
         formikProps.setFieldValue('participants', tempParticipants);
-    }
+    };
 
     const renderParticipants = () => {
         return formikProps.values.participants.map((participant, index) => {
@@ -171,9 +181,16 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                 />
             )
         });
-    }
+    };
 
-    //let allowAddMarticipants = true;
+    const handleCloseSnackbar = (event: React.SyntheticEvent | Event, reason?: string) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpenSnackbar(false);
+    };
+
     useEffect(() => {
         subscribe(ADD_EVENT, handleAddParticipant);
         subscribe(CHANGE_EVENT, handleChangeParticipant);
@@ -201,191 +218,214 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                 if (dto.totalCost) {
                     formikProps.setFieldValue('total', dto.totalCost);
                 }
+
+                const lastParticipantKey = dto.participants.length && dto.participants[dto.participants.length - 1].id ? dto.participants[dto.participants.length - 1].id as number : 0;
+                setParticipantKey(lastParticipantKey + 1);
             }
         }
-
-
     });
 
-    const allowAddMarticipants = formikProps.values.participants.length < publicRuntimeConfig.MAX_PARTICIPANTS;
+    const allowAddParticipants = formikProps.values.participants.length < publicRuntimeConfig.MAX_PARTICIPANTS;
+
+    const snackbarAction = (
+        <React.Fragment>
+            <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={handleCloseSnackbar}
+            >
+                <CloseIcon fontSize="small" />
+            </IconButton>
+        </React.Fragment>
+    );
 
     return (
-        <FormikProvider value={formikProps}>
-            <form onSubmit={formikProps.handleSubmit}>
-                <div id="container" css={{
-                    /* breakpoint for large screen overrides, 1280px wide */
-                    '@media(min-width: 1248px)': {
-                        display: 'flex',
-                        alignItems: 'flex-start'
-                    }
-                }}>
-                    <div css={css`${twoColumnChild};`}>
-                        <h2 css={{
-                            /* breakpoint for large screen overrides, 1280px wide */
-                            '@media(min-width: 1248px)': {
-                                marginTop: 8
-                            }
-                        }}>Schedule</h2>
-                        <div>
-                            <TextField
-                                id="scheduleName"
-                                label="Schedule Name"
-                                name="scheduleName"
-                                type="text"
-                                inputProps={{ autoFocus: true }}
-                                value={formikProps.values.scheduleName}
-                                onChange={formikProps.handleChange}
-                                onBlur={formikProps.handleBlur}
-                                onKeyDown={(event) => { if (event.key === 'Enter') { event.preventDefault(); } }}
-                                error={formikProps.touched.scheduleName && Boolean(formikProps.errors.scheduleName)}
-                                helperText={formikProps.touched.scheduleName && formikProps.errors.scheduleName}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                            />
-                        </div>
-                        <div css={{
-                            display: 'flex'
-                        }}>
-                            <FormikMuiDatePicker
-                                name="startDate"
-                                label="Start on"
-                                css={{
+        <>
+            <FormikProvider value={formikProps}>
+                <form onSubmit={formikProps.handleSubmit}>
+                    <div id="container" css={{
+                        /* breakpoint for large screen overrides, 1280px wide */
+                        '@media(min-width: 1248px)': {
+                            display: 'flex',
+                            alignItems: 'flex-start'
+                        }
+                    }}>
+                        <div css={css`${twoColumnChild};`}>
+                            <h2 css={{
+                                /* breakpoint for large screen overrides, 1280px wide */
+                                '@media(min-width: 1248px)': {
+                                    marginTop: 8
+                                }
+                            }}>Schedule</h2>
+                            <div>
+                                <TextField
+                                    id="scheduleName"
+                                    label="Schedule Name"
+                                    name="scheduleName"
+                                    type="text"
+                                    inputProps={{ autoFocus: true }}
+                                    value={formikProps.values.scheduleName}
+                                    onChange={formikProps.handleChange}
+                                    onBlur={formikProps.handleBlur}
+                                    onKeyDown={(event) => { if (event.key === 'Enter') { event.preventDefault(); } }}
+                                    error={formikProps.touched.scheduleName && Boolean(formikProps.errors.scheduleName)}
+                                    helperText={formikProps.touched.scheduleName && formikProps.errors.scheduleName}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />
+                            </div>
+                            <div css={{
+                                display: 'flex'
+                            }}>
+                                <FormikMuiDatePicker
+                                    name="startDate"
+                                    label="Start on"
+                                    css={{
+                                        marginRight: 8,
+                                        '@media(min-width: 1248px)': {
+                                            marginRight: 24
+                                        }
+                                    }}
+                                />
+                                <FormikMuiDatePicker
+                                    name="endDate"
+                                    label="End by"
+                                />
+                            </div>
+                            <div>
+                                <ErrorMessage name="endDate" />
+                            </div>
+                            <div css={{
+                                display: 'flex'
+                            }}>
+                                <FormControl sx={{ minWidth: 150 }} css={{
                                     marginRight: 8,
                                     '@media(min-width: 1248px)': {
                                         marginRight: 24
                                     }
-                                }}
-                            />
-                            <FormikMuiDatePicker
-                                name="endDate"
-                                label="End by"
-                            />
-                        </div>
-                        <div>
-                            <ErrorMessage name="endDate" />
-                        </div>
-                        <div css={{
-                            display: 'flex'
-                        }}>
-                            <FormControl sx={{ minWidth: 150 }} css={{
-                                marginRight: 8,
-                                '@media(min-width: 1248px)': {
-                                    marginRight: 24
-                                }
-                            }}>
-                                <InputLabel id="size-select-label">Group Size</InputLabel>
-                                <Select
-                                    labelId="size-select-label"
-                                    id="groupSize"
-                                    name="groupSize"
-                                    label="Group Size"
-                                    value={formikProps.values.groupSize.toString()}
-                                    onChange={formikProps.handleChange}
-                                >
-                                    <MenuItem value="1">1 member</MenuItem>
-                                    <MenuItem value="2">2</MenuItem>
-                                    <MenuItem value="3">3</MenuItem>
-                                    <MenuItem value="4">4</MenuItem>
-                                    <MenuItem value="5">5</MenuItem>
-                                    <MenuItem value="6">6</MenuItem>
-                                    <MenuItem value="7">7</MenuItem>
-                                    <MenuItem value="8">8</MenuItem>
-                                    <MenuItem value="9">9</MenuItem>
-                                    <MenuItem value="10">10</MenuItem>
-                                    <MenuItem value="11">11</MenuItem>
-                                    <MenuItem value="12">12</MenuItem>
-                                    <MenuItem value="13">13</MenuItem>
-                                    <MenuItem value="14">14</MenuItem>
-                                    <MenuItem value="15">15</MenuItem>
-                                    <MenuItem value="16">16</MenuItem>
-                                </Select>
-                            </FormControl>
-                            <FormControl sx={{ minWidth: 150 }}>
-                                <InputLabel id="frequency-select-label">Frequency</InputLabel>
-                                <Select
-                                    labelId="frequency-select-label"
-                                    id="frequency"
-                                    name="frequency"
-                                    label="Frequency"
-                                    value={formikProps.values.frequency.toString()}
-                                    onChange={formikProps.handleChange}
-                                >
-                                    <MenuItem value="1">daily</MenuItem>
-                                    <MenuItem value="2">weekly</MenuItem>
-                                    <MenuItem value="3">every other week</MenuItem>
-                                    <MenuItem value="4">monthly</MenuItem>
-                                    <MenuItem value="5">every weekday</MenuItem>
-                                    <MenuItem value="6">custom</MenuItem>
-                                </Select>
-                            </FormControl>
-                        </div>
-                        <div>
-                            <TextField
-                                id="total"
-                                label="Overall Cost"
-                                name="total"
-                                type="text"
-                                value={formikProps.values.total}
-                                onChange={formikProps.handleChange}
-                                onBlur={formikProps.handleBlur}
-                                onKeyDown={(event) => { if (event.key === 'Enter') { event.preventDefault(); } }}
-                                error={Boolean(formikProps.errors.total)}
-                                helperText={formikProps.errors.total ? 'This must be a number, such as 123.45' : ''}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                            />
-                        </div>
-                    </div>
-                    <div css={css`
-                            ${twoColumnChild};
-                        `}>
-                        <h2 css={{
-                            marginTop: 24,
-                            /* breakpoint for large screen overrides, 1280px wide */
-                            '@media(min-width: 1248px)': {
-                                marginTop: 8
-                            }
-                        }}>Participants</h2>
-                        <div id="existing-participants" css={{
-                            marginBottom: 8,
-                            '& > *': {
-                                marginBottom: 8,
-                            }
-                        }}>
-                            {renderParticipants()}
+                                }}>
+                                    <InputLabel id="size-select-label">Group Size</InputLabel>
+                                    <Select
+                                        labelId="size-select-label"
+                                        id="groupSize"
+                                        name="groupSize"
+                                        label="Group Size"
+                                        value={formikProps.values.groupSize.toString()}
+                                        onChange={formikProps.handleChange}
+                                    >
+                                        <MenuItem value="1">1 member</MenuItem>
+                                        <MenuItem value="2">2</MenuItem>
+                                        <MenuItem value="3">3</MenuItem>
+                                        <MenuItem value="4">4</MenuItem>
+                                        <MenuItem value="5">5</MenuItem>
+                                        <MenuItem value="6">6</MenuItem>
+                                        <MenuItem value="7">7</MenuItem>
+                                        <MenuItem value="8">8</MenuItem>
+                                        <MenuItem value="9">9</MenuItem>
+                                        <MenuItem value="10">10</MenuItem>
+                                        <MenuItem value="11">11</MenuItem>
+                                        <MenuItem value="12">12</MenuItem>
+                                        <MenuItem value="13">13</MenuItem>
+                                        <MenuItem value="14">14</MenuItem>
+                                        <MenuItem value="15">15</MenuItem>
+                                        <MenuItem value="16">16</MenuItem>
+                                    </Select>
+                                </FormControl>
+                                <FormControl sx={{ minWidth: 150 }}>
+                                    <InputLabel id="frequency-select-label">Frequency</InputLabel>
+                                    <Select
+                                        labelId="frequency-select-label"
+                                        id="frequency"
+                                        name="frequency"
+                                        label="Frequency"
+                                        value={formikProps.values.frequency.toString()}
+                                        onChange={formikProps.handleChange}
+                                    >
+                                        <MenuItem value="1">daily</MenuItem>
+                                        <MenuItem value="2">weekly</MenuItem>
+                                        <MenuItem value="3">every other week</MenuItem>
+                                        <MenuItem value="4">monthly</MenuItem>
+                                        <MenuItem value="5">every weekday</MenuItem>
+                                        <MenuItem value="6">custom</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </div>
                             <div>
-                                <ErrorMessage name="participants" />
+                                <TextField
+                                    id="total"
+                                    label="Overall Cost"
+                                    name="total"
+                                    type="text"
+                                    value={formikProps.values.total}
+                                    onChange={formikProps.handleChange}
+                                    onBlur={formikProps.handleBlur}
+                                    onKeyDown={(event) => { if (event.key === 'Enter') { event.preventDefault(); } }}
+                                    error={Boolean(formikProps.errors.total)}
+                                    helperText={formikProps.errors.total ? 'This must be a number, such as 123.45' : ''}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />
                             </div>
                         </div>
-                        {allowAddMarticipants ? (
-                            <ParticipantInput name="" email="" saved={false}/>
-                        ) : (
-                            <p>You can have up to {publicRuntimeConfig.MAX_PARTICIPANTS} participants</p>
-                        )
-                        }
+                        <div css={css`
+                            ${twoColumnChild};
+                        `}>
+                            <h2 css={{
+                                marginTop: 24,
+                                /* breakpoint for large screen overrides, 1280px wide */
+                                '@media(min-width: 1248px)': {
+                                    marginTop: 8
+                                }
+                            }}>Participants</h2>
+                            <div id="existing-participants" css={{
+                                marginBottom: 8,
+                                '& > *': {
+                                    marginBottom: 8,
+                                }
+                            }}>
+                                {renderParticipants()}
+                                <div>
+                                    <ErrorMessage name="participants" />
+                                </div>
+                            </div>
+                            {allowAddParticipants ? (
+                                <ParticipantInput name="" email="" saved={false} />
+                            ) : (
+                                <p>You can have up to {publicRuntimeConfig.MAX_PARTICIPANTS} participants</p>
+                            )
+                            }
+                        </div>
                     </div>
-                </div>
-                <div css={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    padding: 16,
-                    [mq.md]: {
-                        padding: 24,
-                    },
-                    [mq.xl]: {
-                        padding: 32,
-                    }
-                }}>
-                    <Button
-                        variant="contained"
-                        type="submit"
-                        color="secondary"
-                    >Create Schedule</Button>
-                </div>
-            </form>
-        </FormikProvider>
+                    <div css={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        padding: 16,
+                        [mq.md]: {
+                            padding: 24,
+                        },
+                        [mq.xl]: {
+                            padding: 32,
+                        }
+                    }}>
+                        <Button
+                            variant="contained"
+                            type="submit"
+                            color="secondary"
+                        >Create Schedule</Button>
+                    </div>
+                </form>
+            </FormikProvider>
+            <Snackbar
+                open={openSnackbar}
+                autoHideDuration={10000}
+                onClose={handleCloseSnackbar}
+                message="Don't forget to adjust your group size."
+                action={snackbarAction}
+            />
+        </>
     );
 }
 

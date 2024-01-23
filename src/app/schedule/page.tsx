@@ -33,8 +33,8 @@ export default function Schedule() {
             // then base64 decode and save to local storage if not already present
             if (paramData && !readItem(SCHEDULE_DATA)) {
                 const emailExtract = decode(paramData);
-
                 let participantIndex = 1;
+                
                 emailExtract.participants.forEach((participant: Participant) => {
                     participant.id = participantIndex;
                     participantIndex++;

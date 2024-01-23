@@ -12,7 +12,7 @@ export interface CopyToClipboardButtonProps {
     value: string;
     color: string;
     valueName: string;
-}
+};
 
 const CopyToClipboardButton: React.FC<CopyToClipboardButtonProps> = (props) => {
     const mixpanel = useMixPanel();

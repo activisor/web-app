@@ -14,7 +14,7 @@ export interface CheckoutProps {
     clientId: string;
     onSuccess: () => void;
     onFailure: () => void;
-}
+};
 
 const Checkout: React.FC<CheckoutProps> = (props) => {
     const initialOptions = {

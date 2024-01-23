@@ -15,7 +15,7 @@ import type { Participant } from '@/lib/participant';
 
 export interface ParticipantInputProps extends Participant {
     saved: boolean;
-}
+};
 
 export const ADD_EVENT = 'activisor:add-participant';
 export const CHANGE_EVENT = 'activisor:change-participant';
