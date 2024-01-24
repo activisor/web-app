@@ -12,6 +12,7 @@ const dates = [
     new Date(2023, 10, 15),
     new Date(2023, 10, 22),
 ];
+const NUM_DATES = 2;
 
 const participantA = {
     name: 'A Test',
@@ -40,8 +41,11 @@ const participantMatrix = {
         [participantB, participantC],
     ]
 };
+const NUM_PARTICIPANTS = 3;
 
+const SHEET_ID = 0;
 const TOTAL = 100;
+
 const sut = new ScheduleSpecifier();
 
 test('adds title and header row', () => {
@@ -72,12 +76,12 @@ test('adds title and header row', () => {
 
 /**
  * expected output: sheets_v4.Schema$Sheet
- * 0          1               2                     3                       4                      5           6        7
+ * 0          1               2                     3                       4                       5             6        7
  * [ header row... ]
- * [ A Test ] [ a@test.com ] [ x ]                  [   ]                   [=COUNTIF(C2:D2, "X")]  [=F5*E2/G5] 0.00     [=F1-G1]
- * [ B Test ] [ b@test.com ] [ x ]                  [ x ]                   [=COUNTIF(C3:D3, "X")] [=F5*E3/G5] 0.00     [=F2-G2]
- * [ C Test ] [ c@test.com ] [   ]                  [ x ]                   [=COUNTIF(C4:D4, "X")] [=F5*E4/G5] 0.00     [=F3-G3]
- * [        ] [ Total      ] [=COUNTIF(C2:C4, "X")] [=COUNTIF(D2:D4, "X")]  [=SUM(E2:E4)]          [100.00]
+ * [ A Test ] [ a@test.com ] [ x ]                  [   ]                   [=COUNTIF(C2:D2, "X")]  [=F5*E2/G5]   0.00     [=F1-G1]
+ * [ B Test ] [ b@test.com ] [ x ]                  [ x ]                   [=COUNTIF(C3:D3, "X")]  [=F5*E3/G5]   0.00     [=F2-G2]
+ * [ C Test ] [ c@test.com ] [   ]                  [ x ]                   [=COUNTIF(C4:D4, "X")]  [=F5*E4/G5]   0.00     [=F3-G3]
+ * [        ] [ Total      ] [=COUNTIF(C2:C4, "X")] [=COUNTIF(D2:D4, "X")]  [=SUM(E2:E4)]           [100.00]
  */
 test('adds participant rows and totals', () => {
     const result = sut.generate(dates, participantMatrix, TOTAL);
@@ -158,11 +162,9 @@ test('adds participant rows and totals', () => {
  *
  */
 test('adds event total conditional formatting', () => {
-    const sheetId = 0;
     const rowIndex = 4;
-    const numDates = 2;
     const groupNum = 2;
-    const rule /* sheets_v4.Schema$ConditionalFormatRule */ = getTotalsConditionalFormatRule(sheetId, rowIndex, numDates, groupNum);
+    const rule /* sheets_v4.Schema$ConditionalFormatRule */ = getTotalsConditionalFormatRule(SHEET_ID, rowIndex, NUM_DATES, groupNum);
 
     // rule
     expect(rule).toBeTruthy();
@@ -182,7 +184,7 @@ test('adds event total conditional formatting', () => {
     expect(rule.ranges[0].endRowIndex).toBe(5);
     expect(rule.ranges[0].startColumnIndex).toBe(2);
     expect(rule.ranges[0].endColumnIndex).toBe(4);
-    expect(rule.ranges[0].sheetId).toBe(sheetId);
+    expect(rule.ranges[0].sheetId).toBe(SHEET_ID);
 
     // format
     expect(rule.booleanRule.format).toBeTruthy();
@@ -193,11 +195,9 @@ test('adds event total conditional formatting', () => {
 });
 
 test('adds header expired conditional formatting', () => {
-    const sheetId = 0;
     const rowIndex = 0;
-    const numDates = 2;
     const groupNum = 2;
-    const rule /* sheets_v4.Schema$ConditionalFormatRule */ = getDateExpiredConditionalFormatRule(sheetId, rowIndex, numDates, groupNum);
+    const rule /* sheets_v4.Schema$ConditionalFormatRule */ = getDateExpiredConditionalFormatRule(SHEET_ID, rowIndex, NUM_DATES, groupNum);
 
     // rule
     expect(rule.booleanRule).toBeTruthy();
@@ -216,7 +216,7 @@ test('adds header expired conditional formatting', () => {
     expect(rule.ranges[0].endRowIndex).toBe(1);
     expect(rule.ranges[0].startColumnIndex).toBe(2);
     expect(rule.ranges[0].endColumnIndex).toBe(4);
-    expect(rule.ranges[0].sheetId).toBe(sheetId);
+    expect(rule.ranges[0].sheetId).toBe(SHEET_ID);
 
     // format backgroundColorStyle
     expect(rule.booleanRule.format).toBeTruthy();
@@ -228,18 +228,16 @@ test('adds header expired conditional formatting', () => {
 });
 
 test('adds center-justified cell formatting', () => {
-    const sheetId = 0;
-    const numDates = 2;
-    const result /* sheets_v4.Schema$Request */ = getCenteredTextCellFormatRequest(sheetId, numDates);
+    const result /* sheets_v4.Schema$Request */ = getCenteredTextCellFormatRequest(SHEET_ID, NUM_DATES);
 
     expect(result.repeatCell).toBeTruthy();
     const format = result.repeatCell;
     expect(format.range).toBeTruthy();
-    expect(format.range.sheetId).toBe(sheetId);
+    expect(format.range.sheetId).toBe(SHEET_ID);
     // calendar matrix + totals column
     expect(format.range.startRowIndex).toBe(1);
     expect(format.range.startColumnIndex).toBe(2);
-    expect(format.range.endColumnIndex).toBe(numDates + 3);
+    expect(format.range.endColumnIndex).toBe(NUM_DATES + 3);
 
     expect(format.cell).toBeTruthy();
     expect(format.cell.userEnteredFormat).toBeTruthy();
@@ -248,18 +246,16 @@ test('adds center-justified cell formatting', () => {
 });
 
 test('adds header row formatting', () => {
-    const sheetId = 0;
-    const numDates = 2;
-    const result /* sheets_v4.Schema$Request */ = getHeaderRowFormatRequest(sheetId, numDates);
+    const result /* sheets_v4.Schema$Request */ = getHeaderRowFormatRequest(SHEET_ID, NUM_DATES);
 
     expect(result.repeatCell).toBeTruthy();
     const format = result.repeatCell;
     expect(format.range).toBeTruthy();
-    expect(format.range.sheetId).toBe(sheetId);
+    expect(format.range.sheetId).toBe(SHEET_ID);
     expect(format.range.startRowIndex).toBe(0);
     expect(format.range.endRowIndex).toBe(1);
     expect(format.range.startColumnIndex).toBe(0);
-    expect(format.range.endColumnIndex).toBe(numDates + 6);
+    expect(format.range.endColumnIndex).toBe(NUM_DATES + 6);
 
     expect(format.cell).toBeTruthy();
     expect(format.cell.userEnteredFormat).toBeTruthy();
@@ -269,16 +265,14 @@ test('adds header row formatting', () => {
 });
 
 test('adds participant columns formatting', () => {
-    const sheetId = 0;
-    const numParticipants = 3;
-    const result /* sheets_v4.Schema$Request */ = getParticipantColumnsFormatRequest(sheetId, numParticipants);
+    const result /* sheets_v4.Schema$Request */ = getParticipantColumnsFormatRequest(SHEET_ID, NUM_PARTICIPANTS);
 
     expect(result.repeatCell).toBeTruthy();
     const format = result.repeatCell;
     expect(format.range).toBeTruthy();
-    expect(format.range.sheetId).toBe(sheetId);
+    expect(format.range.sheetId).toBe(SHEET_ID);
     expect(format.range.startRowIndex).toBe(1);
-    expect(format.range.endRowIndex).toBe(1 + numParticipants);
+    expect(format.range.endRowIndex).toBe(1 + NUM_PARTICIPANTS);
     expect(format.range.startColumnIndex).toBe(0);
     expect(format.range.endColumnIndex).toBe(2);
 
