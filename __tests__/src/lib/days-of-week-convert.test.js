@@ -1,5 +1,4 @@
-import { DaysOfWeek } from '@/lib/days-of-week';
-import { toArray, toDaysOfWeek } from '@/lib/days-of-week-convert';
+import { toDaysArray, toDaysOfWeek } from '@/lib/days-of-week-convert';
 
 const refArray = ['mon', 'tue', 'wed'];
 
@@ -15,6 +14,7 @@ test('converts array to DaysOfWeek', () => {
 });
 
 test('converts DaysOfWeek to array', () => {
+  // ref @/lib/days-of-week
   const daysOfWeek = {
     sun: false,
     mon: true,
@@ -25,6 +25,6 @@ test('converts DaysOfWeek to array', () => {
     sat: false
   };
 
-  const result = toArray(daysOfWeek);
+  const result = toDaysArray(daysOfWeek);
   expect(result).toEqual(refArray);
 });

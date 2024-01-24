@@ -3,15 +3,21 @@
 
 import { css } from '@emotion/react';
 import React, { useState, useEffect } from 'react';
-import CloseIcon from '@mui/icons-material/Close';
+import Close from '@mui/icons-material/Close';
 import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
 import IconButton from '@mui/material/IconButton';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { SelectChangeEvent } from '@mui/material/Select';
 import Snackbar from '@mui/material/Snackbar';
 import TextField from '@mui/material/TextField';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { useTheme } from '@mui/material/styles';
 
 import { ErrorMessage, FormikProvider, useFormik } from 'formik';
@@ -20,6 +26,7 @@ import * as yup from 'yup';
 import FormikMuiDatePicker from '@/components/formik-mui-date-picker';
 import ParticipantInput, { ParticipantInputProps, ADD_EVENT, CHANGE_EVENT, DELETE_EVENT } from './participant-input';
 import { publicRuntimeConfig } from '@/lib/app-constants';
+import { toDaysArray, toDaysOfWeek } from '@/lib/days-of-week-convert';
 import Frequency from '@/lib/frequency';
 import type { Participant } from '@/lib/participant';
 import type { ScheduleData } from '@/lib/schedule-data';
@@ -78,6 +85,7 @@ const scheduleSchema = yup.object({
         .min(yup.ref('startDate'), "Start date can't be after end date"),
     groupSize: yup.number().transform(forceInt),
     frequency: yup.number().transform(forceInt),
+    daysOfWeek: yup.array().min(1, 'Select at least one day of the week'),
     total: yup.number()
 });
 
@@ -92,7 +100,9 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
     const initialParticipants: ParticipantInputProps[] = [];
     const [participantKey, setParticipantKey] = useState(1);
     const [openSnackbar, setOpenSnackbar] = useState(false);
+    // has been opened at least once
     const [snackbarOpened, setSnackbarOpened] = useState(false);
+    const [daysDialogOpen, setDaysDialogOpen] = useState(false);
 
     const formikProps = useFormik({
         initialValues: {
@@ -102,6 +112,7 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
             frequency: Frequency.Weekly,
             startDate: today(),
             endDate: today(),
+            daysOfWeek: ['mon'],
             total: 0
         },
 
@@ -114,11 +125,14 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                 const scheduleData: ScheduleData = {
                     participants: values.participants,
                     scheduleName: values.scheduleName,
-                    startDate: values.startDate,
-                    endDate: values.endDate,
                     groupSize: forceInt(values.groupSize),
-                    frequency: forceInt(values.frequency),
-                    totalCost: Number(values.total)
+                    totalCost: Number(values.total),
+                    dates: {
+                        startDate: values.startDate,
+                        endDate: values.endDate,
+                        frequency: forceInt(values.frequency),
+                        daysOfWeek: toDaysOfWeek(values.daysOfWeek),
+                    }
                 };
                 saveItem(SCHEDULE_DATA, scheduleData);
                 props.handleSubmit();
@@ -128,6 +142,30 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
             }
         },
     });
+
+    const handleOpenFrequency = (event: React.SyntheticEvent) => {
+        if (formikProps.values.frequency === Frequency.DaysOfWeek) {
+            setDaysDialogOpen(true);
+        }
+    };
+
+    const handleChangeFrequency = (event: SelectChangeEvent<string>, child: React.ReactNode) => {
+        const frequency = forceInt(event.target.value);
+        formikProps.setFieldValue('frequency', frequency);
+
+        if (frequency === Frequency.DaysOfWeek) {
+            setDaysDialogOpen(true);
+        }
+    };
+
+    const handleDaysOfWeekChange = (
+        event: React.MouseEvent<HTMLElement>,
+        newDaysOfWeek: [],
+    ) => {
+        if(newDaysOfWeek.length) {
+            formikProps.setFieldValue('daysOfWeek', newDaysOfWeek);
+        }
+    };
 
     const handleAddParticipant = (event: CustomEvent) => {
         setParticipantKey(participantKey + 1);
@@ -191,6 +229,14 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
         setOpenSnackbar(false);
     };
 
+    const handleDaysDialogClose = () => {
+        setDaysDialogOpen(false);
+    }
+
+    const handleDaysDialogOk = () => {
+        setDaysDialogOpen(false);
+    }
+
     useEffect(() => {
         subscribe(ADD_EVENT, handleAddParticipant);
         subscribe(CHANGE_EVENT, handleChangeParticipant);
@@ -203,20 +249,25 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                 formikProps.setFieldValue('scheduleName', dto.scheduleName);
                 formikProps.setFieldValue('participants', dto.participants.map(toParticipantInputProps));
 
-                if (dto.startDate) {
-                    formikProps.setFieldValue('startDate', new Date(dto.startDate));
-                }
-                if (dto.endDate) {
-                    formikProps.setFieldValue('endDate', new Date(dto.endDate));
-                }
                 if (dto.groupSize) {
                     formikProps.setFieldValue('groupSize', dto.groupSize);
                 }
-                if (dto.frequency) {
-                    formikProps.setFieldValue('frequency', dto.frequency);
-                }
                 if (dto.totalCost) {
                     formikProps.setFieldValue('total', dto.totalCost);
+                }
+                if (dto.dates) {
+                    if (dto.dates.startDate) {
+                        formikProps.setFieldValue('startDate', new Date(dto.dates.startDate));
+                    }
+                    if (dto.dates.endDate) {
+                        formikProps.setFieldValue('endDate', new Date(dto.dates.endDate));
+                    }
+                    if (dto.dates.frequency) {
+                        formikProps.setFieldValue('frequency', dto.dates.frequency);
+                    }
+                    if (dto.dates.daysOfWeek) {
+                        formikProps.setFieldValue('daysOfWeek', toDaysArray(dto.dates.daysOfWeek));
+                    }
                 }
 
                 const lastParticipantKey = dto.participants.length && dto.participants[dto.participants.length - 1].id ? dto.participants[dto.participants.length - 1].id as number : 0;
@@ -232,10 +283,10 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
             <IconButton
                 size="small"
                 aria-label="close"
-                color="inherit"
+                color="primary"
                 onClick={handleCloseSnackbar}
             >
-                <CloseIcon fontSize="small" />
+                <Close fontSize="small" />
             </IconButton>
         </React.Fragment>
     );
@@ -344,14 +395,17 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                                         name="frequency"
                                         label="Frequency"
                                         value={formikProps.values.frequency.toString()}
-                                        onChange={formikProps.handleChange}
+                                        onOpen={handleOpenFrequency}
+                                        onChange={handleChangeFrequency}
                                     >
-                                        <MenuItem value="1">daily</MenuItem>
                                         <MenuItem value="2">weekly</MenuItem>
                                         <MenuItem value="3">every other week</MenuItem>
                                         <MenuItem value="4">monthly</MenuItem>
-                                        <MenuItem value="5">every weekday</MenuItem>
-                                        <MenuItem value="6">custom</MenuItem>
+                                        {publicRuntimeConfig.DEV_FEATURES ? (
+                                            <MenuItem value="5">days of the week</MenuItem>
+                                        ) : (
+                                            <MenuItem value="1">daily</MenuItem>
+                                        )}
                                     </Select>
                                 </FormControl>
                             </div>
@@ -419,6 +473,37 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                             color="secondary"
                         >Create Schedule</Button>
                     </div>
+                    <Dialog id="daysDialog" onClose={handleDaysDialogClose} open={daysDialogOpen}>
+                        <DialogTitle sx={{ m: 0, p: 2 }}>Days of the Week</DialogTitle>
+                        <IconButton
+                            aria-label="close"
+                            onClick={handleDaysDialogClose}
+                            color="primary"
+                            sx={{
+                                position: 'absolute',
+                                right: 8,
+                                top: 8,
+                            }}
+                        >
+                            <Close />
+                        </IconButton>
+                        <DialogContent dividers={false} sx={{ m: 0, p: 2 }}>
+                            <ToggleButtonGroup
+                                color="primary"
+                                value={formikProps.values.daysOfWeek}
+                                onChange={handleDaysOfWeekChange}
+                                aria-label="days of the week"
+                            >
+                                <ToggleButton value="sun">S</ToggleButton>
+                                <ToggleButton value="mon">M</ToggleButton>
+                                <ToggleButton value="tue">T</ToggleButton>
+                                <ToggleButton value="wed">W</ToggleButton>
+                                <ToggleButton value="thu">T</ToggleButton>
+                                <ToggleButton value="fri">F</ToggleButton>
+                                <ToggleButton value="sat">S</ToggleButton>
+                            </ToggleButtonGroup>
+                        </DialogContent>
+                    </Dialog>
                 </form>
             </FormikProvider>
             <Snackbar

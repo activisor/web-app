@@ -47,7 +47,7 @@ function toDaysOfWeek(days: string[]): DaysOfWeek {
     return daysOfWeek;
 }
 
-function toArray(daysOfWeek: DaysOfWeek): string[] {
+function toDaysArray(daysOfWeek: DaysOfWeek): string[] {
     const days: string[] = [];
 
     if (daysOfWeek.sun) {
@@ -75,4 +75,4 @@ function toArray(daysOfWeek: DaysOfWeek): string[] {
     return days;
 }
 
-export { toArray, toDaysOfWeek };
+export { toDaysArray, toDaysOfWeek };

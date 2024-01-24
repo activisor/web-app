@@ -6,24 +6,39 @@ import { injectable } from 'inversify';
 import "reflect-metadata";
 import type { DateRangeParse } from './date-range-parse';
 import Frequency from '../frequency';
+import type { ScheduleDates } from '../schedule-dates';
+import type { DaysOfWeek } from '../days-of-week';
 
-@injectable()
-class DateRangeParser implements DateRangeParse {
-    parse(startDate: Date, endDate: Date, frequency: Frequency): Date[] {
-        const result = Array<Date>();
-        result.push(startDate);
+/**
+ * Increment through days of week array starting at dayOfWeek until true is found, handling wrap around.
+ * @param date
+ * @param daysOfWeek
+ * @returns
+ */
+function getNextDayOfWeekMatch(date: Date, daysOfWeek: DaysOfWeek): Date {
+    const daysOfWeekArray = Object.values(daysOfWeek);
+    const dayOfWeek = date.getDay();
 
-        let nextDate = this._getNextDate(startDate, frequency);
-        while (nextDate <= endDate) {
-            result.push(nextDate);
-            nextDate = this._getNextDate(nextDate, frequency);
+    let i = 0;
+    const weekLength = 7
+    while (i < 2 * weekLength) {
+        if ((i >= dayOfWeek) && (daysOfWeekArray[i % weekLength] === true)) {
+            if (i === dayOfWeek) {
+                break; // date is already a day of week match;
+            }
+
+            date.setDate(date.getDate() + i - dayOfWeek);
+            break;
         }
 
-        return result;
+        i++;
     }
 
-    _getNextDate(currentDate: Date, frequency: Frequency): Date {
-        const result = new Date(currentDate);
+    return date;
+}
+
+function getNextDate(currentDate: Date, frequency: Frequency, daysOfWeek: DaysOfWeek): Date {
+        let result = new Date(currentDate);
         switch (frequency) {
             case Frequency.Daily:
                 result.setDate(result.getDate() + 1);
@@ -37,12 +52,40 @@ class DateRangeParser implements DateRangeParse {
             case Frequency.Monthly:
                 result.setMonth(result.getMonth() + 1);
                 break;
+            case Frequency.DaysOfWeek:
+                // increment by one day
+                result.setDate(result.getDate() + 1);
+                result = getNextDayOfWeekMatch(result, daysOfWeek);
+                break;
             default:
                 throw new Error(`Frequency ${frequency} not supported`);
         }
 
         return result;
     }
+
+function getStartDate(scheduleDates: ScheduleDates): Date {
+    const calcStartDate = scheduleDates.frequency === Frequency.DaysOfWeek;
+    if (calcStartDate) {
+        return getNextDayOfWeekMatch(scheduleDates.startDate, scheduleDates.daysOfWeek);
+    }
+
+    return scheduleDates.startDate;
 }
 
-export { DateRangeParser };
+@injectable()
+class DateRangeParser implements DateRangeParse {
+    parse(scheduleDates: ScheduleDates): Date[] {
+        const result = Array<Date>();
+        let nextDate = getStartDate(scheduleDates);
+
+        while (nextDate <= scheduleDates.endDate) {
+            result.push(nextDate);
+            nextDate = getNextDate(nextDate, scheduleDates.frequency, scheduleDates.daysOfWeek);
+        }
+
+        return result;
+    }
+}
+
+export { DateRangeParser, getNextDayOfWeekMatch };

@@ -18,6 +18,12 @@ export async function POST(request: NextRequest) {
     if (token) {
         // Signed in
         const dto: ScheduleData = await request.json();
+        // convert dates to Date objects
+        if (dto.dates) {
+            dto.dates.startDate = new Date(dto.dates.startDate);
+            dto.dates.endDate = new Date(dto.dates.endDate);
+        }
+        
         const sheetsManager = appContainer.get<SheetsManagement>(TYPES.SheetsManagement);
         sheetsManager.setCredentials({
             access_token: token.accessToken as string,

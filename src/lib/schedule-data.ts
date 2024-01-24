@@ -3,15 +3,14 @@
  */
 import type { Participant } from './participant';
 import Frequency from './frequency';
+import type { ScheduleDates } from './schedule-dates';
 
 interface ScheduleData {
     scheduleName: string;
     participants: Participant[];
-    startDate?: Date;
-    endDate?: Date;
     groupSize?: number;
-    frequency?: Frequency;
     totalCost?: number;
+    dates?: ScheduleDates;
 }
 
 export type { ScheduleData };

@@ -6,7 +6,7 @@ enum Frequency {
     Weekly = 2,
     Biweekly = 3,
     Monthly = 4,
-    Weekday = 5
+    DaysOfWeek = 5
 }
 
 export default Frequency;

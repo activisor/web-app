@@ -7,9 +7,9 @@ import { TYPES } from "@/inversify-types";
 import { Credentials, OAuth2Client } from 'google-auth-library';
 import { google } from 'googleapis';
 
-import Frequency from '../frequency';
 import type { SheetsManagement } from './sheets-management';
 import type { ScheduleData } from '../schedule-data';
+import type { ScheduleDates } from '../schedule-dates';
 import type { DateRangeParse } from './date-range-parse';
 import type { Randomization } from './randomization';
 import type { SheetSpecification } from './sheet-specification';
@@ -18,10 +18,8 @@ import { pairsVariance } from '@/analytics/pairs-variance';
 function isValidSchedulData(scheduleData: ScheduleData): boolean {
     if (scheduleData.scheduleName
         && scheduleData.participants && (scheduleData.participants.length > 0)
-        && scheduleData.startDate
-        && scheduleData.endDate
         && scheduleData.groupSize
-        && scheduleData.frequency) {
+        && scheduleData.dates) {
         return true;
     }
 
@@ -89,9 +87,8 @@ class SheetsManager implements SheetsManagement {
 
     async createSpreadsheet(scheduleData: ScheduleData) {
         if (isValidSchedulData(scheduleData)) {
-            const startDate = new Date(scheduleData.startDate as Date);
-            const endDate = new Date(scheduleData.endDate as Date);
-            const dates = this._dateRangeParser.parse(startDate, endDate, scheduleData.frequency as Frequency);
+            const scheduleDates = scheduleData.dates as ScheduleDates;
+            const dates = this._dateRangeParser.parse(scheduleDates);
             const periods = dates.length;
             const result = this._randomizer.randomize(periods, scheduleData.groupSize as number, scheduleData.participants);
             /*
