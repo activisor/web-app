@@ -15,6 +15,7 @@
 body {
     color: rgb(var(--foreground-rgb));
     --error-color: #D32F2F;
+    overflow-x: hidden;
 }
 
 footer {
