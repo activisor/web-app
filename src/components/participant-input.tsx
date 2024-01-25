@@ -61,22 +61,22 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
 
     const handleEmailKeyDown = (event: React.KeyboardEvent<HTMLInputElement>): void => {
         if (event.key === 'Enter') {
-            if (props_.saved) {
-                formik.validateField('email');
-                if (!Boolean(formik.errors.email)) {
+            const emailInput = event.target as HTMLInputElement;
+            emailInput.blur();
+
+            formik.validateField('email');
+            if (!Boolean(formik.errors.email)) {
+                if (props_.saved) {
                     publish(CHANGE_EVENT, props_);
                 }
-            }
 
-            // change focus to name field
-            const emailInput = event.target as HTMLInputElement;
-            if (emailInput) {
-                emailInput.blur();
+                // valid email: change focus to name field
                 // focused input element is grandchild of TextField root
                 const emailTextField = emailInput.parentElement?.parentElement as HTMLDivElement;
                 const nameInput = emailTextField.nextElementSibling?.firstElementChild?.firstElementChild as HTMLInputElement;
                 nameInput.focus();
             }
+
             // prevent form submission
             event.preventDefault();
         }
