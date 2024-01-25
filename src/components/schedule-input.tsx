@@ -231,10 +231,6 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
         setDaysDialogOpen(false);
     }
 
-    const handleDaysDialogOk = () => {
-        setDaysDialogOpen(false);
-    }
-
     useEffect(() => {
         subscribe(ADD_EVENT, handleAddParticipant);
         subscribe(CHANGE_EVENT, handleChangeParticipant);
@@ -396,11 +392,7 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                                         onChange={handleChangeFrequency}
                                     >
                                         <MenuItem value="2">once a week</MenuItem>
-                                        {publicRuntimeConfig.DEV_FEATURES ? (
-                                            <MenuItem value="5" onClick={handleDaysOfWeekClick}>2+ days a week</MenuItem>
-                                        ) : (
-                                            <MenuItem value="1">daily</MenuItem>
-                                        )}
+                                        <MenuItem value="5" onClick={handleDaysOfWeekClick}>2+ days a week</MenuItem>
                                         <MenuItem value="3">every other week</MenuItem>
                                         <MenuItem value="4">monthly</MenuItem>
                                     </Select>
