@@ -75,4 +75,9 @@ function toDaysArray(daysOfWeek: DaysOfWeek): string[] {
     return days;
 }
 
-export { toDaysArray, toDaysOfWeek };
+function orderedDaysArray(): string[] {
+    return ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+}
+
+
+export { toDaysArray, toDaysOfWeek, orderedDaysArray };

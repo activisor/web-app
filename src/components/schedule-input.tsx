@@ -26,7 +26,7 @@ import * as yup from 'yup';
 import FormikMuiDatePicker from '@/components/formik-mui-date-picker';
 import ParticipantInput, { ParticipantInputProps, ADD_EVENT, CHANGE_EVENT, DELETE_EVENT } from './participant-input';
 import { publicRuntimeConfig } from '@/lib/app-constants';
-import { toDaysArray, toDaysOfWeek } from '@/lib/days-of-week-convert';
+import { toDaysArray, toDaysOfWeek, orderedDaysArray } from '@/lib/days-of-week-convert';
 import Frequency from '@/lib/frequency';
 import type { Participant } from '@/lib/participant';
 import type { ScheduleData } from '@/lib/schedule-data';
@@ -104,15 +104,19 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
     const [snackbarOpened, setSnackbarOpened] = useState(false);
     const [daysDialogOpen, setDaysDialogOpen] = useState(false);
 
+    const defaultDate = today();
+    const defaultDaysOfWeek = orderedDaysArray();
+    const initialDaysOfWeek = [defaultDaysOfWeek[defaultDate.getDay()]];
+
     const formikProps = useFormik({
         initialValues: {
             scheduleName: '',
             participants: initialParticipants,
             groupSize: 1,
             frequency: Frequency.Weekly,
-            startDate: today(),
-            endDate: today(),
-            daysOfWeek: ['mon'],
+            startDate: defaultDate,
+            endDate: defaultDate,
+            daysOfWeek: initialDaysOfWeek,
             total: 0
         },
 
@@ -143,6 +147,13 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
         },
     });
 
+    const handleStartDayChange = (day: number) => {
+        // update day of week if single day selected
+        if (formikProps.values.daysOfWeek.length === 1) {
+            formikProps.setFieldValue('daysOfWeek', [defaultDaysOfWeek[day]]);
+        }
+    };
+
     const handleDaysOfWeekClick = () => {
         setDaysDialogOpen(true);
     };
@@ -150,10 +161,6 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
     const handleChangeFrequency = (event: SelectChangeEvent<string>, child: React.ReactNode) => {
         const frequency = forceInt(event.target.value);
         formikProps.setFieldValue('frequency', frequency);
-
-        //if (frequency === Frequency.DaysOfWeek) {
-        //    setDaysDialogOpen(true);
-        //}
     };
 
     const handleDaysOfWeekChange = (
@@ -330,6 +337,7 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                                 <FormikMuiDatePicker
                                     name="startDate"
                                     label="Start on"
+                                    handleChange={handleStartDayChange}
                                     css={{
                                         marginRight: 8,
                                         '@media(min-width: 1248px)': {
@@ -340,6 +348,7 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                                 <FormikMuiDatePicker
                                     name="endDate"
                                     label="End by"
+                                    handleChange={(date) => {}}
                                 />
                             </div>
                             <div>
