@@ -67,6 +67,16 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
                     publish(CHANGE_EVENT, props_);
                 }
             }
+
+            // change focus to name field
+            const emailInput = event.target as HTMLInputElement;
+            if (emailInput) {
+                emailInput.blur();
+                // focused input element is grandchild of TextField root
+                const emailTextField = emailInput.parentElement?.parentElement as HTMLDivElement;
+                const nameInput = emailTextField.nextElementSibling?.firstElementChild?.firstElementChild as HTMLInputElement;
+                nameInput.focus();
+            }
             // prevent form submission
             event.preventDefault();
         }
@@ -84,6 +94,10 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
                 formik.validateField('email');
                 if (!Boolean(formik.errors.email)) {
                     publish(CHANGE_EVENT, props_);
+                    const nameInput = event.target as HTMLInputElement;
+                    if (nameInput) {
+                        nameInput.blur();
+                    }
                 }
             } else if (props_.email && props_.name) {
                 formik.validateField('email');
