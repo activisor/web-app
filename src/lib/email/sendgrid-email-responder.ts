@@ -37,7 +37,7 @@ class SendGridEmailResponder implements EmailExtractProcessing {
     async process(emailData: EmailExtract): Promise<boolean> {
         emailData.subject = removeSubstring(emailData.subject, 'Fwd: ');
         const queryParam = encode(emailData);
-        const link = `https://activisor.com/schedule?data=${queryParam}`;
+        const link = `https://activisor.com/schedule?data=${queryParam}&source=email`;
         const linkText = link.substring(0, 70);
 
         let firstName =  '';
