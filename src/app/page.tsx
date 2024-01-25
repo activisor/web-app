@@ -248,7 +248,7 @@ export default function Home() {
                     padding: 32,
                 }
             }}>
-                <p>Are you tired of spending hours managing your group events? Activisor is a quick and easy way to create Google Sheets schedules for your recurring events.</p>
+                <p>Are you tired of spending hours managing your gaming or sports group&apos;s schedule? Activisor is a quick and easy way to create Google Sheets schedules for your recurring meetups.</p>
                 <ul css={{
                     '& > li': {
                         marginBottom: 16
