@@ -16,7 +16,7 @@ function removeTime(date = new Date()) {
 
 function toExcelDate(date: Date): number {
     date = removeTime(date);
-    const daysSinceEpoch = Math.ceil((date.getTime()) / MS_PER_DAY);
+    const daysSinceEpoch = Math.floor((date.getTime()) / MS_PER_DAY);
     const daysSinceExcelEpoch = daysSinceEpoch + EPOCH_OFFSET_DAYS;
     return daysSinceExcelEpoch;
 }
