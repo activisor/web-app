@@ -4,7 +4,7 @@
 
 const MS_PER_DAY = 86400000;
 // offset from 1/1/1970 to 1/1/1900 (Excel's epoch)
-const EPOCH_OFFSET_DAYS = 25568;
+const EPOCH_OFFSET_DAYS = 25569;
 
 function removeTime(date = new Date()) {
     return new Date(
