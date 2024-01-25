@@ -113,7 +113,7 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
             scheduleName: '',
             participants: initialParticipants,
             groupSize: 1,
-            frequency: Frequency.Weekly,
+            frequency: Frequency.Monthly,
             startDate: defaultDate,
             endDate: defaultDate,
             daysOfWeek: initialDaysOfWeek,
@@ -348,7 +348,7 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                                 <FormikMuiDatePicker
                                     name="endDate"
                                     label="End by"
-                                    handleChange={(date) => {}}
+                                    handleChange={(date) => { }}
                                 />
                             </div>
                             <div>
@@ -400,10 +400,9 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                                         value={formikProps.values.frequency.toString()}
                                         onChange={handleChangeFrequency}
                                     >
-                                        <MenuItem value="2">once a week</MenuItem>
-                                        <MenuItem value="5" onClick={handleDaysOfWeekClick}>2+ days a week</MenuItem>
-                                        <MenuItem value="3">every other week</MenuItem>
                                         <MenuItem value="4">monthly</MenuItem>
+                                        <MenuItem value="3">every other week</MenuItem>
+                                        <MenuItem value="5" onClick={handleDaysOfWeekClick}>weekly or daily</MenuItem>
                                     </Select>
                                 </FormControl>
                             </div>
@@ -488,6 +487,7 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                                 <ToggleButton value="fri">F</ToggleButton>
                                 <ToggleButton value="sat">S</ToggleButton>
                             </ToggleButtonGroup>
+                            <p>{formikProps.values.daysOfWeek.length} day{formikProps.values.daysOfWeek.length > 1 ? 's' : ''} a week</p>
                         </DialogContent>
                         <div css={{
                             display: 'flex',
