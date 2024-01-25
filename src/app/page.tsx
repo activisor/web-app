@@ -178,7 +178,9 @@ export default function Home() {
                                 color: theme.palette.primary.main,
                                 marginTop: 0,
                             }}>Pick A Way To Start</h1>
-                            <div css={ctaSectionCss}>
+                            <div css={[ctaSectionCss, {
+                                borderWidth: 2
+                            }]}>
                                 <div css={ctaRowCss}>
                                     <East sx={{
                                         color: theme.palette.primary.dark,
