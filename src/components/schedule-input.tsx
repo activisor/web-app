@@ -143,26 +143,24 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
         },
     });
 
-    const handleOpenFrequency = (event: React.SyntheticEvent) => {
-        if (formikProps.values.frequency === Frequency.DaysOfWeek) {
-            setDaysDialogOpen(true);
-        }
+    const handleDaysOfWeekClick = () => {
+        setDaysDialogOpen(true);
     };
 
     const handleChangeFrequency = (event: SelectChangeEvent<string>, child: React.ReactNode) => {
         const frequency = forceInt(event.target.value);
         formikProps.setFieldValue('frequency', frequency);
 
-        if (frequency === Frequency.DaysOfWeek) {
-            setDaysDialogOpen(true);
-        }
+        //if (frequency === Frequency.DaysOfWeek) {
+        //    setDaysDialogOpen(true);
+        //}
     };
 
     const handleDaysOfWeekChange = (
         event: React.MouseEvent<HTMLElement>,
         newDaysOfWeek: [],
     ) => {
-        if(newDaysOfWeek.length) {
+        if (newDaysOfWeek.length) {
             formikProps.setFieldValue('daysOfWeek', newDaysOfWeek);
         }
     };
@@ -395,14 +393,13 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                                         name="frequency"
                                         label="Frequency"
                                         value={formikProps.values.frequency.toString()}
-                                        onOpen={handleOpenFrequency}
                                         onChange={handleChangeFrequency}
                                     >
                                         <MenuItem value="2">weekly</MenuItem>
                                         <MenuItem value="3">every other week</MenuItem>
                                         <MenuItem value="4">monthly</MenuItem>
                                         {publicRuntimeConfig.DEV_FEATURES ? (
-                                            <MenuItem value="5">days of the week</MenuItem>
+                                            <MenuItem value="5" onClick={handleDaysOfWeekClick}>days of the week</MenuItem>
                                         ) : (
                                             <MenuItem value="1">daily</MenuItem>
                                         )}
@@ -475,18 +472,6 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                     </div>
                     <Dialog id="daysDialog" onClose={handleDaysDialogClose} open={daysDialogOpen}>
                         <DialogTitle sx={{ m: 0, p: 2 }}>Days of the Week</DialogTitle>
-                        <IconButton
-                            aria-label="close"
-                            onClick={handleDaysDialogClose}
-                            color="primary"
-                            sx={{
-                                position: 'absolute',
-                                right: 8,
-                                top: 8,
-                            }}
-                        >
-                            <Close />
-                        </IconButton>
                         <DialogContent dividers={false} sx={{ m: 0, p: 2 }}>
                             <ToggleButtonGroup
                                 color="primary"
@@ -503,6 +488,17 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                                 <ToggleButton value="sat">S</ToggleButton>
                             </ToggleButtonGroup>
                         </DialogContent>
+                        <div css={{
+                            display: 'flex',
+                            justifyContent: 'flex-end',
+                            padding: 16,
+                        }}>
+                            <Button
+                                variant='text'
+                                color="primary"
+                                onClick={handleDaysDialogClose}
+                            >OK</Button>
+                        </div>
                     </Dialog>
                 </form>
             </FormikProvider>
