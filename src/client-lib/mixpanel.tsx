@@ -3,6 +3,7 @@
 import mixpanel, { OverridedMixpanel } from 'mixpanel-browser';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { createContext, ReactNode, useContext, useEffect } from 'react';
+import { publicRuntimeConfig } from '@/lib/app-constants';
 
 //the current version of the mixpanel types does not include the track_pageview method. Let's add it
 declare module "mixpanel-browser" {
@@ -11,7 +12,7 @@ declare module "mixpanel-browser" {
     }
 }
 
-const mixPanelKey = process.env.MIXPANEL_TOKEN || "47533c2a055ae8ca7d7823306b45d459";
+const mixPanelKey = publicRuntimeConfig.MIXPANEL_TOKEN;
 mixpanel.init(mixPanelKey, { debug: process.env.NODE_ENV === "development" });
 
 const MixPanelContext = createContext<OverridedMixpanel | undefined>(undefined);
@@ -23,9 +24,12 @@ type Props = {
 const MixPanelProvider = ({ children }: Props) => {
     const pathname = usePathname();
     const searchParams = useSearchParams();
+    const source = searchParams.get('source')?? '';
 
     useEffect(() => {
-        mixpanel?.track_pageview();
+        mixpanel?.track_pageview({
+            'source': source,
+        });
     }, [pathname, searchParams]);
 
     return (

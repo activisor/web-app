@@ -15,4 +15,6 @@ export const publicRuntimeConfig = {
 
     // max number of participants
     MAX_PARTICIPANTS: parseInt(process.env.NEXT_PUBLIC_MAX_PARTICIPANTS as string, 10),
+
+    MIXPANEL_TOKEN: process.env.NEXT_PUBLIC_MIXPANEL_TOKEN as string,
 };

@@ -8,13 +8,11 @@ import LogoButton from '@/components/logo-button';
 import ScheduleInput from '@/components/schedule-input';
 import { readItem, saveItem, hasStorage, GENERATION_REQUESTED, SCHEDULE_DATA } from '@/client-lib/local-storage';
 import { publicRuntimeConfig } from '@/lib/app-constants';
-import { useMixPanel } from '@/client-lib/mixpanel';
 import type { Participant } from '@/lib/participant';
 import type { ScheduleData } from '@/lib/schedule-data';
 import { decode } from '@/lib/base64-convert';
 
 export default function Schedule() {
-    const mixpanel = useMixPanel();
     const { data: session, status } = useSession();
 
     const handleSubmit = () => {
@@ -28,10 +26,6 @@ export default function Schedule() {
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
-        const source = params.get('source');
-        if (source) {
-            mixpanel.track('source', { value: source });
-        }
 
         if (hasStorage()) {
             saveItem(GENERATION_REQUESTED, false);
