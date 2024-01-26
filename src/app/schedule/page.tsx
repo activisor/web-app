@@ -8,11 +8,13 @@ import LogoButton from '@/components/logo-button';
 import ScheduleInput from '@/components/schedule-input';
 import { readItem, saveItem, hasStorage, GENERATION_REQUESTED, SCHEDULE_DATA } from '@/client-lib/local-storage';
 import { publicRuntimeConfig } from '@/lib/app-constants';
+import { useMixPanel } from '@/client-lib/mixpanel';
 import type { Participant } from '@/lib/participant';
 import type { ScheduleData } from '@/lib/schedule-data';
 import { decode } from '@/lib/base64-convert';
 
 export default function Schedule() {
+    const mixpanel = useMixPanel();
     const { data: session, status } = useSession();
 
     const handleSubmit = () => {
@@ -25,16 +27,22 @@ export default function Schedule() {
     }
 
     useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const source = params.get('source');
+        if (source) {
+            mixpanel.track('source', { value: source });
+        }
+
         if (hasStorage()) {
             saveItem(GENERATION_REQUESTED, false);
             // get 'data' query param, if present
-            const params = new URLSearchParams(window.location.search);
+
             let paramData = params.get('data');
             // then base64 decode and save to local storage if not already present
             if (paramData && !readItem(SCHEDULE_DATA)) {
                 const emailExtract = decode(paramData);
                 let participantIndex = 1;
-                
+
                 emailExtract.participants.forEach((participant: Participant) => {
                     participant.id = participantIndex;
                     participantIndex++;
