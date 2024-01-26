@@ -10,6 +10,7 @@ import { toA1Notation } from '../a1-notation';
 const SCHEDULE_MARKER = 'X';
 const ROW_OFFSET = 1; // header row
 const COLUMN_OFFSET = 2; // name, email
+const NUM_CALCULATION_COLUMNS = 4;
 
 const DefaultColor = {
     red: 1.0,
@@ -103,6 +104,20 @@ type Cell = {
     column: number; // 0 based
 };
 
+// end columns for formatting
+function scheduleEndColumn(numDates: number): number {
+    return COLUMN_OFFSET + numDates;
+}
+
+function totalDatesEndColumn(numDates: number): number {
+    return COLUMN_OFFSET + numDates + 1;
+}
+
+function calculationsEndColumn(numDates: number): number {
+    return COLUMN_OFFSET + numDates + NUM_CALCULATION_COLUMNS;
+}
+
+
 function getNumDates(participantMatrix: RandomizeResult): number {
     if (participantMatrix.schedule.length === 0) {
         throw new Error('participantMatrix.schedule.length is 0');
@@ -140,14 +155,14 @@ function getBalanceFormula(cost: Cell, paid: Cell): string {
     return `=${costLocation}-${paidLocation}`;
 }
 
-function getTotalsConditionalFormatRule(sheetId: number, rowIndex: number, numDates: number, groupNum: number): sheets_v4.Schema$ConditionalFormatRule {
+function getDailyTotalsConditionalFormatRule(sheetId: number, rowIndex: number, numDates: number, groupNum: number): sheets_v4.Schema$ConditionalFormatRule {
     return {
         ranges: [
             {
                 startRowIndex: rowIndex,
                 endRowIndex: rowIndex + 1,
                 startColumnIndex: COLUMN_OFFSET,
-                endColumnIndex: COLUMN_OFFSET + numDates,
+                endColumnIndex: scheduleEndColumn(numDates),
                 sheetId,
             },
         ],
@@ -179,7 +194,7 @@ function getDateExpiredConditionalFormatRule(sheetId: number, rowIndex: number, 
                 startRowIndex: rowIndex,
                 endRowIndex: rowIndex + 1,
                 startColumnIndex: COLUMN_OFFSET,
-                endColumnIndex: COLUMN_OFFSET + numDates,
+                endColumnIndex: scheduleEndColumn(numDates),
                 sheetId,
             },
         ],
@@ -213,7 +228,7 @@ function getDatePendingConditionalFormatRule(sheetId: number, rowIndex: number, 
                 startRowIndex: rowIndex,
                 endRowIndex: rowIndex + 1,
                 startColumnIndex: COLUMN_OFFSET,
-                endColumnIndex: COLUMN_OFFSET + numDates,
+                endColumnIndex: scheduleEndColumn(numDates),
                 sheetId,
             },
         ],
@@ -243,7 +258,7 @@ function getCenteredTextCellFormatRequest(sheetId: number, numDates: number): sh
                 startRowIndex: 1,
                 //                endRowIndex: 1000,
                 startColumnIndex: 2,
-                endColumnIndex: COLUMN_OFFSET + numDates + 1,
+                endColumnIndex: totalDatesEndColumn(numDates),
             },
             cell: {
                 userEnteredFormat: {
@@ -275,7 +290,7 @@ function getHeaderRowFormatRequest(sheetId: number, numDates: number): sheets_v4
                 startRowIndex: 0,
                 endRowIndex: 1,
                 startColumnIndex: 0,
-                endColumnIndex: COLUMN_OFFSET + numDates + 4,
+                endColumnIndex: calculationsEndColumn(numDates),
             },
             cell: {
                 userEnteredFormat: {
@@ -313,7 +328,7 @@ function getColumnDimensionRequest(sheetId: number, numDates: number): sheets_v4
                 sheetId: sheetId as number,
                 dimension: 'COLUMNS',
                 startIndex: COLUMN_OFFSET,
-                endIndex: COLUMN_OFFSET + numDates + 4,
+                endIndex: calculationsEndColumn(numDates),
             },
             properties: {
                 pixelSize: 62,
@@ -332,7 +347,7 @@ function getBandingFormatRequest(sheetId: number, numDates: number, numParticipa
                     startRowIndex: 1,
                     endRowIndex: numParticipants + 1,
                     startColumnIndex: 0,
-                    endColumnIndex: COLUMN_OFFSET + numDates + 2,
+                    endColumnIndex: calculationsEndColumn(numDates),
                 },
                 rowProperties: {
                     firstBandColorStyle: {
@@ -355,7 +370,7 @@ function getTotalsRowFormatRequest(sheetId: number, numDates: number, numPartici
                 startRowIndex: ROW_OFFSET + numParticipants,
                 endRowIndex: ROW_OFFSET + numParticipants + 1,
                 startColumnIndex: 0,
-                endColumnIndex: COLUMN_OFFSET + numDates + 4,
+                endColumnIndex: calculationsEndColumn(numDates),
             },
             cell: {
                 userEnteredFormat: {
@@ -389,7 +404,7 @@ function getTableBorderFormatRequest(sheetId: number, numDates: number, numParti
                 startRowIndex: ROW_OFFSET,
                 endRowIndex: ROW_OFFSET + numParticipants,
                 startColumnIndex: COLUMN_OFFSET + numDates,
-                endColumnIndex: COLUMN_OFFSET + numDates + 1,
+                endColumnIndex: totalDatesEndColumn(numDates),
             },
             cell: {
                 userEnteredFormat: {
@@ -417,7 +432,7 @@ function getCostColumnFormatRequest(sheetId: number, numDates: number, numPartic
                 startRowIndex: ROW_OFFSET,
                 endRowIndex: ROW_OFFSET + numParticipants + 1,
                 startColumnIndex: COLUMN_OFFSET + numDates + 1,
-                endColumnIndex: COLUMN_OFFSET + numDates + 4,
+                endColumnIndex: calculationsEndColumn(numDates),
             },
             cell: {
                 userEnteredFormat: {
@@ -627,7 +642,7 @@ function getBrandingRow(): sheets_v4.Schema$RowData {
                 userEnteredFormat: {
                     textFormat: {
                         foregroundColorStyle:{
-                            rgbColor: ThemePrimaryMainRgb
+                            rgbColor: ThemePrimaryDarkRgb
                         },
                     },
                 },
@@ -688,7 +703,7 @@ class ScheduleSpecifier implements SheetSpecification {
         const numDates = getNumDates(participantMatrix);
         const totalsConditionalFormatRowIndex = ROW_OFFSET + participantMatrix.participants.length;
         const groupSize = participantMatrix.schedule[0].length;
-        const totalsConditionalFormat = getTotalsConditionalFormatRule(sheetId, totalsConditionalFormatRowIndex, numDates, groupSize);
+        const totalsConditionalFormat = getDailyTotalsConditionalFormatRule(sheetId, totalsConditionalFormatRowIndex, numDates, groupSize);
         const dateExpiredConditionalFormat = getDateExpiredConditionalFormatRule(sheetId, 0, numDates);
         const datePendingConditionalFormat = getDatePendingConditionalFormatRule(sheetId, 0, numDates);
 
@@ -857,6 +872,6 @@ export {
     getHeaderRowFormatRequest,
     getParticipantColumnsFormatRequest,
     getDateExpiredConditionalFormatRule,
-    getTotalsConditionalFormatRule,
+    getDailyTotalsConditionalFormatRule as getTotalsConditionalFormatRule,
     RedRgb
 };
