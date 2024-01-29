@@ -2,20 +2,25 @@
 'use client'
 
 import { css } from '@emotion/react';
-import React, { ReactDOM, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
 import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormGroup from '@mui/material/FormGroup';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import { useTheme } from '@mui/material/styles';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { readItem, SCHEDULE_DATA } from '@/client-lib/local-storage';
+import { useMixPanel } from '@/client-lib/mixpanel';
 import Checkout from '@/components/checkout';
 import LogoButton from '@/components/logo-button';
+import { publicRuntimeConfig } from '@/lib/app-constants';
 import { decode } from '@/lib/base64-convert';
 import { mq } from '@/lib/media-queries';
 import type { ScheduleData } from '@/lib/schedule-data';
@@ -23,6 +28,7 @@ import type { ScheduleData } from '@/lib/schedule-data';
 // editable URL: `https://docs.google.com/spreadsheets/d/${spreadsheet.data.spreadsheetId}/edit?usp=sharing`;
 
 export default function ResultPage() {
+    const mixpanel = useMixPanel();
     const [sheetId, setSheetId] = useState('');
     const [saveDialogOpen, setSaveDialogOpen] = useState(false);
     const [saveDialogOpened, setSaveDialogOpened] = useState(false);
@@ -36,11 +42,14 @@ export default function ResultPage() {
     const discountSchema = yup.object({
         email1: yup.string().email('Invalid email address'),
         discountCode: yup.string(),
+        notifyParticipants: yup.boolean(),
     });
+
     const formik = useFormik({
         initialValues: {
             email1: '',
             discountCode: '',
+            notifyParticipants: true
         },
 
         validationSchema: discountSchema,
@@ -61,6 +70,10 @@ export default function ResultPage() {
                         setDiscountCodeHelperText('');
                         setSaveDialogOpen(false);
                         setConfirmDialogOpen(true);
+                        
+                        if (values.notifyParticipants) {
+                            requestNotifyParticipants();
+                        }
                     } else {
                         if (values.discountCode) {
                             setDiscountCodeHelperText('Invalid discount code');
@@ -121,9 +134,14 @@ export default function ResultPage() {
     };
 
     const handleCheckoutSuccess = () => {
+        mixpanel.track('Checkout success', { notifyTrue: formik.values.notifyParticipants});
         setSaveDialogOpened(false);
         setSaveDialogOpen(false);
         setConfirmDialogOpen(true);
+
+        if (formik.values.notifyParticipants) {
+            requestNotifyParticipants();
+        }
     }
 
     const handleCheckoutFailure = () => {
@@ -155,6 +173,24 @@ export default function ResultPage() {
             });
     };
 
+    const requestNotifyParticipants = () => {
+        if (publicRuntimeConfig.DEV_FEATURES) {
+            const url = `/api/schedule/${sheetId}/notify`;
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(scheduleData),
+            })
+                .then(() => { })
+                .catch(error => {
+                    // Handle errors here
+                    console.error('Error:', error);
+                });
+        }
+    }
+
     const previewUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/preview?storage_access_granted=true`;
 
     return (
@@ -180,24 +216,24 @@ export default function ResultPage() {
                             <h3>Here is a preview of your schedule</h3>
                         </Grid>
                         <Grid xs={12} md={4} display="flex" justifyContent="center" alignItems="center">
-                                <Button
-                                    variant='outlined'
-                                    type="submit"
-                                    color="secondary"
-                                    onClick={handleSaveCancelClick}
-                                    css={{
-                                        marginRight: 16,
-                                        [mq.xl]: {
-                                            marginRight: 24,
-                                        }
-                                    }}
-                                >cancel</Button>
-                                <Button
-                                    variant='contained'
-                                    type="submit"
-                                    color="secondary"
-                                    onClick={handleAcceptClick}
-                                >accept</Button>
+                            <Button
+                                variant='outlined'
+                                type="submit"
+                                color="secondary"
+                                onClick={handleSaveCancelClick}
+                                css={{
+                                    marginRight: 16,
+                                    [mq.xl]: {
+                                        marginRight: 24,
+                                    }
+                                }}
+                            >cancel</Button>
+                            <Button
+                                variant='contained'
+                                type="submit"
+                                color="secondary"
+                                onClick={handleAcceptClick}
+                            >accept</Button>
                         </Grid>
                     </Grid>
                 </Grid>
@@ -233,6 +269,25 @@ export default function ResultPage() {
                             }}
                         />
                     </div>
+                    {publicRuntimeConfig.DEV_FEATURES ?
+                        <div>
+                            <FormGroup>
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            id="notifyParticipants"
+                                            name="notifyParticipants"
+                                            checked={formik.values.notifyParticipants}
+                                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                                                formik.setFieldValue('notifyParticipants', event.target.checked);
+                                                formik.handleSubmit();
+                                            }}
+                                            onBlur={formik.handleBlur} />}
+                                    label="Notify participants" />
+                            </FormGroup>
+                        </div>
+                        : null
+                    }
                     {saveDialogOpened ? <Checkout onSuccess={handleCheckoutSuccess} onFailure={handleCheckoutFailure} clientId={paymentClientId} /> : null}
                 </div>
             </Dialog>

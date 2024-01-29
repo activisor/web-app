@@ -30,7 +30,7 @@ const MixPanelProvider = ({ children }: Props) => {
         mixpanel?.track_pageview({
             'source': source,
         });
-    }, [pathname, searchParams]);
+    }, [source]);
 
     return (
         <MixPanelContext.Provider value={mixpanel}>
