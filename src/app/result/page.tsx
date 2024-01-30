@@ -66,11 +66,10 @@ export default function ResultPage() {
                 .then(response => response.json())
                 .then(data => {
                     // Handle API response data here
-                    if (data.validCode) {
+                    if (!confirmDialogOpen && data.validCode) {
                         setDiscountCodeHelperText('');
                         setSaveDialogOpen(false);
                         setConfirmDialogOpen(true);
-                        
                         if (values.notifyParticipants) {
                             requestNotifyParticipants();
                         }

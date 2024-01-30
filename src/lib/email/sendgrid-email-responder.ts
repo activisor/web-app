@@ -49,8 +49,8 @@ class SendGridEmailResponder implements EmailExtractProcessing {
             to: emailData.sender,
             from: this._schedulerEmail,
             templateId: this._emailTemplateId,
+            subject: `Re: ${emailData.subject}`,
             dynamicTemplateData: {
-                subject: `Re: ${emailData.subject}`,
                 userName: firstName,
                 scheduleMakerLink: link,
                 scheduleMakerLinkText: linkText,

@@ -52,15 +52,19 @@ class SendGridEmailNotifier implements Notification {
             subject: `${senderName} has shared the ${data.scheduleName} schedule with you`,
             templateId: this._emailTemplateId,
             dynamicTemplateData: {
+//                subject: 'You have a new schedule',
                 scheduleName: data.scheduleName,
                 sender: senderName,
                 scheduleLink: sheetUrl,
             },
         };
 
+        if (process.env.NODE_ENV === "development") {
+            console.log(`Test mode msg: ${JSON.stringify(msg)}`);
+        }
+
         let result = false;
         if (process.env.STUB_SENDGRID === 'true') {
-            console.log(`Test mode msg: ${JSON.stringify(msg)}`);
             return true;
         }
 
