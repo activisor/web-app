@@ -10,7 +10,7 @@ test('should extract sender with name and email correctly', () => {
 
   const result = sut.extract(mockFormData);
 
-  expect(result.sender).toEqual({ email: 'test@example.com', name: 'First Last' });
+  expect(result.sender).toEqual({ email: 'test@example.com', name: 'First Last', isSender: true });
 });
 
 test('sender shouuld be in participants list', () => {
@@ -20,7 +20,7 @@ test('sender shouuld be in participants list', () => {
   const result = sut.extract(mockFormData);
 
   expect(result.participants).toEqual([
-    { email: 'test@example.com', name: 'First Last' },
+    { email: 'test@example.com', name: 'First Last', isSender: true  },
   ]);
 });
 
@@ -30,7 +30,7 @@ test('should extract sender with only email correctly', () => {
 
   const result = sut.extract(mockFormData);
 
-  expect(result.sender).toEqual({ email: 'test@example.com', name: '' });
+  expect(result.sender).toEqual({ email: 'test@example.com', name: '', isSender: true  });
 });
 
 test('should extract subject', () => {

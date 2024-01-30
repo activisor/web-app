@@ -70,6 +70,7 @@ class SendGridEmailExtractor implements EmailExtraction {
             throw new Error('Sender not found');
         }
 
+        sender.isSender = true;
         const participants: Participant[] = [sender];
 
         const subject: string = body.get('subject') as string;
