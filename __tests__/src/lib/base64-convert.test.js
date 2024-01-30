@@ -5,17 +5,19 @@ const emailExtract /*: EmailExtract */ = {
     {
       name: 'Art Test',
       email: 'art@test.com',
-      id: 1
+//
+      isSender: true,
     },
     {
       name: 'Betty Test',
       email: 'betty@test.com',
-      id: 2
+//      id: 2
     },
   ],
   sender: {
     name: 'Sender',
     email: 'sender@test.com',
+    isSender: true,
   },
   subject: 'Test Subject',
 };
