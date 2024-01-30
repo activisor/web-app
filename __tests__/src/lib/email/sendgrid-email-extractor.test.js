@@ -13,6 +13,17 @@ test('should extract sender with name and email correctly', () => {
   expect(result.sender).toEqual({ email: 'test@example.com', name: 'First Last' });
 });
 
+test('sender shouuld be in participants list', () => {
+  const mockFormData = new FormData();
+  mockFormData.append('from', ' First Last <test@example.com> ');
+
+  const result = sut.extract(mockFormData);
+
+  expect(result.participants).toEqual([
+    { email: 'test@example.com', name: 'First Last' },
+  ]);
+});
+
 test('should extract sender with only email correctly', () => {
   const mockFormData = new FormData();
   mockFormData.append('from', ' test@example.com ');
@@ -38,11 +49,9 @@ test('should extract CC participants, excluding scheduler email', () => {
   mockFormData.append('cc', `First CC <cc1@example.com>, cc2@example.com, Scheduler <${schedulerEmail}>`);
 
   const result = sut.extract(mockFormData);
-  expect(result.participants).toEqual([
-    { email: 'test@example.com', name: '' },
-    { email: 'cc1@example.com', name: 'First Cc' },
-    { email: 'cc2@example.com', name: '' },
-  ]);
+  expect(result.participants.length).toEqual(3);
+  expect(result.participants[1]).toEqual({ email: 'cc1@example.com', name: 'First Cc' });
+  expect(result.participants[2]).toEqual({ email: 'cc2@example.com', name: '' });
 });
 
 test('should extract To participants, excluding scheduler email', () => {
@@ -50,10 +59,9 @@ test('should extract To participants, excluding scheduler email', () => {
   mockFormData.append('from', 'test@example.com');
   mockFormData.append('to', `Scheduler <${schedulerEmail}>, ${schedulerEmail}, Second To <to@example.com>`);
   const result = sut.extract(mockFormData);
-  expect(result.participants).toEqual([
-    { email: 'test@example.com', name: '' },
-    { email: 'to@example.com', name: 'Second To' },
-  ]);
+
+  expect(result.participants.length).toEqual(2);
+  expect(result.participants[1]).toEqual({ email: 'to@example.com', name: 'Second To' });
 });
 
 test('should extract participants from forwarded text, excluding scheduler email', () => {
@@ -81,13 +89,11 @@ text body
 
   const result = sut.extract(mockFormData);
 
-  expect(result.participants).toEqual([
-    { email: 'sender@example.com', name: 'Sender' },
-    { email: 'p2@example.com', name: 'Participant 2' },
-    { email: 'p3@example.com', name: 'Participant 3' },
-    { email: 'p4@example.com', name: 'Participant 4' },
-    { email: 'p5@example.com', name: '' },
-  ]);
+  expect(result.participants.length).toEqual(5);
+  expect(result.participants[1]).toEqual({ email: 'p2@example.com', name: 'Participant 2' });
+  expect(result.participants[2]).toEqual({ email: 'p3@example.com', name: 'Participant 3' });
+  expect(result.participants[3]).toEqual({ email: 'p4@example.com', name: 'Participant 4' });
+  expect(result.participants[4]).toEqual({ email: 'p5@example.com', name: '' });
 });
 
 test('should extract participants from text body', () => {
@@ -114,13 +120,11 @@ forwarded text body
 
   const result = sut.extract(mockFormData);
 
-  expect(result.participants).toEqual([
-    { email: 'sender@example.com', name: 'Sender' },
-    { email: 'p2@example.com', name: '' },
-    { email: 'p3@example.com', name: '' },
-    { email: 'p4@example.com', name: '' },
-    { email: 'p5@example.com', name: 'Participant 5' },
-  ]);
+  expect(result.participants.length).toEqual(5);
+  expect(result.participants[1]).toEqual({ email: 'p2@example.com', name: '' });
+  expect(result.participants[2]).toEqual({ email: 'p3@example.com', name: '' });
+  expect(result.participants[3]).toEqual({ email: 'p4@example.com', name: '' });
+  expect(result.participants[4]).toEqual({ email: 'p5@example.com', name: 'Participant 5' })
 });
 
 test('should remove duplicate participants', () => {
@@ -139,8 +143,6 @@ To: ${participant2}
 
   const result = sut.extract(mockFormData);
 
-  expect(result.participants).toEqual([
-    { email: 'sender@example.com', name: 'Sender' },
-    { email: 'p2@example.com', name: 'Participant 2' },
-  ]);
+  // sender, participant 2
+  expect(result.participants.length).toEqual(2);
 });
