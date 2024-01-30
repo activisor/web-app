@@ -1,7 +1,6 @@
 import type { NextRequest } from "next/server"
 import { getToken } from 'next-auth/jwt';
-import type { ScheduleData } from '@/lib/schedule-data';
-import { SheetsManagement } from '@/lib/sheets/sheets-management';
+import type { SheetsManagement } from '@/lib/sheets/sheets-management';
 import { appContainer } from '@/inversify.config';
 import { TYPES } from "@/inversify-types";
 

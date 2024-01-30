@@ -15,6 +15,8 @@ import type { EmailExtraction } from './lib/email/email-extraction';
 import { SendGridEmailExtractor } from './lib/email/sendgrid-email-extractor';
 import type { EmailExtractProcessing } from './lib/email/email-extract-processing';
 import { SendGridEmailResponder } from './lib/email/sendgrid-email-responder';
+import type { Notification } from './lib/email/notification';
+import { SendGridEmailNotifier } from './lib/email/sendgrid-email-notifier';
 import type { FormDataValidation } from './lib/form-data-validation';
 import { SendGridEmailSpamValidator } from './lib/email/sendgrid-email-spam-validator';
 
@@ -25,6 +27,7 @@ appContainer.bind<DateRangeParse>(TYPES.DateRangeParse).to(DateRangeParser);
 appContainer.bind<SheetSpecification>(TYPES.SheetSpecification).to(ScheduleSpecifier);
 appContainer.bind<EmailExtraction>(TYPES.EmailExtraction).to(SendGridEmailExtractor);
 appContainer.bind<EmailExtractProcessing>(TYPES.EmailExtractProcessing).to(SendGridEmailResponder);
+appContainer.bind<Notification>(TYPES.Notification).to(SendGridEmailNotifier);
 appContainer.bind<FormDataValidation>(TYPES.SpamValidation).to(SendGridEmailSpamValidator);
 
 // constants
@@ -33,5 +36,6 @@ appContainer.bind<string>(TYPES.SCHEDULER_TO_DOMAIN).toConstantValue(process.env
 appContainer.bind<string>(TYPES.SCHEDULER_FROM_EMAIL).toConstantValue(process.env.SCHEDULER_FROM_EMAIL as string);
 appContainer.bind<string>(TYPES.SENDGRID_API_KEY).toConstantValue(process.env.SENDGRID_API_KEY as string);
 appContainer.bind<string>(TYPES.SENDGRID_SCHEDULE_TEMPLATE_ID).toConstantValue(process.env.SENDGRID_SCHEDULE_TEMPLATE_ID as string);
+appContainer.bind<string>(TYPES.SENDGRID_NOTIFY_TEMPLATE_ID).toConstantValue(process.env.SENDGRID_NOTIFY_TEMPLATE_ID as string);
 
 export { appContainer };
