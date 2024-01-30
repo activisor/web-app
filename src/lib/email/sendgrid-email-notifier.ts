@@ -43,14 +43,17 @@ class SendGridEmailNotifier implements Notification {
             }
         });
 
+        const senderName = sender?.name?? '';
+
         const msg: MailDataRequired = {
             to: participants,
             cc: sender?.email?? '',
             from: this._schedulerEmail,
             templateId: this._emailTemplateId,
             dynamicTemplateData: {
+                subject: `${senderName} has shared the ${data.scheduleName} schedule with you`,
                 scheduleName: data.scheduleName,
-                sender: sender?.name?? '',
+                sender: senderName,
                 scheduleLink: sheetUrl,
             },
         };
