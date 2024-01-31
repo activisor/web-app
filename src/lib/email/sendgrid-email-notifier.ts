@@ -43,7 +43,10 @@ class SendGridEmailNotifier implements Notification {
             }
         });
 
-        const senderName = sender?.name?? '';
+        let senderName = sender?.name?? '';
+        if (senderName.length === 0) {
+            senderName = sender?.email?? 'An organizer';
+        }
 
         const msg: MailDataRequired = {
             to: participants,
