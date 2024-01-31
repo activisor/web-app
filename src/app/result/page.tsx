@@ -192,6 +192,7 @@ export default function ResultPage() {
     }
 
     const previewUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/preview?storage_access_granted=true`;
+    const price = publicRuntimeConfig.BASE_PRICE.split('.')[0];
 
     return (
         <main css={{
@@ -251,7 +252,7 @@ export default function ResultPage() {
                 open={saveDialogOpen}
                 onTransitionEnter={handleSaveDialogTransitionEnter}>
                 <DialogTitle sx={{ m: 0, p: 2 }}>
-                    {`Get Your Schedule for $1`}
+                    {`Get Your Schedule for $${price}`}
                 </DialogTitle>
                 <div css={{ padding: 16 }}>
                     <div css={{ paddingBottom: 16 }}>

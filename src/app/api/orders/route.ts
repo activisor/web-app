@@ -1,6 +1,7 @@
 import type { NextRequest } from 'next/server';
 import fetch from 'node-fetch';
 import { baseUrl, generateAccessToken } from './paypal-api-auth';
+import { publicRuntimeConfig } from '@/lib/app-constants';
 
 /**
  * Create an order to start the transaction.
@@ -20,8 +21,8 @@ const createOrder = async (cart: any) => {
         purchase_units: [
             {
                 amount: {
-                    currency_code: "USD",
-                    value: "1.00",
+                    currency_code: publicRuntimeConfig.CURRENCY,
+                    value: publicRuntimeConfig.BASE_PRICE,
                 },
             },
         ],

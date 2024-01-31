@@ -17,4 +17,7 @@ export const publicRuntimeConfig = {
     MAX_PARTICIPANTS: parseInt(process.env.NEXT_PUBLIC_MAX_PARTICIPANTS as string, 10),
 
     MIXPANEL_TOKEN: process.env.NEXT_PUBLIC_MIXPANEL_TOKEN as string,
+
+    CURRENCY: 'USD',
+    BASE_PRICE: process.env.NEXT_PUBLIC_BASE_PRICE as string,
 };

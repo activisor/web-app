@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import { publicRuntimeConfig } from '@/lib/app-constants';
 
 // Renders errors or successfull transactions on the screen.
 interface MessageProps {
@@ -19,7 +20,7 @@ export interface CheckoutProps {
 const Checkout: React.FC<CheckoutProps> = (props) => {
     const initialOptions = {
         clientId: props.clientId,
-        currency: "USD",
+        currency: publicRuntimeConfig.CURRENCY,
         intent: "capture",
         enableFunding: "venmo,card,credit",
         disableFunding: "paylater",
