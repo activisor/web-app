@@ -51,7 +51,7 @@ class SendGridEmailNotifier implements Notification {
             from: this._schedulerEmail,
             templateId: this._emailTemplateId,
             dynamicTemplateData: {
-                subject: `${senderName} has shared the ${data.scheduleName} schedule with you`,
+                subject: `${senderName} has shared ${data.scheduleName} with you`,
                 scheduleName: data.scheduleName,
                 sender: senderName,
                 scheduleLink: sheetUrl,

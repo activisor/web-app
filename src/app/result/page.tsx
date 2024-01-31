@@ -13,6 +13,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
+import Tooltip from '@mui/material/Tooltip';
 import { useTheme } from '@mui/material/styles';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -133,7 +134,7 @@ export default function ResultPage() {
     };
 
     const handleCheckoutSuccess = () => {
-        mixpanel.track('Checkout success', { notifyTrue: formik.values.notifyParticipants});
+        mixpanel.track('Checkout success', { notifyTrue: formik.values.notifyParticipants });
         setSaveDialogOpened(false);
         setSaveDialogOpen(false);
         setConfirmDialogOpen(true);
@@ -268,9 +269,9 @@ export default function ResultPage() {
                             }}
                         />
                     </div>
-                    {publicRuntimeConfig.DEV_FEATURES ?
-                        <div>
-                            <FormGroup>
+                    <div css={{ paddingBottom: 16 }}>
+                        <FormGroup>
+                            <Tooltip title="share the schedule with its participants">
                                 <FormControlLabel
                                     control={
                                         <Checkbox
@@ -283,10 +284,9 @@ export default function ResultPage() {
                                             }}
                                             onBlur={formik.handleBlur} />}
                                     label="Notify participants" />
-                            </FormGroup>
-                        </div>
-                        : null
-                    }
+                            </Tooltip>
+                        </FormGroup>
+                    </div>
                     {saveDialogOpened ? <Checkout onSuccess={handleCheckoutSuccess} onFailure={handleCheckoutFailure} clientId={paymentClientId} /> : null}
                 </div>
             </Dialog>
