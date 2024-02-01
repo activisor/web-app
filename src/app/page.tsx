@@ -174,17 +174,23 @@ export default function Home() {
                         }
                     }}>
                         <Paper elevation={8} css={paperCss}>
-                            <h1 css={{
+                            <h2 css={{
                                 color: theme.palette.primary.main,
                                 marginTop: 0,
-                            }}>Pick A Way To Start</h1>
+                            }}>Pick A Way To Start</h2>
                             <div css={[ctaSectionCss, {
                                 borderWidth: 2
                             }]}>
-                                <div css={ctaRowCss}>
-                                    <East sx={{
-                                        color: theme.palette.primary.dark,
-                                    }} />
+                                <h3 css={{
+                                    color: theme.palette.primary.dark,
+                                    marginTop: 0,
+                                }}>We Start</h3>
+
+                                <div css={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                }}>
                                     <div css={ctaEmailBlockCss}>
                                         <span>Forward your group email to&nbsp;</span>
                                         <div css={{
@@ -195,47 +201,53 @@ export default function Home() {
                                             <CopyToClipboardButton value={schedulerToEmail} valueName="email" color="secondary"></CopyToClipboardButton>
                                         </div>
                                     </div>
-                                </div>
-                                <div>
-                                    <span css={{
-                                        paddingLeft: 56,
-                                        [mq.md]: {
-                                            paddingLeft: 80,
-                                        },
-                                        paddingRight: 8,
-                                        fontStyle: 'italic'
-                                    }}>We&apos;ll get back to you!</span>
-                                    <Tooltip title="see how to forward a group email">
-                                        <IconButton
-                                            aria-label="info"
-                                            color={'primary'}
-                                            onClick={handleForwardInfoClick}>
-                                            <Info />
-                                        </IconButton>
-                                    </Tooltip>
-                                    <ImageDialog
-                                        name="Forwarding Your Group Email"
-                                        open={dialogOpen}
-                                        src="/activisor-forward-email.gif"
-                                        alt="show how to forward email"
-                                        height={540}
-                                        width={1080}
-                                        onClose={handleDialogClose} />
+                                    <div>
+                                        <span css={{
+                                            // paddingLeft: 56,
+                                            [mq.md]: {
+                                            //    paddingLeft: 80,
+                                            },
+                                            paddingRight: 8,
+                                            fontStyle: 'italic'
+                                        }}>We&apos;ll get back to you!</span>
+                                        <Tooltip title="see how to forward a group email">
+                                            <IconButton
+                                                aria-label="info"
+                                                color={'primary'}
+                                                onClick={handleForwardInfoClick}>
+                                                <Info />
+                                            </IconButton>
+                                        </Tooltip>
+                                        <ImageDialog
+                                            name="Forwarding Your Group Email"
+                                            open={dialogOpen}
+                                            src="/activisor-forward-email.gif"
+                                            alt="show how to forward email"
+                                            height={540}
+                                            width={1080}
+                                            onClose={handleDialogClose} />
+                                    </div>
                                 </div>
                             </div>
-                            <div css={[ctaRowCss, ctaSectionCss]}>
-                                <East sx={{
+                            <div css={[ctaSectionCss]}>
+                                <h3 css={{
                                     color: theme.palette.primary.dark,
-                                }} />
-                                <Tooltip title="open the schedule maker">
-                                    <Button
-                                        variant='outlined'
-                                        type="submit"
-                                        color="secondary"
-                                        onClick={handleClick}
-                                    >enter emails yourself</Button>
-                                </Tooltip>
-
+                                    marginTop: 0,
+                                }}>You Start</h3>
+                                <div css={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                }}>
+                                    <Tooltip title="open the schedule maker">
+                                        <Button
+                                            variant='outlined'
+                                            type="submit"
+                                            color="secondary"
+                                            onClick={handleClick}
+                                        >enter emails yourself</Button>
+                                    </Tooltip>
+                                </div>
                             </div>
                         </Paper>
                     </Grid>
