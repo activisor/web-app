@@ -7,15 +7,19 @@ import { signIn, useSession } from 'next-auth/react';
 import LogoButton from '@/components/logo-button';
 import ScheduleInput from '@/components/schedule-input';
 import { readItem, saveItem, hasStorage, GENERATION_REQUESTED, SCHEDULE_DATA } from '@/client-lib/local-storage';
+import { useMixPanel } from '@/client-lib/mixpanel';
 import { publicRuntimeConfig } from '@/lib/app-constants';
 import type { Participant } from '@/lib/participant';
 import type { ScheduleData } from '@/lib/schedule-data';
 import { decode } from '@/lib/base64-convert';
 
 export default function Schedule() {
+    const mixpanel = useMixPanel();
     const { data: session, status } = useSession();
 
     const handleSubmit = () => {
+        mixpanel.track('Submit schedule');
+
         if (status === 'authenticated') {
             window.location.href = publicRuntimeConfig.SIGNIN_REDIRECT_PATH;
         } else {
