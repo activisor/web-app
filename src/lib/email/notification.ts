@@ -10,7 +10,7 @@ interface Notification {
      * @param scheduleData
      * @returns true if successful, false otherwise
      */
-    send: (scheduleData: ScheduleData, spreadsheetId: string) => Promise<boolean>;
+    send: (scheduleData: ScheduleData, spreadsheetId: string, senderName: string, senderEmail: string) => Promise<boolean>;
 }
 
 export type { Notification };

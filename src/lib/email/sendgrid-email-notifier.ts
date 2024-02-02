@@ -28,29 +28,18 @@ class SendGridEmailNotifier implements Notification {
         this._emailTemplateId = emailTemplateId;
     }
 
-    async send(data: ScheduleData, spreadsheetId: string): Promise<boolean> {
-
-        let sender: Participant | undefined;
+    async send(data: ScheduleData, spreadsheetId: string, senderName: string, senderEmail: string): Promise<boolean> {
         const sheetUrl = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/edit?usp=sharing`;
 
         // create list of all participant emails, except cc sender
         const participants: string[] = [];
         data.participants.forEach((participant) => {
-            if (!sender && participant.isSender) {
-                sender = participant;
-            } else {
-                participants.push(participant.email);
-            }
+            participants.push(participant.email);
         });
-
-        let senderName = sender?.name?? '';
-        if (senderName.length === 0) {
-            senderName = sender?.email?? 'An organizer';
-        }
 
         const msg: MailDataRequired = {
             to: participants,
-            cc: sender?.email?? '',
+            cc: senderEmail,
             from: this._schedulerEmail,
             templateId: this._emailTemplateId,
             dynamicTemplateData: {

@@ -179,7 +179,7 @@ export default function Home() {
                                 marginTop: 0,
                             }}>Pick A Way To Start</h2>
                             <div css={[ctaSectionCss, {
-                                borderWidth: 2
+                                borderWidth: 3
                             }]}>
                                 <h3 css={{
                                     color: theme.palette.primary.dark,
