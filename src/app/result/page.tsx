@@ -174,21 +174,19 @@ export default function ResultPage() {
     };
 
     const requestNotifyParticipants = () => {
-        if (publicRuntimeConfig.DEV_FEATURES) {
-            const url = `/api/schedule/${sheetId}/notify`;
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(scheduleData),
-            })
-                .then(() => { })
-                .catch(error => {
-                    // Handle errors here
-                    console.error('Error:', error);
-                });
-        }
+        const url = `/api/schedule/${sheetId}/notify`;
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(scheduleData),
+        })
+            .then(() => { })
+            .catch(error => {
+                // Handle errors here
+                console.error('Error:', error);
+            });
     }
 
     const previewUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/preview?storage_access_granted=true`;
@@ -272,7 +270,7 @@ export default function ResultPage() {
                     </div>
                     <div css={{ paddingBottom: 16 }}>
                         <FormGroup>
-                            <Tooltip title="share the schedule with its participants">
+                            <Tooltip title="share the schedule with participants">
                                 <FormControlLabel
                                     control={
                                         <Checkbox
