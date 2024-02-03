@@ -2,6 +2,9 @@ import type { NextRequest } from 'next/server';
 import fetch from 'node-fetch';
 import { baseUrl, generateAccessToken } from './paypal-api-auth';
 import { publicRuntimeConfig } from '@/lib/app-constants';
+import { getPrice } from '@/lib/get-price';
+
+const referralDiscount = process.env.REFERRAL_DISCOUNT? parseInt(process.env.REFERRAL_DISCOUNT) : 0;
 
 /**
  * Create an order to start the transaction.
@@ -16,13 +19,14 @@ const createOrder = async (cart: any) => {
 
     const accessToken = await generateAccessToken();
     const url = `${baseUrl}/v2/checkout/orders`;
+    const price = getPrice(cart.referral, referralDiscount)/100;
     const payload = {
         intent: "CAPTURE",
         purchase_units: [
             {
                 amount: {
                     currency_code: publicRuntimeConfig.CURRENCY,
-                    value: publicRuntimeConfig.BASE_PRICE,
+                    value: price.toFixed(2),
                 },
             },
         ],
@@ -51,9 +55,9 @@ const createOrder = async (cart: any) => {
 export async function POST(request: NextRequest): Promise<Response> {
     try {
         // use the cart information passed from the front-end to calculate the order amount detals
-        const cart = await request.json();
+        const body = await request.json();
 
-        const { jsonResponse, httpStatusCode } = await createOrder(cart);
+        const { jsonResponse, httpStatusCode } = await createOrder(body.cart);
         return new Response(JSON.stringify(jsonResponse), { status: httpStatusCode });
     } catch (error) {
         console.error("Failed to create order:", error);

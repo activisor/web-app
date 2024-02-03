@@ -13,11 +13,14 @@ export const publicRuntimeConfig = {
     // enable dev features if true
     DEV_FEATURES: process.env.NEXT_PUBLIC_DEV_FEATURES === 'true',
 
+    // no login, no sheet generation
+    UX_DEV_MODE: process.env.NEXT_PUBLIC_UX_DEV_MODE === 'true',
+
     // max number of participants
     MAX_PARTICIPANTS: parseInt(process.env.NEXT_PUBLIC_MAX_PARTICIPANTS as string, 10),
 
     MIXPANEL_TOKEN: process.env.NEXT_PUBLIC_MIXPANEL_TOKEN as string,
 
     CURRENCY: 'USD',
-    BASE_PRICE: process.env.NEXT_PUBLIC_BASE_PRICE as string,
+    BASE_PRICE_CENTS: parseInt(process.env.NEXT_PUBLIC_BASE_PRICE_CENTS as string, 10),
 };

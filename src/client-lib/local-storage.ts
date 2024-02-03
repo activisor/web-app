@@ -6,6 +6,7 @@
 const PREFIX = 'act.';
 export const SCHEDULE_DATA = PREFIX + 'schedule.data';
 export const GENERATION_REQUESTED = PREFIX + 'schedule.requested';
+export const REFERRAL = PREFIX + 'schedule.referral';
 
 export function readItem(key: string): any {
     try {

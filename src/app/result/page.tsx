@@ -37,18 +37,28 @@ export default function ResultPage() {
     const [scheduleData, setScheduleData] = useState<ScheduleData | null>(null);
     const [paymentClientId, setPaymentClientId] = useState('');
     const [currency, setCurrency] = useState('USD');
+    const [price, setPrice] = useState(publicRuntimeConfig.BASE_PRICE_CENTS);
+    const [referral, setReferral] = useState(false);
     const [discountCodeHelperText, setDiscountCodeHelperText] = useState('');
 
     const theme = useTheme();
+
+    const USDollar = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: currency?? 'USD',
+    });
+
     const discountSchema = yup.object({
-        email1: yup.string().email('Invalid email address'),
+        referral1: yup.string().email('Invalid email address'),
+        referral2: yup.string().email('Invalid email address'),
         discountCode: yup.string(),
         notifyParticipants: yup.boolean(),
     });
 
     const formik = useFormik({
         initialValues: {
-            email1: '',
+            referral1: '',
+            referral2: '',
             discountCode: '',
             notifyParticipants: true
         },
@@ -57,7 +67,7 @@ export default function ResultPage() {
 
         onSubmit: values => {
             // make API call to validate discount code
-            const url = `/api/code-validation?code=${values.discountCode}`;
+            const url = `/api/code-validation?code=${values.discountCode}&referral=${referral}&currency=${currency}`;
             fetch(url, {
                 method: 'GET',
                 headers: {
@@ -80,6 +90,7 @@ export default function ResultPage() {
                         }
                         setPaymentClientId(data.paymentClientId);
                         setCurrency(data.currency);
+                        setPrice(data.priceCents);
                     }
                 })
                 .catch(error => {
@@ -122,6 +133,35 @@ export default function ResultPage() {
     const handleDiscountCodeBlur = (event: React.FocusEvent<HTMLInputElement>): void => {
         formik.handleSubmit();
     };
+
+    const setReferralDiscount = (field: string): void => {
+        formik.validateField(field);
+        if (formik.values.referral1 && !Boolean(formik.errors.referral1)
+            && formik.values.referral2 && !Boolean(formik.errors.referral2)) {
+                setReferral(true);
+            formik.handleSubmit();
+        } else {
+            setReferral(false);
+        }
+    }
+
+    const handleReferralBlur = (event: React.FocusEvent<HTMLInputElement>, field: string): void => {
+        formik.setFieldValue(field, event.target.value);
+
+        setReferralDiscount(field);
+    }
+
+    const handleReferralKeyDown = (event: React.KeyboardEvent<HTMLInputElement>, field: string): void => {
+        if (event.key === 'Enter') {
+            const emailInput = event.target as HTMLInputElement;
+            emailInput.blur();
+
+            setReferralDiscount(field);
+
+            // prevent spurious form submission
+            event.preventDefault();
+        }
+    }
 
     const handleSaveDialogTransitionEnter = () => {
         // render Checkout component now that dialog DOM exists
@@ -190,7 +230,7 @@ export default function ResultPage() {
     }
 
     const previewUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/preview?storage_access_granted=true`;
-    const price = publicRuntimeConfig.BASE_PRICE.split('.')[0];
+  //  const price = publicRuntimeConfig.BASE_PRICE_CENTS.split('.')[0];
 
     return (
         <main css={{
@@ -249,10 +289,14 @@ export default function ResultPage() {
                 onClose={handleSaveDialogClose}
                 open={saveDialogOpen}
                 onTransitionEnter={handleSaveDialogTransitionEnter}>
-                <DialogTitle sx={{ m: 0, p: 2 }}>
-                    {`Get Your Schedule for $${price}`}
+                <DialogTitle>
+                    Get Your Schedule
                 </DialogTitle>
-                <div css={{ padding: 16 }}>
+                <DialogContent dividers={true}>
+                <p>
+                    {`Your cost: ${USDollar.format(price/100)}`}
+                </p>
+                <div>
                     <div css={{ paddingBottom: 16 }}>
                         <TextField name="discountCode"
                             id="discountCode"
@@ -286,8 +330,47 @@ export default function ResultPage() {
                             </Tooltip>
                         </FormGroup>
                     </div>
-                    {saveDialogOpened ? <Checkout onSuccess={handleCheckoutSuccess} onFailure={handleCheckoutFailure} clientId={paymentClientId} /> : null}
+                    {
+                        publicRuntimeConfig.DEV_FEATURES
+                            ? <div  css={{ marginBottom: 16 }}>
+                                <p>Refer two friends for 50% off</p>
+                                <div css={{ marginBottom: 16 }}>
+                                    <TextField name="referral1"
+                                        id="referral1"
+                                        type={"email"}
+                                        inputProps={{ placeholder: 'Email', value: formik.values.referral1 }}
+                                        onBlur={(event: React.FocusEvent<HTMLInputElement>) => {
+                                            handleReferralBlur(event, 'referral1');
+                                        }}
+                                        onChange={formik.handleChange}
+                                        onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
+                                            handleReferralKeyDown(event, 'referral1');
+                                        }}
+                                        error={formik.touched.referral1 && Boolean(formik.errors.referral1)}
+                                        helperText={formik.touched.referral1 && formik.errors.referral1} />
+                                </div>
+                                <div>
+                                    <TextField name="referral2"
+                                        id="referral2"
+                                        type={"email"}
+                                        inputProps={{ placeholder: 'Email', value: formik.values.referral2 }}
+                                        onBlur={(event: React.FocusEvent<HTMLInputElement>) => {
+                                            handleReferralBlur(event, 'referral2');
+                                        }}
+                                        onChange={formik.handleChange}
+                                        onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
+                                            handleReferralKeyDown(event, 'referral2');
+                                        }}
+                                        error={formik.touched.referral2 && Boolean(formik.errors.referral2)}
+                                        helperText={formik.touched.referral2 && formik.errors.referral2} />
+                                </div>
+                            </div>
+                            : null
+
+                    }
+                    {saveDialogOpened ? <Checkout onSuccess={handleCheckoutSuccess} onFailure={handleCheckoutFailure} clientId={paymentClientId} referral={referral} /> : null}
                 </div>
+                </DialogContent>
             </Dialog>
             <Dialog id="confirmDialog" onClose={handleConfirmDialogClose} open={confirmDialogOpen}>
                 <DialogTitle sx={{ m: 0, p: 2 }}>Thanks for using Activisor</DialogTitle>

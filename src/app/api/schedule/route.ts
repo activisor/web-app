@@ -1,5 +1,6 @@
 import type { NextRequest } from "next/server"
 import { getToken } from 'next-auth/jwt';
+import { publicRuntimeConfig } from '@/lib/app-constants';
 import type { ScheduleData } from '@/lib/schedule-data';
 import { SheetsManagement } from '@/lib/sheets/sheets-management';
 import { appContainer } from '@/inversify.config';
@@ -23,7 +24,7 @@ export async function POST(request: NextRequest) {
             dto.dates.startDate = new Date(dto.dates.startDate);
             dto.dates.endDate = new Date(dto.dates.endDate);
         }
-        
+
         const sheetsManager = appContainer.get<SheetsManagement>(TYPES.SheetsManagement);
         sheetsManager.setCredentials({
             access_token: token.accessToken as string,
@@ -44,6 +45,15 @@ export async function POST(request: NextRequest) {
         }
 
         return new Response('', { status: 400 });
+    } else if (publicRuntimeConfig.UX_DEV_MODE) {
+        // return dummy sheet ID
+        const obj: SheetResult = {
+            sheetId: '1',
+         };
+        const blob = new Blob([JSON.stringify(obj, null, 2)], {
+            type: "application/json",
+        });
+        return new Response(blob);
     }
 
     return new Response('', { status: 401 });

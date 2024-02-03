@@ -22,7 +22,15 @@ const emailExtract /*: EmailExtract */ = {
   subject: 'Test Subject',
 };
 
-test('encodes and decodes object', () => {
+test('encodes and decodes EmailExtract', () => {
+  const encoded = encode(emailExtract);
+  console.log(`encoded: ${encoded}`);
+
+  const decoded = decode(encoded);
+  expect(decoded).toEqual(emailExtract);
+});
+
+test('encodes and decodes EmailExtract', () => {
   const encoded = encode(emailExtract);
   console.log(`encoded: ${encoded}`);
 

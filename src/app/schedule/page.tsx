@@ -20,7 +20,7 @@ export default function Schedule() {
     const handleSubmit = () => {
         mixpanel.track('Submit schedule');
 
-        if (status === 'authenticated') {
+        if (status === 'authenticated' || publicRuntimeConfig.UX_DEV_MODE) {
             window.location.href = publicRuntimeConfig.SIGNIN_REDIRECT_PATH;
         } else {
             // Nextauth OpenID Connect
