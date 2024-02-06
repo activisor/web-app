@@ -84,6 +84,10 @@ export default function ResultPage() {
                         if (values.notifyParticipants) {
                             requestNotifyParticipants();
                         }
+                        if (referral) {
+                            mixpanel.track('Referral', { referral1: values.referral1, referral2: values.referral2 });
+                            requestEmailReferrals([values.referral1, values.referral2]);
+                        }
                     } else {
                         if (values.discountCode) {
                             setDiscountCodeHelperText('Invalid discount code');
@@ -182,6 +186,11 @@ export default function ResultPage() {
         if (formik.values.notifyParticipants) {
             requestNotifyParticipants();
         }
+
+        if (referral) {
+            mixpanel.track('Referral', { referral1: formik.values.referral1, referral2: formik.values.referral2 });
+            requestEmailReferrals([formik.values.referral1, formik.values.referral2]);
+        }
     }
 
     const handleCheckoutFailure = () => {
@@ -229,8 +238,23 @@ export default function ResultPage() {
             });
     }
 
+    const requestEmailReferrals = (emails: string[]) => {
+        const url = `/api/mail-relay/referrals`;
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(emails),
+        })
+            .then(() => { })
+            .catch(error => {
+                // Handle errors here
+                console.error('Error:', error);
+            });
+    }
+
     const previewUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/preview?storage_access_granted=true`;
-    //  const price = publicRuntimeConfig.BASE_PRICE_CENTS.split('.')[0];
 
     return (
         <main css={{

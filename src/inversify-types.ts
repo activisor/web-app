@@ -10,6 +10,7 @@ const TYPES = {
     EmailExtraction: Symbol.for('EmailExtraction'),
     EmailExtractProcessing: Symbol.for('EmailExtractProcessing'),
     Notification: Symbol.for('Notification'),
+    Referral: Symbol.for('Referral'),
     SpamValidation: Symbol.for('SpamValidation'),
 
     DEVARIANCE_COEF: Symbol.for('DEVARIANCE_COEF'),
@@ -17,6 +18,7 @@ const TYPES = {
     SCHEDULER_FROM_EMAIL: Symbol.for('SCHEDULER_FROM_EMAIL'),
     SENDGRID_API_KEY: Symbol.for('SENDGRID_API_KEY'),
     SENDGRID_NOTIFY_TEMPLATE_ID: Symbol.for('SENDGRID_NOTIFY_TEMPLATE_ID'),
+    SENDGRID_REFER_TEMPLATE_ID: Symbol.for('SENDGRID_REFER_TEMPLATE_ID'),
     SENDGRID_SCHEDULE_TEMPLATE_ID: Symbol.for('SENDGRID_SCHEDULE_TEMPLATE_ID'),
 };
 

@@ -1,6 +1,6 @@
 /**
- * @module SendGridEmailNotifier
- * @description implementation to send email notification to participants using SendGrid
+ * @module SendGridEmailReferrer
+ * @description implementation to send email referrals using SendGrid
  */
 
 import { injectable, inject } from 'inversify';
@@ -9,43 +9,31 @@ import { TYPES } from '@/inversify-types';
 import sgMail, { MailDataRequired } from '@sendgrid/mail';
 import ResponseError from '@sendgrid/helpers/classes/response-error';
 
-import type { ScheduleData } from '../schedule-data';
-import { Notification } from './notification';
+import type { Referral } from './referral';
 
 @injectable()
-class SendGridEmailNotifier implements Notification {
+class SendGridEmailReferrer implements Referral {
     private _schedulerEmail: string;
     private _emailTemplateId: string;
 
     constructor(
         @inject(TYPES.SENDGRID_API_KEY) apiKey: string,
         @inject(TYPES.SCHEDULER_FROM_EMAIL) schedulerEmail: string,
-        @inject(TYPES.SENDGRID_NOTIFY_TEMPLATE_ID) emailTemplateId: string,
+        @inject(TYPES.SENDGRID_REFER_TEMPLATE_ID) emailTemplateId: string,
     ) {
         sgMail.setApiKey(apiKey);
         this._schedulerEmail = schedulerEmail;
         this._emailTemplateId = emailTemplateId;
     }
 
-    async send(data: ScheduleData, spreadsheetId: string, senderName: string, senderEmail: string): Promise<boolean> {
-        const sheetUrl = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/edit?usp=sharing`;
-
-        // create list of all participant emails, except cc sender
-        const participants: string[] = [];
-        data.participants.forEach((participant) => {
-            participants.push(participant.email);
-        });
-
+    async send(senderName: string, recipients:string[]): Promise<boolean> {
         const msg: MailDataRequired = {
-            to: participants,
-            cc: senderEmail,
+            to: recipients,
             from: this._schedulerEmail,
             templateId: this._emailTemplateId,
             dynamicTemplateData: {
-                subject: `${senderName} has shared ${data.scheduleName} with you`,
-                scheduleName: data.scheduleName,
+                subject: `${senderName} thought you might find the Activisor schedule maker useful`,
                 sender: senderName,
-                scheduleLink: sheetUrl,
             },
         };
 
@@ -73,4 +61,4 @@ class SendGridEmailNotifier implements Notification {
     }
 }
 
-export { SendGridEmailNotifier };
+export { SendGridEmailReferrer };
