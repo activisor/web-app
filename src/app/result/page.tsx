@@ -79,13 +79,7 @@ export default function ResultPage() {
                     // Handle API response data here
                     if (!confirmDialogOpen && data.validCode) {
                         setDiscountCodeHelperText('');
-                        setSaveDialogOpen(false);
-                        setConfirmDialogOpen(true);
-
-                        if (referral) {
-                            mixpanel.track('Referral', { referral1: values.referral1, referral2: values.referral2 });
-                            requestEmailReferrals([values.referral1, values.referral2]);
-                        }
+                        transitionToConfirmDialog();
                     } else {
                         if (values.discountCode) {
                             setDiscountCodeHelperText('Invalid discount code');
@@ -177,19 +171,17 @@ export default function ResultPage() {
 
     const handleCheckoutSuccess = () => {
         mixpanel.track('Checkout success', { notifyTrue: formik.values.notifyParticipants });
-        setSaveDialogOpened(false);
-        setSaveDialogOpen(false);
+        transitionToConfirmDialog();
+    }
+
+    const transitionToConfirmDialog = () => {
+        handleSaveDialogClose();
         setConfirmDialogOpen(true);
 
         if (referral) {
             mixpanel.track('Referral', { referral1: formik.values.referral1, referral2: formik.values.referral2 });
             requestEmailReferrals([formik.values.referral1, formik.values.referral2]);
         }
-    }
-
-    const handleCheckoutFailure = () => {
-        setSaveDialogOpened(false);
-        setSaveDialogOpen(false);
     }
 
     const handleConfirmDialogClose = () => {
@@ -374,7 +366,7 @@ export default function ResultPage() {
                                 }}
                             />
                         </div>
-                        {saveDialogOpened ? <Checkout onSuccess={handleCheckoutSuccess} onFailure={handleCheckoutFailure} clientId={paymentClientId} referral={referral} /> : null}
+                        {saveDialogOpened ? <Checkout onSuccess={handleCheckoutSuccess} onFailure={handleSaveDialogClose} clientId={paymentClientId} referral={referral} /> : null}
                     </div>
                 </DialogContent>
             </Dialog>
