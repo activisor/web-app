@@ -43,7 +43,6 @@ const Checkout: React.FC<CheckoutProps> = (props) => {
     return (
         <div className="App">
             <PayPalScriptProvider options={initialOptions}>
-                <p>{`currentReferral: ${readItem(REFERRAL)}`}</p>
                 <PayPalButtons
                     style={{
                         shape: "rect",
