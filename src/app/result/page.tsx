@@ -45,7 +45,7 @@ export default function ResultPage() {
 
     const USDollar = new Intl.NumberFormat('en-US', {
         style: 'currency',
-        currency: currency?? 'USD',
+        currency: currency ?? 'USD',
     });
 
     const discountSchema = yup.object({
@@ -138,7 +138,7 @@ export default function ResultPage() {
         formik.validateField(field);
         if (formik.values.referral1 && !Boolean(formik.errors.referral1)
             && formik.values.referral2 && !Boolean(formik.errors.referral2)) {
-                setReferral(true);
+            setReferral(true);
             formik.handleSubmit();
         } else {
             setReferral(false);
@@ -230,7 +230,7 @@ export default function ResultPage() {
     }
 
     const previewUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/preview?storage_access_granted=true`;
-  //  const price = publicRuntimeConfig.BASE_PRICE_CENTS.split('.')[0];
+    //  const price = publicRuntimeConfig.BASE_PRICE_CENTS.split('.')[0];
 
     return (
         <main css={{
@@ -293,46 +293,12 @@ export default function ResultPage() {
                     Get Your Schedule
                 </DialogTitle>
                 <DialogContent dividers={true}>
-                <p>
-                    {`Your cost: ${USDollar.format(price/100)}`}
-                </p>
-                <div>
-                    <div css={{ paddingBottom: 16 }}>
-                        <TextField name="discountCode"
-                            id="discountCode"
-                            label="Discount Code"
-                            type={"text"}
-                            helperText={discountCodeHelperText}
-                            value={formik.values.discountCode}
-                            onChange={formik.handleChange}
-                            onBlur={handleDiscountCodeBlur}
-                            onKeyDown={handleDiscountCodeKeyDown}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                        />
-                    </div>
-                    <div css={{ paddingBottom: 16 }}>
-                        <FormGroup>
-                            <Tooltip title="share the schedule with participants">
-                                <FormControlLabel
-                                    control={
-                                        <Checkbox
-                                            id="notifyParticipants"
-                                            name="notifyParticipants"
-                                            checked={formik.values.notifyParticipants}
-                                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                                                formik.setFieldValue('notifyParticipants', event.target.checked);
-                                                formik.handleSubmit();
-                                            }}
-                                            onBlur={formik.handleBlur} />}
-                                    label="Notify participants" />
-                            </Tooltip>
-                        </FormGroup>
-                    </div>
+                    <p css={{ fontWeight: '700' }}>
+                        {`Your cost: ${USDollar.format(price / 100)}`}
+                    </p>
                     {
                         publicRuntimeConfig.DEV_FEATURES
-                            ? <div  css={{ marginBottom: 16 }}>
+                            ? <div css={{ marginBottom: 16 }}>
                                 <p>Refer two friends for 50% off</p>
                                 <div css={{ marginBottom: 16 }}>
                                     <TextField name="referral1"
@@ -366,10 +332,46 @@ export default function ResultPage() {
                                 </div>
                             </div>
                             : null
-
                     }
-                    {saveDialogOpened ? <Checkout onSuccess={handleCheckoutSuccess} onFailure={handleCheckoutFailure} clientId={paymentClientId} referral={referral} /> : null}
-                </div>
+                    <div>
+                        <div css={{
+                            paddingBottom: 16,
+                            paddingTop: 16,
+                        }}>
+                            <TextField name="discountCode"
+                                id="discountCode"
+                                label="Discount Code"
+                                type={"text"}
+                                helperText={discountCodeHelperText}
+                                value={formik.values.discountCode}
+                                onChange={formik.handleChange}
+                                onBlur={handleDiscountCodeBlur}
+                                onKeyDown={handleDiscountCodeKeyDown}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                            />
+                        </div>
+                        <div css={{ paddingBottom: 16 }}>
+                            <FormGroup>
+                                <Tooltip title="share the schedule with participants">
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                id="notifyParticipants"
+                                                name="notifyParticipants"
+                                                checked={formik.values.notifyParticipants}
+                                                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                                                    formik.setFieldValue('notifyParticipants', event.target.checked);
+                                                    formik.handleSubmit();
+                                                }}
+                                                onBlur={formik.handleBlur} />}
+                                        label="Notify participants" />
+                                </Tooltip>
+                            </FormGroup>
+                        </div>
+                        {saveDialogOpened ? <Checkout onSuccess={handleCheckoutSuccess} onFailure={handleCheckoutFailure} clientId={paymentClientId} referral={referral} /> : null}
+                    </div>
                 </DialogContent>
             </Dialog>
             <Dialog id="confirmDialog" onClose={handleConfirmDialogClose} open={confirmDialogOpen}>
