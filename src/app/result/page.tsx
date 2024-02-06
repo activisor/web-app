@@ -81,9 +81,7 @@ export default function ResultPage() {
                         setDiscountCodeHelperText('');
                         setSaveDialogOpen(false);
                         setConfirmDialogOpen(true);
-                        if (values.notifyParticipants) {
-                            requestNotifyParticipants();
-                        }
+
                         if (referral) {
                             mixpanel.track('Referral', { referral1: values.referral1, referral2: values.referral2 });
                             requestEmailReferrals([values.referral1, values.referral2]);
@@ -183,10 +181,6 @@ export default function ResultPage() {
         setSaveDialogOpen(false);
         setConfirmDialogOpen(true);
 
-        if (formik.values.notifyParticipants) {
-            requestNotifyParticipants();
-        }
-
         if (referral) {
             mixpanel.track('Referral', { referral1: formik.values.referral1, referral2: formik.values.referral2 });
             requestEmailReferrals([formik.values.referral1, formik.values.referral2]);
@@ -199,6 +193,10 @@ export default function ResultPage() {
     }
 
     const handleConfirmDialogClose = () => {
+        if (formik.values.notifyParticipants) {
+            requestNotifyParticipants();
+        }
+
         const sheetUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/edit?usp=sharing`;
         window.open(sheetUrl, '_blank');
         window.location.href = '/schedule';
@@ -359,8 +357,8 @@ export default function ResultPage() {
                     }
                     <div>
                         <div css={{
-                            paddingBottom: 16,
                             paddingTop: 16,
+                            paddingBottom: 24,
                         }}>
                             <TextField name="discountCode"
                                 id="discountCode"
@@ -376,24 +374,6 @@ export default function ResultPage() {
                                 }}
                             />
                         </div>
-                        <div css={{ paddingBottom: 16 }}>
-                            <FormGroup>
-                                <Tooltip title="share the schedule with participants">
-                                    <FormControlLabel
-                                        control={
-                                            <Checkbox
-                                                id="notifyParticipants"
-                                                name="notifyParticipants"
-                                                checked={formik.values.notifyParticipants}
-                                                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                                                    formik.setFieldValue('notifyParticipants', event.target.checked);
-                                                    formik.handleSubmit();
-                                                }}
-                                                onBlur={formik.handleBlur} />}
-                                        label="Notify participants" />
-                                </Tooltip>
-                            </FormGroup>
-                        </div>
                         {saveDialogOpened ? <Checkout onSuccess={handleCheckoutSuccess} onFailure={handleCheckoutFailure} clientId={paymentClientId} referral={referral} /> : null}
                     </div>
                 </DialogContent>
@@ -407,7 +387,22 @@ export default function ResultPage() {
                             fontWeight: 'bold',
                         }}>{scheduleData?.scheduleName}</span>
                         &nbsp;to your Google Drive&apos;s root folder.</p>
-
+                    <div css={{ paddingBottom: 16 }}>
+                        <FormGroup>
+                            <Tooltip title="share the schedule with participants">
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            id="notifyParticipants"
+                                            name="notifyParticipants"
+                                            checked={formik.values.notifyParticipants}
+                                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                                                formik.setFieldValue('notifyParticipants', event.target.checked);
+                                            }} />}
+                                    label="Notify participants" />
+                            </Tooltip>
+                        </FormGroup>
+                    </div>
                 </DialogContent>
                 <div css={{
                     display: 'flex',
