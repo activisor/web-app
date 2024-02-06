@@ -39,6 +39,7 @@ export default function ResultPage() {
     const [currency, setCurrency] = useState('USD');
     const [price, setPrice] = useState(publicRuntimeConfig.BASE_PRICE_CENTS);
     const [referral, setReferral] = useState(false);
+    const [referralDiscount, setReferralDiscount] = useState(0);
     const [discountCodeHelperText, setDiscountCodeHelperText] = useState('');
 
     const theme = useTheme();
@@ -87,6 +88,7 @@ export default function ResultPage() {
                         setPaymentClientId(data.paymentClientId);
                         setCurrency(data.currency);
                         setPrice(data.priceCents);
+                        setReferralDiscount(data.referralDiscount);
                     }
                 })
                 .catch(error => {
@@ -130,7 +132,7 @@ export default function ResultPage() {
         formik.handleSubmit();
     };
 
-    const setReferralDiscount = (field: string): void => {
+    const setReferralState = (field: string): void => {
         formik.validateField(field);
         if (formik.values.referral1 && !Boolean(formik.errors.referral1)
             && formik.values.referral2 && !Boolean(formik.errors.referral2)) {
@@ -144,7 +146,7 @@ export default function ResultPage() {
     const handleReferralBlur = (event: React.FocusEvent<HTMLInputElement>, field: string): void => {
         formik.setFieldValue(field, event.target.value);
 
-        setReferralDiscount(field);
+        setReferralState(field);
     }
 
     const handleReferralKeyDown = (event: React.KeyboardEvent<HTMLInputElement>, field: string): void => {
@@ -152,7 +154,7 @@ export default function ResultPage() {
             const emailInput = event.target as HTMLInputElement;
             emailInput.blur();
 
-            setReferralDiscount(field);
+            setReferralState(field);
 
             // prevent spurious form submission
             event.preventDefault();
@@ -313,7 +315,7 @@ export default function ResultPage() {
                     {
                         publicRuntimeConfig.DEV_FEATURES
                             ? <div css={{ marginBottom: 16 }}>
-                                <p>Refer two friends for 50% off</p>
+                                <p>{`Refer two friends for ${referralDiscount}% off`}</p>
                                 <div css={{ marginBottom: 16 }}>
                                     <TextField name="referral1"
                                         id="referral1"
