@@ -5,7 +5,6 @@ import Image from 'next/image';
 import { css } from '@emotion/react';
 import { useState } from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
-import East from '@mui/icons-material/East';
 import Info from '@mui/icons-material/Info';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
@@ -15,6 +14,7 @@ import Tooltip from '@mui/material/Tooltip';
 import { useTheme } from '@mui/material/styles';
 import CopyToClipboardButton from '@/components/copy-to-clipboard-button';
 import ImageDialog from '@/components/image-dialog';
+// import { publicRuntimeConfig } from '@/lib/config';
 import { mq } from '@/lib/media-queries';
 
 const schedulerToEmail = 'schedule@mail.activisor.com';
@@ -79,8 +79,11 @@ export default function Home() {
     const [dialogOpen, setDialogOpen] = useState(false);
     const theme = useTheme();
 
-    const itemTitleCss = css({
+    const headerColorCss = css({
         color: theme.palette.primary.dark,
+    });
+    const itemTitleCss = css({
+        // color: theme.palette.primary.dark,
         fontWeight: 'bold',
         paddingRight: 8,
     });
@@ -181,10 +184,9 @@ export default function Home() {
                             <div css={[ctaSectionCss, {
                                 borderWidth: 3
                             }]}>
-                                <h3 css={{
-                                    color: theme.palette.primary.dark,
-                                    marginTop: 0,
-                                }}>We Start</h3>
+                                <h3 css={[ headerColorCss, {
+                                     marginTop: 0,
+                                }]}>We Start</h3>
 
                                 <div css={{
                                     display: 'flex',
@@ -205,7 +207,7 @@ export default function Home() {
                                         <span css={{
                                             // paddingLeft: 56,
                                             [mq.md]: {
-                                            //    paddingLeft: 80,
+                                                //    paddingLeft: 80,
                                             },
                                             paddingRight: 8,
                                             fontStyle: 'italic'
@@ -230,10 +232,9 @@ export default function Home() {
                                 </div>
                             </div>
                             <div css={[ctaSectionCss]}>
-                                <h3 css={{
-                                    color: theme.palette.primary.dark,
+                                <h3 css={[ headerColorCss, {
                                     marginTop: 0,
-                                }}>You Start</h3>
+                                }]}>You Start</h3>
                                 <div css={{
                                     display: 'flex',
                                     flexDirection: 'column',
@@ -262,6 +263,7 @@ export default function Home() {
                     padding: 32,
                 }
             }}>
+                <h3 css={headerColorCss}>Why it matters</h3>
                 <p>Are you tired of spending hours managing your gaming or sports group&apos;s schedule? Activisor is a quick and easy way to create and share Google Sheets schedules for your recurring meetups.</p>
                 <ul css={{
                     '& > li': {
@@ -269,18 +271,30 @@ export default function Home() {
                     }
                 }}>
                     <li>
-                        <span css={css`${itemTitleCss};`}>Effortless Scheduling:</span>Some members seeing certain ones too often and others hardly at all?  No more hours spent trying to ensure a good experience for everyone on the roster; Activisor both balances participation and evenly mixes up the lineups across all your dates. In a couple of minutes, Activisor can share with your group a perfectly tailored schedule with any activity costs fairly shared.
+                        <span css={[headerColorCss, itemTitleCss]}>Effortless Scheduling:</span>Some members seeing certain ones too often and others hardly at all?  No more hours spent trying to ensure a good experience for everyone on the roster; Activisor both balances participation and evenly mixes up the lineups across all your dates. In a couple of minutes, Activisor can share with your group a perfectly tailored schedule with any activity costs fairly shared.
                     </li>
                     <li>
-                        <span css={css`${itemTitleCss};`}>Low Investment, No Commitment:</span>Don&apos;t need a registration service, website, and merchandise store bundled with your schedule? Say goodbye to the baggage and subscription fees. For a small one-time fee, you get just the schedule you want. No strings attached.
+                        <span css={[headerColorCss, itemTitleCss]}>Low Investment, No Commitment:</span>Don&apos;t need a registration service, website, and merchandise store bundled with your schedule? Say goodbye to the baggage and subscription fees. For a small one-time fee, you get just the schedule you want. No strings attached.
                     </li>
                     <li>
-                        <span css={css`${itemTitleCss};`}>Instantly Up and Running:</span>Already familiar with Google Sheets? Then, Activisor is designed for you. Instead of learning a new system, you&apos;ll be up and running in no time, leveraging the power of Google Sheets combined with Activisor&apos;s smart scheduling. You can easily customize your schedule according to your group&apos;s specific needs; whether you want to change playing spots, add special events, or adapt the schedule to evolving circumstances, you can do it all with ease.
+                        <span css={[headerColorCss, itemTitleCss]}>Instantly Up and Running:</span>Already familiar with Google Sheets? Then, Activisor is designed for you. Instead of learning a new system, you&apos;ll be up and running in no time, leveraging the power of Google Sheets combined with Activisor&apos;s smart scheduling. You can easily customize your schedule according to your group&apos;s specific needs; whether you want to change playing spots, add special events, or adapt the schedule to evolving circumstances, you can do it all with ease.
                     </li>
                 </ul>
-                <p>
-                    If you&apos;re seeking an easy and commitment-free way to create and manage your group&apos;s schedule, Activisor is for you. With Activisor, you&apos;re in control, allowing you to focus on what matters most – enjoying your group activities!
-                </p>
+                <br></br>
+                <h3 css={headerColorCss}>How it works</h3>
+                <ol css={{
+                    '& > li': {
+                        marginBottom: 16
+                    }
+                }}>
+                    <li>Enter some basic info about your schedule, such as your participants, when meetings occur, and overall cost (if any). Forward your group email to us and we can import your participant info.</li>
+                    <li>Authorize Google to grant access to Activisor in order for us to create your schedule and, if you desire, share it with the participants.</li>
+                    <li>Pay $2 or less to own it. Then, use and customize it however you want.</li>
+                </ol>
+                <br></br>
+                <br></br>
+                <h3 css={headerColorCss}>About us</h3>
+                <i>Activisor creates schedules for recreational groups that ensure balanced participation and mingling among the roster and then facilitates group management. Activisor strives to transform recreational group organization and management into a joyous and stress-free experience.</i>
             </div>
         </main>
     );
