@@ -263,7 +263,7 @@ export default function Home() {
                     padding: 32,
                 }
             }}>
-                <h3 css={headerColorCss}>How it helps</h3>
+                <h3 css={headerColorCss}>How It Helps</h3>
                 <p>Are you tired of spending hours managing your gaming or sports group&apos;s schedule? Activisor is a quick and easy way to create and share Google Sheets schedules for your recurring meetups.</p>
                 <ul css={{
                     '& > li': {
@@ -281,7 +281,7 @@ export default function Home() {
                     </li>
                 </ul>
                 <br></br>
-                <h3 css={headerColorCss}>How it works</h3>
+                <h3 css={headerColorCss}>How It Works</h3>
                 <ol css={{
                     '& > li': {
                         marginBottom: 16
@@ -293,7 +293,7 @@ export default function Home() {
                 </ol>
                 <br></br>
                 <br></br>
-                <h3 css={headerColorCss}>About us</h3>
+                <h3 css={headerColorCss}>About Us</h3>
                 <i>Activisor creates schedules for recreational groups that ensure balanced participation and mingling among the roster and then facilitates group management. Activisor strives to transform recreational group organization and management into a joyous and stress-free experience.</i>
             </div>
         </main>
