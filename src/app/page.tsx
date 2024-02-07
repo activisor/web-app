@@ -263,7 +263,7 @@ export default function Home() {
                     padding: 32,
                 }
             }}>
-                <h3 css={headerColorCss}>Why it matters</h3>
+                <h3 css={headerColorCss}>How it helps</h3>
                 <p>Are you tired of spending hours managing your gaming or sports group&apos;s schedule? Activisor is a quick and easy way to create and share Google Sheets schedules for your recurring meetups.</p>
                 <ul css={{
                     '& > li': {
@@ -287,7 +287,7 @@ export default function Home() {
                         marginBottom: 16
                     }
                 }}>
-                    <li>Enter some basic info about your schedule, such as your participants, when meetings occur, and overall cost (if any). <i>Forward your group email to us and we can import your participant info.</i></li>
+                    <li>Enter some basic info about your schedule, such as your participants, when meetings occur, and overall cost (if any). <i>Forward your group email to us and we can import their info.</i></li>
                     <li>Authorize Google to grant access to Activisor in order for us to create your schedule. <i>We don&apos;t touch anything else.</i></li>
                     <li>Pay $2 or less to own it. <i>Then, use and customize it however you want.</i></li>
                 </ol>
