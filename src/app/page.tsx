@@ -20,6 +20,7 @@ import { mq } from '@/lib/media-queries';
 const schedulerToEmail = 'schedule@mail.activisor.com';
 
 const heroSectionCss = css({
+    backgroundColor: '#FFFFFF',
     backgroundImage: 'linear-gradient(to right, rgba(255, 250, 223, 1.0),rgba(255, 250, 223, 0.5)), url(/pickleball-1920x1200.jpg)',
     backgroundPosition: 'center center',
     backgroundRepeat: 'no-repeat',
@@ -255,7 +256,6 @@ export default function Home() {
                 </Grid>
             </div>
             <div css={{
-                backgroundColor: 'rgba(255, 250, 223, 0.5)',
                 padding: 16,
                 [mq.md]: {
                     padding: 24,

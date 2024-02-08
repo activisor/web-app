@@ -14,12 +14,12 @@
 
 body {
     color: rgb(var(--foreground-rgb));
+    background-color: rgba(255, 250, 223, 0.5);
     --error-color: #D32F2F;
     overflow-x: hidden;
 }
 
 footer {
-    margin-top: 16px;
     padding: 16px;
     text-align: center;
     display: flex;
