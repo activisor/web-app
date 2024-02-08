@@ -255,6 +255,7 @@ export default function Home() {
                 </Grid>
             </div>
             <div css={{
+                backgroundColor: 'rgba(255, 250, 223, 0.5)',
                 padding: 16,
                 [mq.md]: {
                     padding: 24,
