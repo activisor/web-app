@@ -13,10 +13,12 @@
 }
 
 body {
-    color: rgb(var(--foreground-rgb));
-    background-color: rgba(255, 250, 223, 0.5);
     --error-color: #D32F2F;
     overflow-x: hidden;
+}
+
+main {
+    background-color: rgba(255, 250, 223, 0.5);
 }
 
 footer {
@@ -30,8 +32,8 @@ footer {
     background-color: #2196F3;
 }
 
-footer, footer a {
-    color: #FFFFFF;
+footer a {
+    color: #FFAC33;
     text-decoration: none;
 }
 

@@ -32,7 +32,7 @@ const heroSectionCss = css({
 
 const paperCss = css({
     padding: 16,
-    backgroundColor: 'rgba(255, 255, 255, 0.6)',
+    backgroundColor: 'rgba(255, 255, 255, 0.7)',
     backdropFilter: 'blur(5px)',
 });
 
@@ -195,7 +195,7 @@ export default function Home() {
                                     alignItems: 'center',
                                 }}>
                                     <div css={ctaEmailBlockCss}>
-                                        <span>Forward your group email to&nbsp;</span>
+                                        <span>Forward your roster group email to&nbsp;</span>
                                         <div css={{
                                             display: 'flex',
                                             alignItems: 'center',
@@ -247,7 +247,7 @@ export default function Home() {
                                             type="submit"
                                             color="secondary"
                                             onClick={handleClick}
-                                        >enter emails yourself</Button>
+                                        >enter roster yourself</Button>
                                     </Tooltip>
                                 </div>
                             </div>
@@ -288,7 +288,7 @@ export default function Home() {
                         marginBottom: 16
                     }
                 }}>
-                    <li>Enter some basic info about your schedule, such as your participants, when meetings occur, and overall cost (if any). <i>Forward your group email to us and we can import their info.</i></li>
+                    <li>Enter some basic info about your schedule, such as your roster, when meetings occur, and overall cost (if any). <i>Forward your roster group email to us and we can import their contact info.</i></li>
                     <li>Authorize Google to grant access to Activisor in order for us to create your schedule. <i>We don&apos;t touch anything else.</i></li>
                     <li>Pay $2 or less to own it. <i>Then, use and customize it however you want.</i></li>
                 </ol>

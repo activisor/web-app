@@ -21,10 +21,10 @@ export default function RootLayout({
             <body>
                 <Providers>{children}</Providers>
                 <footer>
-                    <p><a href="/privacy">Privacy Policy</a></p>
-                    <p><a href="/tos">Terms of Service</a></p>
-                    <p><a href="mailto:info@activisor.com" target="_blank" rel="noopener noreferrer">info@activisor.com</a></p>
-                    <p><a href="https://www.google.com/sheets/about/" target="_blank" rel="noreferrer noopener">Google Sheets is a trademark of Google LLC</a></p>
+                    <p><a href="/privacy"><b>Privacy Policy</b></a></p>
+                    <p><a href="/tos"><b>Terms of Service</b></a></p>
+                    <p><a href="mailto:info@activisor.com" target="_blank" rel="noopener noreferrer"><b>info@activisor.com</b></a></p>
+                    <p><a href="https://www.google.com/sheets/about/" target="_blank" rel="noreferrer noopener"><b>Google Sheets is a trademark of Google LLC</b></a></p>
                 </footer>
             </body>
         </html>
