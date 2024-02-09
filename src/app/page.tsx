@@ -15,7 +15,7 @@ import { useTheme } from '@mui/material/styles';
 import CopyToClipboardButton from '@/components/copy-to-clipboard-button';
 import ImageDialog from '@/components/image-dialog';
 // import { publicRuntimeConfig } from '@/lib/config';
-import { mq } from '@/lib/media-queries';
+import { mq, breakpoints } from '@/lib/media-queries';
 
 const schedulerToEmail = 'schedule@mail.activisor.com';
 
@@ -72,6 +72,15 @@ const ctaEmailBlockCss = css({
     },
 });
 
+const itemTitleCss = css({
+    fontWeight: 'bold',
+    paddingRight: 8,
+    // prevent wrapping
+    [`@media (min-width: ${breakpoints[3]}px) and (max-width: 1700px)`]: {
+        paddingRight: 0,
+    },
+});
+
 const handleClick = () => {
     window.location.href = '/schedule';
 };
@@ -82,11 +91,6 @@ export default function Home() {
 
     const headerColorCss = css({
         color: theme.palette.primary.dark,
-    });
-    const itemTitleCss = css({
-        // color: theme.palette.primary.dark,
-        fontWeight: 'bold',
-        paddingRight: 8,
     });
 
     const ctaSectionCss = css({
@@ -201,7 +205,7 @@ export default function Home() {
                                             alignItems: 'center',
                                         }}>
                                             <span css={itemTitleCss}>{schedulerToEmail}</span>
-                                            <CopyToClipboardButton value={schedulerToEmail} valueName="email" color="secondary"></CopyToClipboardButton>
+                                            <CopyToClipboardButton value={schedulerToEmail} valueName="email" color="secondary" fontSize="large"></CopyToClipboardButton>
                                         </div>
                                     </div>
                                     <div>

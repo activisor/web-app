@@ -3,8 +3,10 @@
 
 import IconButton from '@mui/material/IconButton';
 import Snackbar from '@mui/material/Snackbar';
+import { SvgIconPropsSizeOverrides } from '@mui/material/SvgIcon';
 import Tooltip from '@mui/material/Tooltip';
 import ContentCopy from '@mui/icons-material/ContentCopy';
+import { OverridableStringUnion } from '@mui/types';
 import React, { useState } from 'react';
 import { useMixPanel } from '@/client-lib/mixpanel';
 
@@ -12,6 +14,9 @@ export interface CopyToClipboardButtonProps {
     value: string;
     color: string;
     valueName: string;
+    fontSize?: OverridableStringUnion<
+        'inherit' | 'large' | 'medium' | 'small',
+        SvgIconPropsSizeOverrides>;
 };
 
 const CopyToClipboardButton: React.FC<CopyToClipboardButtonProps> = (props) => {
@@ -32,7 +37,7 @@ const CopyToClipboardButton: React.FC<CopyToClipboardButtonProps> = (props) => {
                     aria-label="copy to clipboard"
                     color={'secondary'}
                     onClick={handleClick}>
-                    <ContentCopy />
+                    <ContentCopy fontSize={props.fontSize?? 'medium'}/>
                 </IconButton>
             </Tooltip>
             <Snackbar

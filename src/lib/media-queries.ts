@@ -9,4 +9,4 @@ const mq = {
     xl: `@media (min-width: ${breakpoints[3]}px)`,
 }
 
-export { mq };
+export { mq, breakpoints };
