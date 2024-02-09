@@ -290,7 +290,7 @@ export default function Home() {
                 }}>
                     <li>Enter some basic info about your schedule, such as your roster, when meetings occur, and overall cost (if any). <i>Forward your roster group email to us and we can import their contact info.</i></li>
                     <li>Authorize Google to grant access to Activisor in order for us to create your schedule. <i>We don&apos;t touch anything else.</i></li>
-                    <li>Pay $2 or less to own it. <i>Then, use and customize it however you want.</i></li>
+                    <li>Pay as little as $1 to buy it. <i>Then, your imagination is your only limit to how you use and customize it.</i></li>
                 </ol>
                 <br></br>
                 <br></br>
