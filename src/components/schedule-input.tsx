@@ -466,6 +466,7 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                     }}>
                         <Button
                             variant="contained"
+                            size='large'
                             type="submit"
                             color="secondary"
                         >Create Schedule</Button>

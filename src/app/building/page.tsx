@@ -83,7 +83,7 @@ export default function Building() {
             width: '100%',
             /* breakpoint for large screen overrides, 1280px wide */
             '@media(min-width: 1248px)': {
-                marginTop: 16
+                paddingTop: 16
             }
         }}>
             <div css={{
