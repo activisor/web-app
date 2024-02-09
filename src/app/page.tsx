@@ -249,6 +249,7 @@ export default function Home() {
                                         <Button
                                             variant='outlined'
                                             type="submit"
+                                            size="large"
                                             color="secondary"
                                             onClick={handleClick}
                                         >enter roster yourself</Button>
