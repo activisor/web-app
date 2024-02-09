@@ -181,7 +181,7 @@ export default function Home() {
                             padding: 32,
                         }
                     }}>
-                        <Paper elevation={8} css={paperCss}>
+                        <Paper elevation={10} css={paperCss}>
                             <h2 css={{
                                 color: theme.palette.primary.main,
                                 marginTop: 0,
