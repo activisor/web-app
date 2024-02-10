@@ -36,28 +36,6 @@ const paperCss = css({
     backdropFilter: 'blur(5px)',
 });
 
-const ctaRowCss = css({
-    display: 'flex',
-    alignItems: 'center',
-    '& > svg': {
-        marginRight: 12,
-    },
-    '@media (max-width: 400px)': {
-        // hide arrouws on smallest screens
-        '& > svg': {
-            display: 'none',
-        },
-        '& > button': {
-            marginLeft: 56,
-        },
-    },
-    [mq.md]: {
-        '& > svg': {
-            marginRight: 16,
-        },
-    },
-});
-
 const ctaEmailBlockCss = css({
     [mq.sm]: {
         display: 'flex',
