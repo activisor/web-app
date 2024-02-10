@@ -5,9 +5,9 @@ import { css } from '@emotion/react';
 import React from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
 import IconButton from '@mui/material/IconButton';
 import Close from '@mui/icons-material/Close';
+import { useTheme } from '@mui/material/styles';
 
 export interface ImageDialogProps {
 
@@ -17,10 +17,13 @@ export interface ImageDialogProps {
     alt: string;
     height: number;
     width: number;
+    tagLine?: string;
     onClose: () => void;
 };
 
 const ImageDialog: React.FC<ImageDialogProps> = (props) => {
+    const theme = useTheme();
+
     const handleClose = () => {
         props.onClose();
     };
@@ -58,6 +61,15 @@ const ImageDialog: React.FC<ImageDialogProps> = (props) => {
                     }}
                 />
             </div>
+            <div css={{
+                width: '100%',
+                padding: 16,
+                display: 'flex',
+                justifyContent: 'center',
+                }}><span css={{
+                    color: theme.palette.primary.dark,
+                    fontStyle: 'italic',
+                }}>{props.tagLine?? ''}</span></div>
         </Dialog>
     );
 };
