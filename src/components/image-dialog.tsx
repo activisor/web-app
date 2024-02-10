@@ -63,7 +63,10 @@ const ImageDialog: React.FC<ImageDialogProps> = (props) => {
             </div>
             <div css={{
                 width: '100%',
-                padding: 16,
+                paddingTop: 24,
+                paddingBottom: 16,
+                paddingLeft: 16,
+                paddingRight: 16,
                 display: 'flex',
                 justifyContent: 'center',
                 }}><span css={{
