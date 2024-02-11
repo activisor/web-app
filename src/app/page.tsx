@@ -165,7 +165,7 @@ export default function Home() {
                     }}>
                         <Paper elevation={10} css={paperCss}>
                             <h2 css={{
-                                color: theme.palette.primary.main,
+                                color: theme.palette.primary.dark,
                                 marginTop: 0,
                             }}>Pick A Way To Start</h2>
                             <div css={[ctaSectionCss, {
@@ -279,12 +279,12 @@ export default function Home() {
                 }}>
                     <li>Enter some basic info about your schedule, such as your roster, when meetings occur, and overall cost (if any). <span css={[italicTextCss, altTextColorCss]}>Forward your roster group email to us and we can import their contact info.</span></li>
                     <li>Authorize Google to grant access to Activisor in order for us to create your schedule. <span css={[italicTextCss, altTextColorCss]}>We don&apos;t touch anything else.</span></li>
-                    <li>Pay as little as $1. <span css={[italicTextCss, altTextColorCss]}>Then, your imagination is your limit to how you use and customize it.</span></li>
+                    <li>Pay as little as $1. <span css={[italicTextCss, altTextColorCss]}>Then, your imagination is the limit to how you use and customize it.</span></li>
                 </ol>
                 <br></br>
                 <br></br>
                 <h3 css={altTextColorCss}>About Us</h3>
-                <i>Activisor creates schedules for recreational groups that ensure balanced participation and mingling among the roster and then facilitates group management. Activisor strives to transform recreational group organization and management into a joyous and stress-free experience.</i>
+                <p>Activisor creates schedules for recreational groups that ensure balanced participation and mingling among the roster and then facilitates group management. Activisor strives to transform recreational group organization and management into a joyous and stress-free experience.</p>
             </div>
         </main>
     );
