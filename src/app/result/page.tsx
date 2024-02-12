@@ -268,7 +268,7 @@ export default function ResultPage() {
                     <Grid xs={2}><LogoButton /></Grid>
                     <Grid xs={2}></Grid>
                     <Grid container xs={12} md={8}>
-                        <Grid xs={12} md={4} display="flex" justifyContent="center" alignItems="center">
+                        <Grid xs={12} md={5} xl={4} display="flex" justifyContent="center" alignItems="center">
                             <h3 css={ altTextColorCss }>Here is a preview of your schedule</h3>
                         </Grid>
                         <Grid xs={12} md={4} display="flex" justifyContent="center" alignItems="center">
