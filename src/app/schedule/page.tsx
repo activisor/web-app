@@ -61,7 +61,6 @@ export default function Schedule() {
             display: 'flex',
             justifyContent: 'center',
             minWidth: '100vw',
-            paddingBottom: 8,
             /* breakpoint for large screen overrides, 1280px wide */
             '@media(min-width: 1248px)': {
                 paddingTop: 16

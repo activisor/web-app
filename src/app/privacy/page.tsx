@@ -22,14 +22,14 @@ export default function Privacy() {
                 },
                 h3: {
                     marginBottom: 16,
-                    marginTop: 16
+                    marginTop: 16,
+                    marginLeft: 16
                 },
                 p: {
                     marginLeft: 8
                 },
                 /* breakpoint for large screen overrides, 1280px wide */
                 '@media(min-width: 1248px)': {
-                    margin: 8,
                     h2: {
                         marginTop: 32
                     },

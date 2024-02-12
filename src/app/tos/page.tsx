@@ -29,7 +29,6 @@ export default function Privacy() {
                 },
                 /* breakpoint for large screen overrides, 1280px wide */
                 '@media(min-width: 1248px)': {
-                    margin: 8,
                     h2: {
                         marginTop: 32
                     },

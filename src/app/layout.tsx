@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from '@mui/material/Link';
 import { Providers } from '../client-lib/provider';
 // import { Inter } from 'next/font/google'
 import './globals.css'
@@ -19,13 +20,15 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body>
-                <Providers>{children}</Providers>
-                <footer>
-                    <p><a href="/privacy">Privacy Policy</a></p>
-                    <p><a href="/tos">Terms of Service</a></p>
-                    <p><a href="mailto:info@activisor.com" target="_blank" rel="noopener noreferrer">info@activisor.com</a></p>
-                    <p><a href="https://www.google.com/sheets/about/" target="_blank" rel="noreferrer noopener">Google Sheets is a trademark of Google LLC</a></p>
-                </footer>
+                <Providers>
+                    {children}
+                    <footer>
+                        <Link href="/privacy" underline="hover">Privacy Policy</Link>
+                        <Link href="/tos" underline="hover">Terms of Service</Link>
+                        <Link href="mailto:info@activisor.com" underline="hover" rel="noopener">info@activisor.com</Link>
+                        <Link href="https://www.google.com/sheets/about/" underline="hover" rel="noopener">Google Sheets, a trademark of Google LLC</Link>
+                    </footer>
+                </Providers>
             </body>
         </html>
     )
