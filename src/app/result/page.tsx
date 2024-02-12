@@ -249,7 +249,7 @@ export default function ResultPage() {
     const previewUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/preview?storage_access_granted=true`;
 
     return (
-        <main>
+        <main css={{backgroundColor: '#FFFFFF'}}>
             <Paper elevation={4} css={{
                 /* theme primary light */
                 backgroundColor: 'rgba(187, 222, 251, 0.3)',
