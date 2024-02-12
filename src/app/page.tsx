@@ -171,8 +171,8 @@ export default function Home() {
                             <div css={[ctaSectionCss, {
                                 borderWidth: 3
                             }]}>
-                                <h3 css={[ altTextColorCss, {
-                                     marginTop: 0,
+                                <h3 css={[altTextColorCss, {
+                                    marginTop: 0,
                                 }]}>We Start</h3>
 
                                 <div css={{
@@ -191,15 +191,13 @@ export default function Home() {
                                         </div>
                                     </div>
                                     <div>
-                                    <Tooltip title="Look for our email response">
-                                        <span css={[ italicTextCss, altTextColorCss, {
+                                        <span css={[italicTextCss, altTextColorCss, {
                                             // paddingLeft: 56,
                                             [mq.md]: {
                                                 //    paddingLeft: 80,
                                             },
                                             paddingRight: 8,
                                         }]}>We&apos;ll get back to you!</span>
-                                    </Tooltip>
                                         <Tooltip title="see how to forward a group email">
                                             <IconButton
                                                 aria-label="info"
@@ -221,7 +219,7 @@ export default function Home() {
                                 </div>
                             </div>
                             <div css={[ctaSectionCss]}>
-                                <h3 css={[ altTextColorCss, {
+                                <h3 css={[altTextColorCss, {
                                     marginTop: 0,
                                 }]}>You Start</h3>
                                 <div css={{
