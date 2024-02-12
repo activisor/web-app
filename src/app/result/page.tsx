@@ -43,6 +43,9 @@ export default function ResultPage() {
     const [discountCodeHelperText, setDiscountCodeHelperText] = useState('');
 
     const theme = useTheme();
+    const altTextColorCss = css({
+        color: theme.palette.primary.dark,
+    });
 
     const USDollar = new Intl.NumberFormat('en-US', {
         style: 'currency',
@@ -266,7 +269,7 @@ export default function ResultPage() {
                     <Grid xs={2}></Grid>
                     <Grid container xs={12} md={8}>
                         <Grid xs={12} md={4} display="flex" justifyContent="center" alignItems="center">
-                            <h3>Here is a preview of your schedule</h3>
+                            <h3 css={ altTextColorCss }>Here is a preview of your schedule</h3>
                         </Grid>
                         <Grid xs={12} md={4} display="flex" justifyContent="center" alignItems="center">
                             <Button
@@ -374,10 +377,9 @@ export default function ResultPage() {
                 <DialogTitle sx={{ m: 0, p: 2 }}>Thanks for using Activisor</DialogTitle>
                 <DialogContent dividers={true} sx={{ m: 0, p: 2 }}>
                     <p>We&apos;ve added your schedule as a Google Sheets file named&nbsp;
-                        <span css={{
-                            color: theme.palette.primary.dark,
+                        <span css={[ altTextColorCss, {
                             fontWeight: 'bold',
-                        }}>{scheduleData?.scheduleName}</span>
+                        }]}>{scheduleData?.scheduleName}</span>
                         &nbsp;to your Google Drive&apos;s root folder.</p>
                     <div css={{ paddingBottom: 16 }}>
                         <FormGroup>

@@ -96,7 +96,12 @@ export interface ScheduleInputProps {
 const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
     // alert the user once they have 8 participants if group size is still 1
     const participantNotificationNumber = 7;
-    // const theme = useTheme();
+
+    const theme = useTheme();
+    const altTextColorCss = css({
+        color: theme.palette.primary.dark,
+    });
+
     const initialParticipants: ParticipantInputProps[] = [];
     const [participantKey, setParticipantKey] = useState(1);
     const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -304,12 +309,12 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                         }
                     }}>
                         <div css={css`${twoColumnChild};`}>
-                            <h2 css={{
+                            <h2 css={[ altTextColorCss, {
                                 /* breakpoint for large screen overrides, 1280px wide */
                                 '@media(min-width: 1248px)': {
                                     marginTop: 8
                                 }
-                            }}>Schedule</h2>
+                            }]}>Schedule</h2>
                             <div>
                                 <TextField
                                     id="scheduleName"
@@ -427,13 +432,13 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                         <div css={css`
                             ${twoColumnChild};
                         `}>
-                            <h2 css={{
+                            <h2 css={[ altTextColorCss, {
                                 marginTop: 24,
                                 /* breakpoint for large screen overrides, 1280px wide */
                                 '@media(min-width: 1248px)': {
                                     marginTop: 8
                                 }
-                            }}>Participants</h2>
+                            }]}>Participants</h2>
                             <div id="existing-participants" css={{
                                 marginBottom: 8,
                                 '& > *': {
