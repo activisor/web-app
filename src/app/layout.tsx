@@ -1,3 +1,4 @@
+import LogRocket from 'logrocket';
 import type { Metadata } from 'next'
 import Link from '@mui/material/Link';
 import { Providers } from '../client-lib/provider';
@@ -17,6 +18,10 @@ export default function RootLayout({
 }: {
     children: React.ReactNode
 }) {
+    if (typeof window !== 'undefined') {
+        LogRocket.init('2hrurg/activisor');
+    }
+
     return (
         <html lang="en">
             <body>

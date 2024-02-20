@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 'use client'
 
+import LogRocket from 'logrocket';
 import { css } from '@emotion/react'
 import { signOut, useSession } from 'next-auth/react';
 import Skeleton from '@mui/material/Skeleton';
@@ -46,6 +47,7 @@ export default function Building() {
     // if token detected, get DTO, compress & redirect to /api/schedule with payload
     if (status === "authenticated" || publicRuntimeConfig.UX_DEV_MODE) {
         if (session?.user?.email) {
+            LogRocket.identify(session.user.email);
             mixpanel.identify(session.user.email);
         }
 
