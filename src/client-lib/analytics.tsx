@@ -1,5 +1,7 @@
 /** @jsxImportSource @emotion/react */
+'use client'
 
+import LogRocket from 'logrocket';
 import mixpanel, { OverridedMixpanel } from 'mixpanel-browser';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { createContext, ReactNode, useContext, useEffect } from 'react';
@@ -21,12 +23,16 @@ type Props = {
     children: ReactNode;
 };
 
-const MixPanelProvider = ({ children }: Props) => {
-    const pathname = usePathname();
+const AnalyticsProvider = ({ children }: Props) => {
+    // const pathname = usePathname();
     const searchParams = useSearchParams();
     const source = searchParams.get('source')?? '';
 
     useEffect(() => {
+        if (typeof window !== 'undefined') {
+            LogRocket.init(`2hrurg/${publicRuntimeConfig.LOGROCKET_PROJECT}`);
+        }
+
         mixpanel?.track_pageview({
             'source': source,
         });
@@ -48,4 +54,4 @@ function useMixPanel() {
     return context;
 }
 
-export { MixPanelProvider, useMixPanel };
+export { AnalyticsProvider, useMixPanel };

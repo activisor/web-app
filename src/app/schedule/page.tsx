@@ -7,7 +7,7 @@ import { signIn, useSession } from 'next-auth/react';
 import LogoButton from '@/components/logo-button';
 import ScheduleInput from '@/components/schedule-input';
 import { readItem, saveItem, hasStorage, GENERATION_REQUESTED, SCHEDULE_DATA } from '@/client-lib/local-storage';
-import { useMixPanel } from '@/client-lib/mixpanel';
+import { useMixPanel } from '@/client-lib/analytics';
 import { publicRuntimeConfig } from '@/lib/app-constants';
 import type { Participant } from '@/lib/participant';
 import type { ScheduleData } from '@/lib/schedule-data';

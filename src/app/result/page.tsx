@@ -18,7 +18,7 @@ import { useTheme } from '@mui/material/styles';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { readItem, SCHEDULE_DATA } from '@/client-lib/local-storage';
-import { useMixPanel } from '@/client-lib/mixpanel';
+import { useMixPanel } from '@/client-lib/analytics';
 import Checkout from '@/components/checkout';
 import LogoButton from '@/components/logo-button';
 import { publicRuntimeConfig } from '@/lib/app-constants';

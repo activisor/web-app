@@ -8,7 +8,7 @@ import Tooltip from '@mui/material/Tooltip';
 import ContentCopy from '@mui/icons-material/ContentCopy';
 import { OverridableStringUnion } from '@mui/types';
 import React, { useState } from 'react';
-import { useMixPanel } from '@/client-lib/mixpanel';
+import { useMixPanel } from '@/client-lib/analytics';
 
 export interface CopyToClipboardButtonProps {
     value: string;

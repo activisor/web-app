@@ -16,11 +16,12 @@ export const publicRuntimeConfig = {
     // no login, no sheet generation
     UX_DEV_MODE: process.env.NEXT_PUBLIC_UX_DEV_MODE === 'true',
 
-    // max number of participants
-    MAX_PARTICIPANTS: parseInt(process.env.NEXT_PUBLIC_MAX_PARTICIPANTS as string, 10),
-
+    // analytics
+    LOGROCKET_PROJECT: process.env.NEXT_PUBLIC_LOGROCKET_PROJECT as string,
     MIXPANEL_TOKEN: process.env.NEXT_PUBLIC_MIXPANEL_TOKEN as string,
 
+    // max number of participants
+    MAX_PARTICIPANTS: parseInt(process.env.NEXT_PUBLIC_MAX_PARTICIPANTS as string, 10),
     CURRENCY: 'USD',
     BASE_PRICE_CENTS: parseInt(process.env.NEXT_PUBLIC_BASE_PRICE_CENTS as string, 10),
 };

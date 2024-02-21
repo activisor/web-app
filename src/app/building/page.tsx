@@ -8,7 +8,7 @@ import Skeleton from '@mui/material/Skeleton';
 import { useTheme } from '@mui/material/styles';
 import LogoButton from '@/components/logo-button';
 import { readItem, saveItem, GENERATION_REQUESTED, SCHEDULE_DATA } from '@/client-lib/local-storage';
-import { useMixPanel } from '@/client-lib/mixpanel';
+import { useMixPanel } from '@/client-lib/analytics';
 import { publicRuntimeConfig } from '@/lib/app-constants';
 import type { ScheduleData } from '@/lib/schedule-data';
 import { encode } from '@/lib/base64-convert';
