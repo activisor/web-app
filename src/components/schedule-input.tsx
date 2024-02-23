@@ -309,11 +309,8 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                         }
                     }}>
                         <div css={css`${twoColumnChild};`}>
-                            <h2 css={[ altTextColorCss, {
-                                /* breakpoint for large screen overrides, 1280px wide */
-                                '@media(min-width: 1248px)': {
-                                    marginTop: 8
-                                }
+                            <h2 css={[altTextColorCss, {
+                                marginTop: 8
                             }]}>Schedule</h2>
                             <div>
                                 <TextField
@@ -432,7 +429,7 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                         <div css={css`
                             ${twoColumnChild};
                         `}>
-                            <h2 css={[ altTextColorCss, {
+                            <h2 css={[altTextColorCss, {
                                 marginTop: 24,
                                 /* breakpoint for large screen overrides, 1280px wide */
                                 '@media(min-width: 1248px)': {

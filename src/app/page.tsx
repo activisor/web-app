@@ -131,7 +131,9 @@ export default function Home() {
                             <div css={{
                                 backdropFilter: 'blur(2px)',
                                 fontWeight: 'bold',
-                                lineHeight: 2.0,
+                                [mq.xl]: {
+                                    lineHeight: 2.0,
+                                },
                             }}>
                                 <p>Nine players sharing one pickleball court for the season? We know it&apos;s hard to create a schedule that provides a good experience for all - but it doesn&apos;t have to be. Activisor creates and shares Google Sheets schedules that ensure balanced participation and mingling among your pickleball (or any other) roster.</p>
                             </div>
