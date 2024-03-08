@@ -266,10 +266,10 @@ export default function Home() {
                         <span css={[altTextColorCss, itemTitleCss]}>Effortless Scheduling:</span>Some members seeing certain ones too often and others hardly at all?  No more hours spent trying to ensure a good experience for everyone on the roster; Activisor both balances participation and evenly mixes up the lineups across all your dates. In a couple of minutes, Activisor can share with your group a perfectly tailored schedule with any activity costs fairly shared.
                     </li>
                     <li>
-                        <span css={[altTextColorCss, itemTitleCss]}>No More Attendance Problems:</span>It can be a hassle to keep track of who&apos;s coming and who&apos;s not. Activisor makes it easy to manage attendance and communicate with your group.
+                        <span css={[altTextColorCss, itemTitleCss]}>Reduce Attendance Problems:</span>It can be a hassle to keep track of who&apos;s coming and who&apos;s not. Activisor makes it easy to manage attendance and communicate with your group.
                     </li>
                     <li>
-                        <span css={[altTextColorCss, itemTitleCss]}>Embedded In Your Daily Routine:</span>Activisor is built into the apps you already use every day so you&apos;ll always be on top of things.
+                        <span css={[altTextColorCss, itemTitleCss]}>Embedded In Your Daily Routine:</span>Activisor is built on the apps you already use every day so you&apos;ll always be on top of things.
                     </li>
                 </ul>
                 <br></br>
