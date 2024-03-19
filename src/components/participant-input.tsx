@@ -137,20 +137,28 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
         }}>
             <TextField name="email"
                 id="participant-email"
+                label={props.saved ? '' : 'Email'}
                 type={"email"}
-                inputProps={{ placeholder: 'Email', value: props_.email }}
+                inputProps={{ value: props_.email}}
                 onBlur={formik.handleBlur}
                 onChange={handleEmailChange}
                 onKeyDown={handleEmailKeyDown}
                 error={formik.touched.email && Boolean(formik.errors.email)}
                 helperText={formik.touched.email && formik.errors.email}
-                css={{ marginRight: 8 }} />
+                css={{
+                    marginRight: 8,
+                    flexGrow: 1
+                    }} />
             <TextField name="name"
                 id="participant-name"
+                label={props.saved ? '' : 'Name'}
                 type="text"
-                inputProps={{ placeholder: 'Name', value: props_.name }}
+                inputProps={{ value: props_.name }}
                 onChange={handleNameChange}
-                onKeyDown={handleNameKeyDown} />
+                onKeyDown={handleNameKeyDown}
+                css={{
+                     flexGrow: 1
+                    }} />
             {props.saved ? (
                 <IconButton aria-label="delete" color="primary" onClick={handleDeleteClick}>
                     <DeleteIcon />

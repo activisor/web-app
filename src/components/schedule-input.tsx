@@ -448,7 +448,25 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                                 </div>
                             </div>
                             {allowAddParticipants ? (
-                                <ParticipantInput name="" email="" saved={false} />
+                                <div className="no-bg" css={{
+                                    borderColor: '#BBDEFB',
+                                    borderWidth: 4,
+                                    borderStyle: 'solid',
+                                    borderRadius: 8,
+                                    marginLeft: 4,
+                                    marginRight: 12,
+                                    padding: 8,
+                                    paddingRight: 4,
+                                    '& > *': {
+                                        marginRight: -4,
+                                    },
+                                    '@media(min-width: 1248px)': {
+                                        marginLeft: 12,
+                                        marginRight: 20,
+                                    }
+                                }}>
+                                    <ParticipantInput name="" email="" saved={false} />
+                                </div>
                             ) : (
                                 <p>You can have up to {publicRuntimeConfig.MAX_PARTICIPANTS} participants</p>
                             )
@@ -471,7 +489,7 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                             size='large'
                             type="submit"
                             color="secondary"
-                        >Create Schedule</Button>
+                        >Create My Schedule</Button>
                     </div>
                     <Dialog id="daysDialog" onClose={handleDaysDialogClose} open={daysDialogOpen}>
                         <DialogTitle sx={{ m: 0, p: 2 }}>Days of the Week</DialogTitle>
