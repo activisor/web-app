@@ -320,8 +320,9 @@ export default function ResultPage() {
                                 <div css={{ marginBottom: 16 }}>
                                     <TextField name="referral1"
                                         id="referral1"
+                                        label="Email"
                                         type={"email"}
-                                        inputProps={{ placeholder: 'Email', value: formik.values.referral1 }}
+                                        inputProps={{ value: formik.values.referral1 }}
                                         onBlur={(event: React.FocusEvent<HTMLInputElement>) => {
                                             handleReferralBlur(event, 'referral1');
                                         }}
@@ -335,8 +336,9 @@ export default function ResultPage() {
                                 <div>
                                     <TextField name="referral2"
                                         id="referral2"
+                                        label="Email"
                                         type={"email"}
-                                        inputProps={{ placeholder: 'Email', value: formik.values.referral2 }}
+                                        inputProps={{ value: formik.values.referral2 }}
                                         onBlur={(event: React.FocusEvent<HTMLInputElement>) => {
                                             handleReferralBlur(event, 'referral2');
                                         }}
@@ -364,9 +366,6 @@ export default function ResultPage() {
                                 onChange={formik.handleChange}
                                 onBlur={handleDiscountCodeBlur}
                                 onKeyDown={handleDiscountCodeKeyDown}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
                             />
                         </div>
                         {saveDialogOpened ? <Checkout onSuccess={handleCheckoutSuccess} onFailure={handleSaveDialogClose} clientId={paymentClientId} referral={referral} /> : null}
@@ -408,7 +407,7 @@ export default function ResultPage() {
                         type="submit"
                         color="secondary"
                         onClick={handleConfirmDialogClose}
-                    >Open Schedule</Button>
+                    >Open My Schedule</Button>
                 </div>
             </Dialog>
         </main>

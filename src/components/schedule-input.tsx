@@ -325,9 +325,6 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                                     onKeyDown={(event) => { if (event.key === 'Enter') { event.preventDefault(); } }}
                                     error={formikProps.touched.scheduleName && Boolean(formikProps.errors.scheduleName)}
                                     helperText={formikProps.touched.scheduleName && formikProps.errors.scheduleName}
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
                                     sx={{
                                         width: '100%'
                                     }}
@@ -420,9 +417,6 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                                     onKeyDown={(event) => { if (event.key === 'Enter') { event.preventDefault(); } }}
                                     error={Boolean(formikProps.errors.total)}
                                     helperText={formikProps.errors.total ? 'This must be a number, such as 123.45' : ''}
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
                                 />
                             </div>
                         </div>
