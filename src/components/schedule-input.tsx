@@ -94,6 +94,9 @@ export interface ScheduleInputProps {
 };
 
 const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
+    const sizeLabel = 'Group Size';
+    const frequencyLabel = 'Meeting';
+
     // alert the user once they have 8 participants if group size is still 1
     const participantNotificationNumber = 7;
 
@@ -335,7 +338,7 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                             }}>
                                 <FormikMuiDatePicker
                                     name="startDate"
-                                    label="Start on"
+                                    label="Starts on"
                                     handleChange={handleStartDayChange}
                                     css={{
                                         marginRight: 8,
@@ -346,7 +349,7 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                                 />
                                 <FormikMuiDatePicker
                                     name="endDate"
-                                    label="End by"
+                                    label="Ends by"
                                     handleChange={(date) => { }}
                                 />
                             </div>
@@ -356,54 +359,62 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                             <div css={{
                                 display: 'flex'
                             }}>
-                                <FormControl sx={{ minWidth: 150 }} css={{
-                                    marginRight: 8,
-                                    '@media(min-width: 1248px)': {
-                                        marginRight: 24
-                                    }
+                                <div css={{
+                                    flexGrow: 1,
                                 }}>
-                                    <InputLabel id="size-select-label">Group Size</InputLabel>
-                                    <Select
-                                        labelId="size-select-label"
-                                        id="groupSize"
-                                        name="groupSize"
-                                        label="Group Size"
-                                        value={formikProps.values.groupSize.toString()}
-                                        onChange={formikProps.handleChange}
-                                    >
-                                        <MenuItem value="1">1 member</MenuItem>
-                                        <MenuItem value="2">2</MenuItem>
-                                        <MenuItem value="3">3</MenuItem>
-                                        <MenuItem value="4">4</MenuItem>
-                                        <MenuItem value="5">5</MenuItem>
-                                        <MenuItem value="6">6</MenuItem>
-                                        <MenuItem value="7">7</MenuItem>
-                                        <MenuItem value="8">8</MenuItem>
-                                        <MenuItem value="9">9</MenuItem>
-                                        <MenuItem value="10">10</MenuItem>
-                                        <MenuItem value="11">11</MenuItem>
-                                        <MenuItem value="12">12</MenuItem>
-                                        <MenuItem value="13">13</MenuItem>
-                                        <MenuItem value="14">14</MenuItem>
-                                        <MenuItem value="15">15</MenuItem>
-                                        <MenuItem value="16">16</MenuItem>
-                                    </Select>
-                                </FormControl>
-                                <FormControl sx={{ minWidth: 150 }}>
-                                    <InputLabel id="frequency-select-label">Frequency</InputLabel>
-                                    <Select
-                                        labelId="frequency-select-label"
-                                        id="frequency"
-                                        name="frequency"
-                                        label="Frequency"
-                                        value={formikProps.values.frequency.toString()}
-                                        onChange={handleChangeFrequency}
-                                    >
-                                        <MenuItem value="4">monthly</MenuItem>
-                                        <MenuItem value="3">every other week</MenuItem>
-                                        <MenuItem value="5" onClick={handleDaysOfWeekClick}>weekly or daily</MenuItem>
-                                    </Select>
-                                </FormControl>
+                                    <FormControl sx={{ minWidth: 150 }} css={{
+                                        marginRight: 8,
+                                        '@media(min-width: 1248px)': {
+                                            marginRight: 24
+                                        }
+                                    }}>
+                                        <InputLabel id="size-select-label">{sizeLabel}</InputLabel>
+                                        <Select
+                                            labelId="size-select-label"
+                                            id="groupSize"
+                                            name="groupSize"
+                                            label={sizeLabel}
+                                            value={formikProps.values.groupSize.toString()}
+                                            onChange={formikProps.handleChange}
+                                        >
+                                            <MenuItem value="1">1 member</MenuItem>
+                                            <MenuItem value="2">2</MenuItem>
+                                            <MenuItem value="3">3</MenuItem>
+                                            <MenuItem value="4">4</MenuItem>
+                                            <MenuItem value="5">5</MenuItem>
+                                            <MenuItem value="6">6</MenuItem>
+                                            <MenuItem value="7">7</MenuItem>
+                                            <MenuItem value="8">8</MenuItem>
+                                            <MenuItem value="9">9</MenuItem>
+                                            <MenuItem value="10">10</MenuItem>
+                                            <MenuItem value="11">11</MenuItem>
+                                            <MenuItem value="12">12</MenuItem>
+                                            <MenuItem value="13">13</MenuItem>
+                                            <MenuItem value="14">14</MenuItem>
+                                            <MenuItem value="15">15</MenuItem>
+                                            <MenuItem value="16">16</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                </div>
+                                <div css={{
+                                    flexGrow: 1,
+                                }}>
+                                    <FormControl sx={{ minWidth: 150 }}>
+                                        <InputLabel id="frequency-select-label">{frequencyLabel}</InputLabel>
+                                        <Select
+                                            labelId="frequency-select-label"
+                                            id="frequency"
+                                            name="frequency"
+                                            label={frequencyLabel}
+                                            value={formikProps.values.frequency.toString()}
+                                            onChange={handleChangeFrequency}
+                                        >
+                                            <MenuItem value="4">monthly</MenuItem>
+                                            <MenuItem value="3">every other week</MenuItem>
+                                            <MenuItem value="5" onClick={handleDaysOfWeekClick}>weekly or daily</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                </div>
                             </div>
                             <div>
                                 <TextField
@@ -411,6 +422,7 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                                     label="Overall Cost"
                                     name="total"
                                     type="text"
+                                    sx={{ width: 150 }}
                                     value={formikProps.values.total}
                                     onChange={formikProps.handleChange}
                                     onBlur={formikProps.handleBlur}
