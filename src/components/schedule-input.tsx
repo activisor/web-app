@@ -37,7 +37,7 @@ import { mq } from '@/lib/media-queries';
 const twoColumnChild = css({
     margin: 8,
     '& > *': {
-        margin: 16
+        margin: 8
     },
     '@media(min-width: 1248px)': {
         flexGrow: 1,
@@ -311,9 +311,14 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                             alignItems: 'flex-start'
                         }
                     }}>
-                        <div css={css`${twoColumnChild};`}>
+                        <div css={[twoColumnChild, {
+                            '& > *': {
+                                marginBottom: 16
+                            },
+                        }]}>
                             <h2 css={[altTextColorCss, {
-                                marginTop: 8
+                                marginTop: 8,
+                                marginBottom: 8
                             }]}>Schedule</h2>
                             <div>
                                 <TextField
@@ -443,7 +448,6 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                                 }
                             }]}>Participants</h2>
                             <div id="existing-participants" css={{
-                                marginBottom: 8,
                                 '& > *': {
                                     marginBottom: 8,
                                 }
@@ -454,23 +458,7 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                                 </div>
                             </div>
                             {allowAddParticipants ? (
-                                <div className="no-bg" css={{
-                                    borderColor: '#BBDEFB',
-                                    borderWidth: 4,
-                                    borderStyle: 'solid',
-                                    borderRadius: 8,
-                                    marginLeft: 4,
-                                    marginRight: 12,
-                                    padding: 8,
-                                    paddingRight: 4,
-                                    '& > *': {
-                                        marginRight: -4,
-                                    },
-                                    '@media(min-width: 1248px)': {
-                                        marginLeft: 12,
-                                        marginRight: 20,
-                                    }
-                                }}>
+                                <div>
                                     <ParticipantInput name="" email="" saved={false} />
                                 </div>
                             ) : (

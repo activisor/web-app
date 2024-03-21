@@ -26,14 +26,23 @@ const participantSchema = yup.object({
     name: yup.string(),
 });
 
-const participantInputStyle = css({
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+const cleanContainerStyle = css({
+    paddingLeft: 12,
+    paddingRight: 4
+});
+const dirtyContainerStyle = css({
+    borderColor: '#BBDEFB',
+    borderWidth: 4,
+    borderStyle: 'solid',
+    borderRadius: 8,
+    padding: 8,
+    paddingRight: 0,
 });
 
 const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
     const [props_, setProps_] = useState(props);
+    const isDirty = !props_.saved && (Boolean(props_.email) || Boolean(props_.name));
+    const containerStyle = isDirty ? dirtyContainerStyle : cleanContainerStyle;
 
     const formik = useFormik({
         initialValues: {
@@ -131,9 +140,11 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
     };
 
     return (
-        <div css={{
-            display: 'flex'
-        }}>
+        <div css={[{
+            display: 'flex',
+            marginLeft: -8,
+            marginRight: -8,
+        }, containerStyle]}>
             <TextField name="email"
                 id="participant-email"
                 label={props.saved ? '' : 'Email'}
@@ -158,7 +169,7 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
                 css={{
                      flexGrow: 1
                     }} />
-            {props.saved ? (
+            {props_.saved ? (
                 <IconButton aria-label="delete" color="primary" onClick={handleDeleteClick}>
                     <DeleteIcon />
                 </IconButton>
