@@ -90,8 +90,8 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
 
     const handleNameKeyDown = (event: React.KeyboardEvent<HTMLInputElement>): void => {
         if (event.key === 'Enter') {
+            formik.validateField('email');
             if (props_.saved) {
-                formik.validateField('email');
                 if (!Boolean(formik.errors.email)) {
                     publish(CHANGE_EVENT, props_);
                     const nameInput = event.target as HTMLInputElement;
@@ -100,7 +100,6 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
                     }
                 }
             } else if (props_.email && props_.name) {
-                formik.validateField('email');
                 if (!Boolean(formik.errors.email)) {
                     publish(ADD_EVENT, props_);
                     const initialProps: ParticipantInputProps = {
@@ -143,8 +142,8 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
                 onBlur={formik.handleBlur}
                 onChange={handleEmailChange}
                 onKeyDown={handleEmailKeyDown}
-                error={formik.touched.email && Boolean(formik.errors.email)}
-                helperText={formik.touched.email && formik.errors.email}
+                error={(Boolean(formik.errors.email) && (Boolean(props_.name) || Boolean(props_.email)))}
+                helperText={(Boolean(formik.errors.email) && (Boolean(props_.name) || Boolean(props_.email)))? formik.errors.email : ''}
                 css={{
                     marginRight: 8,
                     flexGrow: 1
