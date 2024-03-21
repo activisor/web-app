@@ -7,6 +7,7 @@ import TextField from '@mui/material/TextField';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton/IconButton';
+import { useTheme } from '@mui/material/styles';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
@@ -26,21 +27,24 @@ const participantSchema = yup.object({
     name: yup.string(),
 });
 
-const cleanContainerStyle = css({
-    paddingLeft: 12,
-    paddingRight: 4
-});
-const dirtyContainerStyle = css({
-    borderColor: '#BBDEFB',
-    borderWidth: 4,
-    borderStyle: 'solid',
-    borderRadius: 8,
-    padding: 8,
-    paddingRight: 0,
-});
 
 const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
     const [props_, setProps_] = useState(props);
+    const theme = useTheme();
+
+    const cleanContainerStyle = css({
+        paddingLeft: 12,
+        paddingRight: 4
+    });
+    const dirtyContainerStyle = css({
+        borderColor: theme.palette.primary.light,
+        borderWidth: 4,
+        borderStyle: 'solid',
+        borderRadius: 8,
+        padding: 8,
+        paddingRight: 0,
+    });
+
     const isDirty = !props_.saved && (Boolean(props_.email) || Boolean(props_.name));
     const containerStyle = isDirty ? dirtyContainerStyle : cleanContainerStyle;
 
