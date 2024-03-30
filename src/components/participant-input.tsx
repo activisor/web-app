@@ -28,7 +28,13 @@ const participantSchema = yup.object({
     name: yup.string(),
 });
 
-
+/**
+ * participant entry/edit component
+ * requires minimum 16px parent paddding left to align left textbox with other components
+ * theme color dirty indicator in add mode
+ * @param props ParticipantInputProps
+ * @returns
+ */
 const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
     const [props_, setProps_] = useState(props);
     const theme = useTheme();
@@ -58,7 +64,7 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
             marginLeft: -24,
         },
     });
-    const containerSyle = props_.saved? editContainerStyle : addContainerStyle;
+    const containerSyle = props_.saved ? editContainerStyle : addContainerStyle;
 
     const formik = useFormik({
         initialValues: {
@@ -158,23 +164,26 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
     return (
         <div css={[{
             display: 'flex',
-            alignItems: 'center',
+            //alignItems: 'center',
             marginLeft: -12,
-        }, containerSyle]}>
-            {props_.saved ? (
-                <div css={{
-                    color: theme.palette.primary.dark,
-                    fontSize: '.75rem',
-                    //paddingRight: 4,
-                    textAlign: 'center',
-                    flexBasis: 16,
-                    flexGrow: 0,
-                    flexShrink: 0,
-                    [mq.sm]: {
-                        //paddingRight: 8,
-                        flexBasis: 24,
-                    },
-                }}>{props_.id}</div>) : null}
+        }, containerSyle]} >
+            {props_.saved
+                ? (
+                    <div css={{
+                        color: theme.palette.primary.dark,
+                        fontSize: '.75rem',
+                        textAlign: 'center',
+                        flexBasis: 16,
+                        flexGrow: 0,
+                        flexShrink: 0,
+                        display: 'grid',
+                        alignItems: 'center',
+                        [mq.sm]: {
+                            flexBasis: 24,
+                        },
+                    }}>{props_.id}</div>
+                )
+                : null}
             <TextField name="email"
                 id="participant-email"
                 label={props.saved ? '' : 'Email'}
@@ -199,20 +208,22 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
                 css={{
                     flexGrow: 1
                 }} />
-            {props_.saved ? (
-                <IconButton aria-label="delete" color="primary" onClick={handleDeleteClick}>
-                    <DeleteIcon />
-                </IconButton>
-            ) : (
-                <IconButton
-                    aria-label="add"
-                    color="primary"
-                    onClick={handleAddClick}
-                    disabled={!Boolean(props_.email) || Boolean(formik.errors.email)}
-                >
-                    <AddIcon />
-                </IconButton>
-            )}
+            {props_.saved
+                ? (
+                    <IconButton aria-label="delete" color="primary" onClick={handleDeleteClick}>
+                        <DeleteIcon />
+                    </IconButton>
+                )
+                : (
+                    <IconButton
+                        aria-label="add"
+                        color="primary"
+                        onClick={handleAddClick}
+                        disabled={!Boolean(props_.email) || Boolean(formik.errors.email)}
+                    >
+                        <AddIcon />
+                    </IconButton>
+                )}
         </div>
     );
 }
