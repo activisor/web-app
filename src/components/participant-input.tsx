@@ -12,6 +12,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 
 import { publish } from '@/client-lib/events';
+import { mq } from '@/lib/media-queries';
 import type { Participant } from '@/lib/participant';
 
 export interface ParticipantInputProps extends Participant {
@@ -32,21 +33,32 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
     const [props_, setProps_] = useState(props);
     const theme = useTheme();
 
-    const cleanContainerStyle = css({
+    const cleanAddContainerStyle = css({
         paddingLeft: 12,
-        paddingRight: 4
+        marginLeft: -12,
+        marginRight: -8,
     });
-    const dirtyContainerStyle = css({
+    const dirtyAddContainerStyle = css({
+        marginLeft: -12,
+        marginRight: -12,
+        padding: 8,
+        paddingRight: 0,
         borderColor: theme.palette.primary.light,
         borderWidth: 4,
         borderStyle: 'solid',
         borderRadius: 8,
-        padding: 8,
-        paddingRight: 0,
     });
 
     const isDirty = !props_.saved && (Boolean(props_.email) || Boolean(props_.name));
-    const containerStyle = isDirty ? dirtyContainerStyle : cleanContainerStyle;
+    const addContainerStyle = isDirty ? dirtyAddContainerStyle : cleanAddContainerStyle;
+    const editContainerStyle = css({
+        marginLeft: -16,
+        marginRight: -8,
+        [mq.sm]: {
+            marginLeft: -24,
+        },
+    });
+    const containerSyle = props_.saved? editContainerStyle : addContainerStyle;
 
     const formik = useFormik({
         initialValues: {
@@ -146,23 +158,37 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
     return (
         <div css={[{
             display: 'flex',
-            marginLeft: -8,
-            marginRight: -8,
-        }, containerStyle]}>
+            alignItems: 'center',
+            marginLeft: -12,
+        }, containerSyle]}>
+            {props_.saved ? (
+                <div css={{
+                    color: theme.palette.primary.dark,
+                    fontSize: '.75rem',
+                    //paddingRight: 4,
+                    textAlign: 'center',
+                    flexBasis: 16,
+                    flexGrow: 0,
+                    flexShrink: 0,
+                    [mq.sm]: {
+                        //paddingRight: 8,
+                        flexBasis: 24,
+                    },
+                }}>{props_.id}</div>) : null}
             <TextField name="email"
                 id="participant-email"
                 label={props.saved ? '' : 'Email'}
                 type={"email"}
-                inputProps={{ value: props_.email}}
+                inputProps={{ value: props_.email }}
                 onBlur={formik.handleBlur}
                 onChange={handleEmailChange}
                 onKeyDown={handleEmailKeyDown}
                 error={(Boolean(formik.errors.email) && (Boolean(props_.name) || Boolean(props_.email)))}
-                helperText={(Boolean(formik.errors.email) && (Boolean(props_.name) || Boolean(props_.email)))? formik.errors.email : ''}
+                helperText={(Boolean(formik.errors.email) && (Boolean(props_.name) || Boolean(props_.email))) ? formik.errors.email : ''}
                 css={{
                     marginRight: 8,
                     flexGrow: 1
-                    }} />
+                }} />
             <TextField name="name"
                 id="participant-name"
                 label={props.saved ? '' : 'Name'}
@@ -171,8 +197,8 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
                 onChange={handleNameChange}
                 onKeyDown={handleNameKeyDown}
                 css={{
-                     flexGrow: 1
-                    }} />
+                    flexGrow: 1
+                }} />
             {props_.saved ? (
                 <IconButton aria-label="delete" color="primary" onClick={handleDeleteClick}>
                     <DeleteIcon />
