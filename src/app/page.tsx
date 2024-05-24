@@ -21,12 +21,18 @@ const schedulerToEmail = 'schedule@mail.activisor.com';
 
 const heroSectionCss = css({
     backgroundColor: '#FFFFFF',
-    backgroundImage: 'linear-gradient(to right, rgba(255, 250, 223, 1.0),rgba(255, 250, 223, 0.5)), url(/pickleball-1920x1200.jpg)',
     backgroundPosition: 'center right',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
     [mq.md]: {
         height: '100vh'
+    },
+});
+
+const heroImageCss = css({
+    backgroundImage: 'linear-gradient(rgba(255, 250, 223, 1.0),rgba(255, 250, 223, 0.5)), url(/pickleball-1920x1200.jpg)',
+    [mq.md]: {
+        backgroundImage: 'linear-gradient(to right, rgba(255, 250, 223, 1.0),rgba(255, 250, 223, 0.5)), url(/pickleball-1920x1200.jpg)',
     },
 });
 
@@ -96,7 +102,7 @@ export default function Home() {
 
     return (
         <main>
-            <div id="hero-section" css={heroSectionCss}>
+            <div id="hero-section" css={[heroSectionCss, heroImageCss]}>
                 <Grid container spacing={2} css={{
                     height: '100%',
                     alignItems: 'stretch',
@@ -127,7 +133,7 @@ export default function Home() {
                             <h1 css={{
                                 color: theme.palette.primary.main,
                                 backdropFilter: 'blur(1px)',
-                            }}>Effortlessly Manage Your Group Activities</h1>
+                            }}>Your Group Activity Manager</h1>
                             <div css={{
                                 backdropFilter: 'blur(2px)',
                                 fontWeight: 'bold',
@@ -135,8 +141,8 @@ export default function Home() {
                                     lineHeight: 2.0,
                                 },
                             }}>
-                                <p>Nine players sharing one court for the season? We know it&apos;s hard to create a schedule that provides a good experience for all and then coordinate attendance - but it doesn&apos;t have to be. Activisor can be your group manager,
-                                integrating with the Google apps you use every day to make it easy. Play more and stress less.
+                                <p>Nine players sharing one court for the season? We know it&apos;s hard to create a schedule that provides a good experience for all and then coordinate attendance - but it doesn&apos;t have to be. Activisor
+                                will combine AI with the Google apps you use every day to schedule and then manage your group for you. Play more and stress less.
                                 </p>
                             </div>
                         </div>
@@ -256,7 +262,7 @@ export default function Home() {
                 }
             }}>
                 <h3 css={altTextColorCss}>How It Helps</h3>
-                <p>Are you tired of spending hours managing your gaming or sports group&apos;s schedule? Activisor is a quick and easy way to create and share Google Sheets schedules for recurring meetups and then get the right people to the right place at the right time.</p>
+                <p>Are you tired of spending hours managing your gaming or sports group&apos;s schedule? Activisor creates Google Sheets schedules for recurring events and then manages your group to get the right members to the right place at the right time.</p>
                 <ul css={{
                     '& > li': {
                         marginBottom: 16
@@ -266,10 +272,10 @@ export default function Home() {
                         <span css={[altTextColorCss, itemTitleCss]}>Effortless Scheduling:</span>Some members seeing certain ones too often and others hardly at all?  No more hours spent trying to ensure a good experience for everyone on the roster; Activisor both balances participation and evenly mixes up the lineups across all your dates. In a couple of minutes, Activisor can publish a schedule to your group with any activity costs fairly shared.
                     </li>
                     <li>
-                        <span css={[altTextColorCss, itemTitleCss]}>Reduce Attendance Problems:</span>It can be a hassle to keep track of who&apos;s coming and who&apos;s not. Activisor makes it easy to manage attendance and communicate with your group.
+                        <span css={[altTextColorCss, itemTitleCss]}>Reduce Attendance Problems:</span>It can be a hassle to keep track of who&apos;s coming and who&apos;s not and then helping them to go to the right location. From chasing down deadbeats to getting replacements, Activisor will take care of it.
                     </li>
                     <li>
-                        <span css={[altTextColorCss, itemTitleCss]}>Embedded In Your Daily Routine:</span>Activisor is built on the apps you already use every day so you&apos;ll always be on top of things.
+                        <span css={[altTextColorCss, itemTitleCss]}>Embedded In Your Daily Routine:</span>Activisor is built on the apps you and your group already use every day so you&apos;ll always be on top of things.
                     </li>
                 </ul>
                 <br></br>
@@ -281,7 +287,7 @@ export default function Home() {
                 }}>
                     <li>Enter some basic info about your schedule, such as your roster, when meetings occur, and overall cost (if any). <span css={[italicTextCss, altTextColorCss]}>Forward your roster group email to us and we can import their contact info.</span></li>
                     <li>Authorize Google to grant access to Activisor in order for us to create your schedule. <span css={[italicTextCss, altTextColorCss]}>We don&apos;t touch anything else.</span></li>
-                    <li>Pay as little as $1. <span css={[italicTextCss, altTextColorCss]}>Then, your imagination is the limit to how you use and customize it.</span></li>
+                    <li>Pay as little as $1 to get started with your schedule. <span css={[italicTextCss, altTextColorCss]}>We&apos;re rapidly adding more capabilities!</span></li>
                 </ol>
                 <br></br>
                 <br></br>
