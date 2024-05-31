@@ -141,8 +141,8 @@ export default function Home() {
                                     lineHeight: 2.0,
                                 },
                             }}>
-                                <p>Nine players sharing one court for the season? We know it&apos;s hard to create a schedule that provides a good experience for all and then coordinate attendance - but it doesn&apos;t have to be. Activisor
-                                will combine AI with the Google apps you use every day to schedule and then manage your group for you. Play more and stress less.
+                                <p>Nine players sharing one court for the season? We know it&apos;s hard to create a schedule that provides a good experience for all and then coordinate attendance - but it doesn&apos;t have to be. Activisor&apos;s
+                                AI agent will work with the Google apps you use every day to schedule and then manage your group for you. Play more and stress less.
                                 </p>
                             </div>
                         </div>
