@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { css } from '@emotion/react';
 import { useState } from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
+import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
 import Info from '@mui/icons-material/Info';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
@@ -36,11 +37,22 @@ const heroImageCss = css({
     },
 });
 
+const headlineBlockCss = css({
+    fontWeight: 'bold',
+    fontSize: '24px',
+    paddingLeft: 40,
+    paddingBottom: 8,
+});
+
 const paperCss = css({
     padding: 16,
     backgroundColor: 'rgba(255, 255, 255, 0.7)',
     backdropFilter: 'blur(5px)',
 });
+
+const checkCss = css({
+    marginRight: 16,
+})
 
 const ctaEmailBlockCss = css({
     [mq.sm]: {
@@ -130,20 +142,19 @@ export default function Home() {
                             // marginTop: 32,
                             // marginBottom: 32,
                         }}>
-                            <h1 css={{
-                                color: theme.palette.primary.main,
+                            <div css={[headlineBlockCss, altTextColorCss]}>
+                                <p><DoneOutlineIcon css={checkCss} />Creates a smart schedule</p>
+                                <p><DoneOutlineIcon css={checkCss} />Actively manages attendance</p>
+                            </div>
+                            <h2 css={{
+                                color: theme.palette.secondary.main,
                                 backdropFilter: 'blur(1px)',
-                            }}>Your Group Activity Manager</h1>
-                            <div css={{
-                                backdropFilter: 'blur(2px)',
-                                fontWeight: 'bold',
-                                [mq.xl]: {
-                                    lineHeight: 2.0,
-                                },
-                            }}>
-                                <p>Nine players sharing one court for the season? We know it&apos;s hard to create a schedule that provides a good experience for all and then coordinate attendance - but it doesn&apos;t have to be. Activisor&apos;s
-                                AI agent will work with the Google apps you use every day to schedule and then manage your group for you. Play more and stress less.
-                                </p>
+                                fontSize: '28px',
+                                letterSpacing: '8px',
+                                marginBottom: 16
+                            }}>YOU</h2>
+                            <div css={[headlineBlockCss, altTextColorCss]}>
+                                <p><DoneOutlineIcon css={checkCss} />Play more and stress less</p>
                             </div>
                         </div>
                         <Paper elevation={1} css={[paperCss, {
@@ -174,16 +185,16 @@ export default function Home() {
                         }
                     }}>
                         <Paper elevation={10} css={paperCss}>
-                            <h2 css={{
+                            <h1 css={{
                                 color: theme.palette.primary.dark,
                                 marginTop: 0,
-                            }}>Pick A Way To Start</h2>
+                            }}>Pick A Way To Start</h1>
                             <div css={[ctaSectionCss, {
                                 borderWidth: 3
                             }]}>
-                                <h3 css={[altTextColorCss, {
+                                <h2 css={[altTextColorCss, {
                                     marginTop: 0,
-                                }]}>We Start</h3>
+                                }]}>We Start</h2>
 
                                 <div css={{
                                     display: 'flex',
@@ -229,9 +240,9 @@ export default function Home() {
                                 </div>
                             </div>
                             <div css={[ctaSectionCss]}>
-                                <h3 css={[altTextColorCss, {
+                                <h2 css={[altTextColorCss, {
                                     marginTop: 0,
-                                }]}>You Start</h3>
+                                }]}>You Start</h2>
                                 <div css={{
                                     display: 'flex',
                                     flexDirection: 'column',
@@ -261,6 +272,11 @@ export default function Home() {
                     padding: 32,
                 }
             }}>
+                <h3 css={altTextColorCss}>Group Activity Management</h3>
+                <p>Nine players sharing one court for the season? We know it&apos;s hard to create a schedule that provides a good experience for all and then coordinate attendance - but it doesn&apos;t have to be. Activisor&apos;s
+                    AI agent will work with the Google apps you use every day to schedule and then manage your group for you. Play more and stress less.
+                </p>
+                <br></br>
                 <h3 css={altTextColorCss}>How It Helps</h3>
                 <p>Are you tired of spending hours managing your gaming or sports group&apos;s schedule? Activisor creates Google Sheets schedules for recurring events and then manages your group to get the right members to the right place at the right time.</p>
                 <ul css={{
