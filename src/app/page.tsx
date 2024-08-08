@@ -172,7 +172,7 @@ export default function Home() {
                                 <p><DoneOutlineIcon css={checkCss} />Actively manages attendance</p>
                             </div>
                             <h2 css={{
-                                color: theme.palette.secondary.main,
+                                color: theme.palette.secondary.dark,
                                 backdropFilter: 'blur(1px)',
                                 fontSize: '28px',
                                 letterSpacing: '6px',
