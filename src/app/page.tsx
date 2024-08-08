@@ -175,7 +175,7 @@ export default function Home() {
                                 color: theme.palette.secondary.main,
                                 backdropFilter: 'blur(1px)',
                                 fontSize: '28px',
-                                letterSpacing: '8px',
+                                letterSpacing: '6px',
                                 marginBottom: 0,
                                 [mq.xl]: {
                                     marginBottom: 16,
