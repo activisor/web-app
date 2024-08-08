@@ -39,9 +39,24 @@ const heroImageCss = css({
 
 const headlineBlockCss = css({
     fontWeight: 'bold',
-    fontSize: '24px',
-    paddingLeft: 40,
-    paddingBottom: 8,
+    fontSize: '20px',
+    paddingLeft: 24,
+    [mq.md]: {
+        paddingLeft: 40,
+        fontSize: '24px',
+    },
+    [mq.xl]: {
+        paddingBottom: 16,
+    },
+    p: {
+        marginBlockStart: '0.5em',
+        marginBlockEnd: '0.5em',
+        [mq.xl]: {
+            marginBlockStart: '1em',
+            marginBlockEnd: '1em',
+        },
+    }
+
 });
 
 const paperCss = css({
@@ -101,7 +116,17 @@ export default function Home() {
         borderColor: theme.palette.primary.dark,
         borderRadius: theme.shape.borderRadius,
         padding: 16,
-        marginBottom: 24,
+        marginBottom: 16,
+        [mq.xl]: {
+            marginBottom: 24,
+        },
+        h2: {
+            marginTop: 0,
+            marginBottom: 8,
+            [mq.xl]: {
+                marginBottom: 16,
+            }
+        }
     });
 
     const handleForwardInfoClick = () => {
@@ -143,7 +168,7 @@ export default function Home() {
                             // marginBottom: 32,
                         }}>
                             <div css={[headlineBlockCss, altTextColorCss]}>
-                                <p><DoneOutlineIcon css={checkCss} />Creates a smart schedule</p>
+                                <p><DoneOutlineIcon css={checkCss} />Creates smart schedules</p>
                                 <p><DoneOutlineIcon css={checkCss} />Actively manages attendance</p>
                             </div>
                             <h2 css={{
@@ -151,7 +176,10 @@ export default function Home() {
                                 backdropFilter: 'blur(1px)',
                                 fontSize: '28px',
                                 letterSpacing: '8px',
-                                marginBottom: 16
+                                marginBottom: 0,
+                                [mq.xl]: {
+                                    marginBottom: 16,
+                                },
                             }}>YOU</h2>
                             <div css={[headlineBlockCss, altTextColorCss]}>
                                 <p><DoneOutlineIcon css={checkCss} />Play more and stress less</p>
@@ -188,14 +216,15 @@ export default function Home() {
                             <h1 css={{
                                 color: theme.palette.primary.dark,
                                 marginTop: 0,
+                                marginBottom: 8,
+                                [mq.xl]: {
+                                    marginBottom: 16,
+                                }
                             }}>Pick A Way To Start</h1>
                             <div css={[ctaSectionCss, {
                                 borderWidth: 3
                             }]}>
-                                <h2 css={[altTextColorCss, {
-                                    marginTop: 0,
-                                }]}>We Start</h2>
-
+                                <h2 css={altTextColorCss}>We Start</h2>
                                 <div css={{
                                     display: 'flex',
                                     flexDirection: 'column',
@@ -239,10 +268,10 @@ export default function Home() {
                                     </div>
                                 </div>
                             </div>
-                            <div css={[ctaSectionCss]}>
-                                <h2 css={[altTextColorCss, {
-                                    marginTop: 0,
-                                }]}>You Start</h2>
+                            <div css={[ctaSectionCss, {
+                                marginBottom: 0
+                            }]}>
+                                <h2 css={altTextColorCss}>You Start</h2>
                                 <div css={{
                                     display: 'flex',
                                     flexDirection: 'column',
@@ -273,12 +302,12 @@ export default function Home() {
                 }
             }}>
                 <h3 css={altTextColorCss}>Group Activity Management</h3>
-                <p>Nine players sharing one court for the season? We know it&apos;s hard to create a schedule that provides a good experience for all and then coordinate attendance - but it doesn&apos;t have to be. Activisor&apos;s
-                    AI agent will work with the Google apps you use every day to schedule and then manage your group for you. Play more and stress less.
+                <p>Nine players sharing one court for the season? Are you tired of spending hours managing your gaming or sports group&apos;s schedule? We know it&apos;s hard to create a schedule that provides a good experience for all and then coordinate attendance - but it doesn&apos;t have to be. Activisor&apos;s
+                    AI agent will work with the Google apps you use every day to schedule and then manage your group for you.
                 </p>
                 <br></br>
                 <h3 css={altTextColorCss}>How It Helps</h3>
-                <p>Are you tired of spending hours managing your gaming or sports group&apos;s schedule? Activisor creates Google Sheets schedules for recurring events and then manages your group to get the right members to the right place at the right time.</p>
+                <p>Activisor creates Google Sheets schedules for recurring events and then manages your group to get the right members to the right place at the right time.</p>
                 <ul css={{
                     '& > li': {
                         marginBottom: 16
