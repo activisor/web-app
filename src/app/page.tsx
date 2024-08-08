@@ -301,7 +301,7 @@ export default function Home() {
                     padding: 32,
                 }
             }}>
-                <h3 css={altTextColorCss}>Group Activity Management</h3>
+                <h3 css={altTextColorCss}>Activisor Manages Group Activities</h3>
                 <p>Nine players sharing one court for the season? Are you tired of spending hours managing your gaming or sports group&apos;s schedule? We know it&apos;s hard to create a schedule that provides a good experience for all and then coordinate attendance - but it doesn&apos;t have to be. Activisor&apos;s
                     AI agent will work with the Google apps you use every day to schedule and then manage your group for you.
                 </p>
