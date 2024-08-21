@@ -302,22 +302,21 @@ export default function Home() {
                 }
             }}>
                 <h3 css={altTextColorCss}>Activisor Manages Group Activities</h3>
-                <p>Nine players sharing one court for the season? Are you tired of spending hours managing your gaming or sports group&apos;s schedule? We know it&apos;s hard to create a schedule that provides a good experience for all and then coordinate attendance - but it doesn&apos;t have to be. Activisor&apos;s
-                    AI agent will work with the Google apps you use every day to schedule and then manage your group for you.
+                <p>Nine players sharing one court for the season? Tired of spending hours managing your gaming or sports group&apos;s schedule? Someone getting the date, time, or place wrong? We know it&apos;s hard to create a schedule that provides a good experience for all and then coordinate attendance - but it doesn&apos;t have to be.
+                    Activisor creates Google Sheets schedules for recurring events and then manages your group to get the right members to the right place at the right time.
                 </p>
                 <br></br>
                 <h3 css={altTextColorCss}>How It Helps</h3>
-                <p>Activisor creates Google Sheets schedules for recurring events and then manages your group to get the right members to the right place at the right time.</p>
                 <ul css={{
                     '& > li': {
                         marginBottom: 16
                     }
                 }}>
                     <li>
-                        <span css={[altTextColorCss, itemTitleCss]}>Effortless Scheduling:</span>Some members seeing certain ones too often and others hardly at all?  No more hours spent trying to ensure a good experience for everyone on the roster; Activisor both balances participation and evenly mixes up the lineups across all your dates. In a couple of minutes, Activisor can publish a schedule to your group with any activity costs fairly shared.
+                        <span css={[altTextColorCss, itemTitleCss]}>Effortless Scheduling:</span>Some members seeing certain ones too often and others hardly at all?  Activisor both balances participation and evenly mixes up the lineups across all your dates to ensure a good experience for everyone. In a couple of minutes, Activisor can publish a schedule to your group with any activity costs fairly shared.
                     </li>
                     <li>
-                        <span css={[altTextColorCss, itemTitleCss]}>Reduce Attendance Problems:</span>It can be a hassle to keep track of who&apos;s coming and who&apos;s not and then helping them to go to the right location. From chasing down deadbeats to finding substitutions, Activisor will take care of it.
+                        <span css={[altTextColorCss, itemTitleCss]}>Reduce Attendance Problems:</span>It can be a hassle to keep track of who&apos;s coming and who&apos;s not and then helping them to show up. From chasing down deadbeats to finding substitutions, Activisor&apos;s AI agent will take care of it.
                     </li>
                     <li>
                         <span css={[altTextColorCss, itemTitleCss]}>Embedded In Your Daily Routine:</span>Activisor is built on the apps you and your group already use every day so you&apos;ll always be on top of things.
