@@ -20,12 +20,25 @@ class Randomizer implements Randomization {
         this._devarianceCoef = devarianceCoef;
     }
 
+    _getFullShares(participants: Participant[]): number {
+        let count = 0;
+        participants.forEach(participant => {
+            count += participant.isHalfShare? 0.5 : 1;
+        })
+
+        return count;
+    }
+
     _meanCount(periods: number, groupSize: number, numParticipants: number): number {
         return periods * groupSize / numParticipants;
     }
 
     _scoreParticipant(participant: Participant, groupSize: number, schedule: Participant[][], meanCount: number, maxCount: number)
         : number {
+        if (participant.isHalfShare) {
+            meanCount /= 2;
+        }
+        
         let existingCount = 0;
         for (let i = 0; i < schedule.length; i++) {
             for (let j = 0; j < groupSize; j++) {
@@ -73,19 +86,19 @@ class Randomizer implements Randomization {
     }
 
     randomize(periods: number, groupSize: number, participants: Participant[]) {
-        const participantsLength = participants.length;
+        const fullShares = this._getFullShares(participants);
         const resultParticipants: ScheduleParticipant[] = [];
-        const group = groupSize > participantsLength ? participantsLength : groupSize;
-        for (let i = 0; i < participantsLength; i++) {
+        const group = groupSize > fullShares ? fullShares : groupSize;
+        for (let i = 0; i < participants.length; i++) {
             resultParticipants.push({ ...participants[i], total: 0 });
         }
 
-        const maxCount = this._meanCount(periods, group, participantsLength);
+        const maxCount = this._meanCount(periods, group, fullShares);
         console.log(`maxCount: ${maxCount}`);
         // participant group by week
         const schedule: Participant[][] = [];
         for (let i = 0; i < periods; i++) {
-            const meanCount = this._meanCount(i, group, participantsLength);
+            const meanCount = this._meanCount(i, group, fullShares);
             const scoredParticipants = this._scoreParticipants(participants, group, schedule, meanCount, maxCount);
             const groupParticipants = this._rankParticipants(scoredParticipants, group);
             schedule.push(groupParticipants);
