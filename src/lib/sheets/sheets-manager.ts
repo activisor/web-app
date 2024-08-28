@@ -6,7 +6,7 @@ import "reflect-metadata";
 import { TYPES } from "@/inversify-types";
 import { Credentials, OAuth2Client } from 'google-auth-library';
 import { google } from 'googleapis';
-
+import { compareName } from './randomizer';
 import type { SheetsManagement } from './sheets-management';
 import type { ScheduleData } from '../schedule-data';
 import type { ScheduleDates } from '../schedule-dates';
@@ -91,6 +91,7 @@ class SheetsManager implements SheetsManagement {
             const dates = this._dateRangeParser.parse(scheduleDates);
             const periods = dates.length;
             const result = this._randomizer.randomize(periods, scheduleData.groupSize as number, scheduleData.participants);
+            result.participants.sort(compareName);
             /*
             console.log(`dates: ${JSON.stringify(dates)}`);
             for (let i = 0; i < result.schedule.length; i++) {

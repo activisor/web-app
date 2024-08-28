@@ -13,13 +13,14 @@ import type { Participant } from '../participant';
 import type { ScheduleParticipant } from './schedule-participant';
 
 function compareName( a: Participant, b: Participant ) {
-    if ( a.name < b.name ){
-      return -1;
+    // order by half/full share, then alphabetically by first name
+    if (a.isHalfShare && !b.isHalfShare) {
+        return 1;
+    } else if (!a.isHalfShare && b.isHalfShare) {
+        return -1;
     }
-    if ( a.name > b.name ){
-      return 1;
-    }
-    return 0;
+
+    return a.name.localeCompare(b.name);
   }
 
 
@@ -93,12 +94,13 @@ class Randomizer implements Randomization {
 
         const maxCount = this._meanCount(periods, group, participantsLength);
         console.log(`maxCount: ${maxCount}`);
+        // participant group by week
         const schedule: Participant[][] = [];
         for (let i = 0; i < periods; i++) {
             const meanCount = this._meanCount(i, group, participantsLength);
             const scoredParticipants = this._scoreParticipants(participants, group, schedule, meanCount, maxCount);
-            const resultParticipants = this._rankParticipants(scoredParticipants, group);
-            schedule.push(resultParticipants.sort(compareName));
+            const groupParticipants = this._rankParticipants(scoredParticipants, group);
+            schedule.push(groupParticipants);
         }
 
         const result: RandomizeResult = {
@@ -110,4 +112,4 @@ class Randomizer implements Randomization {
     }
 }
 
-export { Randomizer };
+export { compareName, Randomizer };
