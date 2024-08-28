@@ -71,7 +71,7 @@ const forceInt = (value: any): any => {
 };
 
 const toParticipantInputProps = (participant: Participant): ParticipantInputProps => {
-    return { ...participant, saved: true };
+    return {...participant, saved: true };
 };
 
 const scheduleSchema = yup.object({
@@ -207,6 +207,7 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
         if (index >= 0 && participants && participants[index]) {
             participants[index].name = event.detail.name;
             participants[index].email = event.detail.email;
+            participants[index].isHalfShare = event.detail.isHalfShare;
 
             formikProps.setFieldValue('participants', participants);
         }
@@ -229,6 +230,7 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                     name={participant.name}
                     email={participant.email}
                     saved={participant.saved}
+                    isHalfShare={participant.isHalfShare}
                 />
             )
         });
@@ -459,7 +461,7 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                             </div>
                             {allowAddParticipants ? (
                                 <div>
-                                    <ParticipantInput name="" email="" saved={false} />
+                                    <ParticipantInput name="" email="" isHalfShare={false} saved={false} />
                                 </div>
                             ) : (
                                 <p>You can have up to {publicRuntimeConfig.MAX_PARTICIPANTS} participants</p>

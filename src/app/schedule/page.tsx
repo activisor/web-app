@@ -42,6 +42,7 @@ export default function Schedule() {
                 let participantIndex = 1;
 
                 emailExtract.participants.forEach((participant: Participant) => {
+                    participant.isHalfShare = false;
                     participant.id = participantIndex;
                     participantIndex++;
                 });
