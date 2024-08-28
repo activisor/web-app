@@ -47,6 +47,7 @@ const participantSchema = yup.object({
 const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
   const [props_, setProps_] = useState(props);
   const [isDirty_, setIsDirty_] = useState(false);
+  const [expanded, setExpanded] = React.useState<string | false>(false);
   const theme = useTheme();
 
   const cleanAddContainerStyle = css({
@@ -66,9 +67,7 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
     borderRadius: 8,
   });
 
-  // setIsDirty_((Boolean(props_.email) || Boolean(props_.name)));
-  const isDirty = !props_.saved && (Boolean(props_.email) || Boolean(props_.name));
-  const addContainerStyle = isDirty ? dirtyAddContainerStyle : cleanAddContainerStyle;
+  const addContainerStyle = isDirty_ ? dirtyAddContainerStyle : cleanAddContainerStyle;
   const editContainerStyle = css({
     marginLeft: -16,
     marginRight: -8,
@@ -99,6 +98,11 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
 
     onSubmit: (values) => { },
   });
+
+  const handleAccordianChange =
+    (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+      setExpanded(isExpanded ? panel : false);
+    };
 
   const handleEmailChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -305,11 +309,12 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
       >
         <div css={[participationContainerStyle]}>
           <Accordion
-            defaultExpanded={isDirty_}
+            expanded={isDirty_ || expanded === 'panel1'}
+            onChange={handleAccordianChange('panel1')}
             elevation={0}
             css={{ backgroundColor: 'rgba(255, 250, 223, 0.5)' }} >
             <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
+              expandIcon={isDirty_? null : <ExpandMoreIcon />}
               aria-controls="participation-radio-content"
               id="participation-radio-header"
             >
