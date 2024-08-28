@@ -6,7 +6,7 @@ import "reflect-metadata";
 import { TYPES } from "@/inversify-types";
 import { Credentials, OAuth2Client } from 'google-auth-library';
 import { google } from 'googleapis';
-import { compareName } from './randomizer';
+import { compareName } from './compare-name';
 import type { SheetsManagement } from './sheets-management';
 import type { ScheduleData } from '../schedule-data';
 import type { ScheduleDates } from '../schedule-dates';

@@ -12,18 +12,6 @@ import type { RandomizeResult } from './randomize-result';
 import type { Participant } from '../participant';
 import type { ScheduleParticipant } from './schedule-participant';
 
-function compareName( a: Participant, b: Participant ) {
-    // order by half/full share, then alphabetically by first name
-    if (a.isHalfShare && !b.isHalfShare) {
-        return 1;
-    } else if (!a.isHalfShare && b.isHalfShare) {
-        return -1;
-    }
-
-    return a.name.localeCompare(b.name);
-  }
-
-
 @injectable()
 class Randomizer implements Randomization {
     private _devarianceCoef: number;
@@ -112,4 +100,4 @@ class Randomizer implements Randomization {
     }
 }
 
-export { compareName, Randomizer };
+export { Randomizer };

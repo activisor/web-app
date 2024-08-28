@@ -1,4 +1,4 @@
-import { compareName } from '@/lib/sheets/randomizer';
+import { compareName } from '@/lib/sheets/compare-name';
 
 const participantFullATest = {
   email: 'a@test.com',
