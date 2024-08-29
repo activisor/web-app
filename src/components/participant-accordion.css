@@ -9,6 +9,6 @@
 }
 
 .MuiAccordionDetails-root {
-  padding: 0 16px 24px 16px;
+  padding: 0 16px 24px 16px !important;
   margin-top: -12px;
 }

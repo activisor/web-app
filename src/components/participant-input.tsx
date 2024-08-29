@@ -301,9 +301,6 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
       </div>
       <div
         css={{
-          //display: "flex",
-          // justifyContent: "center",
-          //paddingTop: 8,
           paddingRight: 40
         }}
       >
