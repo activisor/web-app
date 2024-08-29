@@ -322,7 +322,7 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
               aria-controls="participation-radio-content"
               id="participation-radio-header"
             >
-              <Typography variant="subtitle2" color="textSecondary">Participation</Typography>
+              <Typography variant="subtitle2" color="textSecondary">Membership</Typography>
             </AccordionSummary>
             <AccordionDetails>
               <div css={{

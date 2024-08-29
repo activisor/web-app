@@ -448,7 +448,7 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                                 '@media(min-width: 1248px)': {
                                     marginTop: 8
                                 }
-                            }]}>Participants</h2>
+                            }]}>Members</h2>
                             <div id="existing-participants" css={{
                                 '& > *': {
                                     marginBottom: 4,
