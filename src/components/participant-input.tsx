@@ -10,19 +10,19 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
-
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
-import FormLabel from "@mui/material/FormLabel";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import IconButton from "@mui/material/IconButton/IconButton";
 import { useTheme } from "@mui/material/styles";
+import Typography from '@mui/material/Typography';
 import { useFormik } from "formik";
 import * as yup from "yup";
 
 import { publish } from "@/client-lib/events";
 import { mq } from "@/lib/media-queries";
 import type { Participant } from "@/lib/participant";
+import './participant-accordion.css';
 
 export interface ParticipantInputProps extends Participant {
   saved: boolean;
@@ -307,18 +307,25 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
           paddingRight: 40
         }}
       >
-        <div css={[participationContainerStyle]}>
+        <div css={[participationContainerStyle, {
+          paddingLeft: 16,
+          paddingRight: 16,
+          [mq.sm]: {
+            paddingLeft: 48,
+            paddingRight: 48,
+          },
+        }]}>
           <Accordion
             expanded={isDirty_ || expanded === 'panel1'}
             onChange={handleAccordianChange('panel1')}
             elevation={0}
-            css={{ backgroundColor: 'rgba(255, 250, 223, 0.5)' }} >
+            css={{ backgroundColor: 'rgba(255, 250, 223, 0.1)' }} >
             <AccordionSummary
               expandIcon={isDirty_? null : <ExpandMoreIcon />}
               aria-controls="participation-radio-content"
               id="participation-radio-header"
             >
-              Participation
+              <Typography variant="subtitle2" color="textSecondary">Participation</Typography>
             </AccordionSummary>
             <AccordionDetails>
               <div css={{

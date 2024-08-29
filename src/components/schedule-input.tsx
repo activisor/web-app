@@ -451,7 +451,7 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                             }]}>Participants</h2>
                             <div id="existing-participants" css={{
                                 '& > *': {
-                                    marginBottom: 8,
+                                    marginBottom: 4,
                                 }
                             }}>
                                 {renderParticipants()}
