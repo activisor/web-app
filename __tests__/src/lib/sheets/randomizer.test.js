@@ -25,6 +25,8 @@ const participants = [
  */
 test('schedule - 8 periods, 4 participants, groups of 3', () => {
     console.log('schedule - 8 periods, 4 participants, groups of 3');
+    participants[0].isHalfShare = false;
+    participants[1].isHalfShare = false;
     const devarianceCoef = 0.01;
     const periods = 8;
     const groupSize = 3;
@@ -67,6 +69,8 @@ test('schedule - 8 periods, 4 participants, 2 part time, groups of 3', () => {
 
 test('schedule - 5 periods, 4 participants, groups of 3', () => {
     console.log('schedule - 5 periods, 4 participants, groups of 3');
+    participants[0].isHalfShare = false;
+    participants[1].isHalfShare = false;
     const devarianceCoef = 0.01;
     const periods = 5;
     const groupSize = 3;
@@ -83,4 +87,26 @@ test('schedule - 5 periods, 4 participants, groups of 3', () => {
 
     const variance = pairsVariance(result);
     console.log(`variance: ${variance}`);
+});
+
+test('schedule - 5 periods, 4 participants, groups of 2', () => {
+  console.log('schedule - 5 periods, 4 participants, groups of 2');
+  participants[0].isHalfShare = false;
+  participants[1].isHalfShare = false;
+  const devarianceCoef = 0.01;
+  const periods = 10;
+  const groupSize = 2;
+
+  const sut = new Randomizer(devarianceCoef);
+  const result = sut.randomize(periods, groupSize, participants);
+  console.log(JSON.stringify(result.participants));
+  expect(result.participants.length).toBe(participants.length);
+
+  for (let i = 0; i < result.schedule.length; i++) {
+      const row = result.schedule[i];
+      console.log(`row ${i}: ${row.map(p => p.name).join(', ')}`);
+  }
+
+  const variance = pairsVariance(result);
+  console.log(`variance: ${variance}`);
 });

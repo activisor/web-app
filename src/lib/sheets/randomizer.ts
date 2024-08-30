@@ -7,6 +7,8 @@
 import { injectable, inject } from 'inversify';
 import "reflect-metadata";
 import { TYPES } from "@/inversify-types";
+import { shuffleArray } from '../arrays';
+import { generatePairs } from './pair-generator';
 import type { Randomization } from './randomization';
 import type { RandomizeResult } from './randomize-result';
 import type { Participant } from '../participant';
@@ -38,7 +40,7 @@ class Randomizer implements Randomization {
         if (participant.isHalfShare) {
             meanCount /= 2;
         }
-        
+
         let existingCount = 0;
         for (let i = 0; i < schedule.length; i++) {
             for (let j = 0; j < groupSize; j++) {
@@ -85,7 +87,44 @@ class Randomizer implements Randomization {
         return result;
     }
 
+    _randomizePair(periods: number, participants: Participant[]): Participant[][] {
+        const schedule: Participant[][] = generatePairs<Participant>(participants, periods);
+        return shuffleArray<Participant[]>(schedule);
+    }
+
     randomize(periods: number, groupSize: number, participants: Participant[]) {
+        const fullShares = this._getFullShares(participants);
+        const resultParticipants: ScheduleParticipant[] = [];
+        for (let i = 0; i < participants.length; i++) {
+            resultParticipants.push({ ...participants[i], total: 0 });
+        }
+
+        // participant group by week
+        let schedule: Participant[][] = [];
+
+        if ((groupSize === 2) && fullShares === participants.length) {
+            schedule = this._randomizePair(periods, participants);
+        } else {
+            const group = groupSize > fullShares ? fullShares : groupSize;
+            const maxCount = this._meanCount(periods, group, fullShares);
+            console.log(`maxCount: ${maxCount}`);
+            for (let i = 0; i < periods; i++) {
+                const meanCount = this._meanCount(i, group, fullShares);
+                const scoredParticipants = this._scoreParticipants(participants, group, schedule, meanCount, maxCount);
+                const groupParticipants = this._rankParticipants(scoredParticipants, group);
+                schedule.push(groupParticipants);
+            }
+        }
+
+        const result: RandomizeResult = {
+            participants: resultParticipants,
+            schedule: schedule
+        };
+
+        return result;
+    }
+
+    randomize_old(periods: number, groupSize: number, participants: Participant[]) {
         const fullShares = this._getFullShares(participants);
         const resultParticipants: ScheduleParticipant[] = [];
         const group = groupSize > fullShares ? fullShares : groupSize;
