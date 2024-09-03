@@ -6,6 +6,7 @@ import type { EmailExtractProcessing } from '@/lib/email/email-extract-processin
 import type { FormDataValidation } from '@/lib/form-data-validation';
 
 export async function POST(request: NextRequest) {
+    console.log('received POST');
     // parse multipart/form-data
     const formData = await request.formData();
 
@@ -13,7 +14,7 @@ export async function POST(request: NextRequest) {
     console.log(`cc: ${formData.get('cc')}`);
     console.log(`from: ${formData.get('from')}`);
     console.log(`text: ${formData.get('text')}`);
-
+/*
     const sendGridEmailSpamValidator = appContainer.get<FormDataValidation>(TYPES.SpamValidation);
     if (sendGridEmailSpamValidator.validate(formData)) {
         const sendGridEmailExtractor = appContainer.get<EmailExtraction>(TYPES.EmailExtraction);
@@ -23,6 +24,6 @@ export async function POST(request: NextRequest) {
         const result = await sendGridEmailResponder.process(email);
         console.log(`sendGridEmailResponder result: ${result}`);
     }
-
+*/
     return new Response('', { status: 200 });
 }
