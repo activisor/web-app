@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
     console.log(`cc: ${formData.get('cc')}`);
     console.log(`from: ${formData.get('from')}`);
     console.log(`text: ${formData.get('text')}`);
-/*
+
     const sendGridEmailSpamValidator = appContainer.get<FormDataValidation>(TYPES.SpamValidation);
     if (sendGridEmailSpamValidator.validate(formData)) {
         const sendGridEmailExtractor = appContainer.get<EmailExtraction>(TYPES.EmailExtraction);
@@ -24,6 +24,6 @@ export async function POST(request: NextRequest) {
         const result = await sendGridEmailResponder.process(email);
         console.log(`sendGridEmailResponder result: ${result}`);
     }
-*/
+
     return new Response('', { status: 200 });
 }
