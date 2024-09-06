@@ -8,6 +8,7 @@ import type { FormDataValidation } from '@/lib/form-data-validation';
 export async function POST(request: NextRequest) {
     try {
         // parse multipart/form-data
+        console.log(`url: ${request.url}`);
         const formData = await request.formData();
 
         console.log(`subject: ${formData.get('subject')}`);
