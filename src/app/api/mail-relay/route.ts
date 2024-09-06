@@ -6,23 +6,32 @@ import type { EmailExtractProcessing } from '@/lib/email/email-extract-processin
 import type { FormDataValidation } from '@/lib/form-data-validation';
 
 export async function POST(request: NextRequest) {
-    console.log('received POST');
-    // parse multipart/form-data
-    const formData = await request.formData();
+    try {
+        // parse multipart/form-data
+        const formData = await request.formData();
 
-    console.log(`subject: ${formData.get('subject')}`);
-    console.log(`cc: ${formData.get('cc')}`);
-    console.log(`from: ${formData.get('from')}`);
-    console.log(`text: ${formData.get('text')}`);
+        console.log(`subject: ${formData.get('subject')}`);
+        console.log(`cc: ${formData.get('cc')}`);
+        console.log(`from: ${formData.get('from')}`);
+        console.log(`text: ${formData.get('text')}`);
 
-    const sendGridEmailSpamValidator = appContainer.get<FormDataValidation>(TYPES.SpamValidation);
-    if (sendGridEmailSpamValidator.validate(formData)) {
-        const sendGridEmailExtractor = appContainer.get<EmailExtraction>(TYPES.EmailExtraction);
-        const email = sendGridEmailExtractor.extract(formData);
+        const sendGridEmailSpamValidator = appContainer.get<FormDataValidation>(TYPES.SpamValidation);
+        if (sendGridEmailSpamValidator.validate(formData)) {
+            const sendGridEmailExtractor = appContainer.get<EmailExtraction>(TYPES.EmailExtraction);
+            const email = sendGridEmailExtractor.extract(formData);
 
-        const sendGridEmailResponder = appContainer.get<EmailExtractProcessing>(TYPES.EmailExtractProcessing);
-        const result = await sendGridEmailResponder.process(email);
-        console.log(`sendGridEmailResponder result: ${result}`);
+            const sendGridEmailResponder = appContainer.get<EmailExtractProcessing>(TYPES.EmailExtractProcessing);
+            const result = await sendGridEmailResponder.process(email);
+            console.log(`sendGridEmailResponder result: ${result}`);
+        }
+    } catch (err: any) {
+        if (err instanceof Error) {
+            console.log(err.name); // the type of error
+            console.log(err.message); // the description of the error
+            console.log(err.stack); // the stack trace of the error
+        }
+
+        return new Response('', { status: 500 });
     }
 
     return new Response('', { status: 200 });
