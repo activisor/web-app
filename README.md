@@ -1,5 +1,5 @@
 # Activisor
-## Video Demo: https://youtu.be/Qgbl4iZW76U
+https://activisor.com
 
 ## Description
 
@@ -11,12 +11,15 @@ People often need to create schedules for recurring activities among a roster of
     - the name of the schedule
     - the start date of the schedule
     - the end-by date of the schedule
-    - the frequency (daily, weekly, every other week, monthly)
-    - a list of participants' email addresses and names
+    - the frequency (days of the week/weekly, every other week, monthly)
+    - total cost
+    - a list of participants' email addresses, names, half/full participation
 2. The user clicks the "Create Schedule" button
 3. The user is redirected to the Google OAuth form to authorize Activisor to access their Google Sheets
 4. Authorized, the user is now redirected to Activisor's "Building Schedule" page while the schedule is being created
-5. Upon creation, the user is redirected to their new Google Sheet schedule
+5. Upon creation, the user is redirected to a preview of their new Google Sheet schedule
+6. The user can purchase the schedule and has discounted code and share options
+7. Upon purchase, the user can share the schedule with the participants via email
 
 
 ### Design Description

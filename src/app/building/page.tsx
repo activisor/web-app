@@ -44,7 +44,7 @@ export default function Building() {
         width: '90%'
     });
 
-    // if token detected, get DTO, compress & redirect to /api/schedule with payload
+    // if token detected, get DTO, compress & POST to /api/schedule with payload
     if (status === "authenticated" || publicRuntimeConfig.UX_DEV_MODE) {
         if (session?.user?.email) {
             LogRocket.identify(session.user.email);

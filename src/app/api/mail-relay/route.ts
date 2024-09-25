@@ -5,7 +5,7 @@ import type { EmailExtraction } from '@/lib/email/email-extraction';
 import type { EmailExtractProcessing } from '@/lib/email/email-extract-processing';
 import type { FormDataValidation } from '@/lib/form-data-validation';
 
-export async function POST(request: NextRequest) {
+export async function POST(request: Request) {
     try {
         // parse multipart/form-data
         console.log(`url: ${request.url}`);
