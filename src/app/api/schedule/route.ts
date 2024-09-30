@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
             return new Response(blob);
         }
 
-        return new Response('', { status: 400 });
+        return new Response('invalid schedule data', { status: 400 });
     } else if (publicRuntimeConfig.UX_DEV_MODE) {
         // return dummy sheet ID
         const obj: SheetResult = {
