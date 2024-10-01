@@ -24,7 +24,7 @@ import { ErrorMessage, FormikProvider, useFormik } from 'formik';
 import * as yup from 'yup';
 
 import FormikMuiDatePicker from '@/components/formik-mui-date-picker';
-import ParticipantInput, { ParticipantInputProps, ADD_EVENT, CHANGE_EVENT, DELETE_EVENT } from './participant-input';
+import ParticipantInput, { type ParticipantInputProps, ADD_EVENT, CHANGE_EVENT, DELETE_EVENT } from './participant-input';
 import { publicRuntimeConfig } from '@/lib/app-constants';
 import { toDaysArray, toDaysOfWeek, orderedDaysArray } from '@/lib/days-of-week-convert';
 import Frequency from '@/lib/frequency';
