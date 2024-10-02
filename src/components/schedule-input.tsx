@@ -485,7 +485,7 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                             size='large'
                             type="submit"
                             color="secondary"
-                        >Create My Schedule</Button>
+                        >Create My Google Schedule</Button>
                     </div>
                     <Dialog id="daysDialog" onClose={handleDaysDialogClose} open={daysDialogOpen}>
                         <DialogTitle sx={{ m: 0, p: 2 }}>Days of the Week</DialogTitle>

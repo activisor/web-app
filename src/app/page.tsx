@@ -330,7 +330,7 @@ export default function Home() {
                     }
                 }}>
                     <li>Enter some basic info about your schedule, such as your roster, when meetings occur, and overall cost (if any). <span css={[italicTextCss, altTextColorCss]}>Forward your roster group email to us and we can import their contact info.</span></li>
-                    <li>Authorize Google to grant access to Activisor in order for us to create your schedule. <span css={[italicTextCss, altTextColorCss]}>We don&apos;t touch anything else.</span></li>
+                    <li>Authorize Google to grant access to Activisor in order for us to create your Google Sheets schedule. <span css={[italicTextCss, altTextColorCss]}>We don&apos;t touch anything else.</span></li>
                     <li>Pay as little as $1 to get started with your schedule. <span css={[italicTextCss, altTextColorCss]}>We&apos;re rapidly adding more capabilities!</span></li>
                 </ol>
                 <br></br>
