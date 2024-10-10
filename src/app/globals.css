@@ -37,6 +37,10 @@ footer > * {
     padding: 16px;
 }
 
+.text-error {
+    color: var(--error-color);
+}
+
 @media (max-width: 600px) {
     footer {
         flex-direction: column;

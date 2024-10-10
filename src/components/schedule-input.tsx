@@ -82,7 +82,7 @@ const scheduleSchema = yup.object({
         .required('Required'),
     startDate: yup.date(),
     endDate: yup.date()
-        .min(yup.ref('startDate'), "Start date can't be after end date"),
+        .min(yup.ref('startDate'), "End date must be after start date"),
     groupSize: yup.number().transform(forceInt),
     frequency: yup.number().transform(forceInt),
     daysOfWeek: yup.array().min(1, 'Select at least one day of the week'),

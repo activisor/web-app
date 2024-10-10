@@ -9,9 +9,9 @@ interface FormikDatePickerProps<TDate> extends DatePickerProps<TDate> {
     handleChange: (dayOfWeek: number) => void;
 }
 
-const FormikMuiDatePicker = <TDate,>({ name, ...props }: FormikDatePickerProps<TDate>) => {
+const FormikMuiDatePicker = <TDate,>(props: FormikDatePickerProps<TDate>) => {
     // use useField hook to get the state values for this field via the name prop.
-    const [field, meta] = useField(name);
+    const [field, meta] = useField(props.name);
     const { setFieldValue } = useFormikContext();
 
     return (
@@ -24,14 +24,14 @@ const FormikMuiDatePicker = <TDate,>({ name, ...props }: FormikDatePickerProps<T
                 onChange={(val) => {
                     const date = val as dayjs.Dayjs;
                     props.handleChange(date.day())
-                    setFieldValue(name, val);
+                    setFieldValue(props.name, val);
                 }}
             />
             {/* Show an error message if there's any */}
             {meta.error && (
-                <label className="label">
-                    <span className="label-text-alt text-error">{meta.error}</span>
-                </label>
+                <div>
+                    <span className="text-error">{meta.error}</span>
+                </div>
             )}
         </div>
     );
