@@ -24,13 +24,12 @@ import { ErrorMessage, FormikProvider, useFormik } from 'formik';
 import * as yup from 'yup';
 
 import FormikMuiDatePicker from '@/components/formik-mui-date-picker';
-import ParticipantInput, { type ParticipantInputProps, ADD_EVENT, CHANGE_EVENT, DELETE_EVENT } from './participant-input';
+import ParticipantInput, { type SavedParticipant } from './participant-input';
 import { publicRuntimeConfig } from '@/lib/app-constants';
 import { toDaysArray, toDaysOfWeek, orderedDaysArray } from '@/lib/days-of-week-convert';
 import Frequency from '@/lib/frequency';
 import type { Participant } from '@/lib/participant';
 import type { ScheduleData } from '@/lib/schedule-data';
-import { subscribe } from '@/client-lib/events';
 import { readItem, saveItem, hasStorage, SCHEDULE_DATA } from '@/client-lib/local-storage';
 import { mq } from '@/lib/media-queries';
 
@@ -70,12 +69,12 @@ const forceInt = (value: any): any => {
     return value;
 };
 
-const toParticipantInputProps = (participant: Participant): ParticipantInputProps => {
-    return {...participant, saved: true };
+const toSavedParticipant = (participant: Participant): SavedParticipant => {
+    return { ...participant, saved: true };
 };
 
 const scheduleSchema = yup.object({
-    participants: yup.array<ParticipantInputProps>()
+    participants: yup.array<SavedParticipant>()
         .min(yup.ref('groupSize'), 'Not enough participants for this size group'),
     scheduleName: yup.string()
         .min(2, 'must be at least 2 characters long')
@@ -105,7 +104,7 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
         color: theme.palette.primary.dark,
     });
 
-    const initialParticipants: ParticipantInputProps[] = [];
+    const initialParticipants: SavedParticipant[] = [];
     const [participantKey, setParticipantKey] = useState(1);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     // has been opened at least once
@@ -180,43 +179,39 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
         }
     };
 
-    const handleAddParticipant = (event: CustomEvent) => {
+    const handleAddParticipant = (participant: SavedParticipant) => {
         setParticipantKey(participantKey + 1);
+        participant.saved = true;
+        participant.id = Date.now();
 
         const participants = [...formikProps.values.participants];
+        formikProps.setFieldValue('participants', [...participants, participant]);
+
         // if many participants and group size is still 1, open snackbar notice
         if (!snackbarOpened && (formikProps.values.groupSize === 1) && (participants.length === participantNotificationNumber)) {
             setOpenSnackbar(true);
             setSnackbarOpened(true);
         }
-
-        const participant: ParticipantInputProps = {
-            ...event.detail,
-            saved: true,
-            id: participantKey
-        };
-        formikProps.setFieldValue('participants', [...participants, participant]);
     };
 
-    const handleChangeParticipant = (event: CustomEvent) => {
+    const handleChangeParticipant = (participant: SavedParticipant) => {
         const participants = [...formikProps.values.participants];
-        const index = participants.findIndex((participant) => {
-            return (participant.id === event.detail.id);
+        const index = participants.findIndex((item) => {
+            return (item.id === participant.id);
         });
 
         if (index >= 0 && participants && participants[index]) {
-            participants[index].name = event.detail.name;
-            participants[index].email = event.detail.email;
-            participants[index].isHalfShare = event.detail.isHalfShare;
+            participants[index].name = participant.name;
+            participants[index].email = participant.email;
+            participants[index].isHalfShare = participant.isHalfShare;
 
             formikProps.setFieldValue('participants', participants);
         }
     };
 
-    const handleDeleteParticipant = (event: CustomEvent) => {
-        const participants = [...formikProps.values.participants];
-        const tempParticipants: ParticipantInputProps[] = participants.filter((participant) => {
-            return participant.id !== event.detail.id;
+    const handleDeleteParticipant = (participant: SavedParticipant) => {
+        const tempParticipants: SavedParticipant[] = formikProps.values.participants.filter((saved) => {
+            return saved.id !== participant.id;
         });
         formikProps.setFieldValue('participants', tempParticipants);
     };
@@ -225,12 +220,16 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
         return formikProps.values.participants.map((participant, index) => {
             return (
                 <ParticipantInput
+                    index={index + 1}
                     key={participant.id}
                     id={participant.id}
                     name={participant.name}
                     email={participant.email}
                     saved={participant.saved}
                     isHalfShare={participant.isHalfShare}
+                    handleAdd={handleAddParticipant}
+                    handleChange={handleChangeParticipant}
+                    handleDelete={handleDeleteParticipant}
                 />
             )
         });
@@ -249,16 +248,12 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
     }
 
     useEffect(() => {
-        subscribe(ADD_EVENT, handleAddParticipant);
-        subscribe(CHANGE_EVENT, handleChangeParticipant);
-        subscribe(DELETE_EVENT, handleDeleteParticipant);
-
         // initialize form values from local storage if available and not already changed
         if (hasStorage()) {
             const dto: ScheduleData | null = readItem(SCHEDULE_DATA);
             if (dto && !formikProps.values.scheduleName && !formikProps.values.participants.length) {
                 formikProps.setFieldValue('scheduleName', dto.scheduleName);
-                formikProps.setFieldValue('participants', dto.participants.map(toParticipantInputProps));
+                formikProps.setFieldValue('participants', dto.participants.map(toSavedParticipant));
 
                 if (dto.groupSize) {
                     formikProps.setFieldValue('groupSize', dto.groupSize);
@@ -285,7 +280,7 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                 setParticipantKey(lastParticipantKey + 1);
             }
         }
-    });
+    }, []);
 
     const allowAddParticipants = formikProps.values.participants.length < publicRuntimeConfig.MAX_PARTICIPANTS;
 
@@ -461,7 +456,16 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                             </div>
                             {allowAddParticipants ? (
                                 <div>
-                                    <ParticipantInput name="" email="" isHalfShare={false} saved={false} />
+                                    <ParticipantInput
+                                        index={0}
+                                        name=""
+                                        email=""
+                                        isHalfShare={false}
+                                        saved={false}
+                                        handleAdd={handleAddParticipant}
+                                        handleChange={handleChangeParticipant}
+                                        handleDelete={handleDeleteParticipant}
+                                    />
                                 </div>
                             ) : (
                                 <p>You can have up to {publicRuntimeConfig.MAX_PARTICIPANTS} participants</p>
