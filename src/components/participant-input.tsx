@@ -23,6 +23,7 @@ import { mq } from "@/lib/media-queries";
 import type { Participant } from "@/lib/participant";
 import './participant-accordion.css';
 
+// DTO returned to parent
 export interface SavedParticipant extends Participant {
     saved: boolean;
 }
@@ -34,6 +35,7 @@ export interface ParticipantInputProps extends SavedParticipant {
     handleDelete(props: SavedParticipant): void;
 }
 
+// use Formik/Yup only to validate email/name
 const participantSchema = yup.object({
     email: yup.string().email("Invalid email address").required("Required"),
     name: yup.string(),
@@ -105,14 +107,11 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
         onSubmit: (values) => { },
     });
 
-    const handleAccordianChange =
-        (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+    const handleAccordianChange = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
             setExpanded(isExpanded ? panel : false);
         };
 
-    const handleEmailChange = (
-        event: React.ChangeEvent<HTMLInputElement>
-    ): void => {
+    const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
         let tempProps = { ...props_ };
         tempProps.email = event.target.value;
         setProps_(tempProps);
@@ -128,13 +127,11 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
     // Function to set focus programmatically
     const focusName = () => {
         if (nameInputRef.current) {
-        nameInputRef.current.focus(); // Set focus to the input field
+            nameInputRef.current.focus(); // Set focus to the input field
         }
     };
 
-    const handleEmailKeyDown = (
-        event: React.KeyboardEvent<HTMLInputElement>
-    ): void => {
+    const handleEmailKeyDown = (event: React.KeyboardEvent<HTMLInputElement>): void => {
         if (event.key === "Enter") {
             formik.validateField("email");
             if (!Boolean(formik.errors.email)) {
@@ -150,26 +147,16 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
         }
     };
 
-    const handleNameChange = (
-        event: React.ChangeEvent<HTMLInputElement>
-    ): void => {
+    const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
         let tempProps = { ...props_ };
         tempProps.name = event.target.value;
-        setProps_(tempProps);
-    };
-
-    const handleShareChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-        let tempProps = { ...props_ };
-        tempProps.isHalfShare = event.target.value === "true" ? true : false;
         setProps_(tempProps);
         if (props_.saved) {
             props.handleChange(tempProps);
         }
     };
 
-    const handleNameKeyDown = (
-        event: React.KeyboardEvent<HTMLInputElement>
-    ): void => {
+    const handleNameKeyDown = (event: React.KeyboardEvent<HTMLInputElement>): void => {
         if (event.key === "Enter") {
             formik.validateField("email");
             if (props_.saved) {
@@ -197,6 +184,15 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
         }
     };
 
+    const handleShareChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+        let tempProps = { ...props_ };
+        tempProps.isHalfShare = event.target.value === "true" ? true : false;
+        setProps_(tempProps);
+        if (props_.saved) {
+            props.handleChange(tempProps);
+        }
+    };
+
     const handleAddClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
         formik.validateField("email");
         props.handleAdd(props_);
@@ -209,9 +205,7 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
         setProps_(initialProps);
     };
 
-    const handleDeleteClick = (
-        event: React.MouseEvent<HTMLButtonElement>
-    ): void => {
+    const handleDeleteClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
         props.handleDelete(props_);
     };
 
@@ -221,14 +215,7 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
 
     return (
         <div css={[containerSyle, { marginLeft: -12 }]}>
-            <div
-                css={[
-                    {
-                        display: "flex",
-                        //alignItems: 'center',
-                    },
-                ]}
-            >
+            <div css={{ display: "flex" }} >
                 {props_.saved ? (
                     <div
                         css={{
@@ -254,7 +241,6 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
                     label={props.saved ? "" : "Email"}
                     type={"email"}
                     inputProps={{ value: props_.email }}
-                    onBlur={formik.handleBlur}
                     onChange={handleEmailChange}
                     onKeyDown={handleEmailKeyDown}
                     error={
