@@ -105,7 +105,6 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
     });
 
     const initialParticipants: SavedParticipant[] = [];
-    const [participantKey, setParticipantKey] = useState(1);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     // has been opened at least once
     const [snackbarOpened, setSnackbarOpened] = useState(false);
@@ -180,7 +179,6 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
     };
 
     const handleAddParticipant = (participant: SavedParticipant) => {
-        setParticipantKey(participantKey + 1);
         participant.saved = true;
         participant.id = Date.now();
 
@@ -275,9 +273,6 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                         formikProps.setFieldValue('daysOfWeek', toDaysArray(dto.dates.daysOfWeek));
                     }
                 }
-
-                const lastParticipantKey = dto.participants.length && dto.participants[dto.participants.length - 1].id ? dto.participants[dto.participants.length - 1].id as number : 0;
-                setParticipantKey(lastParticipantKey + 1);
             }
         }
     }, []);
@@ -355,9 +350,7 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                                     handleChange={(date) => { }}
                                 />
                             </div>
-                            <div>
-                                <ErrorMessage name="endDate" />
-                            </div>
+                            <ErrorMessage component="div" name="endDate" className="text-error" />
                             <div css={{
                                 display: 'flex'
                             }}>
@@ -450,9 +443,7 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                                 }
                             }}>
                                 {renderParticipants()}
-                                <div>
-                                    <ErrorMessage name="participants" />
-                                </div>
+                                <ErrorMessage component="div" name="participants" className="text-error" />
                             </div>
                             {allowAddParticipants ? (
                                 <div>
