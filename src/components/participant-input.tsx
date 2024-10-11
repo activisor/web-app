@@ -48,9 +48,12 @@ const participantSchema = yup.object({
  */
 const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
     const [props_, setProps_] = useState(props as SavedParticipant);
-    const [nameFocused, setNameFocused] = useState(false);
     const [isDirty_, setIsDirty_] = useState(false);
     const [expanded, setExpanded] = React.useState<string | false>(false);
+
+    // Create a reference for the name TextField with proper typing for the HTMLInputElement
+    const nameInputRef = useRef<HTMLInputElement | null>(null);
+
     const theme = useTheme();
 
     const cleanAddContainerStyle = css({
@@ -122,29 +125,24 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
         }
     };
 
+    // Function to set focus programmatically
+    const focusName = () => {
+        if (nameInputRef.current) {
+        nameInputRef.current.focus(); // Set focus to the input field
+        }
+    };
+
     const handleEmailKeyDown = (
         event: React.KeyboardEvent<HTMLInputElement>
     ): void => {
         if (event.key === "Enter") {
-            const emailInput = event.target as HTMLInputElement;
-            emailInput.blur();
-
             formik.validateField("email");
             if (!Boolean(formik.errors.email)) {
                 if (props_.saved) {
                     props.handleChange(props_);
                 }
-/*
-                // valid email: change focus to name field
-                // focused input element is grandchild of TextField root
-                const emailTextField = emailInput.parentElement
-                    ?.parentElement as HTMLDivElement;
-                const nameInput = emailTextField.nextElementSibling?.firstElementChild
-                    ?.firstElementChild as HTMLInputElement;
-                nameInput.focus();
-*/
 
-                setNameFocused(true);
+                focusName();
             }
 
             // prevent form submission
@@ -280,9 +278,9 @@ const ParticipantInput: React.FC<ParticipantInputProps> = (props) => {
                     label={props.saved ? "" : "Name"}
                     type="text"
                     inputProps={{ value: props_.name }}
+                    inputRef={nameInputRef}
                     onChange={handleNameChange}
                     onKeyDown={handleNameKeyDown}
-                    focused={nameFocused}
                     css={{
                         flexGrow: 1,
                     }}
