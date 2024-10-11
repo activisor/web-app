@@ -153,10 +153,15 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
         },
     });
 
-    const handleStartDayChange = (day: number) => {
+    const handleStartDayChange = (date: Date, day: number) => {
         // update day of week if single day selected
         if (formikProps.values.daysOfWeek.length === 1) {
             formikProps.setFieldValue('daysOfWeek', [defaultDaysOfWeek[day]]);
+        }
+
+        // shift end date if start date is after end date
+        if (formikProps.values.endDate < date) {
+            formikProps.setFieldValue('endDate', date);
         }
     };
 

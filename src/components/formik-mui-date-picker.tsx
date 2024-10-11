@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 // Add a name property, external handler, and reuse the date picker props.
 interface FormikDatePickerProps<TDate> extends DatePickerProps<TDate> {
     name: string;
-    handleChange: (dayOfWeek: number) => void;
+    handleChange: ( date: TDate, dayOfWeek: number) => void;
 }
 
 const FormikMuiDatePicker = <TDate,>(props: FormikDatePickerProps<TDate>) => {
@@ -22,9 +22,10 @@ const FormikMuiDatePicker = <TDate,>(props: FormikDatePickerProps<TDate>) => {
                 value={dayjs(field.value) as TDate}
                 // modify the formik state using setFieldValue
                 onChange={(val) => {
-                    const date = val as dayjs.Dayjs;
-                    props.handleChange(date.day())
                     setFieldValue(props.name, val);
+
+                    const date = val as dayjs.Dayjs;
+                    props.handleChange(val as TDate, date.day())
                 }}
             />
             {/* Show an error message if there's any */}
