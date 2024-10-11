@@ -297,6 +297,9 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
         </React.Fragment>
     );
 
+    const daysOfWeekText = `${formikProps.values.daysOfWeek.length} day${formikProps.values.daysOfWeek.length > 1 ? 's' : ''} a week`;
+    const weeklyDailyMenuTitle = formikProps.values.frequency === Frequency.DaysOfWeek ? daysOfWeekText : 'weekly or daily';
+
     return (
         <>
             <FormikProvider value={formikProps}>
@@ -411,7 +414,7 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                                         >
                                             <MenuItem value="4">monthly</MenuItem>
                                             <MenuItem value="3">every other week</MenuItem>
-                                            <MenuItem value="5" onClick={handleDaysOfWeekClick}>weekly or daily</MenuItem>
+                                            <MenuItem value="5" onClick={handleDaysOfWeekClick}>{weeklyDailyMenuTitle}</MenuItem>
                                         </Select>
                                     </FormControl>
                                 </div>
@@ -504,7 +507,7 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                                 <ToggleButton value="fri">F</ToggleButton>
                                 <ToggleButton value="sat">S</ToggleButton>
                             </ToggleButtonGroup>
-                            <p>{formikProps.values.daysOfWeek.length} day{formikProps.values.daysOfWeek.length > 1 ? 's' : ''} a week</p>
+                            <p>{daysOfWeekText}</p>
                         </DialogContent>
                         <div css={{
                             display: 'flex',
