@@ -56,7 +56,10 @@ const headlineBlockCss = css({
             marginBlockEnd: '1em',
         },
     }
+});
 
+const headlineCss = css({
+    display: 'flex',
 });
 
 const paperCss = css({
@@ -164,12 +167,20 @@ export default function Home() {
                             <Image src="/ShortLogo_Transparent.png" width={200} height={90} alt="Activisor logo" />
                         </div>
                         <div css={{
-                            // marginTop: 32,
-                            // marginBottom: 32,
+                            paddingBottom: 16,
+                            [mq.md]: {
+                                paddingBottom: 0,
+                            }
                         }}>
                             <div css={[headlineBlockCss, altTextColorCss]}>
-                                <p><DoneOutlineIcon css={checkCss} />Creates smart schedules for your group</p>
-                                <p><DoneOutlineIcon css={checkCss} />Actively manages attendance</p>
+                                <p css={headlineCss}>
+                                    <DoneOutlineIcon css={checkCss} />
+                                    <span>Creates smart schedules for your group</span>
+                                </p>
+                                <p css={headlineCss}>
+                                    <DoneOutlineIcon css={checkCss} />
+                                    <span>Actively manages attendance</span>
+                                </p>
                             </div>
                             <h2 css={{
                                 color: theme.palette.secondary.dark,
@@ -182,7 +193,10 @@ export default function Home() {
                                 },
                             }}>YOU</h2>
                             <div css={[headlineBlockCss, altTextColorCss]}>
-                                <p><DoneOutlineIcon css={checkCss} />Play more and stress less</p>
+                                <p css={headlineCss}>
+                                    <DoneOutlineIcon css={checkCss} />
+                                    <span>Play more and stress less</span>
+                                </p>
                             </div>
                         </div>
                         <Paper elevation={1} css={[paperCss, {
