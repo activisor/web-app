@@ -140,6 +140,15 @@ export default function Home() {
         setDialogOpen(false);
     };
 
+    const getHeadline = (text: string) => {
+        return (
+            <p css={headlineCss}>
+                <DoneOutlineIcon css={checkCss} />
+                <span>{text}</span>
+            </p>
+        );
+    };
+
     return (
         <main>
             <div id="hero-section" css={[heroSectionCss, heroImageCss]}>
@@ -173,14 +182,8 @@ export default function Home() {
                             }
                         }}>
                             <div css={[headlineBlockCss, altTextColorCss]}>
-                                <p css={headlineCss}>
-                                    <DoneOutlineIcon css={checkCss} />
-                                    <span>Creates smart schedules for your group</span>
-                                </p>
-                                <p css={headlineCss}>
-                                    <DoneOutlineIcon css={checkCss} />
-                                    <span>Actively manages attendance</span>
-                                </p>
+                                {getHeadline('Creates smart schedules for your group')}
+                                {getHeadline('Actively manages attendance')}
                             </div>
                             <h2 css={{
                                 color: theme.palette.secondary.dark,
@@ -193,10 +196,7 @@ export default function Home() {
                                 },
                             }}>YOU</h2>
                             <div css={[headlineBlockCss, altTextColorCss]}>
-                                <p css={headlineCss}>
-                                    <DoneOutlineIcon css={checkCss} />
-                                    <span>Play more and stress less</span>
-                                </p>
+                                {getHeadline('Play more and stress less')}
                             </div>
                         </div>
                         <Paper elevation={1} css={[paperCss, {
