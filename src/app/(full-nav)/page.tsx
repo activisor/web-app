@@ -168,7 +168,7 @@ export default function Home() {
                             // marginBottom: 32,
                         }}>
                             <div css={[headlineBlockCss, altTextColorCss]}>
-                                <p><DoneOutlineIcon css={checkCss} />Creates smart schedules</p>
+                                <p><DoneOutlineIcon css={checkCss} />Creates smart schedules for your group</p>
                                 <p><DoneOutlineIcon css={checkCss} />Actively manages attendance</p>
                             </div>
                             <h2 css={{
