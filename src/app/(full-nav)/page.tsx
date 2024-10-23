@@ -220,7 +220,7 @@ export default function Home() {
                             },
                         }]}>
                             <img src="/pickleball-schedule-sm2.png"
-                                alt="four people playing pickleball"
+                                alt="pickleball grop schedule"
                                 css={{
                                     width: '100%',
                                     borderRadius: theme.shape.borderRadius,
@@ -240,7 +240,11 @@ export default function Home() {
                             padding: 32,
                         }
                     }}>
-                        <Paper elevation={10} css={paperCss}>
+                        <Paper elevation={10} css={[paperCss, {
+                            // secondary main #FF9900
+                            border: '8px solid',
+                            borderColor: 'rgb(255, 153, 0, 0.3)'
+                            }]}>
                             <h1 css={{
                                 color: theme.palette.primary.dark,
                                 marginTop: 0,
