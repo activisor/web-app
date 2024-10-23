@@ -16,7 +16,7 @@ import { useTheme } from '@mui/material/styles';
 import CopyToClipboardButton from '@/components/copy-to-clipboard-button';
 import ImageDialog from '@/components/image-dialog';
 // import { publicRuntimeConfig } from '@/lib/config';
-import { mq, breakpoints } from '@/lib/media-queries';
+import { mq, breakpoints, xsbp } from '@/lib/media-queries';
 
 const schedulerToEmail = 'schedule@mail.activisor.com';
 
@@ -72,7 +72,28 @@ const checkCss = css({
     marginRight: 16,
 })
 
+const italicTextCss = css({
+    fontStyle: 'italic',
+});
+
+const itemTitleCss = css({
+    fontWeight: 'bold',
+    paddingRight: 8,
+    // prevent wrapping
+    [`@media (min-width: ${breakpoints[3]}px) and (max-width: 1700px)`]: {
+        paddingRight: 4,
+    },
+});
+
 const ctaEmailBlockCss = css({
+    '& > *': {
+        whiteSpace: 'nowrap',
+    },
+    [`@media (max-width: ${xsbp}px)`]: {
+        '& button': {
+            paddingRight: 0,
+        },
+    },
     [mq.sm]: {
         display: 'flex',
         alignItems: 'center',
@@ -86,17 +107,10 @@ const ctaEmailBlockCss = css({
     },
 });
 
-const itemTitleCss = css({
-    fontWeight: 'bold',
-    paddingRight: 8,
-    // prevent wrapping
-    [`@media (min-width: ${breakpoints[3]}px) and (max-width: 1700px)`]: {
-        paddingRight: 4,
+const schedulerToEmailCss = css({
+    [`@media (max-width: ${xsbp}px)`]: {
+        fontSize: '14px',
     },
-});
-
-const italicTextCss = css({
-    fontStyle: 'italic',
 });
 
 const handleClick = () => {
@@ -250,7 +264,7 @@ export default function Home() {
                                             display: 'flex',
                                             alignItems: 'center',
                                         }}>
-                                            <span css={itemTitleCss}>{schedulerToEmail}</span>
+                                            <span css={[itemTitleCss, schedulerToEmailCss]}>{schedulerToEmail}</span>
                                             <CopyToClipboardButton value={schedulerToEmail} valueName="email" color="secondary" fontSize="large"></CopyToClipboardButton>
                                         </div>
                                     </div>
