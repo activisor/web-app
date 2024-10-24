@@ -7,7 +7,7 @@ import './globals.css'
 
 export const metadata: Metadata = {
     title: 'Activisor - Group Activity Management',
-    description: 'Activisor creates Google Sheets schedules that ensure balanced participation and mingling among your group members.',
+    description: 'Activisor creates smart Google Sheets schedules for recurring recreational group events and then actively manages attendance.',
     applicationName: 'Activisor'
 }
 
