@@ -1,12 +1,13 @@
-import type { Metadata } from 'next'
 import Link from '@mui/material/Link';
-import { Providers } from '@/client-lib/provider';
+import type { Metadata } from 'next'
 
-export default function FullNavLayout({
-    children,
-}: {
-    children: React.ReactNode
-}) {
+export const metadata: Metadata = {
+    title: 'Activisor - Group Activity Management',
+    description: 'Activisor creates smart Google Sheets schedules for recurring recreational group and team meetings and then actively manages attendance.',
+    applicationName: 'Activisor'
+}
+
+export default function FullNavLayout({ children }: { children: React.ReactNode }) {
     return (
         <section>
             {children}
