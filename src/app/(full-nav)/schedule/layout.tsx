@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
     title: 'Activisor - Schedule Maker',
-    description: 'Schedule Maker creates a Google Sheets schedule for the user that evenly randomizes member participation among all of the schedule&apos;s events',
+    description: "Schedule Maker creates a Google Sheets schedule for the user that evenly randomizes member participation among all of the schedule's events",
     applicationName: 'Activisor'
 }
 

@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
     title: 'Activisor - Terms of Service',
-    description: 'Activisor&apos;s terms of service',
+    description: "Activisor's terms of service",
     applicationName: 'Activisor'
 }
 
