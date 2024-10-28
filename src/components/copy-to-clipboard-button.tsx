@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-'use client'
+'use client';
 
 import IconButton from '@mui/material/IconButton';
 import Snackbar from '@mui/material/Snackbar';

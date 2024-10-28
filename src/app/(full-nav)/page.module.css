@@ -1,0 +1,41 @@
+
+.alt_text {
+    color: var(--primary-dark);
+}
+
+.italic_text {
+    font-style: italic;
+}
+
+.item_title {
+    font-weight: bold;
+    padding-right: 8px;
+
+}
+
+.list_items > li {
+    margin-bottom: 16px;
+}
+
+.below_fold {
+    padding: 16px;
+}
+
+/* ref @/lib/media-queries*/
+@media (min-width: 900px) {
+    .below_fold {
+        padding: 24px;
+    }
+}
+
+@media (min-width: 1536px) {
+    .below_fold {
+        padding: 32px;
+    }
+}
+
+@media (min-width: 1536px) and (max-width: 1700px) {
+    .item_title {
+        padding-right: 4px;
+    }
+}

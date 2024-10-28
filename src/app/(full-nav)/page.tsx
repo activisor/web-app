@@ -1,373 +1,38 @@
-/** @jsxImportSource @emotion/react */
-'use client'
-
-import Image from 'next/image';
-import { css } from '@emotion/react';
-import { useState } from 'react';
-import Grid from '@mui/material/Unstable_Grid2';
-import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
-import Info from '@mui/icons-material/Info';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import Paper from '@mui/material/Paper';
-import Tooltip from '@mui/material/Tooltip';
-
-import { useTheme } from '@mui/material/styles';
-import CopyToClipboardButton from '@/components/copy-to-clipboard-button';
-import ImageDialog from '@/components/image-dialog';
-// import { publicRuntimeConfig } from '@/lib/config';
-import { mq, breakpoints, xsbp } from '@/lib/media-queries';
-
-const schedulerToEmail = 'schedule@mail.activisor.com';
-
-const heroSectionCss = css({
-    backgroundColor: '#FFFFFF',
-    backgroundPosition: 'center right',
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'cover',
-    [mq.md]: {
-        height: '100vh'
-    },
-});
-
-const heroImageCss = css({
-    backgroundImage: 'linear-gradient(rgba(255, 250, 223, 1.0),rgba(255, 250, 223, 0.5)), url(/pickleball-1920x1200.jpg)',
-    [mq.md]: {
-        backgroundImage: 'linear-gradient(to right, rgba(255, 250, 223, 1.0),rgba(255, 250, 223, 0.5)), url(/pickleball-1920x1200.jpg)',
-    },
-});
-
-const headlineBlockCss = css({
-    fontWeight: 'bold',
-    fontSize: '20px',
-    paddingLeft: 24,
-    [mq.md]: {
-        paddingLeft: 40,
-        fontSize: '24px',
-    },
-    [mq.xl]: {
-        paddingBottom: 16,
-    },
-    p: {
-        marginBlockStart: '0.5em',
-        marginBlockEnd: '0.5em',
-        [mq.xl]: {
-            marginBlockStart: '1em',
-            marginBlockEnd: '1em',
-        },
-    }
-});
-
-const headlineCss = css({
-    display: 'flex',
-});
-
-const paperCss = css({
-    padding: 16,
-    backgroundColor: 'rgba(255, 255, 255, 0.7)',
-    backdropFilter: 'blur(5px)',
-});
-
-const checkCss = css({
-    marginRight: 16,
-})
-
-const italicTextCss = css({
-    fontStyle: 'italic',
-});
-
-const itemTitleCss = css({
-    fontWeight: 'bold',
-    paddingRight: 8,
-    // prevent wrapping
-    [`@media (min-width: ${breakpoints[3]}px) and (max-width: 1700px)`]: {
-        paddingRight: 4,
-    },
-});
-
-const ctaEmailBlockCss = css({
-    '& > *': {
-        whiteSpace: 'nowrap',
-    },
-    [`@media (max-width: ${xsbp}px)`]: {
-        '& button': {
-            paddingRight: 0,
-        },
-    },
-    [mq.sm]: {
-        display: 'flex',
-        alignItems: 'center',
-    },
-    [mq.md]: {
-        display: 'block',
-    },
-    [mq.xl]: {
-        display: 'flex',
-        alignItems: 'center',
-    },
-});
-
-const schedulerToEmailCss = css({
-    [`@media (max-width: ${xsbp}px)`]: {
-        fontSize: '14px',
-    },
-});
-
-const handleClick = () => {
-    window.location.href = '/schedule';
-};
+import classes from './page.module.css';
+import HeroSection from '@/components/hero-section';
 
 export default function Home() {
-    const [dialogOpen, setDialogOpen] = useState(false);
-    const theme = useTheme();
-
-    const altTextColorCss = css({
-        color: theme.palette.primary.dark,
-    });
-
-    const ctaSectionCss = css({
-        /* theme primary light */
-        backgroundColor: 'rgba(187, 222, 251, 0.3)',
-        borderStyle: 'solid',
-        borderWidth: 1,
-        borderColor: theme.palette.primary.dark,
-        borderRadius: theme.shape.borderRadius,
-        padding: 16,
-        marginBottom: 16,
-        [mq.xl]: {
-            marginBottom: 24,
-        },
-        h2: {
-            marginTop: 0,
-            marginBottom: 8,
-            [mq.xl]: {
-                marginBottom: 16,
-            }
-        }
-    });
-
-    const handleForwardInfoClick = () => {
-        setDialogOpen(true);
-    };
-
-    const handleDialogClose = () => {
-        setDialogOpen(false);
-    };
-
-    const getHeadline = (text: string) => {
-        return (
-            <p css={headlineCss}>
-                <DoneOutlineIcon css={checkCss} />
-                <span>{text}</span>
-            </p>
-        );
-    };
-
     return (
         <main>
-            <div id="hero-section" css={[heroSectionCss, heroImageCss]}>
-                <Grid container spacing={2} css={{
-                    height: '100%',
-                    alignItems: 'stretch',
-                    padding: 16,
-                    [mq.xl]: {
-                        padding: 24,
-                    }
-                }}>
-                    <Grid xs={12} md={6} xl={5} css={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'space-between',
-                        padding: 8,
-                        [mq.md]: {
-                            padding: 24,
-                        },
-                        [mq.xl]: {
-                            padding: 32,
-                        }
-                    }}>
-                        <div>
-                            <Image src="/ShortLogo_Transparent.png" width={200} height={90} alt="Activisor logo" />
-                        </div>
-                        <div css={{
-                            paddingBottom: 16,
-                            [mq.md]: {
-                                paddingBottom: 0,
-                            }
-                        }}>
-                            <div css={[headlineBlockCss, altTextColorCss]}>
-                                {getHeadline('Creates smart schedules for your group')}
-                                {getHeadline('Actively manages attendance')}
-                            </div>
-                            <h2 css={{
-                                color: theme.palette.secondary.dark,
-                                backdropFilter: 'blur(1px)',
-                                fontSize: '28px',
-                                letterSpacing: '6px',
-                                marginBottom: 0,
-                                [mq.xl]: {
-                                    marginBottom: 16,
-                                },
-                            }}>YOU</h2>
-                            <div css={[headlineBlockCss, altTextColorCss]}>
-                                {getHeadline('Play more and stress less')}
-                            </div>
-                        </div>
-                        <Paper elevation={1} css={[paperCss, {
-                            padding: 8,
-                            [mq.md]: {
-                                padding: 16,
-                            },
-                        }]}>
-                            <img src="/pickleball-schedule-sm2.png"
-                                alt="pickleball grop schedule"
-                                css={{
-                                    width: '100%',
-                                    borderRadius: theme.shape.borderRadius,
-                                }} />
-                        </Paper>
-                    </Grid>
-                    <Grid xs={0} md={1} xl={2}>
-                    </Grid>
-                    <Grid xs={12} md={5} xl={5} css={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'flex-end',
-                        [mq.md]: {
-                            padding: 24,
-                        },
-                        [mq.xl]: {
-                            padding: 32,
-                        }
-                    }}>
-                        <Paper elevation={10} css={[paperCss, {
-                            // secondary main #FF9900
-                            border: '8px solid',
-                            borderColor: 'rgb(255, 153, 0, 0.3)'
-                            }]}>
-                            <h1 css={{
-                                color: theme.palette.primary.dark,
-                                marginTop: 0,
-                                marginBottom: 8,
-                                [mq.xl]: {
-                                    marginBottom: 16,
-                                }
-                            }}>Pick A Way To Start</h1>
-                            <div css={[ctaSectionCss, {
-                                borderWidth: 3
-                            }]}>
-                                <h2 css={altTextColorCss}>We Start</h2>
-                                <div css={{
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    alignItems: 'center',
-                                }}>
-                                    <div css={ctaEmailBlockCss}>
-                                        <span>Forward your roster group email to&nbsp;</span>
-                                        <div css={{
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                        }}>
-                                            <span css={[itemTitleCss, schedulerToEmailCss]}>{schedulerToEmail}</span>
-                                            <CopyToClipboardButton value={schedulerToEmail} valueName="email" color="secondary" fontSize="large"></CopyToClipboardButton>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <span css={[italicTextCss, altTextColorCss, {
-                                            // paddingLeft: 56,
-                                            [mq.md]: {
-                                                //    paddingLeft: 80,
-                                            },
-                                            paddingRight: 8,
-                                        }]}>We&apos;ll get back to you!</span>
-                                        <Tooltip title="see how to forward a group email">
-                                            <IconButton
-                                                aria-label="info"
-                                                color={'primary'}
-                                                onClick={handleForwardInfoClick}>
-                                                <Info />
-                                            </IconButton>
-                                        </Tooltip>
-                                        <ImageDialog
-                                            name="Forwarding Your Group Email"
-                                            open={dialogOpen}
-                                            src="/activisor-forward-email.gif"
-                                            alt="show how to forward email"
-                                            tagLine="Look for our email response!"
-                                            height={540}
-                                            width={1080}
-                                            onClose={handleDialogClose} />
-                                    </div>
-                                </div>
-                            </div>
-                            <div css={[ctaSectionCss, {
-                                marginBottom: 0
-                            }]}>
-                                <h2 css={altTextColorCss}>You Start</h2>
-                                <div css={{
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    alignItems: 'center',
-                                }}>
-                                    <Tooltip title="open the schedule maker">
-                                        <Button
-                                            variant='outlined'
-                                            type="submit"
-                                            size="large"
-                                            color="secondary"
-                                            onClick={handleClick}
-                                        >enter roster yourself</Button>
-                                    </Tooltip>
-                                </div>
-                            </div>
-                        </Paper>
-                    </Grid>
-                </Grid>
-            </div>
-            <div css={{
-                padding: 16,
-                [mq.md]: {
-                    padding: 24,
-                },
-                [mq.xl]: {
-                    padding: 32,
-                }
-            }}>
-                <h3 css={altTextColorCss}>Activisor Manages Group Activities</h3>
+            <HeroSection />
+            <div className={classes.below_fold}>
+                <h3 className={classes.alt_text}>Activisor Manages Group Activities</h3>
                 <p>Nine players sharing one court for the season? Tired of spending hours managing your gaming or sports group&apos;s schedule? Someone getting the date, time, or place wrong? We know it&apos;s hard to create a schedule that provides a good experience for all and then coordinate attendance - but it doesn&apos;t have to be.
                     Activisor creates Google Sheets schedules for recurring meetings and then manages your group to get the right members to the right place at the right time.
                 </p>
                 <br></br>
-                <h3 css={altTextColorCss}>How It Helps</h3>
-                <ul css={{
-                    '& > li': {
-                        marginBottom: 16
-                    }
-                }}>
+                <h3 className={classes.alt_text}>How It Helps</h3>
+                <ul  className={classes.list_items}>
                     <li>
-                        <span css={[altTextColorCss, itemTitleCss]}>Effortless Scheduling:</span>Some members seeing certain ones too often and others hardly at all?  Activisor both balances participation and evenly mixes up the lineups across all your dates to ensure a good experience for everyone. In a couple of minutes, Activisor can publish a schedule to your group with any activity costs fairly shared.
+                        <span className={`${classes.alt_text} ${classes.item_title}`}>Effortless Scheduling:</span>Some members seeing certain ones too often and others hardly at all?  Activisor both balances participation and evenly mixes up the lineups across all your dates to ensure a good experience for everyone. In a couple of minutes, Activisor can publish a schedule to your group with any activity costs fairly shared.
                     </li>
                     <li>
-                        <span css={[altTextColorCss, itemTitleCss]}>Reduce Attendance Problems:</span>It can be a hassle to keep track of who&apos;s coming and who&apos;s not and then helping them to show up. From chasing down deadbeats to finding substitutions, Activisor will take care of it for you.
+                        <span className={`${classes.alt_text} ${classes.item_title}`}>Reduce Attendance Problems:</span>It can be a hassle to keep track of who&apos;s coming and who&apos;s not and then helping them to show up. From chasing down deadbeats to finding substitutions, Activisor will take care of it for you.
                     </li>
                     <li>
-                        <span css={[altTextColorCss, itemTitleCss]}>Embedded In Your Daily Routine:</span>Activisor is built on the apps you and your group already use every day so you&apos;ll always be on top of things.
+                        <span className={`${classes.alt_text} ${classes.item_title}`}>Embedded In Your Daily Routine:</span>Activisor is built on the apps you and your group already use every day so you&apos;ll always be on top of things.
                     </li>
                 </ul>
                 <br></br>
-                <h3 css={altTextColorCss}>How It Works</h3>
-                <ol css={{
-                    '& > li': {
-                        marginBottom: 16
-                    }
-                }}>
-                    <li>Enter some basic info about your schedule, such as your roster, when meetings occur, and overall cost (if any). <span css={[italicTextCss, altTextColorCss]}>Forward your roster group email to us and we can import their contact info.</span></li>
-                    <li>Authorize Google to grant access to Activisor in order for us to create your Google Sheets schedule. <span css={[italicTextCss, altTextColorCss]}>We don&apos;t touch anything else.</span></li>
-                    <li>Preview your schedule and then pay as little as $1 to start using it. <span css={[italicTextCss, altTextColorCss]}>We&apos;re rapidly adding more capabilities!</span></li>
+                <h3 className={classes.alt_text}>How It Works</h3>
+                <ol className={classes.list_items}>
+                    <li>Enter some basic info about your schedule, such as your roster, when meetings occur, and overall cost (if any). <span className={`${classes.alt_text} ${classes.italic_text}`}>Forward your roster group email to us and we can import their contact info.</span></li>
+                    <li>Authorize Google to grant access to Activisor in order for us to create your Google Sheets schedule. <span className={`${classes.alt_text} ${classes.italic_text}`}>We don&apos;t touch anything else.</span></li>
+                    <li>Preview your schedule and then pay as little as $1 to start using it. <span className={`${classes.alt_text} ${classes.italic_text}`}>We&apos;re rapidly adding more capabilities!</span></li>
                 </ol>
                 <br></br>
                 <br></br>
-                <h3 css={altTextColorCss}>About Us</h3>
+                <h3 className={classes.alt_text}>About Us</h3>
                 <p>Like you, we at Activisor had grown weary of creating meeting schedules for our groups and teams, and then managing attendance for each meeting. We built Activisor to do this for you. We strive to transform recreational group organization and management into a joyous and stress-free experience.</p>
             </div>
         </main>

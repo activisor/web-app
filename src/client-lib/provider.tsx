@@ -8,6 +8,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { AnalyticsProvider } from "./analytics";
 
+// duplicated theme palette from globals.css bc getting css vars from window is not available in client
 const theme = createTheme({
     palette: {
         primary: {
@@ -22,8 +23,6 @@ const theme = createTheme({
         }
     },
 });
-
-// console.log(JSON.stringify(theme.palette));
 
 export function Providers({ children }: { children: React.ReactNode }) {
     return (
