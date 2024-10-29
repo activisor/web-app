@@ -1,6 +1,8 @@
 import classes from './page.module.css';
 import HeroSection from '@/components/hero-section';
 
+export const dynamic = 'force-static';
+
 export default function Home() {
     return (
         <main>
