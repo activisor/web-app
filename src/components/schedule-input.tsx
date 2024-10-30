@@ -18,7 +18,6 @@ import Snackbar from '@mui/material/Snackbar';
 import TextField from '@mui/material/TextField';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import { useTheme } from '@mui/material/styles';
 
 import { ErrorMessage, FormikProvider, useFormik } from 'formik';
 import * as yup from 'yup';
@@ -98,11 +97,6 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
 
     // alert the user once they have 8 participants if group size is still 1
     const participantNotificationNumber = 7;
-
-    const theme = useTheme();
-    const altTextColorCss = css({
-        color: theme.palette.primary.dark,
-    });
 
     const initialParticipants: SavedParticipant[] = [];
     const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -316,10 +310,10 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                                 marginBottom: 16
                             },
                         }]}>
-                            <h2 css={[altTextColorCss, {
+                            <h2 css={{
                                 marginTop: 8,
                                 marginBottom: 8,
-                            }]}>Schedule</h2>
+                            }}>Schedule</h2>
                             <div>
                                 <TextField
                                     id="scheduleName"
@@ -438,13 +432,13 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                         <div css={css`
                             ${twoColumnChild};
                         `}>
-                            <h2 css={[altTextColorCss, {
+                            <h2 css={{
                                 marginTop: 24,
                                 /* breakpoint for large screen overrides, 1280px wide */
                                 '@media(min-width: 1248px)': {
                                     marginTop: 8
                                 }
-                            }]}>Members</h2>
+                            }}>Members</h2>
                             <div id="existing-participants" css={{
                                 '& > *': {
                                     marginBottom: 4,

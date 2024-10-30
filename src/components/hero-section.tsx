@@ -259,7 +259,7 @@ export default function HeroSection() {
                         <div css={[ctaSectionCss, {
                             borderWidth: 3
                         }]}>
-                            <h2 css={altTextColorCss}>Email Your Roster</h2>
+                            <h2>Email Your Roster</h2>
                             <div css={{
                                 display: 'flex',
                                 flexDirection: 'column',
@@ -298,7 +298,7 @@ export default function HeroSection() {
                         <div css={[ctaSectionCss, {
                             marginBottom: 0
                         }]}>
-                            <h2 css={altTextColorCss}>Enter Your Roster</h2>
+                            <h2>Enter Your Roster</h2>
                             <div css={{
                                 display: 'flex',
                                 flexDirection: 'column',
