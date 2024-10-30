@@ -318,7 +318,7 @@ const ScheduleInput: React.FC<ScheduleInputProps> = (props) => {
                         }]}>
                             <h2 css={[altTextColorCss, {
                                 marginTop: 8,
-                                marginBottom: 8
+                                marginBottom: 8,
                             }]}>Schedule</h2>
                             <div>
                                 <TextField

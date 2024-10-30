@@ -43,6 +43,10 @@ footer > * {
     padding: 16px;
 }
 
+h1 {
+    color: var(--primary-dark);
+}
+
 .text-error {
     color: var(--error-color);
 }

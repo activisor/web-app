@@ -1,14 +1,16 @@
 /** @jsxImportSource @emotion/react */
 'use client'
 
-// import { css } from '@emotion/react'
+import { css } from '@emotion/react'
 import { useEffect } from 'react';
 import { signIn, useSession } from 'next-auth/react';
+import { useTheme } from '@mui/material/styles';
 import LogoButton from '@/components/logo-button';
 import ScheduleInput from '@/components/schedule-input';
 import { readItem, saveItem, hasStorage, GENERATION_REQUESTED, SCHEDULE_DATA } from '@/client-lib/local-storage';
 import { useMixPanel } from '@/client-lib/analytics';
 import { publicRuntimeConfig } from '@/lib/app-constants';
+import { mq } from '@/lib/media-queries';
 import type { Participant } from '@/lib/participant';
 import type { ScheduleData } from '@/lib/schedule-data';
 import { decode } from '@/lib/base64-convert';
@@ -69,6 +71,13 @@ export default function Schedule() {
         }}>
             <div>
                 <LogoButton />
+                <div css={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                }}>
+                    <h1>Let&apos;s Create Your Schedule</h1>
+                </div>
+
                 <ScheduleInput handleSubmit={handleSubmit} />
             </div>
         </main>

@@ -250,13 +250,12 @@ export default function HeroSection() {
                         }
                     }]}>
                         <h1 css={{
-                            color: theme.palette.primary.dark,
                             marginTop: 0,
                             marginBottom: 8,
                             [mq.xl]: {
                                 marginBottom: 16,
                             }
-                        }}>Pick A Way To Start</h1>
+                        }}>Choose How To Create A Schedule</h1>
                         <div css={[ctaSectionCss, {
                             borderWidth: 3
                         }]}>
