@@ -7,6 +7,11 @@
     }
 }
 
+html, body {
+    overflow-x: hidden;
+    max-width: 100%;
+}
+
 body {
     /* theme palette*/
     --primary-main: #2194F3;
@@ -16,7 +21,6 @@ body {
     --secondary-light: #FFE0B2;
     --secondary-dark: #F57D00;
     --error-color: #D32F2F;
-    overflow-x: hidden;
 }
 
 main {
