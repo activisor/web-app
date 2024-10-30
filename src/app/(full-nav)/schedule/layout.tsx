@@ -2,8 +2,8 @@ import React from 'react';
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-    title: 'Activisor - Schedules for recurring recreational group events',
-    description: "Schedule Maker creates a Google Sheets schedule for the user that evenly randomizes member participation among all of the schedule's events",
+    title: 'Activisor - Schedules for recurring group and team events',
+    description: "Schedule Maker creates a Google Sheets schedule for recreational groups and teams that evenly mixes member participation among all of the schedule's dates",
     applicationName: 'Activisor'
 }
 

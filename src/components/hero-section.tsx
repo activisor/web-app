@@ -55,6 +55,14 @@ const headlineBlockCss = css({
 
 const headlineCss = css({
     display: 'flex',
+    '& > h3': {
+        marginTop: 12,
+        marginBottom: 12,
+    },
+    alignItems: 'baseline',
+    [mq.sm]: {
+        alignItems: 'center',
+    }
 });
 
 const paperCss = css({
@@ -142,164 +150,167 @@ export default function HeroSection() {
 
     const getHeadline = (text: string) => {
         return (
-            <p css={headlineCss}>
+            <div css={headlineCss}>
                 <DoneOutlineIcon css={checkCss} />
-                <span>{text}</span>
-            </p>
+                <h3>{text}</h3>
+            </div>
         );
     };
 
     return (
         <div id="hero-section" css={[heroSectionCss, heroImageCss]}>
-        <Grid container spacing={2} css={{
-            height: '100%',
-            alignItems: 'stretch',
-            padding: 16,
-            [mq.xl]: {
-                padding: 24,
-            }
-        }}>
-            <Grid xs={12} md={6} xl={5} css={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                padding: 8,
-                [mq.md]: {
-                    padding: 24,
-                },
+            <Grid container spacing={2} css={{
+                height: '100%',
+                alignItems: 'stretch',
+                padding: 16,
                 [mq.xl]: {
-                    padding: 32,
+                    padding: 24,
                 }
             }}>
-                <div>
-                    <Image src="/ShortLogo_Transparent.png" width={200} height={90} alt="Activisor logo" />
-                </div>
-                <div css={{
-                    paddingBottom: 16,
-                    [mq.md]: {
-                        paddingBottom: 0,
-                    }
-                }}>
-                    <div css={[headlineBlockCss, altTextColorCss]}>
-                        {getHeadline('Creates smart schedules for your group')}
-                        {getHeadline('Actively manages attendance')}
-                    </div>
-                    <h2 css={{
-                        color: theme.palette.secondary.dark,
-                        backdropFilter: 'blur(1px)',
-                        fontSize: '28px',
-                        letterSpacing: '6px',
-                        marginBottom: 0,
-                        [mq.xl]: {
-                            marginBottom: 16,
-                        },
-                    }}>YOU</h2>
-                    <div css={[headlineBlockCss, altTextColorCss]}>
-                        {getHeadline('Play more and stress less')}
-                    </div>
-                </div>
-                <Paper elevation={1} css={[paperCss, {
+                <Grid xs={12} md={6} xl={5} css={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
                     padding: 8,
                     [mq.md]: {
-                        padding: 16,
+                        padding: 24,
                     },
-                }]}>
-                    <img src="/pickleball-schedule-sm2.png"
-                        alt="pickleball grop schedule"
-                        css={{
-                            width: '100%',
-                            borderRadius: theme.shape.borderRadius,
-                        }} />
-                </Paper>
-            </Grid>
-            <Grid xs={0} md={1} xl={2}>
-            </Grid>
-            <Grid xs={12} md={5} xl={5} css={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'flex-end',
-                [mq.md]: {
-                    padding: 24,
-                },
-                [mq.xl]: {
-                    padding: 32,
-                }
-            }}>
-                <Paper elevation={10} css={[paperCss, {
-                    // secondary main #FF9900
-                    border: '8px solid',
-                    borderColor: 'rgb(255, 153, 0, 0.3)'
-                }]}>
-                    <h1 css={{
-                        color: theme.palette.primary.dark,
-                        marginTop: 0,
-                        marginBottom: 8,
-                        [mq.xl]: {
-                            marginBottom: 16,
+                    [mq.xl]: {
+                        padding: 32,
+                    }
+                }}>
+                    <div>
+                        <Image src="/ShortLogo_Transparent.png" width={200} height={90} alt="Activisor logo" />
+                    </div>
+                    <div css={{
+                        paddingBottom: 16,
+                        [mq.md]: {
+                            paddingBottom: 0,
                         }
-                    }}>Pick A Way To Start</h1>
-                    <div css={[ctaSectionCss, {
-                        borderWidth: 3
+                    }}>
+                        <div css={[headlineBlockCss, altTextColorCss]}>
+                            {getHeadline('Creates smart schedules for your group')}
+                            {getHeadline('Actively manages attendance')}
+                        </div>
+                        <h2 css={{
+                            color: theme.palette.secondary.dark,
+                            backdropFilter: 'blur(1px)',
+                            fontSize: '28px',
+                            letterSpacing: '6px',
+                            marginBottom: 0,
+                            [mq.xl]: {
+                                marginBottom: 16,
+                            },
+                        }}>YOU</h2>
+                        <div css={[headlineBlockCss, altTextColorCss]}>
+                            {getHeadline('Play more and stress less')}
+                        </div>
+                    </div>
+                    <Paper elevation={1} css={[paperCss, {
+                        padding: 8,
+                        [mq.md]: {
+                            padding: 16,
+                        },
                     }]}>
-                        <h2 css={altTextColorCss}>We Start</h2>
-                        <div css={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                        }}>
-                            <div css={ctaEmailBlockCss}>
-                                <span>Forward your roster group email to&nbsp;</span>
-                                <div css={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                }}>
-                                    <span css={[itemTitleCss, schedulerToEmailCss]}>{schedulerToEmail}</span>
-                                    <CopyToClipboardButton value={schedulerToEmail} valueName="email" color="secondary" fontSize="large"></CopyToClipboardButton>
+                        <img src="/pickleball-schedule-sm2.png"
+                            alt="pickleball grop schedule"
+                            css={{
+                                width: '100%',
+                                borderRadius: theme.shape.borderRadius,
+                            }} />
+                    </Paper>
+                </Grid>
+                <Grid xs={0} md={1} xl={2}></Grid>
+                <Grid xs={12} md={5} xl={5} css={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'flex-end',
+                    [mq.md]: {
+                        padding: 24,
+                    },
+                    [mq.xl]: {
+                        padding: 32,
+                    }
+                }}>
+                    <Paper elevation={10} css={[paperCss, {
+                        // secondary main #FF9900
+                        border: '8px solid',
+                        borderColor: 'rgb(255, 153, 0, 0.3)',
+                        [mq.xl]: {
+                            border: '16px solid',
+                            borderColor: 'rgb(255, 153, 0, 0.3)',
+                        }
+                    }]}>
+                        <h1 css={{
+                            color: theme.palette.primary.dark,
+                            marginTop: 0,
+                            marginBottom: 8,
+                            [mq.xl]: {
+                                marginBottom: 16,
+                            }
+                        }}>Pick A Way To Start</h1>
+                        <div css={[ctaSectionCss, {
+                            borderWidth: 3
+                        }]}>
+                            <h2 css={altTextColorCss}>Email Your Roster</h2>
+                            <div css={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                            }}>
+                                <div css={ctaEmailBlockCss}>
+                                    <span>Forward your roster group email to&nbsp;</span>
+                                    <div css={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                    }}>
+                                        <span css={[itemTitleCss, schedulerToEmailCss]}>{schedulerToEmail}</span>
+                                        <CopyToClipboardButton value={schedulerToEmail} valueName="email" color="secondary" fontSize="large"></CopyToClipboardButton>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span css={[italicTextCss, altTextColorCss, {
+                                        // paddingLeft: 56,
+                                        [mq.md]: {
+                                            //    paddingLeft: 80,
+                                        },
+                                        paddingRight: 8,
+                                    }]}>We&apos;ll get back to you!</span>
+                                    <ImageDialog
+                                        name="Forwarding Your Group Email"
+                                        src="/activisor-forward-email.gif"
+                                        alt="show how to forward email"
+                                        height={540}
+                                        width={1080}
+                                        tagLine="Look for our email response!"
+                                        tooltip="see how to forward a group email"
+                                    />
                                 </div>
                             </div>
-                            <div>
-                                <span css={[italicTextCss, altTextColorCss, {
-                                    // paddingLeft: 56,
-                                    [mq.md]: {
-                                        //    paddingLeft: 80,
-                                    },
-                                    paddingRight: 8,
-                                }]}>We&apos;ll get back to you!</span>
-                                <ImageDialog
-                                    name="Forwarding Your Group Email"
-                                    src="/activisor-forward-email.gif"
-                                    alt="show how to forward email"
-                                    height={540}
-                                    width={1080}
-                                    tagLine="Look for our email response!"
-                                    tooltip="see how to forward a group email"
-                                />
+                        </div>
+                        <div css={[ctaSectionCss, {
+                            marginBottom: 0
+                        }]}>
+                            <h2 css={altTextColorCss}>Enter Your Roster</h2>
+                            <div css={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                            }}>
+                                <Tooltip title="enter your roster in the schedule maker">
+                                    <Button
+                                        variant='outlined'
+                                        type="submit"
+                                        size="large"
+                                        color="secondary"
+                                        onClick={handleClick}
+                                    >Open Schedule Maker</Button>
+                                </Tooltip>
                             </div>
                         </div>
-                    </div>
-                    <div css={[ctaSectionCss, {
-                        marginBottom: 0
-                    }]}>
-                        <h2 css={altTextColorCss}>You Start</h2>
-                        <div css={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                        }}>
-                            <Tooltip title="open the schedule maker">
-                                <Button
-                                    variant='outlined'
-                                    type="submit"
-                                    size="large"
-                                    color="secondary"
-                                    onClick={handleClick}
-                                >enter roster yourself</Button>
-                            </Tooltip>
-                        </div>
-                    </div>
-                </Paper>
+                    </Paper>
+                </Grid>
             </Grid>
-        </Grid>
-    </div>
+        </div>
     )
 }
