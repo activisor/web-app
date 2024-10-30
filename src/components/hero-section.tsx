@@ -37,10 +37,11 @@ const headlineBlockCss = css({
     fontSize: '20px',
     paddingLeft: 24,
     [mq.md]: {
-        paddingLeft: 40,
+        paddingLeft: 32,
         fontSize: '24px',
     },
     [mq.xl]: {
+        paddingLeft: 40,
         paddingBottom: 16,
     },
     p: {
@@ -58,10 +59,16 @@ const headlineCss = css({
     '& > h3': {
         marginTop: 12,
         marginBottom: 12,
+        fontSize: '20px',
     },
     alignItems: 'baseline',
     [mq.sm]: {
         alignItems: 'center',
+    },
+    [mq.xl]: {
+        '& > h3': {
+            fontSize: '28px',
+        },
     }
 });
 
@@ -89,6 +96,7 @@ const itemTitleCss = css({
 });
 
 const ctaEmailBlockCss = css({
+    marginRight: -8,    // exclude button padding from centering
     '& > *': {
         whiteSpace: 'nowrap',
     },
@@ -173,7 +181,7 @@ export default function HeroSection() {
                     justifyContent: 'space-between',
                     padding: 8,
                     [mq.md]: {
-                        padding: 24,
+                        padding: 16,
                     },
                     [mq.xl]: {
                         padding: 32,
@@ -226,7 +234,7 @@ export default function HeroSection() {
                     flexDirection: 'column',
                     justifyContent: 'flex-end',
                     [mq.md]: {
-                        padding: 24,
+                        padding: 16,
                     },
                     [mq.xl]: {
                         padding: 32,
