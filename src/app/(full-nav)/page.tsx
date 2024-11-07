@@ -15,8 +15,9 @@ export default function Home() {
                     <li>Someone getting the date, time, or place wrong?</li>
                 </ul>
                 <p>We know it&apos;s hard to create a schedule that provides a good experience for all and then coordinate attendance - but it doesn&apos;t have to be.
-                    Activisor creates Google Sheets schedules for recurring meetings and then manages your group to get the right members to the right place at the right time. <strong>Meet your new team manager.</strong>
+                    Activisor creates Google Sheets schedules for recurring meetings and then manages your group to get the right members to the right place at the right time.
                 </p>
+                <p className={`${classes.alt_text} ${classes.italic_text}`}>Meet your new team manager.</p>
                 <br></br>
                 <h3 className={classes.alt_text}>How It Helps</h3>
                 <ul  className={classes.list_items}>
@@ -35,9 +36,11 @@ export default function Home() {
                 <ol className={classes.list_items}>
                     <li>Enter some basic info about your schedule, such as your roster, when meetings occur, and overall cost (if any). <span className={`${classes.alt_text} ${classes.italic_text}`}>Forward your roster group email to us and we can import their contact info.</span></li>
                     <li>Authorize Google to grant access to Activisor in order for us to create your Google Sheets schedule. <span className={`${classes.alt_text} ${classes.italic_text}`}>We don&apos;t touch anything else.</span></li>
-                    <li>Preview your schedule and then pay as little as $1 to start using it. <span className={`${classes.alt_text} ${classes.italic_text}`}>We&apos;re rapidly adding more capabilities!</span></li>
+                    <li>Preview your schedule before purchasing it. <span className={`${classes.alt_text} ${classes.italic_text}`}>We&apos;re rapidly adding more capabilities!</span></li>
                 </ol>
                 <br></br>
+                <h3 className={classes.alt_text}>Pricing</h3>
+                <p>A one-time fee from $1 for an extendible and shareable schedule.</p>
                 <br></br>
                 <h3 className={classes.alt_text}>About Us</h3>
                 <p>Like you, we at Activisor had grown weary of creating schedules for our groups and teams, and then coordinating attendance for each meeting. We built Activisor to do this for you. We strive to transform recreational group organization and management into a joyous and stress-free experience.</p>

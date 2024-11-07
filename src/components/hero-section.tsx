@@ -242,10 +242,10 @@ export default function HeroSection() {
                 }}>
                     <Paper elevation={10} css={[paperCss, {
                         // secondary main #FF9900
-                        border: '8px solid',
+                        border: '16px solid',
                         borderColor: 'rgb(255, 153, 0, 0.3)',
                         [mq.xl]: {
-                            border: '16px solid',
+                            border: '20px solid',
                             borderColor: 'rgb(255, 153, 0, 0.3)',
                         }
                     }]}>
@@ -255,11 +255,11 @@ export default function HeroSection() {
                             [mq.xl]: {
                                 marginBottom: 16,
                             }
-                        }}>Choose How To Create A Schedule</h1>
+                        }}>Choose How To Create Your Schedule</h1>
                         <div css={[ctaSectionCss, {
                             borderWidth: 3
                         }]}>
-                            <h2>Email Your Roster</h2>
+                            <h2>Send Your Roster</h2>
                             <div css={{
                                 display: 'flex',
                                 flexDirection: 'column',
