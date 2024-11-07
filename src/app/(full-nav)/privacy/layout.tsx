@@ -2,7 +2,7 @@ import React from 'react';
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-    title: 'Activisor - Privacy Policy',
+    title: 'Privacy Policy - Activisor',
     description: "Activisor's privacy policy",
     applicationName: 'Activisor'
 }

@@ -197,7 +197,7 @@ export default function HeroSection() {
                         }
                     }}>
                         <div css={[headlineBlockCss, altTextColorCss]}>
-                            {getHeadline('Creates smart schedules for your group')}
+                            {getHeadline('Creates schedules for your group or team')}
                             {getHeadline('Actively manages attendance')}
                         </div>
                         <h2 css={{
@@ -221,7 +221,7 @@ export default function HeroSection() {
                         },
                     }]}>
                         <img src="/pickleball-schedule-sm2.png"
-                            alt="pickleball grop schedule"
+                            alt="weekly schedule for pickleball group"
                             css={{
                                 width: '100%',
                                 borderRadius: theme.shape.borderRadius,

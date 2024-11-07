@@ -9,8 +9,13 @@ export default function Home() {
             <HeroSection />
             <div className={classes.below_fold}>
                 <h3 className={classes.alt_text}>Activisor Manages Group Activities</h3>
-                <p>Nine players sharing one court for the season? Tired of spending hours managing your gaming or sports group&apos;s schedule? Someone getting the date, time, or place wrong? We know it&apos;s hard to create a schedule that provides a good experience for all and then coordinate attendance - but it doesn&apos;t have to be.
-                    Activisor creates Google Sheets schedules for recurring meetings and then manages your group to get the right members to the right place at the right time. <strong>It&apos;s your team manager.</strong>
+                <ul className={classes.list_items}>
+                    <li>Nine players sharing one court for the season?</li>
+                    <li>Tired of spending hours managing your gaming or sports group&apos;s schedule?</li>
+                    <li>Someone getting the date, time, or place wrong?</li>
+                </ul>
+                <p>We know it&apos;s hard to create a schedule that provides a good experience for all and then coordinate attendance - but it doesn&apos;t have to be.
+                    Activisor creates Google Sheets schedules for recurring meetings and then manages your group to get the right members to the right place at the right time. <strong>Meet your new team manager.</strong>
                 </p>
                 <br></br>
                 <h3 className={classes.alt_text}>How It Helps</h3>
@@ -22,7 +27,7 @@ export default function Home() {
                         <span className={`${classes.alt_text} ${classes.item_title}`}>Reduce Attendance Problems:</span>It can be a hassle to keep track of who&apos;s coming and who&apos;s not and then helping them to show up. From chasing down deadbeats to finding substitutes, Activisor will take care of it for you.
                     </li>
                     <li>
-                        <span className={`${classes.alt_text} ${classes.item_title}`}>Embedded In Your Daily Routine:</span>Instead of yet another app with its own calendar and message forum, Activisor works through the apps you and your group already use every day so you&apos;ll always be on top of things.
+                        <span className={`${classes.alt_text} ${classes.item_title}`}>Embedded In Your Daily Routine:</span>Instead of yet another app with its own calendar and message system, Activisor works through the apps you and your group already use every day so you&apos;ll always be on top of things.
                     </li>
                 </ul>
                 <br></br>
