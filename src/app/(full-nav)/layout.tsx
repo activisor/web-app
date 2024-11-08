@@ -2,7 +2,7 @@ import Link from '@mui/material/Link';
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-    title: 'Creat and Manage Group Schedules - Activisor',
+    title: 'Create and Manage Group Schedules - Activisor',
     description: 'Activisor creates smart Google Sheets schedules for recurring recreational group and team meetings and then actively manages attendance.',
     applicationName: 'Activisor'
 }
