@@ -241,6 +241,7 @@ export default function HeroSection() {
                     }
                 }}>
                     <Paper elevation={10} css={[paperCss, {
+                        paddingBottom: 24,
                         // secondary main #FF9900
                         border: '16px solid',
                         borderColor: 'rgb(255, 153, 0, 0.3)',
@@ -296,7 +297,11 @@ export default function HeroSection() {
                             </div>
                         </div>
                         <div css={[ctaSectionCss, {
-                            marginBottom: 0
+                            paddingBottom: 24,
+                            marginBottom: 0,
+                            [mq.xl]: {
+                                marginBottom: 0,
+                            },
                         }]}>
                             <h2>Enter Your Roster</h2>
                             <div css={{
@@ -306,9 +311,8 @@ export default function HeroSection() {
                             }}>
                                 <Tooltip title="enter your roster in the schedule maker">
                                     <Button
-                                        variant='outlined'
+                                        variant='contained'
                                         type="submit"
-                                        size="large"
                                         color="secondary"
                                         onClick={handleClick}
                                     >Open Schedule Maker</Button>
