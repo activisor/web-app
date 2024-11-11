@@ -63,7 +63,7 @@ h1 {
     }
 }
 
-@media (min-width: 600px) {
+@media (min-width: 1536px) {
     h1 {
         font-size: 28px;
     }

@@ -143,17 +143,14 @@ export default function HeroSection() {
         borderColor: theme.palette.primary.dark,
         borderRadius: theme.shape.borderRadius,
         padding: 16,
-        marginBottom: 16,
-        [mq.xl]: {
-            marginBottom: 24,
-        },
         h2: {
-            marginTop: 0,
-            marginBottom: 8,
-            [mq.xl]: {
-                marginBottom: 16,
+            fontSize: '20px',
+        },
+        [mq.xl]: {
+            h2: {
+                fontSize: '24px',
             }
-        }
+         },
     });
 
     const getHeadline = (text: string) => {
@@ -258,9 +255,19 @@ export default function HeroSection() {
                             }
                         }}>Choose How To Create Your Schedule</h1>
                         <div css={[ctaSectionCss, {
-                            borderWidth: 3
+                            borderWidth: 3,
+                            marginBottom: 16,
+                            [mq.xl]: {
+                                marginBottom: 24,
+                            },
                         }]}>
-                            <h2>Send Your Roster</h2>
+                            <h2 css={{
+                                marginTop: 0,
+                                marginBottom: 8,
+                                [mq.xl]: {
+                                    marginBottom: 4,
+                                },
+                            }}>Send Your Roster</h2>
                             <div css={{
                                 display: 'flex',
                                 flexDirection: 'column',
@@ -299,11 +306,11 @@ export default function HeroSection() {
                         <div css={[ctaSectionCss, {
                             paddingBottom: 24,
                             marginBottom: 0,
-                            [mq.xl]: {
-                                marginBottom: 0,
-                            },
                         }]}>
-                            <h2>Enter Your Roster</h2>
+                            <h2 css={{
+                                marginTop: 0,
+                                marginBottom: 16,
+                            }}>Enter Your Roster</h2>
                             <div css={{
                                 display: 'flex',
                                 flexDirection: 'column',
