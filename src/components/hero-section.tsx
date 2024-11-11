@@ -265,7 +265,7 @@ export default function HeroSection() {
                                 marginTop: 0,
                                 marginBottom: 8,
                                 [mq.xl]: {
-                                    marginBottom: 4,
+                                    marginBottom: 0,
                                 },
                             }}>Send Your Roster</h2>
                             <div css={{
