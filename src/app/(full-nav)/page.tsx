@@ -1,9 +1,13 @@
 import classes from './page.module.css';
 import HeroSection from '@/components/hero-section';
+import { getPrice } from '@/lib/get-price';
 
 export const dynamic = 'force-static';
 
 export default function Home() {
+    const referralDiscount = process.env.REFERRAL_DISCOUNT? parseInt(process.env.REFERRAL_DISCOUNT) : 0;
+    const minPriceDollars = getPrice(true, referralDiscount) / 100;
+
     return (
         <main>
             <HeroSection />
@@ -40,7 +44,7 @@ export default function Home() {
                 </ol>
                 <br></br>
                 <h3 className={classes.alt_text}>Pricing</h3>
-                <p>A one-time fee from $1 for an extendible and shareable schedule.</p>
+                <p>{`A one-time fee from $${minPriceDollars} for an extendible and shareable schedule.`}</p>
                 <br></br>
                 <h3 className={classes.alt_text}>About Us</h3>
                 <p>Like you, we at Activisor had grown weary of creating schedules for our groups and teams, and then coordinating attendance for each meeting. We built Activisor to do this for you. We strive to transform recreational group organization and management into a joyous and stress-free experience.</p>

@@ -181,7 +181,7 @@ export default function HeroSection() {
                         padding: 16,
                     },
                     [mq.xl]: {
-                        padding: 32,
+                        padding: '32px 16px 32px 32px',
                     }
                 }}>
                     <div>
@@ -234,7 +234,7 @@ export default function HeroSection() {
                         padding: 16,
                     },
                     [mq.xl]: {
-                        padding: 32,
+                        padding: '32px 32px 32px 16px',
                     }
                 }}>
                     <Paper elevation={10} css={[paperCss, {
