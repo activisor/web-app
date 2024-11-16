@@ -33,6 +33,11 @@ const heroImageCss = css({
     },
 });
 
+const columnCss = css({
+    display: 'flex',
+    flexDirection: 'column',
+});
+
 const headlineBlockCss = css({
     fontWeight: 'bold',
     fontSize: '20px',
@@ -173,9 +178,7 @@ export default function HeroSection() {
                     padding: 24,
                 }
             }}>
-                <Grid id="col-1" xs={12} md={6} xl={5} css={{
-                    display: 'flex',
-                    flexDirection: 'column',
+                <Grid id="col-1" xs={12} md={6} xl={5} css={[columnCss, {
                     justifyContent: 'space-between',
                     padding: 8,
                     [mq.md]: {
@@ -184,7 +187,7 @@ export default function HeroSection() {
                     [mq.xl]: {
                         padding: '32px 16px 32px 32px',
                     }
-                }}>
+                }]}>
                     <div>
                         <Image src="/ShortLogo_Transparent.png" width={200} height={90} alt="Activisor logo" />
                     </div>
@@ -226,11 +229,9 @@ export default function HeroSection() {
                             }} />
                     </Paper>
                 </Grid>
-                <Grid id="col-2" xs={0} md={1} xl={2} css={{
-                    display: 'flex',
-                    flexDirection: 'column',
+                <Grid id="col-2" xs={0} md={1} xl={2} css={[columnCss, {
                     justifyContent: 'flex-end',
-                }}>
+                }]}>
                     <div css={{
                         display: 'none',
                         [mq.md]: {
@@ -243,9 +244,7 @@ export default function HeroSection() {
                     </div>
 
                 </Grid>
-                <Grid id="col-3" xs={12} md={5} xl={5} css={{
-                    display: 'flex',
-                    flexDirection: 'column',
+                <Grid id="col-3" xs={12} md={5} xl={5} css={[columnCss,{
                     justifyContent: 'flex-end',
                     [mq.md]: {
                         padding: 16,
@@ -253,7 +252,7 @@ export default function HeroSection() {
                     [mq.xl]: {
                         padding: '32px 32px 32px 16px',
                     }
-                }}>
+                }]}>
                     <Paper elevation={10} css={[paperCss, {
                         paddingBottom: 24,
                         // secondary main #FF9900
