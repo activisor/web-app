@@ -10,6 +10,7 @@ import Paper from '@mui/material/Paper';
 import Tooltip from '@mui/material/Tooltip';
 import { useTheme } from '@mui/material/styles';
 import CopyToClipboardButton from '@/components/copy-to-clipboard-button';
+import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 import ImageDialog from '@/components/image-dialog';
 import { mq, breakpoints, xsbp } from '@/lib/media-queries';
 
@@ -150,7 +151,7 @@ export default function HeroSection() {
             h2: {
                 fontSize: '24px',
             }
-         },
+        },
     });
 
     const getHeadline = (text: string) => {
@@ -172,7 +173,7 @@ export default function HeroSection() {
                     padding: 24,
                 }
             }}>
-                <Grid xs={12} md={6} xl={5} css={{
+                <Grid id="col-1" xs={12} md={6} xl={5} css={{
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'space-between',
@@ -225,8 +226,24 @@ export default function HeroSection() {
                             }} />
                     </Paper>
                 </Grid>
-                <Grid xs={0} md={1} xl={2}></Grid>
-                <Grid xs={12} md={5} xl={5} css={{
+                <Grid id="col-2" xs={0} md={1} xl={2} css={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'flex-end',
+                }}>
+                    <div css={{
+                        display: 'none',
+                        [mq.md]: {
+                            display: 'flex',
+                            flexDirection: 'row',
+                            justifyContent: 'center',
+                        }
+                    }}>
+                        <KeyboardDoubleArrowDownIcon fontSize="large"></KeyboardDoubleArrowDownIcon>
+                    </div>
+
+                </Grid>
+                <Grid id="col-3" xs={12} md={5} xl={5} css={{
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'flex-end',
