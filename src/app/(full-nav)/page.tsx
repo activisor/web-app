@@ -38,9 +38,9 @@ export default function Home() {
                 <br></br>
                 <h3 className={classes.alt_text}>How It Works</h3>
                 <ol className={classes.list_items}>
-                    <li>Enter some basic info about your schedule, such as your roster, when meetings occur, and overall cost (if any). <span className={`${classes.alt_text} ${classes.italic_text}`}>Forward your roster group email to us and we can import their contact info.</span></li>
-                    <li>Authorize Google to grant access to Activisor in order for us to create your Google Sheets schedule. <span className={`${classes.alt_text} ${classes.italic_text}`}>We don&apos;t touch anything else.</span></li>
-                    <li>Preview your schedule before purchasing it. <span className={`${classes.alt_text} ${classes.italic_text}`}>We&apos;re rapidly adding more capabilities!</span></li>
+                    <li>Enter some basic info about your schedule, such as your roster, when meetings occur, and overall cost (if any). Members can participate either half or full time. <span className={`${classes.alt_text} ${classes.italic_text}`}>Forward your roster group email to us and we can import their contact info.</span></li>
+                    <li>Authorize Google to grant access to Activisor in order for us to create your Google Sheets schedule. We&apos;ll build a schedule for your group between your start and end dates at your desired frequency. Each member&apos;s events will be randomized at their half or full time rate. It&apos;s a smart schedule; dynamic status responds to elapsed calendar time and participation changes you make. <span className={`${classes.alt_text} ${classes.italic_text}`}>We only access this one file.</span></li>
+                    <li>Preview your schedule before purchasing it. We can publish it to your roster. You&apos;re free to customize and share it further. <span className={`${classes.alt_text} ${classes.italic_text}`}>We&apos;re rapidly adding more capabilities!</span></li>
                 </ol>
                 <br></br>
                 <h3 className={classes.alt_text}>Pricing</h3>

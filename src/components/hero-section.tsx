@@ -4,13 +4,13 @@
 import { css } from '@emotion/react';
 import Grid from '@mui/material/Unstable_Grid2';
 import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
+import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 import Image from 'next/image';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Tooltip from '@mui/material/Tooltip';
 import { useTheme } from '@mui/material/styles';
 import CopyToClipboardButton from '@/components/copy-to-clipboard-button';
-import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 import ImageDialog from '@/components/image-dialog';
 import { mq, breakpoints, xsbp } from '@/lib/media-queries';
 
