@@ -240,7 +240,7 @@ export default function HeroSection() {
                             justifyContent: 'center',
                         }
                     }}>
-                        <KeyboardDoubleArrowDownIcon fontSize="large"></KeyboardDoubleArrowDownIcon>
+                        <KeyboardDoubleArrowDownIcon fontSize="large" color="disabled"></KeyboardDoubleArrowDownIcon>
                     </div>
 
                 </Grid>
