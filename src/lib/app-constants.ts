@@ -19,6 +19,7 @@ export const publicRuntimeConfig = {
     // analytics
     LOGROCKET_PROJECT: process.env.NEXT_PUBLIC_LOGROCKET_PROJECT as string,
     MIXPANEL_TOKEN: process.env.NEXT_PUBLIC_MIXPANEL_TOKEN as string,
+    GTM_ID: process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_I as string,
 
     // max number of participants
     MAX_PARTICIPANTS: parseInt(process.env.NEXT_PUBLIC_MAX_PARTICIPANTS as string, 10),
