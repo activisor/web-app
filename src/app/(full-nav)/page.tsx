@@ -32,7 +32,7 @@ export default function Home() {
                         <span className={`${classes.alt_text} ${classes.item_title}`}>Reduce Attendance Problems:</span>It can be a hassle to keep track of who&apos;s coming and who&apos;s not and then helping them to show up. From chasing down deadbeats to finding substitutes, Activisor will take care of it for you.
                     </li>
                     <li>
-                        <span className={`${classes.alt_text} ${classes.item_title}`}>Embedded In Your Daily Routine:</span>Instead of yet another app with its own calendar and message system, Activisor works through the apps you and your group already use every day so you&apos;ll always be on top of things.
+                        <span className={`${classes.alt_text} ${classes.item_title}`}>Embedded In Your Daily Routine:</span>Instead of siloing your group in yet another app, Activisor works through the apps you already use every day so you&apos;ll always be on top of things.
                     </li>
                 </ul>
                 <br></br>
@@ -40,7 +40,7 @@ export default function Home() {
                 <ol className={classes.list_items}>
                     <li>Enter some basic info about your schedule, such as your roster, when meetings occur, and overall cost (if any). Members can participate either half or full time. <span className={`${classes.alt_text} ${classes.italic_text}`}>Forward your roster group email to us and we can import their contact info.</span></li>
                     <li>Authorize Google to grant access to Activisor in order for us to create your Google Sheets schedule. We&apos;ll build a schedule for your group between your start and end dates at your desired frequency. Each member&apos;s events will be randomized at their half or full time rate. It&apos;s a smart schedule; dynamic status responds to elapsed calendar time and participation changes you make. <span className={`${classes.alt_text} ${classes.italic_text}`}>We only access this one file.</span></li>
-                    <li>Preview your schedule before purchasing it. Then, we can publish it to your roster. You can customize and share it as much as you want. <span className={`${classes.alt_text} ${classes.italic_text}`}>We&apos;re rapidly adding more capabilities!</span></li>
+                    <li>Preview your schedule before purchasing it. Then, we can publish it to your roster. You can customize and share it as much as you want. <span className={`${classes.alt_text} ${classes.italic_text}`}>Coming soon: your own team management agent!</span></li>
                 </ol>
                 <br></br>
                 <h3 className={classes.alt_text}>Pricing</h3>
