@@ -9,7 +9,7 @@ import Image from 'next/image';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Tooltip from '@mui/material/Tooltip';
-import { useTheme } from '@mui/material/styles';
+import { useTheme, withTheme } from '@mui/material/styles';
 import CopyToClipboardButton from '@/components/copy-to-clipboard-button';
 import ImageDialog from '@/components/image-dialog';
 import { mq, breakpoints, xsbp } from '@/lib/media-queries';
@@ -66,6 +66,7 @@ const headlineCss = css({
         marginTop: 12,
         marginBottom: 12,
         fontSize: '20px',
+        backdropFilter: 'blur(2px)',
     },
     alignItems: 'baseline',
     [mq.sm]: {
@@ -203,7 +204,7 @@ export default function HeroSection() {
                         </div>
                         <h2 css={{
                             color: theme.palette.secondary.dark,
-                            backdropFilter: 'blur(1px)',
+                            backdropFilter: 'blur(2px)',
                             fontSize: '28px',
                             letterSpacing: '6px',
                             marginBottom: 0,
@@ -244,7 +245,7 @@ export default function HeroSection() {
                     </div>
 
                 </Grid>
-                <Grid id="col-3" xs={12} md={5} xl={5} css={[columnCss,{
+                <Grid id="col-3" xs={12} md={5} xl={5} css={[columnCss, {
                     justifyContent: 'flex-end',
                     [mq.md]: {
                         padding: 16,
@@ -253,6 +254,15 @@ export default function HeroSection() {
                         padding: '32px 32px 32px 16px',
                     }
                 }]}>
+                    <div css={[headlineBlockCss, altTextColorCss, {
+                        [mq.xl]: {
+                            paddingLeft: 32,
+                        },
+                    }]}>
+                        <div css={headlineCss}>
+                            <h3>Free preview!</h3>
+                        </div>
+                    </div>
                     <Paper elevation={10} css={[paperCss, {
                         paddingBottom: 24,
                         // secondary main #FF9900
