@@ -260,7 +260,7 @@ export default function HeroSection() {
                         },
                     }]}>
                         <div css={headlineCss}>
-                            <h3>Free preview!</h3>
+                            <h3>Preview your schedule now!</h3>
                         </div>
                     </div>
                     <Paper elevation={10} css={[paperCss, {
