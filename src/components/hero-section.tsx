@@ -260,7 +260,11 @@ export default function HeroSection() {
                         },
                     }]}>
                         <div css={headlineCss}>
-                            <h3>Preview your schedule now!</h3>
+                            <h3 css={{
+                                borderRadius: 8,
+                                boxShadow: '0 0 16px 8px rgb(255, 255, 255, 0.2)',
+                                backgroundColor: 'rgb(255, 255, 255, 0.2)'
+                                }}>Preview your schedule now!</h3>
                         </div>
                     </div>
                     <Paper elevation={10} css={[paperCss, {
